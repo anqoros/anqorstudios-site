@@ -25,8 +25,9 @@
   html { scroll-behavior:smooth; }
   body { background:var(--black); color:var(--white); font-family:'Outfit',sans-serif; overflow-x:hidden; cursor:none; }
 
-  #cur { position:fixed; width:6px; height:6px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.1s; }
-  #cur-ring { position:fixed; width:36px; height:36px; border:1px solid rgba(200,168,78,0.4); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width 0.2s, height 0.2s; }
+  #cur { position:fixed; width:10px; height:10px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.15s; left:-50px; top:-50px; }
+  #cur-ring { position:fixed; width:36px; height:36px; border:1.5px solid rgba(200,168,78,0.5); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width 0.2s, height 0.2s; left:-50px; top:-50px; }
+  @media (pointer:coarse) { body, .nav-links a, .nav-btn, .btn-gold, .btn-ghost, .proof-card, .f-links a { cursor:auto !important; } #cur, #cur-ring { display:none; } }
 
   body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
 
@@ -815,7 +816,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const cur=document.getElementById('cur'), ring=document.getElementById('cur-ring');
   let mx=0,my=0,rx=0,ry=0;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
