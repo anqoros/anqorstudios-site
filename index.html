@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anqor Studios — We Grow Brands Through Content Systems</title>
+<title>Anqor Studios | We Grow Brands Through Content Systems</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -43,7 +43,7 @@
   .nav-btn { font-family:'Outfit',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); border:none; padding:12px 30px; cursor:pointer; text-decoration:none; transition:background 0.3s; }
   .nav-btn:hover { background:var(--gold-light); }
 
-  /* HERO — full width, centered, statement-first */
+  /* HERO */
   .hero {
     min-height:100vh;
     display:flex; flex-direction:column;
@@ -205,7 +205,7 @@
   .aos-footer-stat { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--white-30); text-transform:uppercase; }
   .aos-footer-stat strong { color:var(--gold); }
 
-  /* PROOF — production work as evidence */
+  /* PROOF */
   .proof-section { padding:120px 64px; background:var(--dark); position:relative; z-index:2; }
   .proof-inner { max-width:1280px; margin:0 auto; }
 
@@ -295,20 +295,34 @@
   .d1{transition-delay:0.1s} .d2{transition-delay:0.2s} .d3{transition-delay:0.3s} .d4{transition-delay:0.4s}
 
   @media(max-width:960px){
-    nav { padding:20px 24px; }
+    nav { padding:16px 20px; }
     .nav-links { display:none; }
-    .hero { padding:100px 24px 100px; }
-    .hero-proof { position:relative; bottom:auto; margin-top:48px; flex-wrap:wrap; justify-content:center; gap:32px; animation:fadeUp 0.8s ease forwards 1.6s; }
+    .logo-main { font-size:20px; letter-spacing:0.12em; }
+    .logo-sub { font-size:9px; letter-spacing:0.12em; }
+    .nav-btn { font-size:12px; padding:10px 20px; }
+    .hero { padding:80px 24px 80px; }
+    .hero-h1 { font-size:clamp(40px,12vw,72px); }
+    .hero-sub { font-size:16px; }
+    .hero-eyebrow { font-size:11px; letter-spacing:0.2em; }
+    .hero-eyebrow::before, .hero-eyebrow::after { width:20px; }
+    .hero-proof { position:relative; bottom:auto; margin-top:48px; flex-wrap:wrap; justify-content:center; gap:24px; animation:fadeUp 0.8s ease forwards 1.6s; }
+    .hero-proof .proof-divider { display:none; }
+    .hero-proof .proof-item { width:40%; }
     .problem-section,.solution-section,.aos-section,.proof-section,.results-section,.process-section,.cta-section { padding:80px 24px; }
     .problem-split,.aos-split,.results-split { grid-template-columns:1fr; gap:48px; }
     .solution-grid { grid-template-columns:1fr; }
+    .s-tag::after { display:none; }
     .proof-grid { grid-template-columns:1fr; }
     .proof-card.wide,.proof-card.tall { grid-column:span 1; grid-row:span 1; aspect-ratio:16/9; }
     .results-metrics { grid-template-columns:1fr 1fr; }
     .process-steps { grid-template-columns:1fr 1fr; }
+    .cta-h2 { font-size:clamp(36px,10vw,60px); }
     footer { padding:40px 24px; grid-template-columns:1fr; text-align:center; }
     .f-right { text-align:center; }
-    .f-links { flex-wrap:wrap; }
+    .f-links { flex-wrap:wrap; justify-content:center; }
+    .aos-dashboard-grid { grid-template-columns:1fr !important; }
+    .aos-stats-grid { grid-template-columns:repeat(2,1fr) !important; }
+    .form-row { grid-template-columns:1fr; }
   }
 
   /* CONTACT MODAL */
@@ -356,7 +370,7 @@
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
 
-  <p class="hero-eyebrow">Anqor Studios — Dubai</p>
+  <p class="hero-eyebrow">Anqor Studios · Dubai</p>
 
   <h1 class="hero-h1">
     <span class="l1">We grow brands</span>
@@ -365,7 +379,7 @@
   </h1>
 
   <p class="hero-sub">
-    Most brands create content. We build the system that keeps creating it — finding what works, scripting it, distributing it, capturing leads, and converting them. Every day. On autopilot.
+    Most brands create content. We build the system that keeps creating it. Finding what works, scripting it, distributing it, capturing leads, and converting them. Every day. On autopilot.
   </p>
 
   <div class="hero-actions">
@@ -443,7 +457,7 @@
         </div>
         <div class="problem-card">
           <p class="problem-card-title">Doing everything manually</p>
-          <p class="problem-card-desc">Writing, editing, posting, following up — all done by hand. Time that should go to closing deals goes to content logistics instead.</p>
+          <p class="problem-card-desc">Writing, editing, posting, following up, all done by hand. Time that should go to closing deals goes to content logistics instead.</p>
         </div>
       </div>
     </div>
@@ -456,7 +470,7 @@
     <div class="solution-header">
       <p class="s-tag reveal">What We Do</p>
       <h2 class="s-h2 reveal d1">Three services.<br><em>One integrated system.</em></h2>
-      <p class="s-p reveal d2">Everything we offer runs on AOS — our proprietary AI operating system. Strategy, production, and automation are not separate services. They are one connected machine.</p>
+      <p class="s-p reveal d2">Everything we offer runs on AOS, our proprietary AI operating system. Strategy, production, and automation are not separate services. They are one connected machine.</p>
     </div>
     <div class="solution-grid">
       <div class="solution-card reveal">
@@ -482,7 +496,7 @@
         <ul class="sol-includes">
           <p class="sol-includes-label">What is included</p>
           <li>Automated lead capture from all platforms</li>
-          <li>Intent classification — real leads only</li>
+          <li>Intent classification, real leads only</li>
           <li>Lead scoring and pipeline management</li>
           <li>Automated DM and email sequences</li>
           <li>Hot lead alerts with close scripts</li>
@@ -493,14 +507,14 @@
         <div class="sol-num">03</div>
         <p class="sol-tag">Production</p>
         <h3 class="sol-title">Video Production<br>on Retainer</h3>
-        <p class="sol-desc">When you are ready to film, we are ready to produce. High quality multi-camera video, podcast production, and original series — all on a monthly retainer so output stays consistent without the chaos of one-off projects.</p>
+        <p class="sol-desc">When you are ready to film, we are ready to produce. High quality multi-camera video, podcast production, and original series, all on a monthly retainer so output stays consistent without the chaos of one-off projects.</p>
         <ul class="sol-includes">
           <p class="sol-includes-label">What is included</p>
-          <li>Full production cycle — shoot to delivery</li>
+          <li>Full production cycle, shoot to delivery</li>
           <li>Multi-camera setup and direction</li>
           <li>Professional editing and colour grade</li>
           <li>Distribution-ready files for all platforms</li>
-          <li>Monthly retainer — no project-by-project chaos</li>
+          <li>Monthly retainer, no project-by-project chaos</li>
         </ul>
         <p class="sol-price">From AED 5,000 / month</p>
       </div>
@@ -515,23 +529,23 @@
     <!-- Header -->
     <div style="text-align:center; margin-bottom:72px;">
       <p class="s-tag reveal" style="justify-content:center;">The Technology</p>
-      <h2 class="s-h2 reveal d1" style="max-width:700px; margin:0 auto 24px;">Meet AOS — the system<br><em>running behind everything.</em></h2>
-      <p class="s-p reveal d2" style="max-width:580px; margin:0 auto; text-align:center;">AOS — the Anqor Operating System — is a 22-agent AI system that runs your entire content and sales operation automatically. It is not a tool you use. It is a system that runs for you.</p>
+      <h2 class="s-h2 reveal d1" style="max-width:700px; margin:0 auto 24px;">Meet AOS, the system<br><em>running behind everything.</em></h2>
+      <p class="s-p reveal d2" style="max-width:580px; margin:0 auto; text-align:center;">AOS (the Anqor Operating System) is a 22-agent AI system that runs your entire content and sales operation automatically. It is not a tool you use. It is a system that runs for you.</p>
     </div>
 
     <!-- Client Dashboard + description -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:72px;">
+    <div class="aos-dashboard-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:72px;">
       <div class="reveal" style="border:1px solid var(--gold-border); overflow:hidden;">
         <div style="padding:12px 20px; background:var(--dark-3); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between;">
           <div style="display:flex; align-items:center; gap:10px;">
             <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
             <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
             <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
-            <span style="font-family:'Space Mono',monospace;font-size:14px;color:var(--white-30);letter-spacing:0.1em;margin-left:8px;">AOS — Client Dashboard</span>
+            <span style="font-family:'Space Mono',monospace;font-size:14px;color:var(--white-30);letter-spacing:0.1em;margin-left:8px;">AOS · Client Dashboard</span>
           </div>
           <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;">What your client sees</span>
         </div>
-        <img src="aos-client-dashboard.png" alt="AOS Client Dashboard — showing leads generated, pipeline value, content performance, follower growth" style="width:100%;display:block;"/>
+        <img src="aos-client-dashboard.png" alt="AOS Client Dashboard showing leads generated, pipeline value, content performance, follower growth" style="width:100%;display:block;"/>
       </div>
 
       <div class="reveal d2" style="display:flex; flex-direction:column; justify-content:center; padding:48px 40px; border:1px solid var(--gold-border); background:var(--dark-2);">
@@ -542,7 +556,7 @@
             <span style="font-family:'Space Mono',monospace;font-size:12px;color:var(--gold);min-width:28px;margin-top:2px;">01</span>
             <div>
               <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Finds what to create</p>
-              <p style="font-size:14px;color:var(--white-30);line-height:1.5;">Scans competitors, validates topics, picks the winning hook — before you wake up.</p>
+              <p style="font-size:14px;color:var(--white-30);line-height:1.5;">Scans competitors, validates topics, picks the winning hook before you wake up.</p>
             </div>
           </div>
           <div style="padding:16px 0; border-bottom:1px solid var(--gold-border); display:flex; gap:16px; align-items:flex-start;">
@@ -580,7 +594,7 @@
     </div>
 
     <!-- Stats row -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gold-border);border:1px solid var(--gold-border);" class="reveal">
+    <div class="aos-stats-grid reveal" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gold-border);border:1px solid var(--gold-border);">
       <div style="background:var(--dark-2);padding:32px;text-align:center;">
         <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);display:block;line-height:1;">22</span>
         <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--white-30);text-transform:uppercase;margin-top:8px;display:block;">AI Agents</span>
@@ -602,7 +616,7 @@
   </div>
 </section>
 
-<!-- PROOF — WORK -->
+<!-- PROOF WORK -->
 <section class="proof-section" id="work">
   <div class="proof-inner">
     <div class="proof-header">
@@ -626,7 +640,7 @@
         <div class="proof-top-line"></div>
         <div class="proof-overlay">
           <p class="proof-format">Live Music Series · Anqor Original</p>
-          <p class="proof-title">Room 901 — Multi-Camera Live Performance</p>
+          <p class="proof-title">Room 901: Multi-Camera Live Performance</p>
           <p class="proof-ep">8+ Episodes · Full artist sets recorded live</p>
         </div>
       </div>
@@ -700,7 +714,7 @@
         <div class="proof-top-line"></div>
         <div class="proof-overlay">
           <p class="proof-format">DJ Series · Anqor Original</p>
-          <p class="proof-title">Speedhouse — 30-Minute Live Sets</p>
+          <p class="proof-title">Speedhouse: 30-Minute Live Sets</p>
         </div>
       </div>
       <div class="proof-card reveal d3">
@@ -710,7 +724,7 @@
         <div class="proof-top-line"></div>
         <div class="proof-overlay">
           <p class="proof-format">Original Series · Hosted by Ubong</p>
-          <p class="proof-title">Table Talk — Food, Culture & Conversation</p>
+          <p class="proof-title">Table Talk: Food, Culture & Conversation</p>
         </div>
       </div>
     </div>
@@ -786,7 +800,7 @@
     Stop creating content.<br>
     <em>Start running a system.</em>
   </h2>
-  <p class="cta-p reveal d2">Book a free 30-minute strategy call. We will map your content pipeline and show you exactly what we would build for your brand — and what it would produce.</p>
+  <p class="cta-p reveal d2">Book a free 30-minute strategy call. We will map your content pipeline and show you exactly what we would build for your brand, and what it would produce.</p>
   <div class="cta-actions reveal d3">
     <a href="https://calendly.com/ubong-anqorstudios/20-minutes-consultation" target="_blank" class="btn-gold">Book Your Strategy Call</a>
     <a href="#" class="btn-ghost" onclick="document.getElementById('contact-modal').style.display='flex';return false;">Email Us</a>
