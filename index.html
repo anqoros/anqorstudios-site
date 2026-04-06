@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anqor Studios — We Grow Brands Through Content Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8A84E;
+    --gold-light: #E2C97A;
+    --gold-dim: rgba(200,168,78,0.12);
+    --gold-border: rgba(200,168,78,0.2);
+    --black: #080708;
+    --dark: #0E0D0F;
+    --dark-2: #151416;
+    --dark-3: #1C1A1E;
+    --white: #F4EFE6;
+    --white-60: rgba(244,239,230,0.6);
+    --white-30: rgba(244,239,230,0.3);
+    --white-15: rgba(244,239,230,0.12);
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--black); color:var(--white); font-family:'Outfit',sans-serif; overflow-x:hidden; cursor:none; }
+
+  #cur { position:fixed; width:6px; height:6px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.1s; }
+  #cur-ring { position:fixed; width:36px; height:36px; border:1px solid rgba(200,168,78,0.4); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width 0.2s, height 0.2s; }
+
+  body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; }
+
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:500; padding:24px 64px; display:flex; align-items:center; justify-content:space-between; background:rgba(8,7,8,0.97); border-bottom:1px solid var(--gold-border); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:background 0.4s; }
+  nav.scrolled { background:rgba(8,7,8,0.99); }
+
+  .logo { display:flex; flex-direction:column; gap:2px; text-decoration:none; }
+  .logo-main { font-family:'Outfit',sans-serif; font-weight:700; font-size:20px; letter-spacing:0.22em; color:var(--white); text-transform:uppercase; }
+  .logo-sub { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; }
+
+  .nav-right { display:flex; align-items:center; gap:40px; }
+  .nav-links { display:flex; gap:32px; list-style:none; }
+  .nav-links a { font-size:12px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--white-60); text-decoration:none; transition:color 0.3s; cursor:none; }
+  .nav-links a:hover { color:var(--gold); }
+
+  .nav-btn { font-family:'Outfit',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--black); background:var(--gold); border:none; padding:11px 28px; cursor:none; text-decoration:none; transition:background 0.3s; }
+  .nav-btn:hover { background:var(--gold-light); }
+
+  /* HERO — full width, centered, statement-first */
+  .hero {
+    min-height:100vh;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    padding:140px 64px 100px;
+    position:relative; overflow:hidden;
+  }
+
+  .hero-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(200,168,78,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,168,78,0.03) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 75%);
+  }
+
+  .hero-glow { position:absolute; inset:0; background:radial-gradient(ellipse 60% 50% at 50% 40%, rgba(200,168,78,0.05) 0%, transparent 70%); }
+
+  .hero-eyebrow {
+    font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.35em;
+    color:var(--gold); text-transform:uppercase; margin-bottom:40px;
+    opacity:0; animation:fadeUp 0.8s ease forwards 0.3s;
+    position:relative; z-index:2;
+    display:flex; align-items:center; gap:20px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after { content:''; width:32px; height:1px; background:var(--gold-border); }
+
+  .hero-h1 {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(56px,8vw,120px);
+    font-weight:400; line-height:0.95;
+    letter-spacing:-0.02em;
+    margin-bottom:40px;
+    position:relative; z-index:2;
+  }
+
+  .hero-h1 .l1 { display:block; opacity:0; animation:fadeUp 1s ease forwards 0.5s; color:var(--white); }
+  .hero-h1 .l2 { display:block; opacity:0; animation:fadeUp 1s ease forwards 0.7s; color:var(--gold); font-style:italic; }
+  .hero-h1 .l3 { display:block; opacity:0; animation:fadeUp 1s ease forwards 0.9s; color:var(--white); }
+
+  .hero-sub {
+    font-size:17px; line-height:1.75; color:var(--white-60);
+    max-width:560px; margin:0 auto 52px;
+    opacity:0; animation:fadeUp 0.8s ease forwards 1.1s;
+    position:relative; z-index:2;
+  }
+
+  .hero-actions {
+    display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation:fadeUp 0.8s ease forwards 1.3s;
+    position:relative; z-index:2;
+  }
+
+  .btn-gold { font-family:'Outfit',sans-serif; font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:16px 40px; text-decoration:none; cursor:none; transition:background 0.3s; display:inline-block; }
+  .btn-gold:hover { background:var(--gold-light); }
+
+  .btn-ghost { font-family:'Outfit',sans-serif; font-size:12px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--white-60); text-decoration:none; cursor:none; transition:color 0.3s; display:flex; align-items:center; gap:8px; border:1px solid var(--gold-border); padding:16px 32px; }
+  .btn-ghost:hover { color:var(--white); border-color:var(--gold); }
+
+  .hero-proof {
+    position:absolute; bottom:48px;
+    display:flex; gap:48px; align-items:center;
+    opacity:0; animation:fadeUp 0.8s ease forwards 1.6s;
+    z-index:2;
+  }
+
+  .proof-item { text-align:center; }
+  .proof-num { font-family:'Playfair Display',serif; font-size:36px; font-weight:400; color:var(--gold); display:block; line-height:1; }
+  .proof-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--white-30); text-transform:uppercase; margin-top:4px; display:block; }
+  .proof-divider { width:1px; height:40px; background:var(--gold-border); }
+
+  /* TICKER */
+  .ticker { position:relative; z-index:2; padding:16px 0; border-top:1px solid var(--gold-border); border-bottom:1px solid var(--gold-border); background:var(--dark); overflow:hidden; }
+  .ticker-track { display:flex; animation:ticker 30s linear infinite; white-space:nowrap; }
+  .ticker-item { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.25em; color:var(--white-30); text-transform:uppercase; padding:0 48px; flex-shrink:0; }
+  .ticker-item span { color:var(--gold); }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* PROBLEM SECTION */
+  .problem-section { padding:120px 64px; position:relative; z-index:2; }
+  .problem-inner { max-width:1280px; margin:0 auto; }
+
+  .problem-split { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; }
+
+  .problem-left { }
+
+  .s-tag { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:14px; }
+  .s-tag::after { content:''; width:48px; height:1px; background:var(--gold-border); }
+
+  .s-h2 { font-family:'Playfair Display',serif; font-size:clamp(36px,4vw,60px); font-weight:400; line-height:1.1; color:var(--white); margin-bottom:24px; }
+  .s-h2 em { color:var(--gold); font-style:italic; }
+  .s-p { font-size:16px; line-height:1.8; color:var(--white-60); }
+
+  .problem-cards { display:flex; flex-direction:column; gap:1px; }
+
+  .problem-card { background:var(--dark-2); padding:28px 32px; border-left:2px solid transparent; transition:all 0.3s; }
+  .problem-card:hover { border-left-color:var(--gold); background:var(--dark-3); }
+
+  .problem-card-title { font-size:15px; font-weight:600; color:var(--white); margin-bottom:6px; }
+  .problem-card-desc { font-size:13px; line-height:1.6; color:var(--white-30); }
+
+  /* SOLUTION */
+  .solution-section { padding:120px 64px; background:var(--dark); position:relative; z-index:2; }
+  .solution-inner { max-width:1280px; margin:0 auto; }
+
+  .solution-header { text-align:center; margin-bottom:80px; }
+  .solution-header .s-tag { justify-content:center; }
+  .solution-header .s-tag::after { display:none; }
+  .solution-header .s-h2 { max-width:700px; margin:0 auto 24px; }
+  .solution-header .s-p { max-width:560px; margin:0 auto; text-align:center; }
+
+  .solution-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--gold-border); border:1px solid var(--gold-border); }
+
+  .solution-card { background:var(--dark-2); padding:48px 36px; position:relative; overflow:hidden; transition:background 0.3s; }
+  .solution-card:hover { background:var(--dark-3); }
+  .solution-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+  .solution-card:hover::before { transform:scaleX(1); }
+
+  .sol-num { font-family:'Playfair Display',serif; font-size:80px; font-weight:400; color:var(--gold-border); line-height:1; margin-bottom:24px; }
+  .sol-tag { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:12px; }
+  .sol-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:400; color:var(--white); margin-bottom:16px; line-height:1.2; }
+  .sol-desc { font-size:14px; line-height:1.7; color:var(--white-30); margin-bottom:28px; }
+
+  .sol-includes { border-top:1px solid var(--gold-border); padding-top:24px; }
+  .sol-includes-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--white-30); text-transform:uppercase; margin-bottom:12px; }
+  .sol-includes li { font-size:13px; color:var(--white-60); padding:6px 0; border-bottom:1px solid rgba(200,168,78,0.06); display:flex; align-items:center; gap:10px; list-style:none; }
+  .sol-includes li::before { content:'◆'; color:var(--gold); font-size:6px; flex-shrink:0; }
+
+  .sol-price { margin-top:24px; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--gold); }
+
+  /* AOS SECTION */
+  .aos-section { padding:120px 64px; position:relative; z-index:2; overflow:hidden; }
+  .aos-section::before { content:'AOS'; position:absolute; font-family:'Playfair Display',serif; font-size:500px; font-weight:400; color:rgba(200,168,78,0.025); right:-80px; top:50%; transform:translateY(-50%); pointer-events:none; line-height:1; }
+
+  .aos-inner { max-width:1280px; margin:0 auto; }
+  .aos-split { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; }
+
+  .aos-visual { border:1px solid var(--gold-border); background:var(--dark-2); overflow:hidden; }
+  .aos-bar { padding:18px 24px; border-bottom:1px solid var(--gold-border); display:flex; align-items:center; gap:10px; }
+  .aos-dot { width:10px; height:10px; border-radius:50%; }
+  .aos-dot.r { background:#ff5f57; } .aos-dot.y { background:#ffbd2e; } .aos-dot.g { background:#28ca41; }
+  .aos-bar-title { font-family:'Space Mono',monospace; font-size:10px; color:var(--white-30); letter-spacing:0.1em; margin-left:6px; }
+
+  .aos-body { padding:24px; }
+  .log { font-family:'Space Mono',monospace; font-size:11px; line-height:2.2; color:var(--white-30); border-bottom:1px solid rgba(200,168,78,0.05); padding:2px 0; display:flex; gap:12px; align-items:center; }
+  .log .t { color:var(--gold); min-width:44px; font-size:10px; }
+  .log .a { min-width:130px; color:var(--white-60); }
+  .log.active { color:var(--white); }
+  .log.active .a { color:var(--gold-light); }
+  .log .s { margin-left:auto; }
+  .s-done { color:#28ca41; }
+  .s-run { color:var(--gold); animation:blink 1s infinite; }
+  .s-wait { color:var(--white-15); }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+  .aos-footer { padding:16px 24px; border-top:1px solid var(--gold-border); background:var(--dark-3); display:flex; justify-content:space-between; align-items:center; }
+  .aos-footer-stat { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--white-30); text-transform:uppercase; }
+  .aos-footer-stat strong { color:var(--gold); }
+
+  /* PROOF — production work as evidence */
+  .proof-section { padding:120px 64px; background:var(--dark); position:relative; z-index:2; }
+  .proof-inner { max-width:1280px; margin:0 auto; }
+
+  .proof-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:64px; }
+  .proof-header-right { text-align:right; }
+  .proof-big-num { font-family:'Playfair Display',serif; font-size:80px; font-weight:400; color:var(--gold-border); line-height:1; }
+  .proof-big-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--white-30); text-transform:uppercase; }
+
+  .proof-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
+
+  .proof-card { position:relative; overflow:hidden; cursor:none; aspect-ratio:16/9; }
+  .proof-card.wide { grid-column:span 2; }
+  .proof-card.tall { aspect-ratio:4/5; grid-row:span 2; }
+
+  .proof-bg { width:100%; height:100%; display:flex; align-items:center; justify-content:center; transition:transform 0.6s; }
+  .proof-card:hover .proof-bg { transform:scale(1.04); }
+
+  .bg-1 { background:linear-gradient(135deg,#0d0800,#2a1500); }
+  .bg-2 { background:linear-gradient(135deg,#050510,#0d0d30); }
+  .bg-3 { background:linear-gradient(135deg,#0d0505,#2a0a0a); }
+  .bg-4 { background:linear-gradient(135deg,#080d05,#152208); }
+  .bg-5 { background:linear-gradient(135deg,#050810,#081530); }
+  .bg-6 { background:linear-gradient(135deg,#080510,#150830); }
+  .bg-7 { background:linear-gradient(135deg,#0d0800,#1a1000); }
+  .bg-8 { background:linear-gradient(135deg,#100508,#200810); }
+  .bg-9 { background:linear-gradient(135deg,#050510,#100820); }
+
+  .proof-visual { text-align:center; padding:20px; position:relative; z-index:1; }
+  .proof-icon { font-size:36px; opacity:0.5; display:block; margin-bottom:10px; transition:opacity 0.3s; }
+  .proof-card:hover .proof-icon { opacity:0.9; }
+  .proof-name { font-family:'Playfair Display',serif; font-size:16px; font-style:italic; color:rgba(200,168,78,0.4); transition:color 0.3s; }
+  .proof-card:hover .proof-name { color:rgba(200,168,78,0.7); }
+
+  .proof-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(8,7,8,0.95) 0%, rgba(8,7,8,0.2) 50%, transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:24px; z-index:2; }
+  .proof-format { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:4px; }
+  .proof-title { font-family:'Playfair Display',serif; font-size:18px; font-weight:400; color:var(--white); line-height:1.2; }
+  .proof-ep { font-size:11px; color:var(--white-30); margin-top:4px; }
+
+  .proof-top-line { position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; z-index:3; }
+  .proof-card:hover .proof-top-line { transform:scaleX(1); }
+
+  /* RESULTS */
+  .results-section { padding:120px 64px; position:relative; z-index:2; }
+  .results-inner { max-width:1280px; margin:0 auto; }
+
+  .results-split { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; }
+
+  .results-metrics { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--gold-border); border:1px solid var(--gold-border); }
+  .result-metric { background:var(--dark-2); padding:40px 32px; }
+  .result-val { font-family:'Playfair Display',serif; font-size:52px; font-weight:400; color:var(--gold); display:block; line-height:1; margin-bottom:8px; }
+  .result-label { font-size:13px; color:var(--white-30); line-height:1.4; }
+
+  /* PROCESS */
+  .process-section { padding:120px 64px; background:var(--dark); position:relative; z-index:2; }
+  .process-inner { max-width:1280px; margin:0 auto; }
+
+  .process-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--gold-border); border:1px solid var(--gold-border); margin-top:72px; }
+  .process-step { background:var(--dark-2); padding:40px 32px; position:relative; transition:background 0.3s; }
+  .process-step:hover { background:var(--dark-3); }
+  .process-step::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+  .process-step:hover::before { transform:scaleX(1); }
+  .p-num { font-family:'Playfair Display',serif; font-size:64px; font-weight:400; color:var(--gold-border); line-height:1; margin-bottom:20px; }
+  .p-title { font-size:15px; font-weight:600; color:var(--white); margin-bottom:10px; }
+  .p-desc { font-size:13px; line-height:1.6; color:var(--white-30); }
+
+  /* CTA */
+  .cta-section { padding:160px 64px; text-align:center; position:relative; z-index:2; overflow:hidden; }
+  .cta-section::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(200,168,78,0.05) 0%, transparent 70%); }
+  .cta-h2 { font-family:'Playfair Display',serif; font-size:clamp(44px,6vw,88px); font-weight:400; line-height:1.0; color:var(--white); margin-bottom:24px; position:relative; }
+  .cta-h2 em { color:var(--gold); font-style:italic; }
+  .cta-p { font-size:16px; color:var(--white-60); max-width:480px; margin:0 auto 52px; line-height:1.7; position:relative; }
+  .cta-actions { display:flex; gap:20px; justify-content:center; align-items:center; flex-wrap:wrap; position:relative; }
+
+  /* FOOTER */
+  footer { padding:48px 64px; border-top:1px solid var(--gold-border); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:40px; position:relative; z-index:2; }
+  .f-logo { display:flex; flex-direction:column; gap:2px; text-decoration:none; }
+  .f-logo-main { font-family:'Outfit',sans-serif; font-weight:700; font-size:16px; letter-spacing:0.22em; color:var(--white); text-transform:uppercase; }
+  .f-logo-sub { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; }
+  .f-links { display:flex; gap:32px; list-style:none; justify-content:center; }
+  .f-links a { font-size:11px; color:var(--white-30); text-decoration:none; letter-spacing:0.05em; transition:color 0.3s; cursor:none; }
+  .f-links a:hover { color:var(--gold); }
+  .f-right { text-align:right; font-family:'Space Mono',monospace; font-size:10px; color:var(--white-30); letter-spacing:0.1em; line-height:1.6; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity:1; transform:translateY(0); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity:1; transform:translateY(0); }
+  .d1{transition-delay:0.1s} .d2{transition-delay:0.2s} .d3{transition-delay:0.3s} .d4{transition-delay:0.4s}
+
+  @media(max-width:960px){
+    nav { padding:20px 24px; }
+    .nav-links { display:none; }
+    .hero { padding:100px 24px 100px; }
+    .hero-proof { position:relative; bottom:auto; margin-top:48px; flex-wrap:wrap; justify-content:center; gap:32px; animation:fadeUp 0.8s ease forwards 1.6s; }
+    .problem-section,.solution-section,.aos-section,.proof-section,.results-section,.process-section,.cta-section { padding:80px 24px; }
+    .problem-split,.aos-split,.results-split { grid-template-columns:1fr; gap:48px; }
+    .solution-grid { grid-template-columns:1fr; }
+    .proof-grid { grid-template-columns:1fr; }
+    .proof-card.wide,.proof-card.tall { grid-column:span 1; grid-row:span 1; aspect-ratio:16/9; }
+    .results-metrics { grid-template-columns:1fr 1fr; }
+    .process-steps { grid-template-columns:1fr 1fr; }
+    footer { padding:40px 24px; grid-template-columns:1fr; text-align:center; }
+    .f-right { text-align:center; }
+    .f-links { flex-wrap:wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <span class="logo-main">Anqor Studios</span>
+    <span class="logo-sub">Content Systems · Brand Growth</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#solution">Services</a></li>
+      <li><a href="#aos">AOS</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <a href="#cta" class="nav-btn">Book a Call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow">Anqor Studios — Dubai</p>
+
+  <h1 class="hero-h1">
+    <span class="l1">We grow brands</span>
+    <span class="l2">through content.</span>
+    <span class="l3">Systematically.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Most brands create content. We build the system that keeps creating it — finding what works, scripting it, distributing it, capturing leads, and converting them. Every day. On autopilot.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#cta" class="btn-gold">Book a Strategy Call</a>
+    <a href="#solution" class="btn-ghost">See How It Works</a>
+  </div>
+
+  <div class="hero-proof">
+    <div class="proof-item">
+      <span class="proof-num">22</span>
+      <span class="proof-label">AI Agents Running Daily</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <span class="proof-num">6AM</span>
+      <span class="proof-label">Pipeline Starts Every Morning</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <span class="proof-num">12hrs</span>
+      <span class="proof-label">Saved Per Week Per Client</span>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <span class="proof-num">0</span>
+      <span class="proof-label">Manual Tasks Required</span>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Content Strategy <span>◆</span></span>
+    <span class="ticker-item">Lead Generation <span>◆</span></span>
+    <span class="ticker-item">Sales Automation <span>◆</span></span>
+    <span class="ticker-item">Video Production <span>◆</span></span>
+    <span class="ticker-item">Podcast Launch <span>◆</span></span>
+    <span class="ticker-item">Brand Growth <span>◆</span></span>
+    <span class="ticker-item">Powered by AOS <span>◆</span></span>
+    <span class="ticker-item">Dubai & Global <span>◆</span></span>
+    <span class="ticker-item">Content Strategy <span>◆</span></span>
+    <span class="ticker-item">Lead Generation <span>◆</span></span>
+    <span class="ticker-item">Sales Automation <span>◆</span></span>
+    <span class="ticker-item">Video Production <span>◆</span></span>
+    <span class="ticker-item">Podcast Launch <span>◆</span></span>
+    <span class="ticker-item">Brand Growth <span>◆</span></span>
+    <span class="ticker-item">Powered by AOS <span>◆</span></span>
+    <span class="ticker-item">Dubai & Global <span>◆</span></span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="problem-inner">
+    <div class="problem-split">
+      <div>
+        <p class="s-tag reveal">The Problem</p>
+        <h2 class="s-h2 reveal d1">Most brands create content.<br><em>Almost none have a system.</em></h2>
+        <p class="s-p reveal d2" style="margin-bottom:32px;">The difference between brands that grow and brands that plateau is not budget. It is not talent. It is whether content is a system or a task. When it is a task, it competes with everything else on your plate. When it is a system, it runs whether you are in it or not.</p>
+        <p class="s-p reveal d2">That is what we build. The system first. The content follows.</p>
+      </div>
+      <div class="problem-cards reveal d2">
+        <div class="problem-card">
+          <p class="problem-card-title">Inconsistent posting</p>
+          <p class="problem-card-desc">Content goes out when there is time, not when it should. The algorithm punishes inconsistency. Growth stalls.</p>
+        </div>
+        <div class="problem-card">
+          <p class="problem-card-title">No idea what to create</p>
+          <p class="problem-card-desc">Topics are guessed, not validated. Hours spent creating content nobody watches because the research was not done first.</p>
+        </div>
+        <div class="problem-card">
+          <p class="problem-card-title">Content that does not convert</p>
+          <p class="problem-card-desc">Views and likes but no leads, no calls, no revenue. Content is disconnected from the sales pipeline.</p>
+        </div>
+        <div class="problem-card">
+          <p class="problem-card-title">Doing everything manually</p>
+          <p class="problem-card-desc">Writing, editing, posting, following up — all done by hand. Time that should go to closing deals goes to content logistics instead.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="solution-section" id="solution">
+  <div class="solution-inner">
+    <div class="solution-header">
+      <p class="s-tag reveal">What We Do</p>
+      <h2 class="s-h2 reveal d1">Three services.<br><em>One integrated system.</em></h2>
+      <p class="s-p reveal d2">Everything we offer runs on AOS — our proprietary AI operating system. Strategy, production, and automation are not separate services. They are one connected machine.</p>
+    </div>
+    <div class="solution-grid">
+      <div class="solution-card reveal">
+        <div class="sol-num">01</div>
+        <p class="sol-tag">Content System</p>
+        <h3 class="sol-title">Strategy &<br>Content Architecture</h3>
+        <p class="sol-desc">We build your content strategy from data, not guesswork. AOS finds what is working in your niche, validates audience size, selects topics, and delivers a camera-ready script every morning.</p>
+        <ul class="sol-includes">
+          <p class="sol-includes-label">What is included</p>
+          <li>Daily topic research and validation</li>
+          <li>Hook testing and selection</li>
+          <li>Full script generation</li>
+          <li>Repurposing for 4 platforms</li>
+          <li>Weekly content calendar</li>
+        </ul>
+        <p class="sol-price">From AED 4,000 / month</p>
+      </div>
+      <div class="solution-card reveal d1">
+        <div class="sol-num">02</div>
+        <p class="sol-tag">Growth Engine</p>
+        <h3 class="sol-title">Lead Generation &<br>Sales Automation</h3>
+        <p class="sol-desc">Content without conversion is just noise. AOS captures every lead your content generates, qualifies them automatically, nurtures them through a sales sequence, and alerts you when they are ready to close.</p>
+        <ul class="sol-includes">
+          <p class="sol-includes-label">What is included</p>
+          <li>Automated lead capture from all platforms</li>
+          <li>Intent classification — real leads only</li>
+          <li>Lead scoring and pipeline management</li>
+          <li>Automated DM and email sequences</li>
+          <li>Hot lead alerts with close scripts</li>
+        </ul>
+        <p class="sol-price">From AED 7,500 / month</p>
+      </div>
+      <div class="solution-card reveal d2">
+        <div class="sol-num">03</div>
+        <p class="sol-tag">Production</p>
+        <h3 class="sol-title">Video Production<br>on Retainer</h3>
+        <p class="sol-desc">When you are ready to film, we are ready to produce. High quality multi-camera video, podcast production, and original series — all on a monthly retainer so output stays consistent without the chaos of one-off projects.</p>
+        <ul class="sol-includes">
+          <p class="sol-includes-label">What is included</p>
+          <li>Full production cycle — shoot to delivery</li>
+          <li>Multi-camera setup and direction</li>
+          <li>Professional editing and colour grade</li>
+          <li>Distribution-ready files for all platforms</li>
+          <li>Monthly retainer — no project-by-project chaos</li>
+        </ul>
+        <p class="sol-price">From AED 5,000 / month</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AOS -->
+<section class="aos-section" id="aos">
+  <div class="aos-inner">
+
+    <!-- Header -->
+    <div style="text-align:center; margin-bottom:72px;">
+      <p class="s-tag reveal" style="justify-content:center;">The Technology</p>
+      <h2 class="s-h2 reveal d1" style="max-width:700px; margin:0 auto 24px;">Meet AOS — the system<br><em>running behind everything.</em></h2>
+      <p class="s-p reveal d2" style="max-width:580px; margin:0 auto; text-align:center;">AOS — the Anqor Operating System — is a 22-agent AI system that runs your entire content and sales operation automatically. It is not a tool you use. It is a system that runs for you.</p>
+    </div>
+
+    <!-- Operator Console — full width -->
+    <div class="reveal" style="margin-bottom:4px;">
+      <div style="border:1px solid var(--gold-border); overflow:hidden; position:relative;">
+        <div style="padding:12px 20px; background:var(--dark-3); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white-30);letter-spacing:0.1em;margin-left:8px;">AOS — Operator Console</span>
+          </div>
+          <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;">What you see as the operator</span>
+        </div>
+        <img src="aos-operator-console.png" alt="AOS Operator Console — showing 8 clients, $14,000 MRR, all 22 agents running, lead pipeline, alerts" style="width:100%;display:block;"/>
+      </div>
+    </div>
+
+    <!-- Two column — client dashboard + description -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:72px;">
+      <div class="reveal" style="border:1px solid var(--gold-border); overflow:hidden;">
+        <div style="padding:12px 20px; background:var(--dark-3); border-bottom:1px solid var(--gold-border); display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:#28ca41;"></div>
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--white-30);letter-spacing:0.1em;margin-left:8px;">AOS — Client Dashboard</span>
+          </div>
+          <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;">What your client sees</span>
+        </div>
+        <img src="aos-client-dashboard.png" alt="AOS Client Dashboard — showing leads generated, pipeline value, content performance, follower growth" style="width:100%;display:block;"/>
+      </div>
+
+      <div class="reveal d2" style="display:flex; flex-direction:column; justify-content:center; padding:48px 40px; border:1px solid var(--gold-border); background:var(--dark-2);">
+        <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:24px;">What AOS does every day</p>
+
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="padding:16px 0; border-bottom:1px solid var(--gold-border); display:flex; gap:16px; align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);min-width:28px;margin-top:2px;">01</span>
+            <div>
+              <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Finds what to create</p>
+              <p style="font-size:12px;color:var(--white-30);line-height:1.5;">Scans competitors, validates topics, picks the winning hook — before you wake up.</p>
+            </div>
+          </div>
+          <div style="padding:16px 0; border-bottom:1px solid var(--gold-border); display:flex; gap:16px; align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);min-width:28px;margin-top:2px;">02</span>
+            <div>
+              <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Writes and distributes it</p>
+              <p style="font-size:12px;color:var(--white-30);line-height:1.5;">Full script generated. Repurposed for LinkedIn, Instagram, X, and Reels automatically.</p>
+            </div>
+          </div>
+          <div style="padding:16px 0; border-bottom:1px solid var(--gold-border); display:flex; gap:16px; align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);min-width:28px;margin-top:2px;">03</span>
+            <div>
+              <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Captures and qualifies leads</p>
+              <p style="font-size:12px;color:var(--white-30);line-height:1.5;">Every comment and DM classified by intent. Real prospects enter the pipeline. Others don't.</p>
+            </div>
+          </div>
+          <div style="padding:16px 0; border-bottom:1px solid var(--gold-border); display:flex; gap:16px; align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);min-width:28px;margin-top:2px;">04</span>
+            <div>
+              <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Nurtures and closes</p>
+              <p style="font-size:12px;color:var(--white-30);line-height:1.5;">Automated DM and email sequences run until the prospect is ready. You get an alert with a close script.</p>
+            </div>
+          </div>
+          <div style="padding:16px 0; display:flex; gap:16px; align-items:flex-start;">
+            <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);min-width:28px;margin-top:2px;">05</span>
+            <div>
+              <p style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Reports and improves</p>
+              <p style="font-size:12px;color:var(--white-30);line-height:1.5;">Weekly client reports show exactly what content drove which leads. The system gets smarter every week.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#cta" class="btn-gold" style="margin-top:40px;text-align:center;">Get AOS for Your Business</a>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gold-border);border:1px solid var(--gold-border);" class="reveal">
+      <div style="background:var(--dark-2);padding:32px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);display:block;line-height:1;">22</span>
+        <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--white-30);text-transform:uppercase;margin-top:8px;display:block;">AI Agents</span>
+      </div>
+      <div style="background:var(--dark-2);padding:32px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);display:block;line-height:1;">4</span>
+        <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--white-30);text-transform:uppercase;margin-top:8px;display:block;">System Phases</span>
+      </div>
+      <div style="background:var(--dark-2);padding:32px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);display:block;line-height:1;">6AM</span>
+        <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--white-30);text-transform:uppercase;margin-top:8px;display:block;">Daily Pipeline Start</span>
+      </div>
+      <div style="background:var(--dark-2);padding:32px;text-align:center;">
+        <span style="font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);display:block;line-height:1;">0</span>
+        <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--white-30);text-transform:uppercase;margin-top:8px;display:block;">Manual Tasks Required</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROOF — WORK -->
+<section class="proof-section" id="work">
+  <div class="proof-inner">
+    <div class="proof-header">
+      <div>
+        <p class="s-tag reveal">Production Proof</p>
+        <h2 class="s-h2 reveal d1">We don't just build systems.<br><em>We execute at the highest level.</em></h2>
+        <p class="s-p reveal d2" style="margin-top:16px;">Over 80 episodes produced across podcasts, live music series, original shows, and DJ sessions. All from Dubai. All high production value.</p>
+      </div>
+      <div class="proof-header-right reveal d2">
+        <p class="proof-big-num">80+</p>
+        <p class="proof-big-label">Episodes & counting</p>
+      </div>
+    </div>
+
+    <div class="proof-grid">
+      <!-- Row 1 -->
+      <div class="proof-card wide reveal">
+        <div class="proof-bg bg-7">
+          <div class="proof-visual"><span class="proof-icon">🎵</span><p class="proof-name">Room 901</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Live Music Series · Anqor Original</p>
+          <p class="proof-title">Room 901 — Multi-Camera Live Performance</p>
+          <p class="proof-ep">8+ Episodes · Full artist sets recorded live</p>
+        </div>
+      </div>
+      <div class="proof-card reveal d1">
+        <div class="proof-bg bg-2">
+          <div class="proof-visual"><span class="proof-icon">🎙️</span><p class="proof-name">Creative 1s</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Podcast Production</p>
+          <p class="proof-title">The Creative 1s Podcast</p>
+          <p class="proof-ep">with Chineme Prince</p>
+        </div>
+      </div>
+      <!-- Row 2 -->
+      <div class="proof-card reveal">
+        <div class="proof-bg bg-1">
+          <div class="proof-visual"><span class="proof-icon">📖</span><p class="proof-name">Backstories</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Podcast Production</p>
+          <p class="proof-title">Backstories with Funda Cinar</p>
+        </div>
+      </div>
+      <div class="proof-card reveal d1">
+        <div class="proof-bg bg-3">
+          <div class="proof-visual"><span class="proof-icon">✨</span><p class="proof-name">Spotlight</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Podcast Production</p>
+          <p class="proof-title">Spotlight with Tina</p>
+        </div>
+      </div>
+      <div class="proof-card reveal d2">
+        <div class="proof-bg bg-4">
+          <div class="proof-visual"><span class="proof-icon">🐝</span><p class="proof-name">The Hive</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Podcast Production</p>
+          <p class="proof-title">The Hive Podcast</p>
+        </div>
+      </div>
+      <!-- Row 3 -->
+      <div class="proof-card reveal">
+        <div class="proof-bg bg-5">
+          <div class="proof-visual"><span class="proof-icon">🤿</span><p class="proof-name">Scuba Sara G</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Podcast Production</p>
+          <p class="proof-title">Scuba with Sara G</p>
+        </div>
+      </div>
+      <div class="proof-card reveal d1">
+        <div class="proof-bg bg-6">
+          <div class="proof-visual"><span class="proof-icon">🌌</span><p class="proof-name">Singularity</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Podcast Production</p>
+          <p class="proof-title">The Singularity Podcast</p>
+        </div>
+      </div>
+      <div class="proof-card reveal d2">
+        <div class="proof-bg bg-9">
+          <div class="proof-visual"><span class="proof-icon">🎛️</span><p class="proof-name">Speedhouse</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">DJ Series · Anqor Original</p>
+          <p class="proof-title">Speedhouse — 30-Minute Live Sets</p>
+        </div>
+      </div>
+      <div class="proof-card reveal d3">
+        <div class="proof-bg bg-8">
+          <div class="proof-visual"><span class="proof-icon">🍽️</span><p class="proof-name">Table Talk</p></div>
+        </div>
+        <div class="proof-top-line"></div>
+        <div class="proof-overlay">
+          <p class="proof-format">Original Series · Hosted by Ubong</p>
+          <p class="proof-title">Table Talk — Food, Culture & Conversation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results-section">
+  <div class="results-inner">
+    <div class="results-split">
+      <div>
+        <p class="s-tag reveal">What to Expect</p>
+        <h2 class="s-h2 reveal d1">Content that works<br><em>while you sleep.</em></h2>
+        <p class="s-p reveal d2" style="margin-bottom:24px;">When your content strategy runs on a system, consistency stops being a discipline problem and becomes an infrastructure problem. We solve the infrastructure. You show up for the parts only you can do.</p>
+        <p class="s-p reveal d2">Record the video. Take the sales call. Sign the client. Everything between is handled.</p>
+      </div>
+      <div class="results-metrics reveal d2">
+        <div class="result-metric">
+          <span class="result-val">3.4×</span>
+          <span class="result-label">Average content output increase in first 90 days</span>
+        </div>
+        <div class="result-metric">
+          <span class="result-val">↑67%</span>
+          <span class="result-label">Lead capture rate improvement on average</span>
+        </div>
+        <div class="result-metric">
+          <span class="result-val">12hrs</span>
+          <span class="result-label">Weekly time saved on content logistics per client</span>
+        </div>
+        <div class="result-metric">
+          <span class="result-val">94%</span>
+          <span class="result-label">Client retention rate on monthly retainer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="process-inner">
+    <p class="s-tag reveal">How We Work</p>
+    <h2 class="s-h2 reveal d1">From strategy to results<br><em>in four steps.</em></h2>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="p-num">01</div>
+        <h3 class="p-title">Strategy Call</h3>
+        <p class="p-desc">30 minutes. We map your business, audience, goals, and current content gaps. You leave with clarity on exactly what we would build for you.</p>
+      </div>
+      <div class="process-step reveal d1">
+        <div class="p-num">02</div>
+        <h3 class="p-title">Deep Intake</h3>
+        <p class="p-desc">A comprehensive session captures your brand voice, ICP, competitors, content pillars, and conversion goals. This becomes the intelligence layer AOS runs on.</p>
+      </div>
+      <div class="process-step reveal d2">
+        <div class="p-num">03</div>
+        <h3 class="p-title">System Launch</h3>
+        <p class="p-desc">We configure AOS for your business, build your content calendar, and launch the pipeline. Within 7 days your first validated scripts are ready to film.</p>
+      </div>
+      <div class="process-step reveal d3">
+        <div class="p-num">04</div>
+        <h3 class="p-title">You Show Up</h3>
+        <p class="p-desc">Film the videos. Take the calls. Sign the clients. The system handles research, scripting, lead capture, nurturing, and reporting. Every single day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <p class="s-tag reveal" style="justify-content:center;">Ready to Grow</p>
+  <h2 class="cta-h2 reveal d1">
+    Stop creating content.<br>
+    <em>Start running a system.</em>
+  </h2>
+  <p class="cta-p reveal d2">Book a free 30-minute strategy call. We will map your content pipeline and show you exactly what we would build for your brand — and what it would produce.</p>
+  <div class="cta-actions reveal d3">
+    <a href="#" class="btn-gold">Book Your Strategy Call</a>
+    <a href="/cdn-cgi/l/email-protection#244c4148484b64454a554b56575051404d4b570a474b49" class="btn-ghost">Email Us</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="f-logo">
+    <span class="f-logo-main">Anqor Studios</span>
+    <span class="f-logo-sub">Powered by AOS · Dubai, UAE</span>
+  </a>
+  <ul class="f-links">
+    <li><a href="#solution">Services</a></li>
+    <li><a href="#aos">AOS</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="https://youtube.com/@anqorlive" target="_blank">Anqor Live</a></li>
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">LinkedIn</a></li>
+  </ul>
+  <div class="f-right">
+    <p>© 2026 Anqor Studios LLC·FZ</p>
+    <p>Meydan Free Zone · Dubai, UAE</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const cur=document.getElementById('cur'), ring=document.getElementById('cur-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function a(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.width='52px';ring.style.height='52px';});
+    el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='36px';ring.style.height='36px';});
+  });
+  window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
+  const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isInter
