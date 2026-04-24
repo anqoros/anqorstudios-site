@@ -85,18 +85,21 @@ body {
 
 .nav-logo-top {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 2px;
+  font-size: 24px;
+  letter-spacing: 3px;
   color: var(--text);
   line-height: 1;
 }
 
 .nav-logo-bottom {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 4px;
   color: var(--muted);
   line-height: 1;
+  margin-top: 2px;
+  text-transform: uppercase;
 }
 
 .nav-links {
