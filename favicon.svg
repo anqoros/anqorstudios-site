@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="18" fill="#162820"/>
+  <!-- Three white arms forming the trefoil mark -->
+  <g transform="translate(50,54)" fill="white">
+    <ellipse cx="0" cy="-21" rx="13" ry="20"/>
+    <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+    <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+    <circle cx="0" cy="0" r="9"/>
+  </g>
+  <!-- Dark green cutouts inside each arm -->
+  <g transform="translate(50,54)" fill="#162820">
+    <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
+    <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+    <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+    <circle cx="0" cy="0" r="3"/>
+  </g>
+</svg>
