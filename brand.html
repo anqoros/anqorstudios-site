@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anqor Studios — Brand Identity System</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* === WEBSITE / MARKETING PALETTE === */
+      --bg:       #162820;
+      --bg-alt:   #1a2f24;
+      --text:     #f1eee4;
+      --dim:      rgba(241,238,228,0.45);
+      --accent:   #3a7d5a;
+      --border:   rgba(241,238,228,0.08);
+
+      /* === PRODUCT / APP PALETTE === */
+      --p-bg:       #1c2e3e;
+      --p-surface:  #243848;
+      --p-card:     #2a4055;
+      --p-border:   #30485e;
+      --p-gold:     #e8b84b;
+      --p-ivory:    #f0ecdf;
+      --p-muted:    #80aac0;
+      --p-dim:      #4a6a82;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(22,40,32,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.1em; color: var(--text); text-decoration: none; }
+    .nav-tag { font-size: 11px; letter-spacing: 0.14em; color: var(--dim); text-transform: uppercase; }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+    /* ── SECTION ── */
+    section { padding: 96px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .section-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.03em; line-height: 1; margin-bottom: 16px; }
+    .section-sub { font-size: 16px; color: rgba(241,238,228,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 56px; }
+    hr.rule { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+    /* ── COVER ── */
+    #cover {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 0 80px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #0d1f17 0%, #162820 60%, #1a3525 100%);
+    }
+    .cover-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(58,125,90,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58,125,90,0.06) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .cover-content { position: relative; z-index: 1; }
+    .cover-eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .cover-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 12vw, 140px); letter-spacing: 0.02em; line-height: 0.9; margin-bottom: 32px; }
+    .cover-title em { font-style: normal; color: rgba(241,238,228,0.25); }
+    .cover-meta { display: flex; gap: 48px; flex-wrap: wrap; }
+    .cover-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .cover-meta-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+    .cover-meta-value { font-size: 14px; color: rgba(241,238,228,0.75); }
+
+    /* ── OVERVIEW ── */
+    .brand-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .brand-statement { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.03em; line-height: 1.15; color: var(--text); }
+    .brand-statement span { color: rgba(241,238,228,0.25); }
+    .brand-pillars { display: flex; flex-direction: column; gap: 24px; }
+    .pillar { padding: 24px; background: rgba(58,125,90,0.06); border: 1px solid rgba(58,125,90,0.15); border-radius: 8px; }
+    .pillar-name { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .pillar-text { font-size: 14px; color: rgba(241,238,228,0.65); line-height: 1.6; }
+
+    /* ── COLOUR SYSTEM ── */
+    .palette-heading { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; margin-top: 48px; }
+    .palette-heading:first-of-type { margin-top: 0; }
+    .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 8px; }
+    .swatch { border-radius: 10px; padding: 20px 18px; display: flex; flex-direction: column; justify-content: flex-end; min-height: 120px; }
+    .swatch-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .swatch-hex { font-size: 11px; letter-spacing: 0.06em; opacity: 0.7; font-family: monospace; }
+    .swatch-use { font-size: 11px; color: var(--dim); margin-top: 6px; }
+
+    /* Website swatches */
+    .sw-bg      { background: #162820; border: 1px solid rgba(255,255,255,0.08); color: #f1eee4; }
+    .sw-bgalt   { background: #1a2f24; border: 1px solid rgba(255,255,255,0.08); color: #f1eee4; }
+    .sw-accent  { background: #3a7d5a; color: #f1eee4; }
+    .sw-border  { background: rgba(241,238,228,0.08); border: 1px solid rgba(255,255,255,0.12); color: #f1eee4; }
+    .sw-text    { background: #f1eee4; color: #162820; }
+    .sw-dim     { background: rgba(241,238,228,0.45); color: #162820; }
+
+    /* Product swatches */
+    .sw-pbg     { background: #1c2e3e; border: 1px solid rgba(255,255,255,0.06); color: #f0ecdf; }
+    .sw-psurf   { background: #243848; border: 1px solid rgba(255,255,255,0.06); color: #f0ecdf; }
+    .sw-pcard   { background: #2a4055; color: #f0ecdf; }
+    .sw-pborder { background: #30485e; color: #f0ecdf; }
+    .sw-gold    { background: #e8b84b; color: #1c2e3e; }
+    .sw-ivory   { background: #f0ecdf; color: #1c2e3e; }
+    .sw-muted   { background: #80aac0; color: #1c2e3e; }
+    .sw-pdim    { background: #4a6a82; color: #f0ecdf; }
+
+    .usage-rules { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+    .usage-rule { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: rgba(255,255,255,0.03); border-radius: 6px; }
+    .usage-rule-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; white-space: nowrap; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; }
+    .usage-rule-text { font-size: 13px; color: rgba(241,238,228,0.6); line-height: 1.55; }
+    .tag-green  { background: rgba(58,125,90,0.2);  color: #3a7d5a; }
+    .tag-gold   { background: rgba(232,184,75,0.15); color: #e8b84b; }
+    .tag-ivory  { background: rgba(241,238,228,0.1); color: #f1eee4; }
+    .tag-muted  { background: rgba(128,170,192,0.15); color: #80aac0; }
+
+    /* ── TYPOGRAPHY ── */
+    .type-samples { display: flex; flex-direction: column; gap: 40px; }
+    .type-sample { padding: 36px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+    .type-meta { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; display: flex; gap: 16px; }
+    .type-meta span { padding: 3px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; }
+    .type-preview-display { font-family: 'Bebas Neue', sans-serif; font-size: 64px; letter-spacing: 0.03em; line-height: 1; color: var(--text); }
+    .type-preview-serif   { font-family: 'Playfair Display', serif; font-size: 48px; font-style: italic; color: var(--text); line-height: 1.1; }
+    .type-preview-ui      { font-size: 22px; font-weight: 600; color: var(--text); }
+    .type-preview-label   { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; color: #e8b84b; }
+    .type-preview-body    { font-size: 15px; color: rgba(241,238,228,0.6); line-height: 1.75; max-width: 560px; }
+    .type-preview-mono    { font-family: monospace; font-size: 13px; color: #80aac0; letter-spacing: 0.02em; }
+
+    /* ── LOGO ── */
+    .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .logo-box { border-radius: 10px; padding: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 200px; }
+    .logo-box-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+    .logo-dark  { background: #162820; border: 1px solid var(--border); }
+    .logo-mid   { background: #1a2f24; border: 1px solid var(--border); }
+    .logo-light { background: #f1eee4; }
+    .logo-black { background: #0a1410; border: 1px solid rgba(255,255,255,0.06); }
+
+    .logotype { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.08em; }
+    .logotype-sub { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.5; }
+    .logo-light .logotype { color: #162820; }
+    .logo-light .logotype-sub { color: #162820; }
+
+    .logo-dont-list { display: flex; flex-direction: column; gap: 10px; margin-top: 32px; }
+    .logo-dont { display: flex; gap: 12px; align-items: center; font-size: 13px; color: rgba(241,238,228,0.55); }
+    .logo-dont::before { content: '✕'; color: rgba(220,60,60,0.7); font-size: 12px; flex-shrink: 0; }
+
+    /* ── COMPONENTS ── */
+    .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .comp-block { padding: 32px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+    .comp-block-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; }
+
+    /* Buttons */
+    .btn-primary { display: inline-block; padding: 14px 28px; background: #3a7d5a; color: #f1eee4; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; letter-spacing: 0.02em; }
+    .btn-secondary { display: inline-block; padding: 13px 28px; background: transparent; color: #f1eee4; font-size: 14px; border-radius: 6px; border: 1px solid rgba(241,238,228,0.2); cursor: pointer; }
+    .btn-ghost { display: inline-block; padding: 10px 0; background: transparent; color: rgba(241,238,228,0.4); font-size: 13px; border: none; cursor: pointer; }
+    .btn-gold { display: inline-block; padding: 14px 28px; background: #e8b84b; color: #1c2e3e; font-size: 14px; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; }
+    .btn-row { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+
+    /* Badges */
+    .badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge { padding: 4px 10px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; border-radius: 4px; }
+    .badge-green  { background: rgba(58,125,90,0.2);  color: #3a7d5a; border: 1px solid rgba(58,125,90,0.3); }
+    .badge-gold   { background: rgba(232,184,75,0.15); color: #e8b84b; border: 1px solid rgba(232,184,75,0.3); }
+    .badge-muted  { background: rgba(255,255,255,0.06); color: rgba(241,238,228,0.45); border: 1px solid rgba(255,255,255,0.08); }
+
+    /* Input */
+    .input-demo { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(241,238,228,0.15); border-radius: 6px; color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
+    .input-demo::placeholder { color: rgba(241,238,228,0.25); }
+    .input-focused { border-color: rgba(58,125,90,0.6); background: rgba(58,125,90,0.05); }
+    .input-stack { display: flex; flex-direction: column; gap: 10px; }
+    .input-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+
+    /* Cards */
+    .card-demo { background: #1a2f24; border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+    .card-demo-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .card-demo-text { font-size: 13px; color: rgba(241,238,228,0.55); line-height: 1.6; margin-bottom: 16px; }
+    .card-demo-meta { display: flex; gap: 16px; }
+    .card-demo-stat { display: flex; flex-direction: column; gap: 2px; }
+    .card-demo-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.03em; color: #3a7d5a; }
+    .card-demo-stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+
+    /* ── PRINCIPLES ── */
+    .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .principle { padding: 32px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+    .principle-num { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.02em; color: rgba(58,125,90,0.25); line-height: 1; margin-bottom: 12px; }
+    .principle-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+    .principle-text { font-size: 13px; color: rgba(241,238,228,0.55); line-height: 1.65; }
+
+    /* ── CSS VARS ── */
+    .vars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .vars-block { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 28px; }
+    .vars-block-title { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; }
+    .var-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .var-row:last-child { border-bottom: none; }
+    .var-dot { width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+    .var-name { font-family: monospace; font-size: 12px; color: #3a7d5a; flex: 1; }
+    .var-hex { font-family: monospace; font-size: 12px; color: var(--dim); }
+    .var-desc { font-size: 11px; color: rgba(241,238,228,0.35); text-align: right; min-width: 120px; }
+
+    /* ── VOICE ── */
+    .voice-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .voice-card { padding: 24px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; }
+    .voice-attr { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .voice-word { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.04em; margin-bottom: 10px; }
+    .voice-desc { font-size: 12px; color: rgba(241,238,228,0.5); line-height: 1.6; }
+    .voice-examples { display: flex; flex-direction: column; gap: 16px; }
+    .voice-example { padding: 20px 24px; border-radius: 8px; font-size: 14px; line-height: 1.65; }
+    .voice-do   { background: rgba(58,125,90,0.08); border-left: 3px solid #3a7d5a; color: rgba(241,238,228,0.8); }
+    .voice-dont { background: rgba(220,60,60,0.06); border-left: 3px solid rgba(220,60,60,0.4); color: rgba(241,238,228,0.5); text-decoration: line-through; text-decoration-color: rgba(220,60,60,0.4); }
+    .voice-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+    .voice-tag-do { color: #3a7d5a; }
+    .voice-tag-dont { color: rgba(220,60,60,0.5); }
+
+    /* ── FOOTER ── */
+    .brand-footer { padding: 48px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .brand-footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.1em; color: var(--text); }
+    .brand-footer-meta { font-size: 11px; color: var(--dim); text-align: right; line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .page { padding: 0 24px; }
+      section { padding: 64px 0; }
+      .cover-title { font-size: 64px; }
+      .brand-overview { grid-template-columns: 1fr; }
+      .logo-grid { grid-template-columns: 1fr; }
+      .comp-grid { grid-template-columns: 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .vars-grid { grid-template-columns: 1fr; }
+      .voice-grid { grid-template-columns: 1fr; }
+      .swatches { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Anqor Studios</a>
+  <span class="nav-tag">Brand Identity System — v1.0</span>
+</nav>
+
+<div class="page">
+
+  <!-- COVER -->
+  <section id="cover">
+    <div class="cover-bg"></div>
+    <div class="cover-grid"></div>
+    <div class="cover-content">
+      <div class="cover-eyebrow">Anqor Studios · Brand Identity System</div>
+      <h1 class="cover-title">BRAND<br><em>IDENTITY</em><br>SYSTEM</h1>
+      <div class="cover-meta">
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Version</span>
+          <span class="cover-meta-value">1.0</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Updated</span>
+          <span class="cover-meta-value">April 2026</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Classification</span>
+          <span class="cover-meta-value">Proprietary — Anqor Studios</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Scope</span>
+          <span class="cover-meta-value">All Anqor Studios products &amp; touchpoints</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND OVERVIEW -->
+  <section id="overview">
+    <div class="section-label">01 — Overview</div>
+    <h2 class="section-title">WHO WE ARE</h2>
+    <p class="section-sub">Anqor Studios is a Dubai-based AI-powered creative technology company. We build and install operating systems for ambitious founders — systems that run content, capture leads, and book calls on autopilot.</p>
+
+    <div class="brand-overview">
+      <div>
+        <div class="brand-statement">
+          CONTENT.<br>
+          STRATEGY.<br>
+          <span>SIGNAL.</span>
+        </div>
+      </div>
+      <div class="brand-pillars">
+        <div class="pillar">
+          <div class="pillar-name">Mission</div>
+          <div class="pillar-text">Help founders build businesses that run themselves — through AI systems that eliminate manual work and generate compounding results.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-name">Positioning</div>
+          <div class="pillar-text">Not an agency. Not a headcount hire. An operator that installs AI infrastructure inside your business and stands behind it with a 30-day guarantee.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-name">Location</div>
+          <div class="pillar-text">Based in Dubai, UAE — working globally. Incorporated as Anqor Studios LLC·FZ in the DMCC Free Zone.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOUR SYSTEM -->
+  <section id="colours">
+    <div class="section-label">02 — Colour System</div>
+    <h2 class="section-title">PALETTE</h2>
+    <p class="section-sub">Two palettes serve two contexts: the Website / Marketing brand uses the Forest Green system. Product UIs (XANA dashboard, SIGNAL Hub, Client Portal) use the Navy + Gold system.</p>
+
+    <div class="palette-heading">Website &amp; Marketing — Forest Green</div>
+    <div class="swatches">
+      <div>
+        <div class="swatch sw-bg"><span class="swatch-name">Background</span><span class="swatch-hex">#162820</span></div>
+        <div class="swatch-use">Primary page background</div>
+      </div>
+      <div>
+        <div class="swatch sw-bgalt"><span class="swatch-name">Surface</span><span class="swatch-hex">#1A2F24</span></div>
+        <div class="swatch-use">Section backgrounds</div>
+      </div>
+      <div>
+        <div class="swatch sw-accent"><span class="swatch-name">Accent</span><span class="swatch-hex">#3A7D5A</span></div>
+        <div class="swatch-use">CTAs, links, highlights</div>
+      </div>
+      <div>
+        <div class="swatch sw-border"><span class="swatch-name">Border</span><span class="swatch-hex">rgba(241,238,228,0.08)</span></div>
+        <div class="swatch-use">All dividers &amp; borders</div>
+      </div>
+      <div>
+        <div class="swatch sw-text"><span class="swatch-name" style="color:#162820">Text</span><span class="swatch-hex" style="color:#162820">#F1EEE4</span></div>
+        <div class="swatch-use">Primary text (ivory-warm white)</div>
+      </div>
+      <div>
+        <div class="swatch sw-dim" style="min-height:80px"><span class="swatch-name" style="color:#162820">Dim</span><span class="swatch-hex" style="color:#162820">rgba(241,238,228,0.45)</span></div>
+        <div class="swatch-use">Secondary text, labels</div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <div class="palette-heading">Product UIs — Navy + Gold (XANA · SIGNAL · Dashboard)</div>
+    <div class="swatches">
+      <div>
+        <div class="swatch sw-pbg"><span class="swatch-name">Background</span><span class="swatch-hex">#1C2E3E</span></div>
+        <div class="swatch-use">Primary page background</div>
+      </div>
+      <div>
+        <div class="swatch sw-psurf"><span class="swatch-name">Surface</span><span class="swatch-hex">#243848</span></div>
+        <div class="swatch-use">Section backgrounds</div>
+      </div>
+      <div>
+        <div class="swatch sw-pcard"><span class="swatch-name">Card</span><span class="swatch-hex">#2A4055</span></div>
+        <div class="swatch-use">Card backgrounds</div>
+      </div>
+      <div>
+        <div class="swatch sw-pborder"><span class="swatch-name">Border</span><span class="swatch-hex">#30485E</span></div>
+        <div class="swatch-use">All borders</div>
+      </div>
+      <div>
+        <div class="swatch sw-gold"><span class="swatch-name" style="color:#1c2e3e">Gold</span><span class="swatch-hex" style="color:#1c2e3e">#E8B84B</span></div>
+        <div class="swatch-use">Accent, CTAs, step labels</div>
+      </div>
+      <div>
+        <div class="swatch sw-ivory"><span class="swatch-name" style="color:#1c2e3e">Ivory</span><span class="swatch-hex" style="color:#1c2e3e">#F0ECDF</span></div>
+        <div class="swatch-use">Primary text</div>
+      </div>
+      <div>
+        <div class="swatch sw-muted"><span class="swatch-name" style="color:#1c2e3e">Muted</span><span class="swatch-hex" style="color:#1c2e3e">#80AAC0</span></div>
+        <div class="swatch-use">Secondary text</div>
+      </div>
+      <div>
+        <div class="swatch sw-pdim"><span class="swatch-name">Dim</span><span class="swatch-hex">#4A6A82</span></div>
+        <div class="swatch-use">Labels &amp; metadata</div>
+      </div>
+    </div>
+
+    <div class="usage-rules">
+      <div class="usage-rule">
+        <span class="usage-rule-tag tag-green">Accent / Gold</span>
+        <span class="usage-rule-text">Reserve for CTAs, selected states, badges, step labels, and key data points. Never use as a background for large areas — doing so kills its signal value.</span>
+      </div>
+      <div class="usage-rule">
+        <span class="usage-rule-tag tag-ivory">Text</span>
+        <span class="usage-rule-text">Ivory/warm white is always used on dark backgrounds only. Never place on light backgrounds. This is the only acceptable primary text colour.</span>
+      </div>
+      <div class="usage-rule">
+        <span class="usage-rule-tag tag-muted">Muted</span>
+        <span class="usage-rule-text">Secondary and descriptive text. Supporting information, placeholders, and metadata. Never use for interactive elements.</span>
+      </div>
+      <div class="usage-rule">
+        <span class="usage-rule-tag tag-green">Depth</span>
+        <span class="usage-rule-text">Always layer Card inside Surface inside Background. This four-stop depth system creates visual hierarchy. Never skip levels or reverse the order.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section id="typography">
+    <div class="section-label">03 — Typography</div>
+    <h2 class="section-title">TYPE SYSTEM</h2>
+    <p class="section-sub">Two typeface roles across both palettes. Display for impact, UI sans-serif for clarity. The roles must never swap.</p>
+
+    <div class="type-samples">
+      <div class="type-sample">
+        <div class="type-meta">
+          <span>Display — Bebas Neue</span>
+          <span>Hero Headlines · Section Titles · Wordmark</span>
+          <span>Google Fonts</span>
+        </div>
+        <div class="type-preview-display">FINALLY BUILD A<br>BUSINESS THAT RUNS ITSELF.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-meta">
+          <span>Display Serif — Playfair Display Italic</span>
+          <span>Product UI Headlines · Question Headers</span>
+          <span>Google Fonts</span>
+        </div>
+        <div class="type-preview-serif">Map your offer.<br><em>Find your clients.</em></div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-meta">
+          <span>UI Heading — Inter 600</span>
+          <span>Section headings · Card titles · UI labels</span>
+          <span>20pt / 500–600 weight</span>
+        </div>
+        <div class="type-preview-ui">Your system is live and running.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-meta">
+          <span>Step Label — Inter 700 Uppercase</span>
+          <span>Progress steps · Tags · Meta labels</span>
+          <span>9–11pt · letter-spacing 0.18em · Gold only</span>
+        </div>
+        <div class="type-preview-label">Step 3 of 8 — A: Your Authority</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-meta">
+          <span>Body — Inter 400</span>
+          <span>Descriptions · Supporting copy · Paragraphs</span>
+          <span>15pt · line-height 1.75 · Muted colour</span>
+        </div>
+        <div class="type-preview-body">We install systems that run your content, capture your leads, and book calls on autopilot. No agency. No headcount. Every system we sell, we run ourselves — live, tested, producing results inside Anqor Studios right now.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-meta">
+          <span>Monospace — System Mono</span>
+          <span>Code · HEX values · Coordinates · Data</span>
+          <span>12–13pt</span>
+        </div>
+        <div class="type-preview-mono">DXB · 25.276° N, 55.296° E · #162820 · v1.0.0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO -->
+  <section id="logo">
+    <div class="section-label">04 — Logo &amp; Wordmark</div>
+    <h2 class="section-title">LOGO USAGE</h2>
+    <p class="section-sub">The Anqor mark is a three-arm trefoil symbol representing three interlocked loops — content, strategy, signal. The wordmark uses Bebas Neue with tracked uppercase subtitling.</p>
+
+    <div class="logo-grid">
+      <div class="logo-box logo-dark">
+        <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(50,54)" fill="white">
+            <ellipse cx="0" cy="-21" rx="13" ry="20"/>
+            <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <circle cx="0" cy="0" r="9"/>
+          </g>
+          <g transform="translate(50,54)" fill="#162820">
+            <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
+            <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <circle cx="0" cy="0" r="3"/>
+          </g>
+        </svg>
+        <div style="text-align:center">
+          <div class="logotype">ANQOR STUDIOS</div>
+          <div class="logotype-sub">Content · Strategy · Signal</div>
+        </div>
+        <div class="logo-box-label">On Dark Green (Primary)</div>
+      </div>
+
+      <div class="logo-box logo-black">
+        <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(50,54)" fill="white">
+            <ellipse cx="0" cy="-21" rx="13" ry="20"/>
+            <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <circle cx="0" cy="0" r="9"/>
+          </g>
+          <g transform="translate(50,54)" fill="#0a1410">
+            <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
+            <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <circle cx="0" cy="0" r="3"/>
+          </g>
+        </svg>
+        <div style="text-align:center">
+          <div class="logotype">ANQOR STUDIOS</div>
+          <div class="logotype-sub">Content · Strategy · Signal</div>
+        </div>
+        <div class="logo-box-label">On Black (Alternate)</div>
+      </div>
+
+      <div class="logo-box logo-light">
+        <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(50,54)" fill="#162820">
+            <ellipse cx="0" cy="-21" rx="13" ry="20"/>
+            <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <circle cx="0" cy="0" r="9"/>
+          </g>
+          <g transform="translate(50,54)" fill="#f1eee4">
+            <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
+            <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <circle cx="0" cy="0" r="3"/>
+          </g>
+        </svg>
+        <div style="text-align:center">
+          <div class="logotype" style="color:#162820">ANQOR STUDIOS</div>
+          <div class="logotype-sub" style="color:#162820">Content · Strategy · Signal</div>
+        </div>
+        <div class="logo-box-label" style="color:#162820">On Light (Documents only)</div>
+      </div>
+
+      <div class="logo-box logo-mid">
+        <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(50,54)" fill="#3a7d5a">
+            <ellipse cx="0" cy="-21" rx="13" ry="20"/>
+            <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
+            <circle cx="0" cy="0" r="9"/>
+          </g>
+          <g transform="translate(50,54)" fill="#1a2f24">
+            <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
+            <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
+            <circle cx="0" cy="0" r="3"/>
+          </g>
+        </svg>
+        <div style="text-align:center">
+          <div class="logotype" style="color:#3a7d5a">ANQOR STUDIOS</div>
+          <div class="logotype-sub">Content · Strategy · Signal</div>
+        </div>
+        <div class="logo-box-label">Accent Green (Minimal use)</div>
+      </div>
+    </div>
+
+    <div class="logo-dont-list" style="margin-top:40px">
+      <div class="logo-dont">Do not stretch, distort, or alter the proportions of the mark or wordmark.</div>
+      <div class="logo-dont">Do not use the logo on colours outside the approved palette.</div>
+      <div class="logo-dont">Do not add drop shadows, glows, gradients, or any effects to the logo.</div>
+      <div class="logo-dont">Do not place the mark below the wordmark — always mark-left or mark-above only.</div>
+      <div class="logo-dont">Do not use the wordmark without the mark in digital brand contexts.</div>
+      <div class="logo-dont">Do not reproduce in sizes below 24px height — use mark only below this threshold.</div>
+    </div>
+  </section>
+
+  <!-- VOICE & TONE -->
+  <section id="voice">
+    <div class="section-label">05 — Voice &amp; Tone</div>
+    <h2 class="section-title">BRAND VOICE</h2>
+    <p class="section-sub">Confident without being arrogant. Precise without being cold. Direct without being rude. We talk like a sharp operator — not an agency pitch deck.</p>
+
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="voice-attr">Trait 01</div>
+        <div class="voice-word">DIRECT</div>
+        <div class="voice-desc">We say what we mean in the fewest words possible. No filler. No hedge language. No "solutions" or "leverage".</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-attr">Trait 02</div>
+        <div class="voice-word">CONFIDENT</div>
+        <div class="voice-desc">We back everything with a guarantee. We've run the systems ourselves. We don't ask permission to be right.</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-attr">Trait 03</div>
+        <div class="voice-word">SPECIFIC</div>
+        <div class="voice-desc">Numbers, timelines, outcomes. "30-day results" not "fast results". "22 agents running daily" not "our AI does a lot".</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-attr">Trait 04</div>
+        <div class="voice-word">WARM</div>
+        <div class="voice-desc">We're a small team that genuinely wants clients to win. The confidence comes from competence, not ego. We're personable.</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-attr">Trait 05</div>
+        <div class="voice-word">AMBITIOUS</div>
+        <div class="voice-desc">We think in systems, scale, and leverage. We don't talk small. Every piece of copy should feel like it belongs in Dubai.</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-attr">Trait 06</div>
+        <div class="voice-word">RESTRAINED</div>
+        <div class="voice-desc">No hype words. No exclamation marks in brand copy. No emojis in formal contexts. Premium brands don't shout.</div>
+      </div>
+    </div>
+
+    <div class="voice-examples">
+      <div>
+        <div class="voice-tag voice-tag-do">✓ Do</div>
+        <div class="voice-example voice-do">We install systems that run your content, capture your leads, and book calls on autopilot. No agency. No headcount. Guaranteed results in 30 days.</div>
+      </div>
+      <div>
+        <div class="voice-tag voice-tag-dont">✕ Don't</div>
+        <div class="voice-example voice-dont">We leverage cutting-edge AI solutions to supercharge your business growth and help you scale to the next level with our proven frameworks!</div>
+      </div>
+      <div>
+        <div class="voice-tag voice-tag-do">✓ Do</div>
+        <div class="voice-example voice-do">Every system we sell, we run ourselves. Live, tested, producing results inside Anqor Studios right now.</div>
+      </div>
+      <div>
+        <div class="voice-tag voice-tag-dont">✕ Don't</div>
+        <div class="voice-example voice-dont">Our amazing team of AI experts is passionate about helping amazing founders achieve their dreams through innovative technology solutions.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UI COMPONENTS -->
+  <section id="components">
+    <div class="section-label">06 — UI Components</div>
+    <h2 class="section-title">COMPONENTS</h2>
+    <p class="section-sub">Consistent component patterns across every product surface. Build from these atoms — do not introduce new patterns without documenting them here.</p>
+
+    <div class="comp-grid">
+      <div class="comp-block">
+        <div class="comp-block-label">Buttons</div>
+        <div class="btn-row">
+          <button class="btn-primary">Book a Free Assessment →</button>
+          <button class="btn-secondary">See How It Works</button>
+          <button class="btn-ghost">Skip this step</button>
+          <button class="btn-gold">Build my OfferMap →</button>
+        </div>
+      </div>
+
+      <div class="comp-block">
+        <div class="comp-block-label">Badges &amp; Tags</div>
+        <div class="badge-row" style="margin-bottom:16px">
+          <span class="badge badge-green">Flagship</span>
+          <span class="badge badge-gold">Top Pick</span>
+          <span class="badge badge-muted">Sprint</span>
+          <span class="badge badge-gold">30-Day Guarantee</span>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-muted">Bespoke</span>
+          <span class="badge badge-green">Live</span>
+          <span class="badge badge-gold">Step 3 of 8</span>
+        </div>
+      </div>
+
+      <div class="comp-block">
+        <div class="comp-block-label">Input Fields</div>
+        <div class="input-stack">
+          <div class="input-label">Business type</div>
+          <input class="input-demo" type="text" placeholder="e.g. coaching, content creation...">
+          <div class="input-label">Your biggest bottleneck</div>
+          <input class="input-demo input-focused" type="text" value="Lead generation and outreach">
+        </div>
+      </div>
+
+      <div class="comp-block">
+        <div class="comp-block-label">Data Card</div>
+        <div class="card-demo">
+          <div class="card-demo-title">XANA System</div>
+          <div class="card-demo-text">Content and lead operating system. Running daily, producing results in real time.</div>
+          <div class="card-demo-meta">
+            <div class="card-demo-stat">
+              <span class="card-demo-stat-val">22</span>
+              <span class="card-demo-stat-label">Agents active</span>
+            </div>
+            <div class="card-demo-stat">
+              <span class="card-demo-stat-val">12</span>
+              <span class="card-demo-stat-label">Hours saved / wk</span>
+            </div>
+            <div class="card-demo-stat">
+              <span class="card-demo-stat-val">30</span>
+              <span class="card-demo-stat-label">Day guarantee</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN PRINCIPLES -->
+  <section id="principles">
+    <div class="section-label">07 — Design Principles</div>
+    <h2 class="section-title">PRINCIPLES</h2>
+    <p class="section-sub">Six rules that govern every design decision across Anqor Studios products. When in doubt, come back here.</p>
+
+    <div class="principles-grid">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Confidence, not noise</div>
+        <div class="principle-text">Every element earns its place. No decorative flourishes. No gradient fills. No glow effects. The palette does the work — restraint signals premium. If you're adding something to make it "look better", remove it.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Accent is a signal, not a decoration</div>
+        <div class="principle-text">Green accent and Gold appear only where action or importance is required — CTAs, selected states, labels, key data. Overusing accent colour kills its impact. When in doubt, leave it out.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Depth through layering</div>
+        <div class="principle-text">Background → Surface → Card creates a depth hierarchy. Every card should sit one stop above its parent. Never skip levels or reverse the order. Depth communicates importance — use it deliberately.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Typography carries tone</div>
+        <div class="principle-text">Bebas Neue (display) brings authority and scale. Inter (UI) brings clarity and speed. Playfair (product serif) brings warmth and intelligence. Never mix the roles. Step labels are always accent colour, always uppercase.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Space is structure</div>
+        <div class="principle-text">Generous padding inside cards. Clear separation between sections. White space is not emptiness — it is the structure that makes content readable and commands premium positioning. Tight = cheap.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Consistency across every touchpoint</div>
+        <div class="principle-text">The website, XANA dashboard, SIGNAL Hub, Client Portal, decks, and social all speak the same visual language. If a new component needs to be built, reference this guide first and document the new pattern here.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CSS VARIABLES -->
+  <section id="variables">
+    <div class="section-label">08 — Developer Reference</div>
+    <h2 class="section-title">CSS VARIABLES</h2>
+    <p class="section-sub">Copy these into the <code style="font-size:13px;color:#3a7d5a">:root</code> block of any Anqor Studios project. Do not hardcode hex values directly in CSS — always reference the variable.</p>
+
+    <div class="vars-grid">
+      <div class="vars-block">
+        <div class="vars-block-title">Website / Marketing — Forest Green</div>
+        <div class="var-row"><div class="var-dot" style="background:#162820"></div><span class="var-name">--bg</span><span class="var-hex">#162820</span><span class="var-desc">Page background</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#1a2f24"></div><span class="var-name">--bg-alt</span><span class="var-hex">#1a2f24</span><span class="var-desc">Section bg</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#3a7d5a"></div><span class="var-name">--accent</span><span class="var-hex">#3a7d5a</span><span class="var-desc">CTAs &amp; links</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#f1eee4"></div><span class="var-name">--text</span><span class="var-hex">#f1eee4</span><span class="var-desc">Primary text</span></div>
+        <div class="var-row"><div class="var-dot" style="background:rgba(241,238,228,0.45);border:1px solid rgba(255,255,255,0.2)"></div><span class="var-name">--dim</span><span class="var-hex">rgba(241,238,228,0.45)</span><span class="var-desc">Secondary text</span></div>
+        <div class="var-row"><div class="var-dot" style="background:rgba(241,238,228,0.08);border:1px solid rgba(255,255,255,0.15)"></div><span class="var-name">--border</span><span class="var-hex">rgba(241,238,228,0.08)</span><span class="var-desc">All borders</span></div>
+      </div>
+
+      <div class="vars-block">
+        <div class="vars-block-title">Product UI — Navy + Gold</div>
+        <div class="var-row"><div class="var-dot" style="background:#1c2e3e"></div><span class="var-name">--bg</span><span class="var-hex">#1c2e3e</span><span class="var-desc">Page background</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#243848"></div><span class="var-name">--surface</span><span class="var-hex">#243848</span><span class="var-desc">Section bg</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#2a4055"></div><span class="var-name">--card</span><span class="var-hex">#2a4055</span><span class="var-desc">Card bg</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#30485e"></div><span class="var-name">--border</span><span class="var-hex">#30485e</span><span class="var-desc">All borders</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#e8b84b"></div><span class="var-name">--gold</span><span class="var-hex">#e8b84b</span><span class="var-desc">Accent &amp; CTAs</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#f0ecdf"></div><span class="var-name">--ivory</span><span class="var-hex">#f0ecdf</span><span class="var-desc">Primary text</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#80aac0"></div><span class="var-name">--muted</span><span class="var-hex">#80aac0</span><span class="var-desc">Secondary text</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#4a6a82"></div><span class="var-name">--dim</span><span class="var-hex">#4a6a82</span><span class="var-desc">Labels &amp; meta</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="brand-footer">
+    <div class="brand-footer-logo">ANQOR STUDIOS</div>
+    <div class="brand-footer-meta">
+      Brand Identity System v1.0 — April 2026<br>
+      Proprietary — Anqor Studios LLC·FZ, Dubai, UAE<br>
+      Do not distribute without operator approval.
+    </div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
