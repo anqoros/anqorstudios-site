@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[MOCKUP] Anqor Studios — We Build the Systems Your Business Runs On</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.0"></script>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ── MOCKUP BANNER ── */
+    .mockup-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      background: #b8860b;
+      color: #fff;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .mockup-bar a {
+      color: #fff;
+      text-decoration: underline;
+      opacity: .8;
+    }
+    body { padding-top: 32px; }
+    .nav { top: 32px; }
+
+    /* ── WHAT WE BUILD GRID ── */
+    .build-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 52px;
+    }
+    @media (max-width: 768px) {
+      .build-grid { grid-template-columns: 1fr; }
+    }
+    .build-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+      transition: border-color .25s, background .25s;
+    }
+    .build-card:hover {
+      border-color: var(--accent);
+    }
+    .build-icon {
+      font-size: 28px;
+      color: var(--accent);
+      margin-bottom: 18px;
+      display: block;
+    }
+    .build-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: .06em;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .build-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT ALL CONNECTS ── */
+    .funnel-wrap {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .funnel-wrap { grid-template-columns: 1fr; gap: 20px; }
+      .funnel-divider { display: none; }
+    }
+    .funnel-col { display: flex; flex-direction: column; gap: 0; }
+    .funnel-lane-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 14px;
+      letter-spacing: .15em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .funnel-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 18px 22px;
+      margin-bottom: 2px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .funnel-step strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: .03em;
+      margin-bottom: 4px;
+    }
+    .funnel-arrow {
+      text-align: center;
+      color: var(--accent);
+      font-size: 18px;
+      padding: 5px 0;
+    }
+    .funnel-divider {
+      background: var(--border);
+      align-self: stretch;
+    }
+    .funnel-merge {
+      margin-top: 40px;
+      border: 1px solid var(--accent);
+      padding: 36px;
+      text-align: center;
+      position: relative;
+    }
+    .funnel-merge::before {
+      content: '';
+      position: absolute;
+      top: -24px; left: 50%;
+      transform: translateX(-50%);
+      width: 1px; height: 24px;
+      background: var(--accent);
+    }
+    .funnel-merge-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: .06em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .funnel-merge-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+    .funnel-merge-outcome {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .funnel-outcome-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .funnel-outcome-item i { color: var(--accent); font-size: 16px; }
+
+    /* ── BUILT label and outcome ── */
+    .built-label {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      color: var(--accent);
+      background: rgba(138,193,114,.07);
+      border: 1px solid rgba(138,193,114,.18);
+      padding: 3px 10px;
+      margin-bottom: 12px;
+    }
+    .built-outcome {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: .04em;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .built-product-name {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .09em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOCKUP BANNER -->
+<div class="mockup-bar">
+  <span>MOCKUP &mdash; PROPOSED REPOSITIONING &mdash; NOT LIVE</span>
+  <a href="index.html">View current live site &rarr;</a>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <img src="logo.svg" alt="Anqor Studios" class="nav-logo-img">
+      <span class="nav-logo-text"><span class="nav-logo-top">ANQOR</span><span class="nav-logo-bottom">STUDIOS</span></span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="#built" class="nav-link">What We've Built</a>
+      <a href="#build" class="nav-link">What We Build</a>
+      <a href="#process" class="nav-link">Process</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#contact" class="btn btn-primary btn-nav">Get Started &rarr;</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <i class="ph ph-list"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container">
+    <h1 class="hero-headline">
+      WE BUILD THE SYSTEMS<br>
+      YOUR BUSINESS <em>RUNS ON.</em>
+    </h1>
+
+    <p class="hero-sub">
+      You're losing time, leads, and revenue to manual work that a well-built system would handle automatically. We identify what to automate, build it, install it — and guarantee results in 30 days.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-primary btn-lg">Book a Free System Audit &rarr;</a>
+      <a href="#built" class="btn btn-ghost">See What We've Built</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL TO EXPLORE</span>
+    <i class="ph ph-arrow-down"></i>
+  </div>
+</section>
+
+<!-- WHAT WE'VE BUILT -->
+<section class="section" id="built">
+  <div class="container">
+    <div class="section-tag">
+      <span>WHAT WE'VE BUILT</span>
+      <span class="section-num">01</span>
+    </div>
+    <h2 class="section-title">PROOF OF CONCEPT.<br><em>RUNNING RIGHT NOW.</em></h2>
+    <p class="section-sub">Every system we offer, we built for ourselves first. These are live, tested, and producing results inside Anqor Studios every day.</p>
+
+    <div class="systems-grid">
+
+      <!-- XANA -->
+      <div class="system-card featured">
+        <div class="system-card-top">
+          <span class="system-idx">01 / 03</span>
+          <span class="badge badge-accent">CONTENT SYSTEM</span>
+        </div>
+        <div class="built-label">WHAT IT DELIVERS</div>
+        <div class="built-outcome">Your content runs itself.</div>
+        <div class="built-product-name">Powered by XANA &mdash; our in-house content OS</div>
+        <p class="system-desc">We built XANA to solve our own content problem. It learns your voice, writes in it, generates weekly scripts, manages your content calendar, captures inbound leads, and books calls — without a team behind it.</p>
+        <ul class="system-features">
+          <li>Daily script generation in your voice</li>
+          <li>Multi-platform content distribution</li>
+          <li>Inbound lead capture and DM automation</li>
+          <li>Booking sync and pipeline hand-off</li>
+          <li>Live performance dashboard</li>
+        </ul>
+        <div class="system-foot">
+          <a href="#contact" class="btn btn-primary">Get This Built &rarr;</a>
+        </div>
+      </div>
+
+      <!-- CAST CRM -->
+      <div class="system-card">
+        <div class="system-card-top">
+          <span class="system-idx">02 / 03</span>
+          <span class="badge">PIPELINE SYSTEM</span>
+        </div>
+        <div class="built-label">WHAT IT DELIVERS</div>
+        <div class="built-outcome">Every lead gets a reply in under 90 seconds.</div>
+        <div class="built-product-name">Powered by CAST CRM &mdash; our outreach and pipeline engine</div>
+        <p class="system-desc">CAST finds your ideal prospects, runs personalized outreach, and manages the full pipeline. When a lead responds — from a DM, a form, or a cold sequence — CAST's conversation layer picks it up and qualifies them automatically.</p>
+        <ul class="system-features">
+          <li>Prospect discovery and scoring</li>
+          <li>Personalized outreach sequences</li>
+          <li>Inbound DM and chat auto-response</li>
+          <li>Automated lead qualification conversations</li>
+          <li>Pipeline tracking and hot lead alerts</li>
+        </ul>
+        <div class="system-foot">
+          <a href="#contact" class="btn btn-primary">Get This Built &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Custom Build -->
+      <div class="system-card">
+        <div class="system-card-top">
+          <span class="system-idx">03 / 03</span>
+          <span class="badge">CUSTOM BUILD</span>
+        </div>
+        <div class="built-label">WHAT IT DELIVERS</div>
+        <div class="built-outcome">Your entire operation on one connected stack.</div>
+        <div class="built-product-name">Custom architecture &mdash; designed for your business</div>
+        <p class="system-desc">Not every business needs content automation. Some need internal ops. Some need client delivery systems. Some need all of it connected. We design the architecture, build each component, and deploy end-to-end.</p>
+        <ul class="system-features">
+          <li>Full workflow audit and system design</li>
+          <li>Internal ops and client delivery automation</li>
+          <li>CRM, onboarding, and handoff flows</li>
+          <li>Custom branded dashboards and reporting</li>
+          <li>60-day end-to-end delivery</li>
+        </ul>
+        <div class="system-foot">
+          <a href="#contact" class="btn btn-primary">Get This Built &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT ALL CONNECTS -->
+<section class="section section-alt" id="connects">
+  <div class="container">
+    <div class="section-tag">
+      <span>HOW IT ALL CONNECTS</span>
+      <span class="section-num">02</span>
+    </div>
+    <h2 class="section-title">FULL-FUNNEL COVERAGE.<br><em>ZERO LEADS LEFT BEHIND.</em></h2>
+    <p class="section-sub">Whether a lead finds you through content or you find them through outreach — every conversation is handled automatically. Nothing falls through the cracks.</p>
+
+    <div class="funnel-wrap">
+      <!-- LEFT: Inbound -->
+      <div class="funnel-col">
+        <div class="funnel-lane-label">Inbound via Content &mdash; XANA</div>
+        <div class="funnel-step">
+          <strong>Content goes live daily</strong>
+          Posts, scripts, and videos published across every platform automatically.
+        </div>
+        <div class="funnel-arrow"><i class="ph ph-arrow-down"></i></div>
+        <div class="funnel-step">
+          <strong>Lead engages</strong>
+          Prospect comments, clicks, or DMs after seeing your content.
+        </div>
+        <div class="funnel-arrow"><i class="ph ph-arrow-down"></i></div>
+        <div class="funnel-step">
+          <strong>XANA captures and replies</strong>
+          Lead is logged, tagged, and an automated reply goes out in seconds.
+        </div>
+        <div class="funnel-arrow"><i class="ph ph-arrow-down"></i></div>
+        <div class="funnel-step">
+          <strong>Handed to CAST CRM</strong>
+          Lead enters the pipeline with full context from the conversation.
+        </div>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="funnel-divider"></div>
+
+      <!-- RIGHT: Outbound -->
+      <div class="funnel-col">
+        <div class="funnel-lane-label">Outbound via Prospecting &mdash; CAST</div>
+        <div class="funnel-step">
+          <strong>50 ideal prospects identified</strong>
+          CAST builds a scored prospect list based on your ICP.
+        </div>
+        <div class="funnel-arrow"><i class="ph ph-arrow-down"></i></div>
+        <div class="funnel-step">
+          <strong>Personalized outreach sent</strong>
+          Messages go out across email and social — tailored to each prospect.
+        </div>
+        <div class="funnel-arrow"><i class="ph ph-arrow-down"></i></div>
+        <div class="funnel-step">
+          <strong>Prospect responds</strong>
+          CAST's conversation layer picks up the reply — DM, email, or form.
+        </div>
+        <div class="funnel-arrow"><i class="ph ph-arrow-down"></i></div>
+        <div class="funnel-step">
+          <strong>Automated qualification</strong>
+          CAST continues the conversation, qualifies the lead, and moves them forward.
+        </div>
+      </div>
+    </div>
+
+    <!-- MERGE -->
+    <div class="funnel-merge">
+      <div class="funnel-merge-label">CAST CRM &mdash; One Pipeline. Both Channels.</div>
+      <div class="funnel-merge-sub">Every lead from content and outreach lands in one place, with automated follow-up running until they book.</div>
+      <div class="funnel-merge-outcome">
+        <div class="funnel-outcome-item"><i class="ph ph-check-circle"></i> Booked call on your calendar</div>
+        <div class="funnel-outcome-item"><i class="ph ph-check-circle"></i> Zero leads go unanswered</div>
+        <div class="funnel-outcome-item"><i class="ph ph-check-circle"></i> Full attribution — you know what worked</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE BUILD -->
+<section class="section" id="build">
+  <div class="container">
+    <div class="section-tag">
+      <span>WHAT WE BUILD</span>
+      <span class="section-num">03</span>
+    </div>
+    <h2 class="section-title">ANY SYSTEM.<br><em>ANY INDUSTRY.</em></h2>
+    <p class="section-sub">We're not a content agency. We're a systems studio. If it's a repeatable process in your business, we can automate it.</p>
+
+    <div class="build-grid">
+      <div class="build-card">
+        <i class="ph ph-broadcast build-icon"></i>
+        <div class="build-title">Content Systems</div>
+        <p class="build-desc">Automated content pipelines that write in your voice, publish across platforms, and capture leads from every post — without a content team.</p>
+      </div>
+      <div class="build-card">
+        <i class="ph ph-funnel build-icon"></i>
+        <div class="build-title">Lead &amp; Outreach Systems</div>
+        <p class="build-desc">Prospect discovery, personalized outreach sequences, follow-ups, and conversation automation that fills your pipeline on autopilot.</p>
+      </div>
+      <div class="build-card">
+        <i class="ph ph-git-branch build-icon"></i>
+        <div class="build-title">CRM &amp; Pipeline Automation</div>
+        <p class="build-desc">Custom CRMs, automated conversation flows, inbound DM handling, and pipeline tracking — so no lead ever gets dropped.</p>
+      </div>
+      <div class="build-card">
+        <i class="ph ph-buildings build-icon"></i>
+        <div class="build-title">Internal Ops Systems</div>
+        <p class="build-desc">Workflow automation for your team — task routing, status tracking, approvals, reporting, and internal dashboards that give you full visibility.</p>
+      </div>
+      <div class="build-card">
+        <i class="ph ph-handshake build-icon"></i>
+        <div class="build-title">Client Delivery Systems</div>
+        <p class="build-desc">Onboarding flows, automated check-ins, deliverable handoffs, and client portals that make delivery feel effortless on both sides.</p>
+      </div>
+      <div class="build-card">
+        <i class="ph ph-plug build-icon"></i>
+        <div class="build-title">Custom Integrations</div>
+        <p class="build-desc">Connect your existing tools — CRM, calendar, email, analytics, payments — into one coherent, automated stack built around your workflow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section section-alt" id="process">
+  <div class="container">
+    <div class="section-tag">
+      <span>HOW WE WORK</span>
+      <span class="section-num">04</span>
+    </div>
+    <h2 class="section-title">FROM AUDIT TO LIVE<br><em>IN 30 DAYS.</em></h2>
+    <p class="section-sub">We map your business, design the system, build it, and deploy it. Every step is on us — you review and approve.</p>
+
+    <div class="process-list">
+      <div class="process-item">
+        <div class="process-left">
+          <span class="process-num">01</span>
+          <div>
+            <h3 class="process-title">FREE SYSTEM AUDIT</h3>
+            <span class="process-week">Day 1</span>
+          </div>
+        </div>
+        <ul class="process-bullets">
+          <li>Map every repeatable process in your business</li>
+          <li>Identify the top bottlenecks costing you time or revenue</li>
+          <li>Prioritize what to automate first based on ROI</li>
+          <li>Deliver a written system proposal — no charge</li>
+        </ul>
+      </div>
+
+      <div class="process-item">
+        <div class="process-left">
+          <span class="process-num">02</span>
+          <div>
+            <h3 class="process-title">SYSTEM DESIGN</h3>
+            <span class="process-week">Week 1</span>
+          </div>
+        </div>
+        <ul class="process-bullets">
+          <li>Architecture mapped — tools, flows, triggers, outputs</li>
+          <li>Your brand voice and ICP trained into the system</li>
+          <li>All integrations planned and scoped</li>
+          <li>You approve the blueprint before we build a single thing</li>
+        </ul>
+      </div>
+
+      <div class="process-item">
+        <div class="process-left">
+          <span class="process-num">03</span>
+          <div>
+            <h3 class="process-title">BUILD &amp; INSTALL</h3>
+            <span class="process-week">Week 2&ndash;3</span>
+          </div>
+        </div>
+        <ul class="process-bullets">
+          <li>System built and connected to your existing tools</li>
+          <li>All automations tested before going live</li>
+          <li>Dashboard configured so you can see everything</li>
+          <li>Full handover — you own it, we support it</li>
+        </ul>
+      </div>
+
+      <div class="process-item">
+        <div class="process-left">
+          <span class="process-num">04</span>
+          <div>
+            <h3 class="process-title">LIVE, OPTIMISE &amp; SCALE</h3>
+            <span class="process-week">Week 4+</span>
+          </div>
+        </div>
+        <ul class="process-bullets">
+          <li>System goes live — results visible in real time</li>
+          <li>Weekly performance reviews and tuning</li>
+          <li>A/B testing on sequences, copy, and triggers</li>
+          <li>Monthly reporting on impact and next priorities</li>
+        </ul>
+      </div>
+
+      <div class="process-item process-guarantee">
+        <div class="process-left">
+          <span class="process-num">05</span>
+          <div>
+            <h3 class="process-title">30-DAY GUARANTEE</h3>
+            <span class="process-week">Or we work free</span>
+          </div>
+        </div>
+        <ul class="process-bullets">
+          <li>Guaranteed measurable results within 30 days of going live</li>
+          <li>If we miss &mdash; month 2 is free, no questions asked</li>
+          <li>Month-to-month. Cancel anytime.</li>
+          <li>We only win when you win.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-cta">
+      <a href="#contact" class="btn btn-primary btn-lg">Book My Free System Audit &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE & AFTER -->
+<section class="section" id="comparison">
+  <div class="container">
+    <div class="section-tag">
+      <span>COMPARISON</span>
+      <span class="section-num">05</span>
+    </div>
+    <h2 class="section-title">BEFORE AND AFTER<br><em>INSTALLING ANQOR.</em></h2>
+
+    <div class="comparison-grid">
+      <div class="comparison-card before">
+        <div class="comparison-label">
+          <i class="ph ph-x-circle"></i>
+          <span>BEFORE...</span>
+        </div>
+        <ul class="comparison-list">
+          <li><i class="ph ph-x"></i><span>Tasks pile up because there's no system to catch them</span></li>
+          <li><i class="ph ph-x"></i><span>Leads go cold because no one followed up in time</span></li>
+          <li><i class="ph ph-x"></i><span>Your team re-does the same manual work every week</span></li>
+          <li><i class="ph ph-x"></i><span>No visibility into what's working and what's not</span></li>
+          <li><i class="ph ph-x"></i><span>You spend your best hours on work that shouldn't need you</span></li>
+        </ul>
+      </div>
+
+      <div class="comparison-card after">
+        <div class="comparison-label">
+          <i class="ph ph-check-circle"></i>
+          <span>AFTER...</span>
+        </div>
+        <ul class="comparison-list">
+          <li><i class="ph ph-check"></i><span>Every process has a system — nothing gets missed</span></li>
+          <li><i class="ph ph-check"></i><span>Every lead gets a reply in under 90 seconds, automatically</span></li>
+          <li><i class="ph ph-check"></i><span>Repetitive work is done by the system, not your team</span></li>
+          <li><i class="ph ph-check"></i><span>Live dashboards show you exactly what's happening</span></li>
+          <li><i class="ph ph-check"></i><span>You focus on the work only you can do</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANY INDUSTRY -->
+<section class="section section-alt section-industry">
+  <div class="container">
+    <h2 class="industry-headline">THIS WORKS FOR <em>ANY</em> INDUSTRY</h2>
+    <p class="industry-sub">If your business has repeatable processes, we can automate them.</p>
+    <div class="industry-tags">
+      <span class="tag">REAL ESTATE</span>
+      <span class="tag">COACHING</span>
+      <span class="tag">FINANCE</span>
+      <span class="tag">E-COMMERCE</span>
+      <span class="tag">FITNESS</span>
+      <span class="tag">MUSIC</span>
+      <span class="tag">FASHION</span>
+      <span class="tag">HOSPITALITY</span>
+      <span class="tag">LAW</span>
+      <span class="tag">HEALTHCARE</span>
+      <span class="tag">AGENCY</span>
+      <span class="tag">CONSULTING</span>
+      <span class="tag">TECH</span>
+      <span class="tag">EDUCATION</span>
+      <span class="tag">MEDIA</span>
+      <span class="tag">EVENTS</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-tag">
+      <span>ABOUT US</span>
+      <span class="section-num">06</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-photo">
+        <div class="photo-placeholder">
+          <img src="ubong_headshot.jpg" alt="Ubong Udoessien — Founder, Anqor Studios" class="founder-img">
+          <div class="photo-tag">
+            <span class="photo-name">UBONG UDOESSIEN</span>
+            <span class="photo-role">Founder &amp; Builder</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-content">
+        <h2 class="section-title">MEET THE <em>FOUNDER.</em></h2>
+        <p class="about-text">Most automation "experts" are marketers who learned to use Zapier. Ubong is a controls and systems engineer. The same discipline that goes into engineering a control system — rigorous design, precise logic, zero tolerance for failure — goes into building your business pipeline.</p>
+        <p class="about-text">He built a production studio in Dubai, then realized the bigger problem wasn't the content — it was the systems behind the business. XANA, CAST, and every custom build at Anqor Studios started as a problem Ubong solved for himself first, then productized for others.</p>
+        <p class="about-text">These aren't tools you log into. They are systems that run for you.</p>
+        <p class="founder-sig">Founded by Ubong Udoessien &middot; Based in Dubai &middot; Working globally</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-alt" id="faq">
+  <div class="container">
+    <div class="section-tag">
+      <span>FAQ</span>
+      <span class="section-num">07</span>
+    </div>
+    <h2 class="section-title">THE SHORT <em>ANSWERS.</em></h2>
+
+    <div class="accordion" id="accordion">
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">01</span>
+          <span>Do you only build content systems?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>No. Content is one of many things we automate. We build internal ops systems, client delivery workflows, CRM and pipeline automation, lead and outreach systems, and custom integrations. If it's a repeatable process in your business, we can build a system for it.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">02</span>
+          <span>Do I need to be technical to work with you?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>Not at all. We handle the entire build — design, development, testing, and deployment. You review and approve. We give you a clean dashboard so you can see everything that's running without needing to understand what's under the hood.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">03</span>
+          <span>How long does it take to go live?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>Simple systems go live in 7 to 14 days. Full custom builds run 30 to 60 days end to end. We scope this clearly in the free system audit before we start anything — no surprises.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">04</span>
+          <span>What is the 30-day guarantee exactly?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>If your system doesn't deliver measurable results within 30 days of going live, month 2 is free and we keep working until it does. Everything is tracked through your dashboard — zero disputes.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">05</span>
+          <span>What makes Anqor different from an agency?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>Agencies manage. We install. Once the system is live it runs whether we're on a call or not. You're not buying our time — you're buying a machine that works 24 hours a day. And unlike most automation setups, ours are built by someone with an engineering background, not a marketing one.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">06</span>
+          <span>Do you work outside Dubai?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>Yes. We are based in Dubai. Our systems work anywhere. Global clients welcome.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-trigger">
+          <span class="acc-num">07</span>
+          <span>What if it doesn't work for my business?</span>
+          <i class="ph ph-plus acc-icon"></i>
+        </button>
+        <div class="accordion-body">
+          <p>Retainers are month-to-month. Cancel anytime. We only keep clients our systems actually help. The free audit is designed to tell us both whether it's the right fit — before money changes hands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT CTA -->
+<section class="section section-contact" id="contact">
+  <div class="container">
+    <div class="cta-wrap">
+      <div class="section-tag">
+        <span>CONTACT</span>
+        <span class="section-num">08</span>
+      </div>
+      <h2 class="cta-headline">BOOK YOUR FREE<br><em>SYSTEM AUDIT.</em></h2>
+      <p class="cta-sub">Tell us about your business. We'll map out exactly what to automate, how long it takes, and what it will deliver — before you spend a single dirham. This represents over AED 5,000 in strategy time. Free.</p>
+      <p class="cta-note">We only take 4 new clients per month. If we're aligned, we move fast.</p>
+      <a href="https://calendly.com/ubong-anqorstudios/20-minutes-consultation" target="_blank" class="btn btn-primary btn-xl">Book My Free 30-Min Call &rarr;</a>
+      <div class="cta-meta">
+        <span>Response within 24h</span>
+        <span class="dot">&middot;</span>
+        <span>No pitch</span>
+        <span class="dot">&middot;</span>
+        <span>Dubai &middot; Global</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">ANQOR STUDIOS</div>
+        <div class="footer-tagline">Systems &middot; Automation &middot; Results &middot; Dubai</div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-label">BUILT BY US</div>
+          <a href="#built">XANA</a>
+          <a href="#built">CAST CRM</a>
+          <a href="#built">Custom Builds</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">COMPANY</div>
+          <a href="#about">About</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Book a Call</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">FOLLOW</div>
+          <a href="https://instagram.com/ubongudoessien" target="_blank">Instagram</a>
+          <a href="https://youtube.com/@anqorlive" target="_blank">YouTube</a>
+          <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="refund-policy.html">Refund Policy</a>
+      <a href="cancellation-policy.html">Cancellation Policy</a>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Anqor Studios LLC&middot;FZ &middot; Dubai, UAE</span>
+      <span class="footer-pulse"><span class="pulse-dot"></span> DXB &middot; 25.276&deg; N, 55.296&deg; E</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
