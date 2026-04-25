@@ -72,16 +72,16 @@ body {
 }
 
 .nav-logo-img {
-  height: 28px;
+  height: 32px;
   width: auto;
   filter: brightness(0) invert(1);
 }
 
 .nav-logo-name {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
   color: var(--text);
   line-height: 1;
   text-transform: uppercase;
