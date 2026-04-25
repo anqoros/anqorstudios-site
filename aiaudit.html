@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free AI Audit - Anqor Studios</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d2116;
+      --surface:  #122a1c;
+      --text:     #f1eee4;
+      --muted:    rgba(241,238,228,0.5);
+      --dim:      rgba(241,238,228,0.28);
+      --accent:   #3d7a50;
+      --accent-l: #4fa86e;
+      --border:   rgba(241,238,228,0.12);
+      --radius:   4px;
+    }
+
+    html, body {
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ---- PROGRESS BAR ---- */
+    #progress-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 32px 0;
+      background: var(--bg);
+    }
+    #progress-bar-track {
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    #progress-bar-fill {
+      height: 100%;
+      background: var(--accent-l);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    #progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    #progress-dots {
+      display: flex;
+      gap: 5px;
+    }
+    .p-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .p-dot.active { background: var(--accent-l); }
+    .p-dot.done   { background: rgba(79,168,110,0.4); }
+
+    /* ---- SCREENS ---- */
+    #app {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 24px 100px;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 640px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+    .screen.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- GATE SCREEN ---- */
+    .gate-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 40px;
+    }
+    .gate-logo img { height: 28px; filter: brightness(0) invert(1); }
+    .gate-logo span {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text);
+    }
+    .gate-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .gate-headline em {
+      font-style: italic;
+      color: var(--accent-l);
+    }
+    .gate-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .gate-hint {
+      font-size: 12px;
+      color: var(--dim);
+      margin-bottom: 36px;
+    }
+
+    /* ---- INPUTS ---- */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus {
+      border-color: var(--accent-l);
+    }
+    input::placeholder,
+    textarea::placeholder { color: var(--dim); }
+    textarea {
+      resize: none;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    /* ---- QUESTION SCREEN ---- */
+    .q-section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-l);
+      margin-bottom: 18px;
+    }
+    .q-prompt {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .q-hint {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .q-optional {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-left: 8px;
+    }
+    .enter-hint {
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 10px;
+    }
+    .enter-hint kbd {
+      font-family: 'Inter', sans-serif;
+      background: var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 10px;
+    }
+
+    /* ---- CHOICES ---- */
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .choice-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .choice-btn:hover {
+      border-color: var(--accent);
+      background: rgba(61,122,80,0.08);
+    }
+    .choice-btn.selected {
+      border-color: var(--accent-l);
+      background: rgba(79,168,110,0.12);
+    }
+    .choice-key {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-l);
+      background: rgba(79,168,110,0.12);
+      border: 1px solid rgba(79,168,110,0.25);
+      border-radius: 3px;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ---- CHECKBOXES ---- */
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 480px) { .checkboxes { grid-template-columns: 1fr; } }
+    .check-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .check-item:hover { border-color: var(--accent); }
+    .check-item.selected {
+      border-color: var(--accent-l);
+      background: rgba(79,168,110,0.10);
+    }
+    .check-box {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .check-item.selected .check-box {
+      background: var(--accent-l);
+      border-color: var(--accent-l);
+    }
+    .check-box-tick {
+      width: 9px;
+      height: 9px;
+      display: none;
+    }
+    .check-item.selected .check-box-tick { display: block; }
+    .check-other-field {
+      margin-top: 8px;
+    }
+
+    /* ---- BOTTOM NAV ---- */
+    #bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to top, var(--bg) 70%, transparent);
+      z-index: 100;
+    }
+    .btn-back {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--text); }
+    .btn-back svg { width: 14px; height: 14px; }
+    .btn-back.hidden { visibility: hidden; }
+    .btn-next {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .btn-next:hover { background: var(--accent-l); }
+    .btn-next:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ---- CONFIRMATION ---- */
+    .confirm-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(79,168,110,0.12);
+      border: 1px solid rgba(79,168,110,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .confirm-icon svg { width: 26px; height: 26px; stroke: var(--accent-l); }
+    .confirm-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .confirm-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+    .confirm-detail {
+      font-size: 13px;
+      color: var(--dim);
+      margin-bottom: 36px;
+    }
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--text);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      transition: background 0.2s;
+    }
+    .btn-home:hover { background: var(--accent-l); }
+
+    /* ---- ERROR ---- */
+    .field-error {
+      font-size: 12px;
+      color: #e07070;
+      margin-top: 6px;
+      display: none;
+    }
+    .field-error.show { display: block; }
+
+    /* scrollbar hide for overflow inside screens */
+    .screen-inner {
+      overflow-y: auto;
+      max-height: calc(100vh - 200px);
+      padding-right: 4px;
+    }
+    .screen-inner::-webkit-scrollbar { width: 3px; }
+    .screen-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- PROGRESS -->
+<div id="progress-wrap" style="display:none;">
+  <div id="progress-bar-track">
+    <div id="progress-bar-fill"></div>
+  </div>
+  <div id="progress-meta">
+    <span id="progress-label">Section 1 of 5 - Business Overview</span>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div id="progress-dots"></div>
+      <span id="time-remaining">~8 min</span>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- GATE SCREEN -->
+  <div class="screen active" id="screen-gate">
+    <div class="screen-inner">
+      <div class="gate-logo">
+        <img src="logo.svg" alt="Anqor Studios">
+        <span>ANQOR</span>
+      </div>
+      <h1 class="gate-headline">FREE AI<br><em>AUDIT.</em></h1>
+      <p class="gate-sub">Answer 20 questions about your business. We will identify exactly what to automate and show you what it is worth in time and revenue.</p>
+      <p class="gate-hint">We will use this to send you your audit findings.</p>
+      <div class="field-group">
+        <div>
+          <label class="field-label" for="g-name">Your name</label>
+          <input type="text" id="g-name" placeholder="Full name" autocomplete="name">
+          <div class="field-error" id="err-name">Please enter your name.</div>
+        </div>
+        <div>
+          <label class="field-label" for="g-email">Email address</label>
+          <input type="email" id="g-email" placeholder="you@company.com" autocomplete="email">
+          <div class="field-error" id="err-email">Please enter a valid email.</div>
+        </div>
+        <div>
+          <label class="field-label" for="g-phone">Phone / WhatsApp</label>
+          <input type="tel" id="g-phone" placeholder="+971 50 000 0000" autocomplete="tel">
+          <div class="field-error" id="err-phone">Please enter your phone number.</div>
+        </div>
+      </div>
+      <button class="btn-next" id="gate-btn" style="width:100%;padding:16px;">Start the Audit (8 minutes) &rarr;</button>
+    </div>
+  </div>
+
+  <!-- QUESTION SCREENS (built by JS) -->
+
+  <!-- CONFIRMATION SCREEN -->
+  <div class="screen" id="screen-confirm">
+    <div class="screen-inner">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 class="confirm-headline">AUDIT<br><em style="color:var(--accent-l)">RECEIVED.</em></h2>
+      <p class="confirm-sub">We have received your audit. Our team will review it and reach out within 24 hours with an honest breakdown of what we found and exactly what we would build for your business.</p>
+      <p class="confirm-detail">Check your inbox at <strong id="confirm-email"></strong></p>
+      <a href="/" class="btn-home">Back to Anqor Studios &rarr;</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="bottom-nav" style="display:none;">
+  <button class="btn-back hidden" id="btn-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+    Back
+  </button>
+  <button class="btn-next" id="btn-next">Continue &rarr;</button>
+</div>
+
+<script>
+(function() {
+
+  const WEBHOOK = 'https://your-cast-crm-url/webhook/audit-intake';
+
+  const SECTIONS = [
+    { name: 'Business Overview',    questions: [0,1,2,3]    },
+    { name: 'Operations & Team',    questions: [4,5,6,7]    },
+    { name: 'Biggest Bottlenecks',  questions: [8,9,10,11]  },
+    { name: 'Tools & Systems',      questions: [12,13,14,15]},
+    { name: 'Goals & Readiness',    questions: [16,17,18,19]},
+  ];
+
+  const QUESTIONS = [
+    // Section 1
+    {
+      id: 'company_industry',
+      type: 'text-pair',
+      prompt: "What is your company name and what industry are you in?",
+      fields: [
+        { id: 'company_name', label: 'Company name', placeholder: 'Your company name' },
+        { id: 'industry',     label: 'Industry',     placeholder: 'e.g. Real estate, Coaching, Law, E-commerce...' },
+      ]
+    },
+    {
+      id: 'team_size',
+      type: 'choice',
+      prompt: "How many full-time people are on your team?",
+      options: ['1-5','6-15','16-50','50+']
+    },
+    {
+      id: 'business_type',
+      type: 'choice',
+      prompt: "What does your business primarily sell?",
+      options: ['Products','Services','Both']
+    },
+    {
+      id: 'revenue_range',
+      type: 'choice',
+      optional: true,
+      prompt: "What is your approximate monthly revenue range?",
+      hint: "Optional - skip if you prefer.",
+      options: ['Under $10K','$10K - $50K','$50K - $200K','$200K+']
+    },
+    // Section 2
+    {
+      id: 'typical_day',
+      type: 'long',
+      prompt: "What does a typical workday look like for you or your team?",
+      hint: "Walk us through the main tasks from morning to end of day.",
+      placeholder: "We start the day by checking emails, then...",
+    },
+    {
+      id: 'repeated_tasks',
+      type: 'long',
+      prompt: "Which tasks do your team repeat every single day or week without fail?",
+      placeholder: "Every Monday we manually compile the weekly report...",
+    },
+    {
+      id: 'where_work_stalls',
+      type: 'long',
+      prompt: "Where does work most often get delayed or stuck?",
+      hint: "Think about the last time a project ran late or a client had to wait. What caused it?",
+      placeholder: "Usually when we are waiting on approvals from...",
+    },
+    {
+      id: 'client_intake_process',
+      type: 'long',
+      prompt: "How do new clients or customers currently enter your business?",
+      hint: "From first contact to onboarding, what steps happen and who handles them?",
+      placeholder: "A lead comes in via Instagram DM, then we...",
+    },
+    // Section 3
+    {
+      id: 'eliminate_one_task',
+      type: 'long',
+      prompt: "If you could eliminate one task from your week permanently, what would it be?",
+      placeholder: "Chasing invoices, writing the same onboarding email 30 times...",
+    },
+    {
+      id: 'biggest_breakdown',
+      type: 'long',
+      prompt: "What is the one thing that, when it breaks down, causes the most stress or complaints?",
+      hint: "Internally or from clients.",
+      placeholder: "When the follow-up falls through the cracks and a lead goes cold...",
+    },
+    {
+      id: 'suspected_automations',
+      type: 'long',
+      prompt: "Are there tasks your team does manually that you suspect could be automated?",
+      hint: "Even if you are not sure how, list them.",
+      placeholder: "Sending weekly status updates, updating spreadsheets after every sale...",
+    },
+    {
+      id: 'hours_lost_weekly',
+      type: 'choice',
+      prompt: "How many hours per week do you estimate are lost to admin, follow-up, or repetitive tasks?",
+      options: ['Less than 5 hrs','5-10 hrs','10-20 hrs','More than 20 hrs']
+    },
+    // Section 4
+    {
+      id: 'tools_used',
+      type: 'checkbox',
+      prompt: "What tools does your team use daily?",
+      hint: "Select all that apply.",
+      options: ['CRM','Email','WhatsApp','Spreadsheets','Project management tool','Accounting software','Social media scheduler','Other'],
+      hasOther: true
+    },
+    {
+      id: 'tools_connected',
+      type: 'choice',
+      prompt: "Do these tools talk to each other, or does someone manually move information between them?",
+      options: ["They're connected","Mostly manual","Mix of both","Not sure"]
+    },
+    {
+      id: 'ai_usage',
+      type: 'choice',
+      prompt: "Do you currently use any AI tools in your business?",
+      options: ['Yes, actively','We have tried a few','No, not yet']
+    },
+    {
+      id: 'info_lost_where',
+      type: 'long',
+      prompt: "Where does information most often get lost or duplicated in your current setup?",
+      placeholder: "Client details entered in both the CRM and a spreadsheet...",
+    },
+    // Section 5
+    {
+      id: 'fixed_vision',
+      type: 'long',
+      prompt: "What would a fixed version of your business look like in 90 days?",
+      hint: "What is running, what is no longer a problem, what does your day look like?",
+      placeholder: "Leads are coming in and being followed up automatically. My team focuses on delivery...",
+    },
+    {
+      id: 'decision_maker',
+      type: 'text',
+      prompt: "Who else is involved in decisions like this?",
+      hint: "Is it just you, or do you have a partner or ops lead?",
+      placeholder: "Just me / Me and my co-founder / Me and our ops manager",
+    },
+    {
+      id: 'timeline',
+      type: 'choice',
+      prompt: "What is your timeline for making a change like this?",
+      options: ['Immediately','Within 1 month','1-3 months','Just exploring']
+    },
+    {
+      id: 'additional_notes',
+      type: 'long',
+      optional: true,
+      prompt: "Anything else you want us to know before we connect?",
+      hint: "Optional - feel free to skip.",
+      placeholder: "We have a seasonal business that peaks in Q4...",
+    },
+  ];
+
+  // State
+  let currentQ = -1; // -1 = gate
+  let answers = {};
+  let gateData = { name: '', email: '', phone: '' };
+
+  // DOM refs
+  const app          = document.getElementById('app');
+  const progressWrap = document.getElementById('progress-wrap');
+  const progressFill = document.getElementById('progress-bar-fill');
+  const progressLbl  = document.getElementById('progress-label');
+  const progressDots = document.getElementById('progress-dots');
+  const timeLeft     = document.getElementById('time-remaining');
+  const bottomNav    = document.getElementById('bottom-nav');
+  const btnBack      = document.getElementById('btn-back');
+  const btnNext      = document.getElementById('btn-next');
+  const screenGate   = document.getElementById('screen-gate');
+  const screenConf   = document.getElementById('screen-confirm');
+
+  // Build question screens
+  const qScreens = [];
+  QUESTIONS.forEach((q, i) => {
+    const el = document.createElement('div');
+    el.className = 'screen';
+    el.id = 'screen-q' + i;
+    el.innerHTML = buildQuestionHTML(q, i);
+    app.insertBefore(el, screenConf);
+    qScreens.push(el);
+  });
+
+  function buildQuestionHTML(q, idx) {
+    const sectionIdx = SECTIONS.findIndex(s => s.questions.includes(idx));
+    const section = SECTIONS[sectionIdx];
+    const qNumInSection = section.questions.indexOf(idx) + 1;
+
+    let inputHTML = '';
+
+    if (q.type === 'text-pair') {
+      inputHTML = `<div class="field-group">` +
+        q.fields.map(f =>
+          `<div>
+            <label class="field-label" for="qinput-${f.id}">${f.label}</label>
+            <input type="text" id="qinput-${f.id}" data-qid="${q.id}" data-field="${f.id}" placeholder="${f.placeholder}" autocomplete="off">
+          </div>`
+        ).join('') +
+        `</div>
+        <p class="enter-hint"><kbd>Tab</kbd> between fields &nbsp;<kbd>Enter</kbd> to continue</p>`;
+
+    } else if (q.type === 'text') {
+      inputHTML = `
+        <input type="text" id="qinput-${q.id}" data-qid="${q.id}" placeholder="${q.placeholder || ''}" autocomplete="off">
+        <p class="enter-hint"><kbd>Enter</kbd> to continue</p>`;
+
+    } else if (q.type === 'long') {
+      inputHTML = `
+        <textarea id="qinput-${q.id}" data-qid="${q.id}" placeholder="${q.placeholder || ''}"></textarea>
+        <p class="enter-hint"><kbd>Shift + Enter</kbd> for new line &nbsp; <kbd>Enter</kbd> to continue</p>`;
+
+    } else if (q.type === 'choice') {
+      const keys = ['A','B','C','D','E'];
+      inputHTML = `<div class="choices">` +
+        q.options.map((opt, oi) =>
+          `<button class="choice-btn" data-qid="${q.id}" data-val="${opt}">
+            <span class="choice-key">${keys[oi]}</span>
+            ${opt}
+          </button>`
+        ).join('') +
+        `</div>`;
+
+    } else if (q.type === 'checkbox') {
+      inputHTML = `<div class="checkboxes">` +
+        q.options.map((opt, oi) =>
+          `<div class="check-item" data-qid="${q.id}" data-val="${opt}">
+            <div class="check-box">
+              <svg class="check-box-tick" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1.5 5 4 7.5 8.5 2.5"></polyline>
+              </svg>
+            </div>
+            ${opt}
+          </div>`
+        ).join('') +
+        `</div>` +
+        (q.hasOther ? `<div class="check-other-field" id="other-wrap-${q.id}" style="display:none;">
+          <input type="text" id="other-input-${q.id}" placeholder="Please specify..." autocomplete="off">
+        </div>` : '') +
+        `<p class="enter-hint" style="margin-top:12px;">Select all that apply, then press <kbd>Enter</kbd> or click Continue</p>`;
+    }
+
+    const optBadge = q.optional ? `<span class="q-optional">Optional</span>` : '';
+
+    return `
+      <div class="screen-inner">
+        <div class="q-section-tag">Section ${sectionIdx + 1} of 5 - ${section.name}</div>
+        <h2 class="q-prompt">${q.prompt}${optBadge}</h2>
+        ${q.hint ? `<p class="q-hint">${q.hint}</p>` : ''}
+        ${inputHTML}
+        <div class="field-error" id="qerr-${q.id}">Please fill in this field to continue.</div>
+      </div>`;
+  }
+
+  // ---- NAVIGATION ----
+
+  function showScreen(idx) {
+    // idx: -1 = gate, 0-19 = questions, 20 = confirm
+    const allScreens = [screenGate, ...qScreens, screenConf];
+    const targetScreen = allScreens[idx + 1];
+
+    allScreens.forEach(s => {
+      s.classList.remove('active', 'visible');
+    });
+
+    targetScreen.classList.add('active');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        targetScreen.classList.add('visible');
+      });
+    });
+
+    // Progress UI
+    if (idx === -1 || idx === 20) {
+      progressWrap.style.display = 'none';
+      bottomNav.style.display = 'none';
+    } else {
+      progressWrap.style.display = 'block';
+      bottomNav.style.display = 'flex';
+      updateProgress(idx);
+      restoreAnswer(idx);
+      focusQuestion(idx);
+    }
+
+    // Back button
+    if (idx <= 0) {
+      btnBack.classList.add('hidden');
+    } else {
+      btnBack.classList.remove('hidden');
+    }
+
+    // Next button label
+    if (idx === 19) {
+      btnNext.textContent = 'Submit Audit';
+    } else if (idx >= 0) {
+      const q = QUESTIONS[idx];
+      btnNext.textContent = (q.optional ? 'Skip' : 'Continue') + (idx < 19 ? ' \u2192' : '');
+    }
+
+    // For choice questions, update next btn state
+    if (idx >= 0 && idx < 20) {
+      updateNextState(idx);
+    }
+
+    currentQ = idx;
+  }
+
+  function updateProgress(idx) {
+    const pct = ((idx + 1) / 20) * 100;
+    progressFill.style.width = pct + '%';
+
+    const sectionIdx = SECTIONS.findIndex(s => s.questions.includes(idx));
+    const section = SECTIONS[sectionIdx];
+    progressLbl.textContent = `Section ${sectionIdx + 1} of 5 - ${section.name}`;
+
+    // Dots for current section
+    progressDots.innerHTML = '';
+    section.questions.forEach((qIdx, di) => {
+      const dot = document.createElement('div');
+      dot.className = 'p-dot' + (qIdx < idx ? ' done' : qIdx === idx ? ' active' : '');
+      progressDots.appendChild(dot);
+    });
+
+    // Time remaining
+    const remaining = Math.max(0, Math.ceil((20 - idx) * 0.4));
+    timeLeft.textContent = remaining <= 1 ? 'Almost done' : `~${remaining} min`;
+  }
+
+  function updateNextState(idx) {
+    const q = QUESTIONS[idx];
+    if (q.optional) { btnNext.disabled = false; return; }
+    if (q.type === 'choice') {
+      btnNext.disabled = !answers[q.id];
+    } else if (q.type === 'checkbox') {
+      const checked = answers[q.id];
+      btnNext.disabled = !(checked && checked.length > 0);
+    } else {
+      btnNext.disabled = false;
+    }
+  }
+
+  function restoreAnswer(idx) {
+    const q = QUESTIONS[idx];
+    if (!q) return;
+
+    if (q.type === 'text-pair') {
+      q.fields.forEach(f => {
+        const el = document.getElementById('qinput-' + f.id);
+        if (el && answers[f.id]) el.value = answers[f.id];
+      });
+    } else if (q.type === 'text' || q.type === 'long') {
+      const el = document.getElementById('qinput-' + q.id);
+      if (el && answers[q.id]) el.value = answers[q.id];
+    } else if (q.type === 'choice') {
+      document.querySelectorAll(`.choice-btn[data-qid="${q.id}"]`).forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.val === answers[q.id]);
+      });
+    } else if (q.type === 'checkbox') {
+      const saved = answers[q.id] || [];
+      document.querySelectorAll(`.check-item[data-qid="${q.id}"]`).forEach(item => {
+        item.classList.toggle('selected', saved.includes(item.dataset.val));
+      });
+      if (q.hasOther && saved.includes('Other')) {
+        const wrap = document.getElementById('other-wrap-' + q.id);
+        if (wrap) wrap.style.display = 'block';
+        const inp = document.getElementById('other-input-' + q.id);
+        if (inp && answers[q.id + '_other']) inp.value = answers[q.id + '_other'];
+      }
+    }
+  }
+
+  function focusQuestion(idx) {
+    const q = QUESTIONS[idx];
+    if (!q) return;
+    setTimeout(() => {
+      if (q.type === 'text-pair') {
+        const el = document.getElementById('qinput-' + q.fields[0].id);
+        if (el) el.focus();
+      } else if (q.type === 'text' || q.type === 'long') {
+        const el = document.getElementById('qinput-' + q.id);
+        if (el) el.focus();
+      }
+    }, 380);
+  }
+
+  function collectAnswer(idx) {
+    const q = QUESTIONS[idx];
+    if (!q) return true;
+    hideError(q.id);
+
+    if (q.type === 'text-pair') {
+      let ok = true;
+      q.fields.forEach(f => {
+        const el = document.getElementById('qinput-' + f.id);
+        const val = el ? el.value.trim() : '';
+        answers[f.id] = val;
+        if (!val && !q.optional) ok = false;
+      });
+      if (!ok) { showError(q.id, 'Please fill in both fields.'); return false; }
+
+    } else if (q.type === 'text' || q.type === 'long') {
+      const el = document.getElementById('qinput-' + q.id);
+      const val = el ? el.value.trim() : '';
+      answers[q.id] = val;
+      if (!val && !q.optional) { showError(q.id, 'Please fill in this field.'); return false; }
+
+    } else if (q.type === 'choice') {
+      if (!answers[q.id] && !q.optional) { showError(q.id, 'Please select an option.'); return false; }
+
+    } else if (q.type === 'checkbox') {
+      const checked = answers[q.id] || [];
+      if (q.hasOther && checked.includes('Other')) {
+        const inp = document.getElementById('other-input-' + q.id);
+        if (inp) answers[q.id + '_other'] = inp.value.trim();
+      }
+      if (checked.length === 0 && !q.optional) { showError(q.id, 'Please select at least one option.'); return false; }
+    }
+    return true;
+  }
+
+  function showError(qid, msg) {
+    const el = document.getElementById('qerr-' + qid);
+    if (el) { el.textContent = msg; el.classList.add('show'); }
+  }
+  function hideError(qid) {
+    const el = document.getElementById('qerr-' + qid);
+    if (el) el.classList.remove('show');
+  }
+
+  // ---- GATE SUBMIT ----
+  document.getElementById('gate-btn').addEventListener('click', () => {
+    const name  = document.getElementById('g-name').value.trim();
+    const email = document.getElementById('g-email').value.trim();
+    const phone = document.getElementById('g-phone').value.trim();
+    let ok = true;
+
+    document.getElementById('err-name').classList.toggle('show', !name);
+    document.getElementById('err-email').classList.toggle('show', !email || !email.includes('@'));
+    document.getElementById('err-phone').classList.toggle('show', !phone);
+
+    if (!name || !email || !email.includes('@') || !phone) return;
+
+    gateData = { name, email, phone };
+    showScreen(0);
+  });
+
+  // Enter on gate inputs
+  ['g-name','g-email','g-phone'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('gate-btn').click();
+    });
+  });
+
+  // ---- NEXT / BACK ----
+  btnNext.addEventListener('click', () => advance());
+  btnBack.addEventListener('click', () => {
+    if (currentQ > 0) showScreen(currentQ - 1);
+    else if (currentQ === 0) {
+      progressWrap.style.display = 'none';
+      bottomNav.style.display = 'none';
+      showScreenRaw(screenGate);
+      currentQ = -1;
+    }
+  });
+
+  function showScreenRaw(el) {
+    [screenGate, ...qScreens, screenConf].forEach(s => s.classList.remove('active','visible'));
+    el.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
+  }
+
+  function advance() {
+    if (currentQ >= 0 && currentQ < 20) {
+      if (!collectAnswer(currentQ)) return;
+    }
+    if (currentQ < 19) {
+      showScreen(currentQ + 1);
+    } else {
+      submitForm();
+    }
+  }
+
+  // ---- CHOICE CLICKS ----
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.choice-btn');
+    if (btn && currentQ >= 0) {
+      const qid = btn.dataset.qid;
+      const val  = btn.dataset.val;
+      document.querySelectorAll(`.choice-btn[data-qid="${qid}"]`).forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[qid] = val;
+      updateNextState(currentQ);
+      // Auto-advance after brief delay
+      setTimeout(() => advance(), 320);
+    }
+
+    const item = e.target.closest('.check-item');
+    if (item && currentQ >= 0) {
+      const qid = item.dataset.qid;
+      const val  = item.dataset.val;
+      item.classList.toggle('selected');
+      if (!answers[qid]) answers[qid] = [];
+      if (item.classList.contains('selected')) {
+        if (!answers[qid].includes(val)) answers[qid].push(val);
+      } else {
+        answers[qid] = answers[qid].filter(v => v !== val);
+      }
+      const q = QUESTIONS[currentQ];
+      if (q && q.hasOther) {
+        const wrap = document.getElementById('other-wrap-' + qid);
+        if (wrap) wrap.style.display = answers[qid].includes('Other') ? 'block' : 'none';
+      }
+      updateNextState(currentQ);
+    }
+  });
+
+  // ---- KEYBOARD NAVIGATION ----
+  document.addEventListener('keydown', e => {
+    if (currentQ < 0) return;
+    const q = QUESTIONS[currentQ];
+    if (!q) return;
+
+    if (q.type === 'long') {
+      // Enter (without shift) = advance
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        advance();
+      }
+    } else if (q.type === 'text' || q.type === 'text-pair') {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        advance();
+      }
+    } else if (q.type === 'choice') {
+      const keys = { 'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4 };
+      const keyIdx = keys[e.key.toLowerCase()];
+      if (keyIdx !== undefined && q.options[keyIdx]) {
+        const btns = document.querySelectorAll(`.choice-btn[data-qid="${q.id}"]`);
+        if (btns[keyIdx]) btns[keyIdx].click();
+      }
+      if (e.key === 'Enter' && answers[q.id]) advance();
+    } else if (q.type === 'checkbox') {
+      if (e.key === 'Enter') advance();
+    }
+  });
+
+  // ---- SUBMIT ----
+  async function submitForm() {
+    btnNext.disabled = true;
+    btnNext.textContent = 'Submitting...';
+
+    const payload = {
+      name:                gateData.name,
+      email:               gateData.email,
+      phone:               gateData.phone,
+      company_name:        answers.company_name        || '',
+      industry:            answers.industry            || '',
+      team_size:           answers.team_size           || '',
+      business_type:       answers.business_type       || '',
+      revenue_range:       answers.revenue_range       || '',
+      typical_day:         answers.typical_day         || '',
+      repeated_tasks:      answers.repeated_tasks      || '',
+      where_work_stalls:   answers.where_work_stalls   || '',
+      client_intake_process: answers.client_intake_process || '',
+      eliminate_one_task:  answers.eliminate_one_task  || '',
+      biggest_breakdown:   answers.biggest_breakdown   || '',
+      suspected_automations: answers.suspected_automations || '',
+      hours_lost_weekly:   answers.hours_lost_weekly   || '',
+      tools_used:          (answers.tools_used || []).join(', ') + (answers.tools_used_other ? ` (${answers.tools_used_other})` : ''),
+      tools_connected:     answers.tools_connected     || '',
+      ai_usage:            answers.ai_usage            || '',
+      info_lost_where:     answers.info_lost_where     || '',
+      fixed_vision:        answers.fixed_vision        || '',
+      decision_maker:      answers.decision_maker      || '',
+      timeline:            answers.timeline            || '',
+      additional_notes:    answers.additional_notes    || '',
+      submitted_at:        new Date().toISOString(),
+    };
+
+    try {
+      await fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch(err) {
+      // Still show confirmation even if webhook fails — don't block the user
+      console.warn('Webhook error:', err);
+    }
+
+    // Show confirmation
+    document.getElementById('confirm-email').textContent = gateData.email;
+    progressWrap.style.display = 'none';
+    bottomNav.style.display = 'none';
+    showScreenRaw(screenConf);
+  }
+
+  // ---- INIT ----
+  showScreenRaw(screenGate);
+
+})();
+</script>
+</body>
+</html>
