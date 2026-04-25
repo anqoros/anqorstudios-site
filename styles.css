@@ -77,25 +77,11 @@ body {
   filter: brightness(0) invert(1);
 }
 
-.nav-logo-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.nav-logo-top {
+.nav-logo-name {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 3px;
+  font-size: 28px;
+  letter-spacing: 4px;
   color: var(--text);
-  line-height: 1;
-}
-
-.nav-logo-bottom {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0px;
-  color: var(--muted);
   line-height: 1;
 }
 
