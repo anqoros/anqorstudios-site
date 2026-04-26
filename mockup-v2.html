@@ -492,7 +492,12 @@
       gap: 2px;
       margin-top: 64px;
     }
-    @media (max-width: 768px) { .flow-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) {
+      .flow-grid { grid-template-columns: 1fr !important; }
+      .flow-col { padding: 24px 20px; }
+      .flow-step-content strong { font-size: 14px; }
+      .flow-step-content span { font-size: 13px; }
+    }
     .flow-col {
       background: var(--surface);
       border: 1px solid var(--border-2);
