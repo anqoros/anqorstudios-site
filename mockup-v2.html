@@ -432,8 +432,21 @@
     }
     .system-row:hover::after { transform: scaleY(1); }
     @media (max-width: 768px) {
-      .system-row { grid-template-columns: 40px 1fr; gap: 16px; }
-      .system-row-tags { display: none; }
+      .system-row {
+        grid-template-columns: 32px 1fr;
+        grid-template-rows: auto auto;
+        gap: 12px 12px;
+        padding: 20px 16px;
+      }
+      .system-row-num { grid-column: 1; grid-row: 1; align-self: start; padding-top: 2px; }
+      .system-row-body { grid-column: 2; grid-row: 1; }
+      .system-row-tags {
+        grid-column: 2;
+        grid-row: 2;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
     }
     .system-row-num {
       font-size: 13px;
