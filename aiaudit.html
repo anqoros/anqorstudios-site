@@ -506,7 +506,7 @@
         </svg>
       </div>
       <h2 class="confirm-headline">AUDIT<br><em style="color:var(--accent-l)">RECEIVED.</em></h2>
-      <p class="confirm-sub">We have received your audit. Our team will review it and reach out within 24 hours with an honest breakdown of what we found and exactly what we would build for your business.</p>
+      <p class="confirm-sub">Audit received. Our team is reviewing your bottlenecks and will reach out within 24 hours with a breakdown.</p>
       <p class="confirm-detail">Check your inbox at <strong id="confirm-email"></strong></p>
       <a href="/" class="btn-home">Back to Anqor Studios &rarr;</a>
     </div>
@@ -528,7 +528,7 @@
 <script>
 (function() {
 
-  const WEBHOOK = 'https://your-cast-crm-url/webhook/audit-intake';
+  const WEBHOOK = 'https://cast.anqorstudios.com/webhook/audit-intake';
 
   const SECTIONS = [
     { name: 'Business Overview',    questions: [0,1,2,3]    },
@@ -1107,21 +1107,34 @@
     };
 
     try {
-      await fetch(WEBHOOK, {
+      const res = await fetch(WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-    } catch(err) {
-      // Still show confirmation even if webhook fails — don't block the user
-      console.warn('Webhook error:', err);
-    }
 
-    // Show confirmation
-    document.getElementById('confirm-email').textContent = gateData.email;
-    progressWrap.style.display = 'none';
-    bottomNav.style.display = 'none';
-    showScreenRaw(screenConf);
+      if (!res.ok) throw new Error('Server responded with ' + res.status);
+
+      // Success - show confirmation
+      document.getElementById('confirm-email').textContent = gateData.email;
+      progressWrap.style.display = 'none';
+      bottomNav.style.display = 'none';
+      showScreenRaw(screenConf);
+
+    } catch(err) {
+      console.error('Submission failed:', err);
+      btnNext.disabled = false;
+      btnNext.textContent = 'Submit Audit';
+      // Show inline error
+      let errEl = document.getElementById('submit-error');
+      if (!errEl) {
+        errEl = document.createElement('p');
+        errEl.id = 'submit-error';
+        errEl.style.cssText = 'color:#e07070;font-size:13px;text-align:center;margin-top:10px;';
+        document.getElementById('bottom-nav').appendChild(errEl);
+      }
+      errEl.textContent = 'Submission failed, please try again.';
+    }
   }
 
   // ---- INIT ----
