@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[MOCKUP V2] Anqor - We Build the Systems Your Business Runs On</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.0"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07100a;
+      --bg-2:      #0b1810;
+      --bg-3:      #0f1f14;
+      --surface:   #111d14;
+      --surface-2: #192619;
+      --text:      #f0ede4;
+      --muted:     rgba(240,237,228,0.52);
+      --dim:       rgba(240,237,228,0.28);
+      --accent:    #52c278;
+      --accent-2:  #3d8f5a;
+      --accent-3:  #2a5e3c;
+      --border:    rgba(82,194,120,0.14);
+      --border-2:  rgba(240,237,228,0.08);
+      --nav-h:     64px;
+      --max-w:     1280px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    @media (max-width: 768px) { .container { padding: 0 20px; } }
+
+    /* ---- MOCKUP BAR ---- */
+    .mockup-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: #b8860b;
+      color: #fff;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .mockup-bar a { color: #fff; text-decoration: underline; opacity: .8; }
+
+    /* ---- NAV ---- */
+    .nav {
+      position: fixed;
+      top: 32px; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      transition: background .3s, border-color .3s;
+    }
+    .nav.scrolled {
+      background: rgba(7,16,10,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-2);
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 30px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .nav-logo-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text);
+      line-height: 1;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .02em;
+      transition: color .2s;
+    }
+    .nav-link:hover { color: var(--text); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #07100a;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 100px;
+      text-decoration: none;
+      letter-spacing: .02em;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: #68d490; transform: translateY(-1px); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav { padding: 0 20px; }
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(var(--nav-h) + 64px + 32px) 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(82,194,120,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.7); }
+    }
+    .hero-headline {
+      font-size: clamp(48px, 6.5vw, 88px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -.03em;
+      color: var(--text);
+      margin-bottom: 28px;
+      max-width: 860px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: clamp(15px, 1.4vw, 18px);
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 540px;
+      margin-bottom: 52px;
+      font-weight: 400;
+    }
+
+    /* 3 pathway cards */
+    .hero-pathways {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 860px;
+    }
+    @media (max-width: 768px) {
+      .hero-pathways { grid-template-columns: 1fr; }
+    }
+    .pathway-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color .25s, background .25s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .pathway-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .pathway-card:hover {
+      border-color: rgba(82,194,120,0.35);
+      background: var(--bg-3);
+      transform: translateY(-2px);
+    }
+    .pathway-card:hover::before { opacity: 1; }
+    .pathway-icon {
+      width: 36px; height: 36px;
+      background: rgba(82,194,120,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--accent);
+    }
+    .pathway-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.01em;
+    }
+    .pathway-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .pathway-arrow {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+
+    /* ---- MARQUEE ---- */
+    .marquee-wrap {
+      border-top: 1px solid var(--border-2);
+      border-bottom: 1px solid var(--border-2);
+      padding: 18px 0;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: marquee 35s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 36px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      border-right: 1px solid var(--border-2);
+    }
+    .marquee-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ---- SECTION BASE ---- */
+    .section {
+      padding: 100px 0;
+    }
+    .section-alt { background: var(--bg-2); }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 54px);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .section-title em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* ---- STATS ---- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-2);
+      border: 1px solid var(--border-2);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 64px;
+    }
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat-cell {
+      background: var(--surface);
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat-num {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ---- SYSTEMS / WHAT WE BUILD ---- */
+    .systems-list {
+      margin-top: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .system-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 32px;
+      padding: 28px 32px;
+      background: var(--surface);
+      border: 1px solid var(--border-2);
+      border-radius: 8px;
+      cursor: default;
+      transition: border-color .25s, background .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .system-row::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .3s;
+    }
+    .system-row:hover {
+      border-color: var(--border);
+      background: var(--bg-3);
+    }
+    .system-row:hover::after { transform: scaleY(1); }
+    @media (max-width: 768px) {
+      .system-row { grid-template-columns: 40px 1fr; gap: 16px; }
+      .system-row-tags { display: none; }
+    }
+    .system-row-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dim);
+      letter-spacing: .06em;
+    }
+    .system-row-body { display: flex; flex-direction: column; gap: 4px; }
+    .system-row-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.01em;
+    }
+    .system-row-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .system-row-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .tag-pill {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(82,194,120,0.08);
+      border: 1px solid rgba(82,194,120,0.2);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* ---- FLOW SECTION ---- */
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 64px;
+    }
+    @media (max-width: 768px) { .flow-grid { grid-template-columns: 1fr; } }
+    .flow-col {
+      background: var(--surface);
+      border: 1px solid var(--border-2);
+      padding: 36px;
+      border-radius: 8px;
+    }
+    .flow-col-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .flow-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 2px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-2);
+    }
+    .flow-step:last-child { border-bottom: none; margin-bottom: 0; }
+    .flow-step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-3);
+      border: 1px solid rgba(82,194,120,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .flow-step-content strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .flow-step-content span {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .flow-merge {
+      margin-top: 20px;
+      grid-column: span 2;
+      background: var(--bg-3);
+      border: 1px solid rgba(82,194,120,0.25);
+      border-radius: 8px;
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .flow-merge-label {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.02em;
+    }
+    .flow-merge-items {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .flow-merge-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .flow-merge-item i { color: var(--accent); }
+
+    /* ---- BEFORE / AFTER ---- */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 56px;
+    }
+    @media (max-width: 768px) { .ba-grid { grid-template-columns: 1fr; } }
+    .ba-card {
+      border-radius: 12px;
+      padding: 32px;
+      border: 1px solid var(--border-2);
+    }
+    .ba-card.before { background: var(--surface); }
+    .ba-card.after {
+      background: linear-gradient(135deg, rgba(82,194,120,0.06) 0%, var(--surface) 100%);
+      border-color: rgba(82,194,120,0.2);
+    }
+    .ba-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .ba-card.before .ba-label { color: rgba(240,237,228,0.4); }
+    .ba-card.after .ba-label { color: var(--accent); }
+    .ba-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .ba-list li {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .ba-list li .icon {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ba-card.before .icon { color: rgba(240,237,228,0.25); }
+    .ba-card.after .icon { color: var(--accent); }
+    .ba-card.after .ba-list li { color: var(--text); }
+
+    /* ---- PROCESS ---- */
+    .process-steps {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 768px) { .process-steps { grid-template-columns: 1fr; } }
+    .process-step {
+      background: var(--surface);
+      border: 1px solid var(--border-2);
+      padding: 36px;
+      border-radius: 8px;
+      display: flex;
+      gap: 20px;
+    }
+    .process-step-num {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: rgba(82,194,120,0.15);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 48px;
+    }
+    .process-step-body {}
+    .process-step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
+    }
+    .process-step-week {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .process-step-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .process-guarantee {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(82,194,120,0.06), var(--surface));
+      border-color: rgba(82,194,120,0.2);
+    }
+    @media (max-width: 768px) { .process-guarantee { grid-column: span 1; } }
+
+    /* ---- ABOUT ---- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-top: 64px;
+    }
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .about-photo-wrap {
+      position: relative;
+    }
+    .about-photo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(82,194,120,0.3), transparent 60%);
+      z-index: 0;
+    }
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 16px;
+      object-fit: cover;
+      object-position: top;
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
+    .about-photo-tag {
+      position: absolute;
+      bottom: 20px; left: 20px;
+      background: rgba(7,16,10,0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      z-index: 2;
+    }
+    .about-photo-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: .02em;
+    }
+    .about-photo-role {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .about-text {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+    .about-text:last-of-type { margin-bottom: 0; }
+    .about-sig {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ---- FAQ ---- */
+    .faq-list {
+      margin-top: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-width: 760px;
+    }
+    .faq-item {
+      border: 1px solid var(--border-2);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .faq-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 22px 24px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      letter-spacing: -.01em;
+    }
+    .faq-trigger:hover { color: var(--accent); }
+    .faq-icon {
+      width: 20px; height: 20px;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: transform .3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+      padding: 0 24px;
+    }
+    .faq-item.open .faq-body {
+      max-height: 300px;
+      padding: 0 24px 22px;
+    }
+    .faq-body p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ---- FINAL CTA ---- */
+    .cta-section {
+      background: var(--bg);
+      padding: 120px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -300px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(82,194,120,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-headline {
+      font-size: clamp(36px, 5vw, 68px);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .cta-headline em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+    }
+    .cta-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 40px;
+    }
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #07100a;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 100px;
+      text-decoration: none;
+      letter-spacing: .01em;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: #68d490; transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 30px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: 1px solid var(--border-2);
+      transition: color .2s, border-color .2s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--border); }
+    .cta-note {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--dim);
+    }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      border-top: 1px solid var(--border-2);
+      padding: 48px 0;
+      background: var(--bg);
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-brand {}
+    .footer-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .footer-logo-row img {
+      height: 22px;
+      filter: brightness(0) invert(1);
+      opacity: .6;
+    }
+    .footer-logo-row span {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+    .footer-tagline {
+      font-size: 12px;
+      color: var(--dim);
+    }
+    .footer-cols {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .footer-col-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 14px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-legal a {
+      font-size: 11px;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-legal a:hover { color: var(--muted); }
+    .footer-copy {
+      font-size: 11px;
+      color: var(--dim);
+    }
+    .footer-pulse {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--dim);
+    }
+    .pulse-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s infinite;
+    }
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+  </style>
+</head>
+<body>
+
+<!-- MOCKUP BAR -->
+<div class="mockup-bar">
+  <span>MOCKUP V2 - NOT LIVE</span>
+  <a href="index.html">View live site</a>
+  <a href="mockup.html">View Mockup V1</a>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <img src="logo.svg" alt="Anqor">
+      <span class="nav-logo-name">ANQOR</span>
+    </a>
+    <div class="nav-links">
+      <a href="#systems" class="nav-link">What We Build</a>
+      <a href="#process" class="nav-link">Process</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="/aiaudit.html" class="nav-cta">Start Free Audit &rarr;</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-dot"></div>
+      AI Systems Studio - Dubai
+    </div>
+    <h1 class="hero-headline reveal">
+      We build AI systems<br>for businesses that want<br>to scale <em>without the chaos.</em>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-1">
+      From content automation to internal ops - we design, build, and install the infrastructure your business needs to grow. Live in 30 days.
+    </p>
+    <div class="hero-pathways reveal reveal-delay-2">
+      <a href="/aiaudit.html" class="pathway-card">
+        <div class="pathway-icon"><i class="ph ph-broadcast"></i></div>
+        <div class="pathway-title">Content System</div>
+        <div class="pathway-desc">Your content writes itself. Posts, leads, and bookings run on autopilot.</div>
+        <div class="pathway-arrow">Get this built <i class="ph ph-arrow-right"></i></div>
+      </a>
+      <a href="/aiaudit.html" class="pathway-card">
+        <div class="pathway-icon"><i class="ph ph-funnel"></i></div>
+        <div class="pathway-title">Pipeline System</div>
+        <div class="pathway-desc">Every lead gets followed up. Every conversation qualified. Automatically.</div>
+        <div class="pathway-arrow">Get this built <i class="ph ph-arrow-right"></i></div>
+      </a>
+      <a href="/aiaudit.html" class="pathway-card">
+        <div class="pathway-icon"><i class="ph ph-wrench"></i></div>
+        <div class="pathway-title">Custom Build</div>
+        <div class="pathway-desc">Internal ops, client delivery, CRM integrations. Built around your workflow.</div>
+        <div class="pathway-arrow">Get this built <i class="ph ph-arrow-right"></i></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- duplicated for seamless loop -->
+    <div class="marquee-item"><div class="marquee-dot"></div>Real Estate</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Coaching</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Finance</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>E-Commerce</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Fitness</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Hospitality</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Law</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Healthcare</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Consulting</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Tech</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Education</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Media</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Events</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Agency</div>
+    <!-- duplicate -->
+    <div class="marquee-item"><div class="marquee-dot"></div>Real Estate</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Coaching</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Finance</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>E-Commerce</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Fitness</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Hospitality</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Law</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Healthcare</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Consulting</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Tech</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Education</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Media</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Events</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Agency</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="section" id="stats">
+  <div class="container">
+    <div class="section-tag reveal">By the numbers</div>
+    <h2 class="section-title reveal">Systems that<br><em>deliver.</em></h2>
+    <div class="stats-grid reveal reveal-delay-1">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="count" data-target="30">0</span><span>d</span></div>
+        <div class="stat-label">Average time from kickoff to a live, running system</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="count" data-target="90">0</span><span>s</span></div>
+        <div class="stat-label">Average response time for inbound leads once the system is live</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="count" data-target="20">0</span><span>+</span></div>
+        <div class="stat-label">Hours saved weekly per client from automating repetitive work</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span>4</span></div>
+        <div class="stat-label">New clients accepted per month - we stay tight to stay effective</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE BUILD -->
+<section class="section section-alt" id="systems">
+  <div class="container">
+    <div class="section-tag reveal">What We Build</div>
+    <h2 class="section-title reveal">Not tools. Not templates.<br><em>Systems.</em></h2>
+    <p class="section-sub reveal reveal-delay-1">We design and build each system from scratch - trained on your business, connected to your tools, and built to run without constant supervision.</p>
+    <div class="systems-list">
+      <div class="system-row reveal">
+        <div class="system-row-num">01</div>
+        <div class="system-row-body">
+          <div class="system-row-title">Content System (XANA)</div>
+          <div class="system-row-desc">Your content writes itself in your voice. Publishes daily. Captures every inbound lead and routes them to your pipeline automatically.</div>
+        </div>
+        <div class="system-row-tags">
+          <span class="tag-pill">Content</span>
+          <span class="tag-pill">Lead Capture</span>
+          <span class="tag-pill">DM Automation</span>
+        </div>
+      </div>
+      <div class="system-row reveal reveal-delay-1">
+        <div class="system-row-num">02</div>
+        <div class="system-row-body">
+          <div class="system-row-title">Pipeline System (CAST CRM)</div>
+          <div class="system-row-desc">Outbound prospecting, inbound conversation handling, automated follow-up, and pipeline tracking - all in one connected system. No lead goes cold.</div>
+        </div>
+        <div class="system-row-tags">
+          <span class="tag-pill">Outreach</span>
+          <span class="tag-pill">CRM</span>
+          <span class="tag-pill">Conversations</span>
+        </div>
+      </div>
+      <div class="system-row reveal reveal-delay-2">
+        <div class="system-row-num">03</div>
+        <div class="system-row-body">
+          <div class="system-row-title">Internal Ops Systems</div>
+          <div class="system-row-desc">Workflow automation for your team. Task routing, approvals, status tracking, internal dashboards. Built around how your business actually runs.</div>
+        </div>
+        <div class="system-row-tags">
+          <span class="tag-pill">Ops</span>
+          <span class="tag-pill">Dashboards</span>
+          <span class="tag-pill">Workflow</span>
+        </div>
+      </div>
+      <div class="system-row reveal reveal-delay-3">
+        <div class="system-row-num">04</div>
+        <div class="system-row-body">
+          <div class="system-row-title">Client Delivery Systems</div>
+          <div class="system-row-desc">Onboarding flows, automated check-ins, deliverable handoffs, client portals. Delivery that runs itself on both sides.</div>
+        </div>
+        <div class="system-row-tags">
+          <span class="tag-pill">Onboarding</span>
+          <span class="tag-pill">Delivery</span>
+          <span class="tag-pill">Portals</span>
+        </div>
+      </div>
+      <div class="system-row reveal reveal-delay-4">
+        <div class="system-row-num">05</div>
+        <div class="system-row-body">
+          <div class="system-row-title">Custom Integrations</div>
+          <div class="system-row-desc">Connect every tool you already use - CRM, calendar, payments, analytics - into one coherent, automated stack. One source of truth.</div>
+        </div>
+        <div class="system-row-tags">
+          <span class="tag-pill">Integration</span>
+          <span class="tag-pill">Custom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT CONNECTS -->
+<section class="section" id="connects">
+  <div class="container">
+    <div class="section-tag reveal">Full-Funnel Coverage</div>
+    <h2 class="section-title reveal">Zero leads<br><em>left behind.</em></h2>
+    <p class="section-sub reveal reveal-delay-1">Whether a lead finds you through content or you find them through outreach, every conversation is handled. Nothing falls through.</p>
+    <div class="flow-grid reveal reveal-delay-2">
+      <div class="flow-col">
+        <div class="flow-col-label">Inbound via Content - XANA</div>
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-content">
+            <strong>Content goes live daily</strong>
+            <span>Scripts, posts, and videos published across every platform automatically.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-content">
+            <strong>Lead engages</strong>
+            <span>Prospect comments, clicks, or DMs after seeing your content.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-content">
+            <strong>Captured and replied to in seconds</strong>
+            <span>XANA logs, tags, and sends a personalized reply automatically.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">4</div>
+          <div class="flow-step-content">
+            <strong>Routed to pipeline</strong>
+            <span>Lead enters CAST CRM with full conversation context attached.</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-col-label">Outbound via Prospecting - CAST</div>
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-content">
+            <strong>50 ideal prospects identified</strong>
+            <span>CAST builds a scored list based on your ideal client profile.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-content">
+            <strong>Personalized outreach sent</strong>
+            <span>Messages go out across email and social, tailored to each prospect.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-content">
+            <strong>Prospect responds</strong>
+            <span>CAST picks up the reply via DM, email, or form automatically.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">4</div>
+          <div class="flow-step-content">
+            <strong>Qualified and moved forward</strong>
+            <span>CAST continues the conversation, qualifies, and books the call.</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-merge">
+        <div class="flow-merge-label">CAST CRM - One pipeline. Both channels.</div>
+        <div class="flow-merge-items">
+          <div class="flow-merge-item"><i class="ph ph-check-circle"></i> Booked call on your calendar</div>
+          <div class="flow-merge-item"><i class="ph ph-check-circle"></i> Zero leads go unanswered</div>
+          <div class="flow-merge-item"><i class="ph ph-check-circle"></i> Full attribution on what worked</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="section section-alt" id="comparison">
+  <div class="container">
+    <div class="section-tag reveal">The Difference</div>
+    <h2 class="section-title reveal">Before and after<br><em>installing Anqor.</em></h2>
+    <div class="ba-grid reveal reveal-delay-1">
+      <div class="ba-card before">
+        <div class="ba-label">
+          <i class="ph ph-x-circle" style="font-size:16px;"></i>
+          Before
+        </div>
+        <ul class="ba-list">
+          <li><i class="ph ph-x icon"></i><span>Tasks pile up with no system to catch them</span></li>
+          <li><i class="ph ph-x icon"></i><span>Leads go cold because nobody followed up in time</span></li>
+          <li><i class="ph ph-x icon"></i><span>Your team repeats the same manual work every week</span></li>
+          <li><i class="ph ph-x icon"></i><span>No visibility into what is working or what is not</span></li>
+          <li><i class="ph ph-x icon"></i><span>You spend your best hours on work that should not need you</span></li>
+        </ul>
+      </div>
+      <div class="ba-card after">
+        <div class="ba-label">
+          <i class="ph ph-check-circle" style="font-size:16px;"></i>
+          After
+        </div>
+        <ul class="ba-list">
+          <li><i class="ph ph-check icon"></i><span>Every process has a system - nothing gets missed</span></li>
+          <li><i class="ph ph-check icon"></i><span>Every lead gets a reply in under 90 seconds, automatically</span></li>
+          <li><i class="ph ph-check icon"></i><span>Repetitive work is handled by the system, not your team</span></li>
+          <li><i class="ph ph-check icon"></i><span>Live dashboards show exactly what is happening</span></li>
+          <li><i class="ph ph-check icon"></i><span>You focus on the work only you can do</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process">
+  <div class="container">
+    <div class="section-tag reveal">How We Work</div>
+    <h2 class="section-title reveal">Audit to live<br><em>in 30 days.</em></h2>
+    <p class="section-sub reveal reveal-delay-1">We map your business, design the system, build it, and deploy it. Every step is on us. You review and approve.</p>
+    <div class="process-steps reveal reveal-delay-2">
+      <div class="process-step">
+        <div class="process-step-num">01</div>
+        <div class="process-step-body">
+          <span class="process-step-week">Day 1</span>
+          <div class="process-step-title">Free System Audit</div>
+          <div class="process-step-desc">We map every repeatable process in your business, identify the top bottlenecks, and deliver a written proposal - at no charge.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">02</div>
+        <div class="process-step-body">
+          <span class="process-step-week">Week 1</span>
+          <div class="process-step-title">System Design</div>
+          <div class="process-step-desc">Architecture mapped. Tools, flows, triggers, and outputs all planned. You approve the blueprint before we build a single thing.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">03</div>
+        <div class="process-step-body">
+          <span class="process-step-week">Week 2-3</span>
+          <div class="process-step-title">Build and Install</div>
+          <div class="process-step-desc">System built and connected to your existing tools. Tested before going live. Dashboard configured. Full handover - you own it, we support it.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">04</div>
+        <div class="process-step-body">
+          <span class="process-step-week">Week 4+</span>
+          <div class="process-step-title">Live, Optimize, Scale</div>
+          <div class="process-step-desc">System goes live. Weekly performance reviews, A/B testing on sequences, and monthly reporting on what it is delivering.</div>
+        </div>
+      </div>
+      <div class="process-step process-guarantee">
+        <div class="process-step-num" style="color:rgba(82,194,120,0.4);">G</div>
+        <div class="process-step-body">
+          <span class="process-step-week">The guarantee</span>
+          <div class="process-step-title">Live in 30 days or we keep going</div>
+          <div class="process-step-desc">Your system goes live within 30 days of kickoff. If we miss that window for any reason on our side, we keep building at no extra implementation fee until it is live. Month-to-month after go-live. Cancel anytime.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section section-alt" id="about">
+  <div class="container">
+    <div class="section-tag reveal">The Founder</div>
+    <div class="about-grid">
+      <div class="about-photo-wrap reveal">
+        <img src="ubong_headshot.jpg" alt="Ubong Udoessien" class="about-photo">
+        <div class="about-photo-tag">
+          <div class="about-photo-name">Ubong Udoessien</div>
+          <div class="about-photo-role">Founder - Anqor Studios, Dubai</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title" style="margin-bottom:28px;">Built by an<br><em>engineer.</em></h2>
+        <p class="about-text">Most automation people are marketers who learned to use Zapier. Ubong is a controls and systems engineer. The same discipline that goes into engineering a control system - rigorous design, precise logic, zero tolerance for failure - goes into building your business pipeline.</p>
+        <p class="about-text">He built a production studio in Dubai, then realized the bigger problem was not the content - it was the systems behind the business. XANA, CAST, and every custom build at Anqor Studios started as a problem Ubong solved for himself first, then built for others.</p>
+        <p class="about-text">These are not tools you log into. They are systems that run for you.</p>
+        <div class="about-sig">Founded by Ubong Udoessien - Based in Dubai - Working globally</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-tag reveal">FAQ</div>
+    <h2 class="section-title reveal">Short<br><em>answers.</em></h2>
+    <div class="faq-list reveal reveal-delay-1">
+      <div class="faq-item">
+        <button class="faq-trigger">
+          Do you only build content systems?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>No. Content is one of many things we automate. We build internal ops, client delivery workflows, CRM and pipeline automation, lead and outreach systems, and custom integrations. If it is a repeatable process, we can build a system for it.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger">
+          Do I need to be technical to work with you?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>Not at all. We handle the entire build - design, development, testing, and deployment. You review and approve. We give you a clean dashboard so you can see everything running without needing to understand what is underneath.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger">
+          How long does it take to go live?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>Simple systems go live in 7 to 14 days. Full custom builds run 30 to 60 days end to end. We scope this clearly in the free system audit before we start anything.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger">
+          What is the 30-day implementation guarantee?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>We guarantee your system goes live within 30 days of kickoff. If we miss that window for any reason on our side, we keep building at no extra implementation fee until it is live. This is a delivery commitment, not a vague results promise.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger">
+          What makes Anqor different from an agency?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>Agencies manage. We install. Once the system is live it runs whether we are on a call or not. You are not buying our time - you are buying a machine that works 24 hours a day. Built by an engineer, not a marketer.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger">
+          Do you work outside Dubai?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>Yes. We are based in Dubai. Our systems work anywhere. Global clients welcome.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-trigger">
+          What if it does not work for my business?
+          <i class="ph ph-plus faq-icon"></i>
+        </button>
+        <div class="faq-body">
+          <p>Retainers are month-to-month. Cancel anytime. We only keep clients our systems actually help. The free audit tells us both whether it is the right fit before money changes hands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <h2 class="cta-headline">Your business.<br><em>Running itself.</em></h2>
+      <p class="cta-sub">Tell us about your business. We will map exactly what to automate, how long it takes, and what it delivers - before you spend a dirham.</p>
+      <div class="cta-buttons">
+        <a href="/aiaudit.html" class="btn-primary">Start Free Audit &rarr;</a>
+        <a href="#systems" class="btn-ghost">See What We Build</a>
+      </div>
+      <p class="cta-note">Live in 30 days. 4 clients per month. Dubai and global.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo-row">
+          <img src="logo.svg" alt="Anqor">
+          <span>ANQOR</span>
+        </div>
+        <div class="footer-tagline">Systems - Automation - Results - Dubai</div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-label">Systems</div>
+          <a href="#systems">XANA</a>
+          <a href="#systems">CAST CRM</a>
+          <a href="#systems">Custom Builds</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">Company</div>
+          <a href="#about">About</a>
+          <a href="#faq">FAQ</a>
+          <a href="/aiaudit.html">Start Audit</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">Follow</div>
+          <a href="https://instagram.com/ubongudoessien" target="_blank">Instagram</a>
+          <a href="https://youtube.com/@anqorlive" target="_blank">YouTube</a>
+          <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund-policy.html">Refund Policy</a>
+        <a href="cancellation-policy.html">Cancellation Policy</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 Anqor Studios LLC&middot;FZ - Dubai, UAE</div>
+      <div class="footer-pulse">
+        <div class="pulse-dot"></div>
+        DXB - 25.276&deg; N, 55.296&deg; E
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Trigger hero reveals immediately
+  document.querySelectorAll('.hero .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 100);
+  });
+
+  // Counter animation
+  const counters = document.querySelectorAll('.count');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const target = +e.target.dataset.target;
+        const duration = 1400;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { current = target; clearInterval(timer); }
+          e.target.textContent = Math.floor(current);
+        }, 16);
+        counterObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => counterObserver.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
