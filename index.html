@@ -992,7 +992,8 @@
     }
     .footer-tagline {
       font-size: 12px;
-      color: var(--dim);
+      color: var(--text);
+      margin-top: 8px;
     }
     .footer-cols {
       display: flex;
@@ -1016,6 +1017,29 @@
       transition: color .2s;
     }
     .footer-col a:hover { color: var(--text); }
+    .footer-social-icons {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .footer-social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 18px;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .footer-social-icons a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(82,194,120,0.06);
+    }
     .footer-bottom {
       margin-top: 40px;
       padding-top: 24px;
@@ -1557,10 +1581,11 @@
           <a href="/aiaudit.html">Start Audit</a>
         </div>
         <div class="footer-col">
-          <div class="footer-col-label">Follow</div>
-          <a href="https://instagram.com/ubongudoessien" target="_blank">Instagram</a>
-          <a href="https://youtube.com/@anqorlive" target="_blank">YouTube</a>
-          <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+          <div class="footer-col-label">Our Socials</div>
+          <div class="footer-social-icons">
+            <a href="https://instagram.com/ubongudoessien" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+            <a href="https://linkedin.com/company/anqorstudios" target="_blank" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+          </div>
         </div>
       </div>
     </div>
