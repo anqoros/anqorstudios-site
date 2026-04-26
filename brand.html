@@ -13,12 +13,12 @@
 
     :root {
       /* === WEBSITE / MARKETING PALETTE === */
-      --bg:       #162820;
-      --bg-alt:   #1a2f24;
-      --text:     #f1eee4;
-      --dim:      rgba(241,238,228,0.45);
-      --accent:   #3a7d5a;
-      --border:   rgba(241,238,228,0.08);
+      --bg:       #07100a;
+      --bg-alt:   #0d1a10;
+      --text:     #e8f5ee;
+      --dim:      rgba(232,245,238,0.40);
+      --accent:   #52c278;
+      --border:   rgba(232,245,238,0.08);
 
       /* === PRODUCT / APP PALETTE === */
       --p-bg:       #1c2e3e;
@@ -37,7 +37,7 @@
     /* ── NAV ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(22,40,32,0.96);
+      background: rgba(7,16,10,0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 48px;
@@ -56,7 +56,7 @@
 
     .section-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
     .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.03em; line-height: 1; margin-bottom: 16px; }
-    .section-sub { font-size: 16px; color: rgba(241,238,228,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 56px; }
+    .section-sub { font-size: 16px; color: rgba(232,245,238,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 56px; }
     hr.rule { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
 
     /* ── COVER ── */
@@ -70,7 +70,7 @@
     }
     .cover-bg {
       position: absolute; inset: 0;
-      background: linear-gradient(135deg, #0d1f17 0%, #162820 60%, #1a3525 100%);
+      background: linear-gradient(135deg, #040c06 0%, #07100a 60%, #0d1a10 100%);
     }
     .cover-grid {
       position: absolute; inset: 0;
@@ -82,20 +82,20 @@
     .cover-content { position: relative; z-index: 1; }
     .cover-eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
     .cover-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 12vw, 140px); letter-spacing: 0.02em; line-height: 0.9; margin-bottom: 32px; }
-    .cover-title em { font-style: normal; color: rgba(241,238,228,0.25); }
+    .cover-title em { font-style: normal; color: rgba(232,245,238,0.25); }
     .cover-meta { display: flex; gap: 48px; flex-wrap: wrap; }
     .cover-meta-item { display: flex; flex-direction: column; gap: 4px; }
     .cover-meta-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
-    .cover-meta-value { font-size: 14px; color: rgba(241,238,228,0.75); }
+    .cover-meta-value { font-size: 14px; color: rgba(232,245,238,0.75); }
 
     /* ── OVERVIEW ── */
     .brand-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
     .brand-statement { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.03em; line-height: 1.15; color: var(--text); }
-    .brand-statement span { color: rgba(241,238,228,0.25); }
+    .brand-statement span { color: rgba(232,245,238,0.25); }
     .brand-pillars { display: flex; flex-direction: column; gap: 24px; }
-    .pillar { padding: 24px; background: rgba(58,125,90,0.06); border: 1px solid rgba(58,125,90,0.15); border-radius: 8px; }
+    .pillar { padding: 24px; background: rgba(82,194,120,0.06); border: 1px solid rgba(82,194,120,0.15); border-radius: 8px; }
     .pillar-name { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-    .pillar-text { font-size: 14px; color: rgba(241,238,228,0.65); line-height: 1.6; }
+    .pillar-text { font-size: 14px; color: rgba(232,245,238,0.65); line-height: 1.6; }
 
     /* ── COLOUR SYSTEM ── */
     .palette-heading { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; margin-top: 48px; }
@@ -107,12 +107,12 @@
     .swatch-use { font-size: 11px; color: var(--dim); margin-top: 6px; }
 
     /* Website swatches */
-    .sw-bg      { background: #162820; border: 1px solid rgba(255,255,255,0.08); color: #f1eee4; }
-    .sw-bgalt   { background: #1a2f24; border: 1px solid rgba(255,255,255,0.08); color: #f1eee4; }
-    .sw-accent  { background: #3a7d5a; color: #f1eee4; }
-    .sw-border  { background: rgba(241,238,228,0.08); border: 1px solid rgba(255,255,255,0.12); color: #f1eee4; }
-    .sw-text    { background: #f1eee4; color: #162820; }
-    .sw-dim     { background: rgba(241,238,228,0.45); color: #162820; }
+    .sw-bg      { background: #07100a; border: 1px solid rgba(255,255,255,0.08); color: #f1eee4; }
+    .sw-bgalt   { background: #0d1a10; border: 1px solid rgba(255,255,255,0.08); color: #f1eee4; }
+    .sw-accent  { background: #52c278; color: #07100a; }
+    .sw-border  { background: rgba(232,245,238,0.08); border: 1px solid rgba(255,255,255,0.12); color: #f1eee4; }
+    .sw-text    { background: #e8f5ee; color: #07100a; }
+    .sw-dim     { background: rgba(232,245,238,0.45); color: #07100a; }
 
     /* Product swatches */
     .sw-pbg     { background: #1c2e3e; border: 1px solid rgba(255,255,255,0.06); color: #f0ecdf; }
@@ -127,8 +127,8 @@
     .usage-rules { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
     .usage-rule { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: rgba(255,255,255,0.03); border-radius: 6px; }
     .usage-rule-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; white-space: nowrap; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; }
-    .usage-rule-text { font-size: 13px; color: rgba(241,238,228,0.6); line-height: 1.55; }
-    .tag-green  { background: rgba(58,125,90,0.2);  color: #3a7d5a; }
+    .usage-rule-text { font-size: 13px; color: rgba(232,245,238,0.6); line-height: 1.55; }
+    .tag-green  { background: rgba(82,194,120,0.15);  color: #52c278; }
     .tag-gold   { background: rgba(232,184,75,0.15); color: #e8b84b; }
     .tag-ivory  { background: rgba(241,238,228,0.1); color: #f1eee4; }
     .tag-muted  { background: rgba(128,170,192,0.15); color: #80aac0; }
@@ -142,22 +142,22 @@
     .type-preview-serif   { font-family: 'Playfair Display', serif; font-size: 48px; font-style: italic; color: var(--text); line-height: 1.1; }
     .type-preview-ui      { font-size: 22px; font-weight: 600; color: var(--text); }
     .type-preview-label   { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; color: #e8b84b; }
-    .type-preview-body    { font-size: 15px; color: rgba(241,238,228,0.6); line-height: 1.75; max-width: 560px; }
+    .type-preview-body    { font-size: 15px; color: rgba(232,245,238,0.6); line-height: 1.75; max-width: 560px; }
     .type-preview-mono    { font-family: monospace; font-size: 13px; color: #80aac0; letter-spacing: 0.02em; }
 
     /* ── LOGO ── */
     .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .logo-box { border-radius: 10px; padding: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 200px; }
     .logo-box-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
-    .logo-dark  { background: #162820; border: 1px solid var(--border); }
-    .logo-mid   { background: #1a2f24; border: 1px solid var(--border); }
-    .logo-light { background: #f1eee4; }
+    .logo-dark  { background: #07100a; border: 1px solid var(--border); }
+    .logo-mid   { background: #0d1a10; border: 1px solid var(--border); }
+    .logo-light { background: #e8f5ee; }
     .logo-black { background: #0a1410; border: 1px solid rgba(255,255,255,0.06); }
 
     .logotype { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.08em; }
     .logotype-sub { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.5; }
-    .logo-light .logotype { color: #162820; }
-    .logo-light .logotype-sub { color: #162820; }
+    .logo-light .logotype { color: #07100a; }
+    .logo-light .logotype-sub { color: #07100a; }
 
     .logo-dont-list { display: flex; flex-direction: column; gap: 10px; margin-top: 32px; }
     .logo-dont { display: flex; gap: 12px; align-items: center; font-size: 13px; color: rgba(241,238,228,0.55); }
@@ -169,7 +169,7 @@
     .comp-block-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; }
 
     /* Buttons */
-    .btn-primary { display: inline-block; padding: 14px 28px; background: #3a7d5a; color: #f1eee4; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; letter-spacing: 0.02em; }
+    .btn-primary { display: inline-block; padding: 14px 28px; background: #52c278; color: #07100a; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; letter-spacing: 0.02em; }
     .btn-secondary { display: inline-block; padding: 13px 28px; background: transparent; color: #f1eee4; font-size: 14px; border-radius: 6px; border: 1px solid rgba(241,238,228,0.2); cursor: pointer; }
     .btn-ghost { display: inline-block; padding: 10px 0; background: transparent; color: rgba(241,238,228,0.4); font-size: 13px; border: none; cursor: pointer; }
     .btn-gold { display: inline-block; padding: 14px 28px; background: #e8b84b; color: #1c2e3e; font-size: 14px; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; }
@@ -178,24 +178,24 @@
     /* Badges */
     .badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .badge { padding: 4px 10px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; border-radius: 4px; }
-    .badge-green  { background: rgba(58,125,90,0.2);  color: #3a7d5a; border: 1px solid rgba(58,125,90,0.3); }
+    .badge-green  { background: rgba(82,194,120,0.15);  color: #52c278; border: 1px solid rgba(82,194,120,0.25); }
     .badge-gold   { background: rgba(232,184,75,0.15); color: #e8b84b; border: 1px solid rgba(232,184,75,0.3); }
-    .badge-muted  { background: rgba(255,255,255,0.06); color: rgba(241,238,228,0.45); border: 1px solid rgba(255,255,255,0.08); }
+    .badge-muted  { background: rgba(255,255,255,0.06); color: rgba(232,245,238,0.45); border: 1px solid rgba(255,255,255,0.08); }
 
     /* Input */
     .input-demo { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(241,238,228,0.15); border-radius: 6px; color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
-    .input-demo::placeholder { color: rgba(241,238,228,0.25); }
+    .input-demo::placeholder { color: rgba(232,245,238,0.25); }
     .input-focused { border-color: rgba(58,125,90,0.6); background: rgba(58,125,90,0.05); }
     .input-stack { display: flex; flex-direction: column; gap: 10px; }
     .input-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
 
     /* Cards */
-    .card-demo { background: #1a2f24; border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+    .card-demo { background: #0d1a10; border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
     .card-demo-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; margin-bottom: 8px; }
     .card-demo-text { font-size: 13px; color: rgba(241,238,228,0.55); line-height: 1.6; margin-bottom: 16px; }
     .card-demo-meta { display: flex; gap: 16px; }
     .card-demo-stat { display: flex; flex-direction: column; gap: 2px; }
-    .card-demo-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.03em; color: #3a7d5a; }
+    .card-demo-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.03em; color: #52c278; }
     .card-demo-stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
 
     /* ── PRINCIPLES ── */
@@ -212,7 +212,7 @@
     .var-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .var-row:last-child { border-bottom: none; }
     .var-dot { width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
-    .var-name { font-family: monospace; font-size: 12px; color: #3a7d5a; flex: 1; }
+    .var-name { font-family: monospace; font-size: 12px; color: #52c278; flex: 1; }
     .var-hex { font-family: monospace; font-size: 12px; color: var(--dim); }
     .var-desc { font-size: 11px; color: rgba(241,238,228,0.35); text-align: right; min-width: 120px; }
 
@@ -224,10 +224,10 @@
     .voice-desc { font-size: 12px; color: rgba(241,238,228,0.5); line-height: 1.6; }
     .voice-examples { display: flex; flex-direction: column; gap: 16px; }
     .voice-example { padding: 20px 24px; border-radius: 8px; font-size: 14px; line-height: 1.65; }
-    .voice-do   { background: rgba(58,125,90,0.08); border-left: 3px solid #3a7d5a; color: rgba(241,238,228,0.8); }
+    .voice-do   { background: rgba(58,125,90,0.08); border-left: 3px solid #52c278; color: rgba(241,238,228,0.8); }
     .voice-dont { background: rgba(220,60,60,0.06); border-left: 3px solid rgba(220,60,60,0.4); color: rgba(241,238,228,0.5); text-decoration: line-through; text-decoration-color: rgba(220,60,60,0.4); }
     .voice-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
-    .voice-tag-do { color: #3a7d5a; }
+    .voice-tag-do { color: #52c278; }
     .voice-tag-dont { color: rgba(220,60,60,0.5); }
 
     /* ── FOOTER ── */
@@ -329,27 +329,27 @@
     <div class="palette-heading">Website &amp; Marketing - Forest Green</div>
     <div class="swatches">
       <div>
-        <div class="swatch sw-bg"><span class="swatch-name">Background</span><span class="swatch-hex">#162820</span></div>
+        <div class="swatch sw-bg"><span class="swatch-name">Background</span><span class="swatch-hex">#07100A</span></div>
         <div class="swatch-use">Primary page background</div>
       </div>
       <div>
-        <div class="swatch sw-bgalt"><span class="swatch-name">Surface</span><span class="swatch-hex">#1A2F24</span></div>
+        <div class="swatch sw-bgalt"><span class="swatch-name">Surface</span><span class="swatch-hex">#0D1A10</span></div>
         <div class="swatch-use">Section backgrounds</div>
       </div>
       <div>
-        <div class="swatch sw-accent"><span class="swatch-name">Accent</span><span class="swatch-hex">#3A7D5A</span></div>
+        <div class="swatch sw-accent"><span class="swatch-name">Accent</span><span class="swatch-hex">#52C278</span></div>
         <div class="swatch-use">CTAs, links, highlights</div>
       </div>
       <div>
-        <div class="swatch sw-border"><span class="swatch-name">Border</span><span class="swatch-hex">rgba(241,238,228,0.08)</span></div>
+        <div class="swatch sw-border"><span class="swatch-name">Border</span><span class="swatch-hex">rgba(232,245,238,0.08)</span></div>
         <div class="swatch-use">All dividers &amp; borders</div>
       </div>
       <div>
-        <div class="swatch sw-text"><span class="swatch-name" style="color:#162820">Text</span><span class="swatch-hex" style="color:#162820">#F1EEE4</span></div>
+        <div class="swatch sw-text"><span class="swatch-name" style="color:#07100a">Text</span><span class="swatch-hex" style="color:#07100a">#F1EEE4</span></div>
         <div class="swatch-use">Primary text (ivory-warm white)</div>
       </div>
       <div>
-        <div class="swatch sw-dim" style="min-height:80px"><span class="swatch-name" style="color:#162820">Dim</span><span class="swatch-hex" style="color:#162820">rgba(241,238,228,0.45)</span></div>
+        <div class="swatch sw-dim" style="min-height:80px"><span class="swatch-name" style="color:#07100a">Dim</span><span class="swatch-hex" style="color:#07100a">rgba(232,245,238,0.45)</span></div>
         <div class="swatch-use">Secondary text, labels</div>
       </div>
     </div>
@@ -470,7 +470,7 @@
           <span>Code · HEX values · Coordinates · Data</span>
           <span>12–13pt</span>
         </div>
-        <div class="type-preview-mono">DXB · 25.276° N, 55.296° E · #162820 · v1.0.0</div>
+        <div class="type-preview-mono">DXB · 25.276° N, 55.296° E · #07100a · v1.0.0</div>
       </div>
     </div>
   </section>
@@ -490,7 +490,7 @@
             <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
             <circle cx="0" cy="0" r="9"/>
           </g>
-          <g transform="translate(50,54)" fill="#162820">
+          <g transform="translate(50,54)" fill="#07100a">
             <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
             <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
             <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
@@ -528,7 +528,7 @@
 
       <div class="logo-box logo-light">
         <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(50,54)" fill="#162820">
+          <g transform="translate(50,54)" fill="#07100a">
             <ellipse cx="0" cy="-21" rx="13" ry="20"/>
             <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
             <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
@@ -542,21 +542,21 @@
           </g>
         </svg>
         <div style="text-align:center">
-          <div class="logotype" style="color:#162820">ANQOR STUDIOS</div>
-          <div class="logotype-sub" style="color:#162820">Content · Strategy · Signal</div>
+          <div class="logotype" style="color:#07100a">ANQOR STUDIOS</div>
+          <div class="logotype-sub" style="color:#07100a">Content · Strategy · Signal</div>
         </div>
-        <div class="logo-box-label" style="color:#162820">On Light (Documents only)</div>
+        <div class="logo-box-label" style="color:#07100a">On Light (Documents only)</div>
       </div>
 
       <div class="logo-box logo-mid">
         <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(50,54)" fill="#3a7d5a">
+          <g transform="translate(50,54)" fill="#52c278">
             <ellipse cx="0" cy="-21" rx="13" ry="20"/>
             <g transform="rotate(120)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
             <g transform="rotate(240)"><ellipse cx="0" cy="-21" rx="13" ry="20"/></g>
             <circle cx="0" cy="0" r="9"/>
           </g>
-          <g transform="translate(50,54)" fill="#1a2f24">
+          <g transform="translate(50,54)" fill="#0d1a10">
             <path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/>
             <g transform="rotate(120)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
             <g transform="rotate(240)"><path d="M0,-33 L7,-22 L0,-13 L-7,-22 Z"/></g>
@@ -564,7 +564,7 @@
           </g>
         </svg>
         <div style="text-align:center">
-          <div class="logotype" style="color:#3a7d5a">ANQOR STUDIOS</div>
+          <div class="logotype" style="color:#52c278">ANQOR STUDIOS</div>
           <div class="logotype-sub">Content · Strategy · Signal</div>
         </div>
         <div class="logo-box-label">Accent Green (Minimal use)</div>
@@ -750,17 +750,17 @@
   <section id="variables">
     <div class="section-label">08 - Developer Reference</div>
     <h2 class="section-title">CSS VARIABLES</h2>
-    <p class="section-sub">Copy these into the <code style="font-size:13px;color:#3a7d5a">:root</code> block of any Anqor Studios project. Do not hardcode hex values directly in CSS - always reference the variable.</p>
+    <p class="section-sub">Copy these into the <code style="font-size:13px;color:#52c278">:root</code> block of any Anqor Studios project. Do not hardcode hex values directly in CSS - always reference the variable.</p>
 
     <div class="vars-grid">
       <div class="vars-block">
         <div class="vars-block-title">Website / Marketing - Forest Green</div>
-        <div class="var-row"><div class="var-dot" style="background:#162820"></div><span class="var-name">--bg</span><span class="var-hex">#162820</span><span class="var-desc">Page background</span></div>
-        <div class="var-row"><div class="var-dot" style="background:#1a2f24"></div><span class="var-name">--bg-alt</span><span class="var-hex">#1a2f24</span><span class="var-desc">Section bg</span></div>
-        <div class="var-row"><div class="var-dot" style="background:#3a7d5a"></div><span class="var-name">--accent</span><span class="var-hex">#3a7d5a</span><span class="var-desc">CTAs &amp; links</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#07100a"></div><span class="var-name">--bg</span><span class="var-hex">#07100a</span><span class="var-desc">Page background</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#0d1a10"></div><span class="var-name">--bg-alt</span><span class="var-hex">#0d1a10</span><span class="var-desc">Section bg</span></div>
+        <div class="var-row"><div class="var-dot" style="background:#52c278"></div><span class="var-name">--accent</span><span class="var-hex">#52c278</span><span class="var-desc">CTAs &amp; links</span></div>
         <div class="var-row"><div class="var-dot" style="background:#f1eee4"></div><span class="var-name">--text</span><span class="var-hex">#f1eee4</span><span class="var-desc">Primary text</span></div>
-        <div class="var-row"><div class="var-dot" style="background:rgba(241,238,228,0.45);border:1px solid rgba(255,255,255,0.2)"></div><span class="var-name">--dim</span><span class="var-hex">rgba(241,238,228,0.45)</span><span class="var-desc">Secondary text</span></div>
-        <div class="var-row"><div class="var-dot" style="background:rgba(241,238,228,0.08);border:1px solid rgba(255,255,255,0.15)"></div><span class="var-name">--border</span><span class="var-hex">rgba(241,238,228,0.08)</span><span class="var-desc">All borders</span></div>
+        <div class="var-row"><div class="var-dot" style="background:rgba(232,245,238,0.45);border:1px solid rgba(255,255,255,0.2)"></div><span class="var-name">--dim</span><span class="var-hex">rgba(232,245,238,0.45)</span><span class="var-desc">Secondary text</span></div>
+        <div class="var-row"><div class="var-dot" style="background:rgba(232,245,238,0.08);border:1px solid rgba(255,255,255,0.15)"></div><span class="var-name">--border</span><span class="var-hex">rgba(232,245,238,0.08)</span><span class="var-desc">All borders</span></div>
       </div>
 
       <div class="vars-block">
