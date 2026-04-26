@@ -493,8 +493,12 @@
       margin-top: 64px;
     }
     @media (max-width: 900px) {
-      .flow-grid { grid-template-columns: 1fr !important; }
-      .flow-col { padding: 24px 20px; }
+      .flow-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px;
+      }
+      .flow-col { padding: 24px 20px; width: 100%; box-sizing: border-box; }
       .flow-step-content strong { font-size: 14px; }
       .flow-step-content span { font-size: 13px; }
     }
