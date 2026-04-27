@@ -255,6 +255,18 @@
       font-style: italic;
       font-weight: 300;
       color: var(--accent);
+      background-image: linear-gradient(var(--accent), var(--accent));
+      background-position: 0 100%;
+      background-size: 0% 3px;
+      background-repeat: no-repeat;
+      padding-bottom: 4px;
+      animation: underline-loop 3s ease-in-out infinite 1.2s;
+    }
+    @keyframes underline-loop {
+      0%, 5%   { background-size: 0% 3px; }
+      45%      { background-size: 100% 3px; }
+      75%      { background-size: 100% 3px; }
+      100%     { background-size: 0% 3px; }
     }
     .hero-sub {
       font-size: clamp(15px, 1.4vw, 18px);
