@@ -249,6 +249,9 @@
       color: var(--text);
       margin-bottom: 28px;
       max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
     .hero-headline em {
       font-style: italic;
@@ -260,8 +263,9 @@
       color: var(--muted);
       line-height: 1.7;
       max-width: 540px;
-      margin-bottom: 52px;
+      margin: 0 auto 52px;
       font-weight: 400;
+      text-align: center;
     }
 
     /* 3 pathway cards */
@@ -290,6 +294,8 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
     }
     @media (max-width: 768px) {
       .hero-pathways { grid-template-columns: 1fr; }
@@ -399,7 +405,10 @@
     .section-alt { background: var(--bg-2); }
 
     .section-tag {
-      display: inline-flex;
+      display: flex;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
       align-items: center;
       gap: 8px;
       font-size: 11px;
@@ -421,6 +430,7 @@
       line-height: 1.05;
       color: var(--text);
       margin-bottom: 16px;
+      text-align: center;
     }
     .section-title em {
       font-style: italic;
@@ -432,6 +442,8 @@
       color: var(--muted);
       line-height: 1.7;
       max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     /* ---- STATS ---- */
