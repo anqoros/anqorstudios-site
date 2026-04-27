@@ -800,6 +800,11 @@
       position: relative;
       z-index: 1;
       display: block;
+      filter: grayscale(1);
+      transition: filter .4s ease;
+    }
+    .about-photo-wrap:hover .about-photo {
+      filter: grayscale(0);
     }
     .about-photo-tag {
       position: absolute;
