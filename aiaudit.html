@@ -443,11 +443,50 @@
     }
     .screen-inner::-webkit-scrollbar { width: 3px; }
     .screen-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ---- MILESTONE TOAST ---- */
+    #milestone-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      z-index: 999;
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    #milestone-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    #milestone-toast .toast-icon {
+      font-size: 16px;
+    }
+    #milestone-toast .toast-accent {
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
 
 <!-- PROGRESS -->
+<div id="milestone-toast">
+  <span class="toast-icon">✦</span>
+  <span id="milestone-msg">You're doing great — keep going.</span>
+</div>
+
 <div id="progress-wrap" style="display:none;">
   <div id="progress-bar-track">
     <div id="progress-bar-fill"></div>
@@ -853,6 +892,24 @@
     // Time remaining
     const remaining = Math.max(0, Math.ceil((20 - idx) * 0.4));
     timeLeft.textContent = remaining <= 1 ? 'Almost done' : `~${remaining} min`;
+
+    // Milestone encouragement
+    const milestones = {
+      4:  "Good start — you're 25% through.",
+      9:  "Halfway there. You're doing great.",
+      14: "Almost done — just a few left."
+    };
+    if (milestones[idx]) showMilestone(milestones[idx]);
+  }
+
+  let milestoneTimer;
+  function showMilestone(msg) {
+    const toast = document.getElementById('milestone-toast');
+    const msgEl = document.getElementById('milestone-msg');
+    clearTimeout(milestoneTimer);
+    msgEl.textContent = msg;
+    toast.classList.add('show');
+    milestoneTimer = setTimeout(() => toast.classList.remove('show'), 3500);
   }
 
   function updateNextState(idx) {
