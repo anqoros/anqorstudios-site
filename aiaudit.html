@@ -568,6 +568,10 @@
 (function() {
 
   const WEBHOOK = 'https://cast.anqorstudios.com/webhook/audit-intake';
+  // Shared secret required by CAST CRM (F7a). Must match AUDIT_WEBHOOK_SECRET on the server.
+  // To rotate: change here AND in cast_crm/.env, then restart the CAST server.
+  // Note: this value is visible in page source. Rotate via a backend proxy when one exists.
+  const WEBHOOK_SECRET = 'VKuT5bfzWK3s6Tb32VsFvufwKU8eogv9lE4EoX3PNq0';
 
   const SECTIONS = [
     { name: 'Business Overview',    questions: [0,1,2,3]    },
@@ -1166,7 +1170,10 @@
     try {
       const res = await fetch(WEBHOOK, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CAST-Secret': WEBHOOK_SECRET,
+        },
         body: JSON.stringify(payload)
       });
 
