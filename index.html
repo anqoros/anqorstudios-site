@@ -2444,10 +2444,10 @@
       function drawSparkline(canvas) {
         var pts = canvas.getAttribute('data-points').split(',').map(Number);
         var dpr = window.devicePixelRatio || 1;
-        var w = canvas.offsetWidth;
-        var h = canvas.offsetHeight;
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
+        var w = canvas.getBoundingClientRect().width || canvas.offsetWidth;
+        var h = 64;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
         var ctx = canvas.getContext('2d');
         ctx.scale(dpr, dpr);
 
@@ -2488,14 +2488,20 @@
 
       function initAll() {
         document.querySelectorAll('.spark-canvas').forEach(function(c) {
-          drawSparkline(c);
+          if (c.getBoundingClientRect().width > 0) drawSparkline(c);
+        });
+      }
+
+      function deferInit() {
+        requestAnimationFrame(function() {
+          requestAnimationFrame(initAll);
         });
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAll);
+        document.addEventListener('DOMContentLoaded', deferInit);
       } else {
-        initAll();
+        deferInit();
       }
       window.addEventListener('resize', initAll);
     })();
