@@ -1475,6 +1475,162 @@
       text-transform: uppercase;
     }
 
+
+    /* ── What We Build ── */
+    .wwb-section {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 96px 40px;
+    }
+    .wwb-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .wwb-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .wwb-heading {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .wwb-heading em { font-style: italic; color: var(--white); }
+    .wwb-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .wwb-checks { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+    .wwb-check { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--white); }
+    .wwb-check-icon {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(46,125,82,0.12);
+      border: 1px solid rgba(46,125,82,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: var(--accent); font-weight: 700;
+      margin-top: 2px;
+    }
+    .wwb-explore {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 15px; font-weight: 500;
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .wwb-explore:hover { border-color: var(--accent); }
+    .wwb-arrow { transition: transform 0.2s; }
+    .wwb-explore:hover .wwb-arrow { transform: translateX(3px); }
+
+    /* Orbit container */
+    .wwb-right { display: flex; align-items: center; justify-content: center; }
+    .wwb-orbit-container {
+      position: relative;
+      width: min(440px, 100%);
+      aspect-ratio: 1;
+    }
+    .wwb-orbit-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* Center card */
+    .wwb-center-card {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px; height: 68px;
+      border-radius: 16px;
+      background: var(--bg2);
+      border: 1px solid rgba(46,125,82,0.2);
+      box-shadow: 0 0 60px -5px rgba(46,125,82,0.4), 0 8px 30px -8px rgba(0,0,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 800;
+      color: var(--accent);
+      z-index: 2;
+    }
+
+    /* Spinning ring */
+    .wwb-spin-ring {
+      position: absolute;
+      inset: 0;
+      animation: wwb-orbit 30s linear infinite;
+      transform-origin: center;
+    }
+
+    /* Each icon: absolutely positioned via inline left/top, centered with translate */
+    .wwb-icon-pos {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Individual card */
+    .wwb-icon-card {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px -2px rgba(0,0,0,0.15);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .wwb-icon-card:hover {
+      border-color: rgba(46,125,82,0.5);
+      box-shadow: 0 4px 20px rgba(46,125,82,0.15);
+    }
+    .wwb-icon-card svg { color: rgba(17,26,20,0.6); transition: color 0.2s; }
+    .wwb-icon-card:hover svg { color: var(--accent); }
+
+    .wwb-icon-label {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--white);
+      white-space: nowrap;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 6px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .wwb-icon-card:hover .wwb-icon-label { opacity: 1; }
+
+    @keyframes wwb-orbit {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes wwb-counter-orbit {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .wwb-inner { grid-template-columns: 1fr; }
+      .wwb-section { padding: 64px 24px; }
+      .wwb-orbit-container { width: min(320px, 90vw); }
+    }
+
   </style>
 </head>
 <body>
@@ -1587,57 +1743,141 @@
   </div>
 
   <!-- WHAT WE BUILD -->
-  <div class="build-orbit-section" id="build">
-    <div class="build-orbit-layout">
+  <div class="wwb-section" id="build">
+    <div class="wwb-inner">
 
-      <!-- Left: text -->
-      <div class="build-orbit-left">
-        <p class="section-tag">What We Build</p>
-        <h2 class="section-title" style="margin-bottom:20px;font-size:48px;line-height:1.1;">AI systems for the parts of your business that <em>drain time and margin.</em></h2>
-        <p class="section-sub" style="margin-bottom:32px;">Every system is custom-built around your process, your team, and your goals. No templates.</p>
-        <div class="build-checklist">
-          <div class="check-item"><div class="check-icon">✓</div>We map your workflow and find the highest-leverage automation opportunities</div>
-          <div class="check-item"><div class="check-icon">✓</div>We design and build end-to-end — connected to your real tools</div>
-          <div class="check-item"><div class="check-icon">✓</div>We integrate with your CRM, inbox, WhatsApp, and dashboards</div>
-          <div class="check-item"><div class="check-icon">✓</div>You own the code. No licensing fees, no vendor lock-in, ever</div>
+      <!-- Left column -->
+      <div class="wwb-left">
+        <p class="wwb-tag">WHAT WE BUILD</p>
+        <h2 class="wwb-heading">AI systems for the parts of your funnel that <em>drain time and margin.</em></h2>
+        <p class="wwb-sub">Every system is custom-built around your process, your team, and your goals. No templates.</p>
+        <div class="wwb-checks">
+          <div class="wwb-check"><div class="wwb-check-icon">✓</div><span>We map your workflow and find the highest leverage points</span></div>
+          <div class="wwb-check"><div class="wwb-check-icon">✓</div><span>We design and build the system end-to-end</span></div>
+          <div class="wwb-check"><div class="wwb-check-icon">✓</div><span>We integrate it with your stack and train your team</span></div>
+          <div class="wwb-check"><div class="wwb-check-icon">✓</div><span>We iterate based on real data and feedback</span></div>
         </div>
-        <div style="display:flex;gap:12px;margin-top:32px;">
-          <a href="#cta" class="btn btn-primary">Book a Strategy Call</a>
-          <a href="#industries" class="btn btn-ghost">See Industries</a>
-        </div>
+        <a href="#cta" class="wwb-explore">Explore Systems <span class="wwb-arrow">→</span></a>
       </div>
 
-      <!-- Right: tag cloud -->
-      <div class="build-orbit-right">
-        <div class="tag-cloud-wrap">
-          <div class="tag-cloud-row">
-            <span class="tag-cloud-item">Lead Drafters</span>
-            <span class="tag-cloud-item">Ad Variant Engines</span>
-            <span class="tag-cloud-item">Analyst Agents</span>
+      <!-- Right column: orbital animation -->
+      <div class="wwb-right">
+        <div class="wwb-orbit-container">
+
+          <!-- Background SVG: glow + rings + spokes -->
+          <svg class="wwb-orbit-bg" viewBox="-240 -240 480 480">
+            <defs>
+              <radialGradient id="wwb-glow-center" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
+                <stop offset="40%" stop-color="var(--accent)" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="wwb-glow-far" cx="50%" cy="50%" r="50%">
+                <stop offset="60%" stop-color="var(--accent)" stop-opacity="0"/>
+                <stop offset="85%" stop-color="var(--accent)" stop-opacity="0.05"/>
+                <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- Far glow -->
+            <circle cx="0" cy="0" r="205" fill="url(#wwb-glow-far)"/>
+            <!-- Spokes from center to each icon (8 spokes at 45° intervals) -->
+            <line x1="0" y1="0" x2="0" y2="-145" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="102.5" y2="-102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="145" y2="0" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="102.5" y2="102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="0" y2="145" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="-102.5" y2="102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="-145" y2="0" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <line x1="0" y1="0" x2="-102.5" y2="-102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
+            <!-- Inner ring -->
+            <circle cx="0" cy="0" r="88" fill="none" stroke="rgba(17,26,20,0.08)" stroke-width="1"/>
+            <!-- Center glow fill -->
+            <circle cx="0" cy="0" r="100" fill="url(#wwb-glow-center)"/>
+            <!-- Outer orbit ring (dashed accent) -->
+            <circle cx="0" cy="0" r="145" fill="none" stroke="rgba(46,125,82,0.7)" stroke-width="1" stroke-dasharray="2 6"/>
+          </svg>
+
+          <!-- Center logo card -->
+          <div class="wwb-center-card">
+            <div class="wwb-center-logo">A</div>
           </div>
-          <div class="tag-cloud-row">
-            <span class="tag-cloud-item">Reporting Agents</span>
-            <span class="tag-cloud-item">Custom CRMs</span>
+
+          <!-- Spinning ring wrapper — all icons rotate together, counter-rotate individually -->
+          <div class="wwb-spin-ring" id="wwb-spin-ring">
+            <div class="wwb-icon-pos" style="left:50.00%;top:19.79%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <span class="wwb-icon-label">Lead Drafters</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:71.36%;top:28.64%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <span class="wwb-icon-label">Ad Variant Engines</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:80.21%;top:50.00%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span class="wwb-icon-label">Analyst Agents</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:71.36%;top:71.36%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span class="wwb-icon-label">Reporting Agents</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:50.00%;top:80.21%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span class="wwb-icon-label">Custom CRMs</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:28.64%;top:71.36%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span class="wwb-icon-label">Follow-up Drafters</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:19.79%;top:50.00%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                <span class="wwb-icon-label">Lead Routing</span>
+              </div>
+            </div>
+            <div class="wwb-icon-pos" style="left:28.64%;top:28.64%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span class="wwb-icon-label">Content Extraction</span>
+              </div>
+            </div>
           </div>
-          <div class="tag-cloud-row">
-            <span class="tag-cloud-item">Follow-up Drafters</span>
-            <span class="tag-cloud-item">Lead Routing</span>
-          </div>
-          <div class="tag-cloud-row">
-            <span class="tag-cloud-item">Content Extraction</span>
-            <span class="tag-cloud-item">WhatsApp Automation</span>
-          </div>
-          <div class="tag-cloud-row">
-            <span class="tag-cloud-item">CRM Sync</span>
-            <span class="tag-cloud-item">Inbox Automation</span>
-            <span class="tag-cloud-item">Data Enrichment</span>
-          </div>
+
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- INDUSTRIES -->
+  <div class="section-full">
+    <div class="section" id="industries">
+      <p class="section-tag">Not Just One Industry</p>
+      <h2 class="section-title">Built for <em>high-ticket</em><br>service businesses.</h2>
+      <p class="section-sub">If you run a premium service business and want your operations to run on autopilot, we build for you.</p>
+      <div class="industry-grid">
+        <div class="industry-card"><div class="industry-icon">🏢</div><div><div class="industry-name">Real Estate</div><div class="industry-sub">Agencies &amp; developers</div></div></div>
+        <div class="industry-card"><div class="industry-icon">📈</div><div><div class="industry-name">Finance &amp; Investment</div><div class="industry-sub">Advisory firms</div></div></div>
+        <div class="industry-card"><div class="industry-icon">🏦</div><div><div class="industry-name">Insurance &amp; Mortgage</div><div class="industry-sub">Brokers &amp; lenders</div></div></div>
+        <div class="industry-card"><div class="industry-icon">❤️</div><div><div class="industry-name">Healthcare &amp; Wellness</div><div class="industry-sub">Clinics &amp; medspas</div></div></div>
+        <div class="industry-card"><div class="industry-icon">🌍</div><div><div class="industry-name">Citizenship by Investment</div><div class="industry-sub">Immigration programs</div></div></div>
+        <div class="industry-card"><div class="industry-icon">👥</div><div><div class="industry-name">Recruitment</div><div class="industry-sub">Staffing &amp; talent</div></div></div>
+        <div class="industry-card"><div class="industry-icon">💼</div><div><div class="industry-name">Consulting &amp; Advisory</div><div class="industry-sub">High-ticket firms</div></div></div>
+        <div class="industry-card industry-card--accent"><div class="industry-icon">✦</div><div><div class="industry-name">Any Premium Service</div><div class="industry-sub">If you sell high-ticket, we build</div></div></div>
+      </div>
+    </div>
+  </div>
 
   <!-- RESULTS -->
   <div class="section-full">
