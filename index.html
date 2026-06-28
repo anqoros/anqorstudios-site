@@ -907,53 +907,49 @@
     }
 
     .industry-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-top: 52px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 48px;
+      justify-content: center;
     }
 
     .industry-card {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 14px;
-      padding: 22px 20px;
-      background: var(--bg3);
+      gap: 8px;
+      padding: 12px 22px;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      border-radius: 100px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      cursor: default;
     }
 
     .industry-card:hover {
-      border-color: rgba(46,125,82,0.3);
-      transform: translateY(-2px);
-    }
-
-    .industry-card--accent {
-      border-color: rgba(46,125,82,0.25);
+      border-color: rgba(46,125,82,0.35);
       background: rgba(46,125,82,0.04);
     }
 
-    .industry-icon {
-      font-size: 20px;
-      flex-shrink: 0;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg2);
-      border-radius: 10px;
+    .industry-card--accent {
+      border-color: rgba(46,125,82,0.4);
+      background: rgba(46,125,82,0.06);
     }
 
-    .industry-card--accent .industry-icon {
-      background: rgba(46,125,82,0.1);
-      color: var(--green);
+    .industry-card--accent .industry-dot {
+      background: var(--green-lt);
+    }
+
+    .industry-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(17,26,20,0.25);
+      flex-shrink: 0;
     }
 
     .industry-name {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--white);
       letter-spacing: -0.01em;
       line-height: 1.3;
@@ -1902,14 +1898,13 @@
       <h2 class="section-title">Built for <em>high-ticket</em><br>service businesses.</h2>
       <p class="section-sub">If you run a premium service business and want your operations to run on autopilot, we build for you.</p>
       <div class="industry-grid">
-        <div class="industry-card"><div class="industry-icon">🏢</div><div><div class="industry-name">Real Estate</div><div class="industry-sub">Agencies &amp; developers</div></div></div>
-        <div class="industry-card"><div class="industry-icon">📈</div><div><div class="industry-name">Finance &amp; Investment</div><div class="industry-sub">Advisory firms</div></div></div>
-        <div class="industry-card"><div class="industry-icon">🏦</div><div><div class="industry-name">Insurance &amp; Mortgage</div><div class="industry-sub">Brokers &amp; lenders</div></div></div>
-        <div class="industry-card"><div class="industry-icon">❤️</div><div><div class="industry-name">Healthcare &amp; Wellness</div><div class="industry-sub">Clinics &amp; medspas</div></div></div>
-        <div class="industry-card"><div class="industry-icon">🌍</div><div><div class="industry-name">Citizenship by Investment</div><div class="industry-sub">Immigration programs</div></div></div>
-        <div class="industry-card"><div class="industry-icon">👥</div><div><div class="industry-name">Recruitment</div><div class="industry-sub">Staffing &amp; talent</div></div></div>
-        <div class="industry-card"><div class="industry-icon">💼</div><div><div class="industry-name">Consulting &amp; Advisory</div><div class="industry-sub">High-ticket firms</div></div></div>
-        <div class="industry-card industry-card--accent"><div class="industry-icon">✦</div><div><div class="industry-name">Any Premium Service</div><div class="industry-sub">If you sell high-ticket, we build</div></div></div>
+        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Real Estate</span></div>
+        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Finance &amp; Investment</span></div>
+        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Insurance &amp; Mortgage</span></div>
+        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Healthcare &amp; Wellness</span></div>
+        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Recruitment</span></div>
+        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Consulting &amp; Advisory</span></div>
+        <div class="industry-card industry-card--accent"><div class="industry-dot"></div><span class="industry-name">Any Premium Service</span></div>
       </div>
     </div>
   </div>
