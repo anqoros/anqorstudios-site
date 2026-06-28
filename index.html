@@ -1628,30 +1628,22 @@
       padding: 12px;
     }
 
-    /* Single ring spins — all items ride it */
+    /* Spin ring is a no-op wrapper — JS drives positioning */
     .wwb-spin-ring {
       position: absolute;
       inset: 0;
-      transform-origin: center;
-      animation: wwb-orbit 30s linear infinite;
     }
 
-    /*
-      Polar arm: rotate to angle, then push out by exactly 160px (the radius).
-      --a is set inline on each element.
-    */
+    /* JS sets transform: translate(x, y) on each .wwb-icon-pos */
     .wwb-icon-pos {
       position: absolute;
       left: 50%; top: 50%;
       width: 0; height: 0;
-      transform: rotate(var(--a)) translateY(-178px);
     }
 
-    /* Inner wrapper: undo the arm angle so the card faces upright,
-       then counter-spin against the ring animation */
+    /* Never rotated — always upright */
     .wwb-icon-inner {
-      transform: translate(-50%, -50%) rotate(calc(-1 * var(--a)));
-      animation: wwb-counter-orbit 30s linear infinite;
+      transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1690,14 +1682,6 @@
       pointer-events: none;
     }
 
-    @keyframes wwb-orbit {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    @keyframes wwb-counter-orbit {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(-360deg); }
-    }
 
     @media (max-width: 768px) {
       .wwb-inner { grid-template-columns: 1fr; }
@@ -2556,6 +2540,33 @@
       window.addEventListener('resize', initAll);
     })();
   </script>
+
+  <script>
+    (function () {
+      var container = document.querySelector('.wwb-orbit-container');
+      if (!container) return;
+      var items = Array.from(container.querySelectorAll('.wwb-icon-pos'));
+      var count = items.length;
+      var radius = 178;
+      var duration = 70000; // 70s per full revolution
+      var startTime = null;
+
+      function animate(ts) {
+        if (!startTime) startTime = ts;
+        var angle = ((ts - startTime) / duration) * 360;
+        items.forEach(function (item, i) {
+          var deg = (360 / count) * i + angle;
+          var rad = (deg - 90) * (Math.PI / 180);
+          var x = Math.cos(rad) * radius;
+          var y = Math.sin(rad) * radius;
+          item.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+        });
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    })();
+  </script>
+
   <script src="https://setta.anqorstudios.com/static/widget/setta-widget.js"
           data-workspace-id="1d1e6e2a-a8d2-463f-9f16-cf65ffe3aef2"
           data-api-url="https://setta.anqorstudios.com"
