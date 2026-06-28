@@ -1600,10 +1600,16 @@
       transform-origin: center;
     }
 
-    /* Each icon: absolutely positioned via inline left/top, centered with translate */
+    /* Each icon: absolutely positioned via inline left/top, centered with translate.
+       Counter-rotates at same speed as parent ring so the card stays upright. */
     .wwb-icon-pos {
       position: absolute;
       transform: translate(-50%, -50%);
+      animation: wwb-counter-orbit 30s linear infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
 
     /* Individual card */
@@ -1614,9 +1620,9 @@
       border: 1px solid var(--border);
       box-shadow: 0 4px 12px -2px rgba(0,0,0,0.15);
       display: flex; align-items: center; justify-content: center;
-      position: relative;
       cursor: pointer;
       transition: border-color 0.2s, box-shadow 0.2s;
+      flex-shrink: 0;
     }
     .wwb-icon-card:hover {
       border-color: rgba(46,125,82,0.5);
@@ -1626,23 +1632,16 @@
     .wwb-icon-card:hover svg { color: var(--accent); }
 
     .wwb-icon-label {
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 500;
       color: var(--white);
       white-space: nowrap;
       background: var(--bg2);
       border: 1px solid var(--border);
-      padding: 4px 8px;
-      border-radius: 6px;
-      opacity: 0;
+      padding: 3px 7px;
+      border-radius: 5px;
       pointer-events: none;
-      transition: opacity 0.2s;
     }
-    .wwb-icon-card:hover .wwb-icon-label { opacity: 1; }
 
     @keyframes wwb-orbit {
       from { transform: rotate(0deg); }
