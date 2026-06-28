@@ -1610,7 +1610,7 @@
       padding: 12px;
     }
 
-    /* All 3 rings spin at identical speed   icons stay at fixed angular gaps, never overlap */
+    /* Single ring spins — all items ride it */
     .wwb-spin-ring {
       position: absolute;
       inset: 0;
@@ -1618,15 +1618,26 @@
       animation: wwb-orbit 30s linear infinite;
     }
 
-    /* Counter-rotates at same 30s speed   card always faces upright */
+    /*
+      Polar arm: rotate to angle, then push out by exactly 160px (the radius).
+      --a is set inline on each element.
+    */
     .wwb-icon-pos {
       position: absolute;
-      transform: translate(-50%, -50%);
+      left: 50%; top: 50%;
+      width: 0; height: 0;
+      transform: rotate(var(--a)) translateY(-160px);
+    }
+
+    /* Inner wrapper: undo the arm angle so the card faces upright,
+       then counter-spin against the ring animation */
+    .wwb-icon-inner {
+      transform: translate(-50%, -50%) rotate(calc(-1 * var(--a)));
+      animation: wwb-counter-orbit 30s linear infinite;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 5px;
-      animation: wwb-counter-orbit 30s linear infinite;
     }
 
     /* Individual card */
@@ -1841,45 +1852,29 @@
             sin/cos(45°) = 0.7071 → offset = 36.36% × 0.7071 = 25.71%
           -->
           <div class="wwb-spin-ring">
-            <!-- 0° top -->
-            <div class="wwb-icon-pos" style="left:50%;top:13.64%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg></div>
-              <span class="wwb-icon-label">Outreach Drafters</span>
+            <div class="wwb-icon-pos" style="--a:0deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg></div><span class="wwb-icon-label">Outreach Drafters</span></div>
             </div>
-            <!-- 45° top-right -->
-            <div class="wwb-icon-pos" style="left:75.71%;top:24.29%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-              <span class="wwb-icon-label">Follow-Up Agents</span>
+            <div class="wwb-icon-pos" style="--a:45deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="wwb-icon-label">Follow-Up Agents</span></div>
             </div>
-            <!-- 90° right -->
-            <div class="wwb-icon-pos" style="left:86.36%;top:50%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-              <span class="wwb-icon-label">Auto Reporting</span>
+            <div class="wwb-icon-pos" style="--a:90deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><span class="wwb-icon-label">Auto Reporting</span></div>
             </div>
-            <!-- 135° bottom-right -->
-            <div class="wwb-icon-pos" style="left:75.71%;top:75.71%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-              <span class="wwb-icon-label">Custom CRMs</span>
+            <div class="wwb-icon-pos" style="--a:135deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><span class="wwb-icon-label">Custom CRMs</span></div>
             </div>
-            <!-- 180° bottom -->
-            <div class="wwb-icon-pos" style="left:50%;top:86.36%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
-              <span class="wwb-icon-label">Lead Research</span>
+            <div class="wwb-icon-pos" style="--a:180deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div><span class="wwb-icon-label">Lead Research</span></div>
             </div>
-            <!-- 225° bottom-left -->
-            <div class="wwb-icon-pos" style="left:24.29%;top:75.71%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
-              <span class="wwb-icon-label">Lead Routing</span>
+            <div class="wwb-icon-pos" style="--a:225deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div><span class="wwb-icon-label">Lead Routing</span></div>
             </div>
-            <!-- 270° left -->
-            <div class="wwb-icon-pos" style="left:13.64%;top:50%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-              <span class="wwb-icon-label">Data Extraction</span>
+            <div class="wwb-icon-pos" style="--a:270deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><span class="wwb-icon-label">Data Extraction</span></div>
             </div>
-            <!-- 315° top-left -->
-            <div class="wwb-icon-pos" style="left:24.29%;top:24.29%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-              <span class="wwb-icon-label">Analyst Agents</span>
+            <div class="wwb-icon-pos" style="--a:315deg">
+              <div class="wwb-icon-inner"><div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="wwb-icon-label">Analyst Agents</span></div>
             </div>
           </div>
 
