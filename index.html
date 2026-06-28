@@ -1902,18 +1902,7 @@
             </div>
           </div>
           <div class="result-spacer"></div>
-          <div class="sparkline-wrap">
-            <svg class="sparkline" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#2e7d52" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#2e7d52" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path class="spark-area" fill="url(#sg1)" d="M0,54 L30,50 L60,46 L90,42 L120,36 L150,30 L180,24 L210,17 L240,10 L260,6 L280,3 L280,60 L0,60 Z"/>
-              <path class="spark-path" d="M0,54 L30,50 L60,46 L90,42 L120,36 L150,30 L180,24 L210,17 L240,10 L260,6 L280,3"/>
-            </svg>
-          </div>
+          <div class="sparkline-wrap"><canvas class="spark-canvas" data-points="54,50,46,42,36,30,24,17,10,6,3"></canvas></div>
         </div>
 
         <!-- Card 2 -->
@@ -1932,18 +1921,7 @@
             </div>
           </div>
           <div class="result-spacer"></div>
-          <div class="sparkline-wrap">
-            <svg class="sparkline" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#2e7d52" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#2e7d52" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path class="spark-area" fill="url(#sg2)" d="M0,56 L40,52 L80,48 L110,43 L140,36 L165,28 L190,20 L215,14 L240,9 L260,5 L280,2 L280,60 L0,60 Z"/>
-              <path class="spark-path" d="M0,56 L40,52 L80,48 L110,43 L140,36 L165,28 L190,20 L215,14 L240,9 L260,5 L280,2"/>
-            </svg>
-          </div>
+          <div class="sparkline-wrap"><canvas class="spark-canvas" data-points="56,52,48,43,36,28,20,14,9,5,2"></canvas></div>
         </div>
 
         <!-- Card 3 -->
@@ -1962,18 +1940,7 @@
             </div>
           </div>
           <div class="result-spacer"></div>
-          <div class="sparkline-wrap">
-            <svg class="sparkline" viewBox="0 0 280 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#2e7d52" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#2e7d52" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path class="spark-area" fill="url(#sg3)" d="M0,55 L30,53 L60,51 L90,46 L110,42 L130,34 L155,24 L180,16 L210,10 L245,5 L280,2 L280,60 L0,60 Z"/>
-              <path class="spark-path" d="M0,55 L30,53 L60,51 L90,46 L110,42 L130,34 L155,24 L180,16 L210,10 L245,5 L280,2"/>
-            </svg>
-          </div>
+          <div class="sparkline-wrap"><canvas class="spark-canvas" data-points="55,53,51,46,42,34,24,16,10,5,2"></canvas></div>
         </div>
 
       </div>
@@ -2470,6 +2437,68 @@
       if (!isOpen) item.classList.add('open');
     }
 
+  </script>
+
+  <script>
+    (function() {
+      function drawSparkline(canvas) {
+        var pts = canvas.getAttribute('data-points').split(',').map(Number);
+        var dpr = window.devicePixelRatio || 1;
+        var w = canvas.offsetWidth;
+        var h = canvas.offsetHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        var ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        // Map points: y values are in 0-60 space, x evenly distributed
+        var n = pts.length;
+        var xs = pts.map(function(_, i) { return (i / (n - 1)) * w; });
+        var ys = pts.map(function(y) { return (y / 60) * h; });
+
+        // Gradient fill
+        var grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, 'rgba(46, 125, 82, 0.35)');
+        grad.addColorStop(1, 'rgba(46, 125, 82, 0)');
+
+        // Draw filled area
+        ctx.beginPath();
+        ctx.moveTo(xs[0], ys[0]);
+        for (var i = 1; i < n; i++) {
+          ctx.lineTo(xs[i], ys[i]);
+        }
+        ctx.lineTo(xs[n-1], h);
+        ctx.lineTo(xs[0], h);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Draw line on top
+        ctx.beginPath();
+        ctx.moveTo(xs[0], ys[0]);
+        for (var i = 1; i < n; i++) {
+          ctx.lineTo(xs[i], ys[i]);
+        }
+        ctx.strokeStyle = '#2e7d52';
+        ctx.lineWidth = 2;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+      function initAll() {
+        document.querySelectorAll('.spark-canvas').forEach(function(c) {
+          drawSparkline(c);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAll);
+      } else {
+        initAll();
+      }
+      window.addEventListener('resize', initAll);
+    })();
   </script>
 </body>
 </html>
