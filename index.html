@@ -569,109 +569,202 @@
       .results-label { border-right: none; border-bottom: 1px solid var(--border); }
     }
 
-    .process-pin-wrap {
-      position: relative;
+    /* ── Process / Timeline (setmyclaw layout) ── */
+    .process-new-wrap {
+      border-top: 1px solid var(--border);
     }
 
-    .process-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0 48px;
-      max-width: 1200px;
+    .process-new-inner {
+      max-width: 1100px;
       margin: 0 auto;
-      overflow: hidden;
+      padding: 96px 48px;
     }
 
-    .process-header {
-      margin-bottom: 52px;
+    .process-new-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 64px;
     }
 
-    .timeline-track {
-      position: relative;
-      height: 2px;
-      background: var(--border);
-      margin-bottom: 44px;
-    }
-
-    .timeline-fill {
-      position: absolute;
-      top: 0; left: 0;
-      height: 100%;
-      width: 0%;
-      background: var(--green);
-    }
-
-    .timeline-dot {
-      position: absolute;
-      top: 50%;
-      left: 0%;
-      transform: translate(-50%, -50%);
-      width: 14px; height: 14px;
-      background: var(--green);
-      border-radius: 50%;
-      border: 3px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--green), 0 0 16px rgba(46,125,82,0.4);
-    }
-
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-
-    .process-col {
-      padding: 0 32px 0 0;
-      border-right: 1px solid var(--border);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      opacity: 0.2;
-      transform: translateY(8px);
-    }
-
-    .process-col:first-child { padding-left: 0; }
-    .process-col:last-child  { border-right: none; }
-
-    .process-col.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .process-pin-wrap {
-      height: 320vh;
-      position: relative;
-    }
-
-    .col-num {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--green);
-      margin-right: 6px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .col-days {
+    .process-new-tag {
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      font-weight: 600;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .process-new-heading {
+      font-size: clamp(2rem, 4.2vw, 3.25rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      color: var(--white);
       margin-bottom: 16px;
     }
 
-    .process-col.active .col-days { color: var(--green-lt); }
-
-    .col-title {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 14px;
+    .process-new-heading em {
+      font-style: italic;
       color: var(--white);
     }
 
-    .process-col.active .col-title { color: var(--green-dim); }
+    .process-new-sub {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .process-new-steps-wrap {
+      position: relative;
+    }
+
+    .process-new-line {
+      display: none;
+    }
+
+    .process-new-dot {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .process-new-line {
+        display: block;
+        position: absolute;
+        top: 32px;
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        background: linear-gradient(to right, rgba(46,125,82,0.15), rgba(46,125,82,0.5), rgba(46,125,82,0.15));
+      }
+      .process-new-dot {
+        display: block;
+        position: absolute;
+        top: 28px;
+        left: 10%;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 12px 2px rgba(46,125,82,0.5);
+      }
+    }
+
+    .process-new-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 767px) {
+      .process-new-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .process-new-inner { padding: 64px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .process-new-grid { grid-template-columns: 1fr; }
+    }
+
+    .process-new-step {
+      position: relative;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .process-new-circle {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      color: var(--accent);
+    }
+
+    .process-new-num {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .process-new-days {
+      margin-top: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .process-new-title {
+      margin-top: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--white);
+    }
+
+    .process-new-desc {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 220px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .process-data-box {
+      margin-top: 48px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 28px;
+    }
+
+    .process-data-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(46,125,82,0.08);
+      border: 1px solid rgba(46,125,82,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .process-data-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .process-data-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
 
     .col-desc {
       font-size: 15px;
@@ -1587,41 +1680,79 @@
   </div>
 
   <!-- PROCESS (sticky scroll) -->
-  <div class="process-pin-wrap" id="process-wrap">
-    <div class="process-sticky" id="process">
-      <div class="process-header">
-        <p class="section-tag">From Audit to Production</p>
-        <h2 class="section-title" style="margin-bottom:12px;font-size:48px;line-height:1.1;">Live in 2–3 weeks,<br><em>not 6 months.</em></h2>
-        <p class="section-sub" style="margin-bottom:0;">Direct line to the team building your system. Decisions in hours, not weeks.</p>
+  <div class="process-new-wrap" id="process-wrap">
+    <div class="process-new-inner" id="process">
+
+      <!-- Header — centered, same as setmyclaw -->
+      <div class="process-new-header">
+        <p class="process-new-tag">From Audit to Production</p>
+        <h2 class="process-new-heading">Built in 2–3 weeks, <em>not 6 months.</em></h2>
+        <p class="process-new-sub">Direct line to the team building your system. Decisions in hours, not weeks.</p>
       </div>
 
-      <div class="timeline-track">
-        <div class="timeline-fill" id="timeline-fill"></div>
-        <div class="timeline-dot" id="timeline-dot"></div>
+      <!-- Steps grid with connecting line -->
+      <div class="process-new-steps-wrap">
+        <!-- Connecting line -->
+        <div class="process-new-line"></div>
+        <!-- Moving dot on line -->
+        <div class="process-new-dot"></div>
+
+        <div class="process-new-grid">
+
+          <div class="process-new-step">
+            <div class="process-new-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <div class="process-new-num">1</div>
+            </div>
+            <div class="process-new-days">DAYS 1–3</div>
+            <h3 class="process-new-title">Discovery</h3>
+            <p class="process-new-desc">Working session walking through your ops live. You leave with a written brief: workflows to automate, systems they plug into, scope locked.</p>
+          </div>
+
+          <div class="process-new-step">
+            <div class="process-new-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              <div class="process-new-num">2</div>
+            </div>
+            <div class="process-new-days">DAYS 3–10</div>
+            <h3 class="process-new-title">Architecture + Build</h3>
+            <p class="process-new-desc">We design and build. Mid-week, a Loom of the working prototype: data flow, agent decisions, human-in-the-loop checkpoints.</p>
+          </div>
+
+          <div class="process-new-step">
+            <div class="process-new-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <div class="process-new-num">3</div>
+            </div>
+            <div class="process-new-days">DAYS 10–14</div>
+            <h3 class="process-new-title">First Version Live</h3>
+            <p class="process-new-desc">Connected to your real CRM, inbox, WhatsApp. You run prompts, hit edge cases. We patch in real time.</p>
+          </div>
+
+          <div class="process-new-step">
+            <div class="process-new-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              <div class="process-new-num">4</div>
+            </div>
+            <div class="process-new-days">DAYS 14–21</div>
+            <h3 class="process-new-title">Production Handover</h3>
+            <p class="process-new-desc">Full system on production. Monitoring set up, dashboard walkthrough, ongoing retainer for updates and new workflows.</p>
+          </div>
+
+        </div>
       </div>
 
-      <div class="process-steps" id="process-steps">
-        <div class="process-col active" data-step="0">
-          <div class="col-days"><span class="col-num">01</span> Days 1–3</div>
-          <div class="col-title">Discovery</div>
-          <p class="col-desc">Working session walking through your ops live. You leave with a written brief: workflows to automate, systems they plug into, scope locked.</p>
+      <!-- Data sovereignty box -->
+      <div class="process-data-box">
+        <div class="process-data-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
         </div>
-        <div class="process-col" data-step="1">
-          <div class="col-days"><span class="col-num">02</span> Days 3–10</div>
-          <div class="col-title">Architecture + Build</div>
-          <p class="col-desc">We design and build. Mid-week, a working prototype: data flow, agent decisions, human-in-the-loop checkpoints — all visible.</p>
-        </div>
-        <div class="process-col" data-step="2">
-          <div class="col-days"><span class="col-num">03</span> Days 10–14</div>
-          <div class="col-title">First Version Live</div>
-          <p class="col-desc">Connected to your real CRM, inbox, WhatsApp. You run prompts, hit edge cases. We patch in real time. Nothing hidden.</p>
-        </div>
-        <div class="process-col" data-step="3">
-          <div class="col-days"><span class="col-num">04</span> Days 14–21</div>
-          <div class="col-title">Production Handover</div>
-          <p class="col-desc">Full system on production. Monitoring set up, dashboard walkthrough, ongoing retainer for updates and new workflows.</p>
+        <div>
+          <div class="process-data-title">Want full control of your data?</div>
+          <p class="process-data-desc">We can run everything on your own hardware. Your data never leaves your servers — which is what GDPR, healthcare, and finance regulators want to hear.</p>
         </div>
       </div>
+
     </div>
   </div>
 
