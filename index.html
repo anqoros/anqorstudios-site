@@ -1592,25 +1592,28 @@
       z-index: 2;
     }
 
-    /* Spinning ring */
+    /* Spinning ring — one per orbit ring */
     .wwb-spin-ring {
       position: absolute;
       inset: 0;
-      animation: wwb-orbit 30s linear infinite;
       transform-origin: center;
     }
+    .wwb-ring-1 { animation: wwb-orbit 20s linear infinite; }
+    .wwb-ring-2 { animation: wwb-orbit 32s linear infinite; }
+    .wwb-ring-3 { animation: wwb-orbit 48s linear infinite reverse; }
 
-    /* Each icon: absolutely positioned via inline left/top, centered with translate.
-       Counter-rotates at same speed as parent ring so the card stays upright. */
+    /* Each icon: absolutely positioned, counter-rotates to stay upright */
     .wwb-icon-pos {
       position: absolute;
       transform: translate(-50%, -50%);
-      animation: wwb-counter-orbit 30s linear infinite;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
+    .wwb-ring-1 .wwb-icon-pos { animation: wwb-counter-orbit 20s linear infinite; }
+    .wwb-ring-2 .wwb-icon-pos { animation: wwb-counter-orbit 32s linear infinite; }
+    .wwb-ring-3 .wwb-icon-pos { animation: wwb-counter-orbit 48s linear infinite reverse; }
 
     /* Individual card */
     .wwb-icon-card {
@@ -1631,6 +1634,7 @@
     .wwb-icon-card svg { color: rgba(17,26,20,0.6); transition: color 0.2s; }
     .wwb-icon-card:hover svg { color: var(--accent); }
 
+    /* Label sits below the card as a flex sibling — always visible */
     .wwb-icon-label {
       font-size: 9px;
       font-weight: 500;
@@ -1800,37 +1804,22 @@
       <div class="wwb-right">
         <div class="wwb-orbit-container">
 
-          <!-- Background SVG: glow + rings + spokes -->
+          <!-- Background SVG: glow + 3 concentric rings -->
           <svg class="wwb-orbit-bg" viewBox="-240 -240 480 480">
             <defs>
               <radialGradient id="wwb-glow-center" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
-                <stop offset="40%" stop-color="var(--accent)" stop-opacity="0.12"/>
-                <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
-              </radialGradient>
-              <radialGradient id="wwb-glow-far" cx="50%" cy="50%" r="50%">
-                <stop offset="60%" stop-color="var(--accent)" stop-opacity="0"/>
-                <stop offset="85%" stop-color="var(--accent)" stop-opacity="0.05"/>
+                <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.4"/>
+                <stop offset="45%" stop-color="var(--accent)" stop-opacity="0.1"/>
                 <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
               </radialGradient>
             </defs>
-            <!-- Far glow -->
-            <circle cx="0" cy="0" r="205" fill="url(#wwb-glow-far)"/>
-            <!-- Spokes from center to each icon (8 spokes at 45° intervals) -->
-            <line x1="0" y1="0" x2="0" y2="-145" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="102.5" y2="-102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="145" y2="0" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="102.5" y2="102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="0" y2="145" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="-102.5" y2="102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="-145" y2="0" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <line x1="0" y1="0" x2="-102.5" y2="-102.5" stroke="rgba(46,125,82,0.18)" stroke-width="1" stroke-dasharray="2 5"/>
-            <!-- Inner ring -->
-            <circle cx="0" cy="0" r="88" fill="none" stroke="rgba(17,26,20,0.08)" stroke-width="1"/>
-            <!-- Center glow fill -->
-            <circle cx="0" cy="0" r="100" fill="url(#wwb-glow-center)"/>
-            <!-- Outer orbit ring (dashed accent) -->
-            <circle cx="0" cy="0" r="145" fill="none" stroke="rgba(46,125,82,0.7)" stroke-width="1" stroke-dasharray="2 6"/>
+            <circle cx="0" cy="0" r="110" fill="url(#wwb-glow-center)"/>
+            <!-- Ring 1 inner -->
+            <circle cx="0" cy="0" r="75" fill="none" stroke="rgba(17,26,20,0.1)" stroke-width="1" stroke-dasharray="2 7"/>
+            <!-- Ring 2 middle -->
+            <circle cx="0" cy="0" r="135" fill="none" stroke="rgba(46,125,82,0.6)" stroke-width="1" stroke-dasharray="2 6"/>
+            <!-- Ring 3 outer -->
+            <circle cx="0" cy="0" r="185" fill="none" stroke="rgba(17,26,20,0.08)" stroke-width="1" stroke-dasharray="2 9"/>
           </svg>
 
           <!-- Center logo card -->
@@ -1838,55 +1827,71 @@
             <div class="wwb-center-logo">A</div>
           </div>
 
-          <!-- Spinning ring wrapper — all icons rotate together, counter-rotate individually -->
-          <div class="wwb-spin-ring" id="wwb-spin-ring">
-            <div class="wwb-icon-pos" style="left:50.00%;top:19.79%">
+          <!-- Ring 1: innermost, 2 icons, 20s -->
+          <div class="wwb-spin-ring wwb-ring-1">
+            <!-- 0°: top=50-75/480*100=34.375% -->
+            <div class="wwb-icon-pos" style="left:50%;top:34.375%">
               <div class="wwb-icon-card">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                <span class="wwb-icon-label">AI Setter Agent</span>
               </div>
+              <span class="wwb-icon-label">AI Setter Agent</span>
             </div>
-            <div class="wwb-icon-pos" style="left:71.36%;top:28.64%">
-              <div class="wwb-icon-card">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                <span class="wwb-icon-label">PDF → Structured Data</span>
-              </div>
-            </div>
-            <div class="wwb-icon-pos" style="left:80.21%;top:50.00%">
-              <div class="wwb-icon-card">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-                <span class="wwb-icon-label">UGC Video Maker</span>
-              </div>
-            </div>
-            <div class="wwb-icon-pos" style="left:71.36%;top:71.36%">
-              <div class="wwb-icon-card">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <span class="wwb-icon-label">AI Voice + WhatsApp</span>
-              </div>
-            </div>
-            <div class="wwb-icon-pos" style="left:50.00%;top:80.21%">
+            <!-- 180°: top=50+75/480*100=65.625% -->
+            <div class="wwb-icon-pos" style="left:50%;top:65.625%">
               <div class="wwb-icon-card">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                <span class="wwb-icon-label">Faceless Video Pipeline</span>
               </div>
+              <span class="wwb-icon-label">Faceless Video Pipeline</span>
             </div>
-            <div class="wwb-icon-pos" style="left:28.64%;top:71.36%">
+          </div>
+
+          <!-- Ring 2: middle, 3 icons, 32s -->
+          <div class="wwb-spin-ring wwb-ring-2">
+            <!-- 0°: left=50%, top=50-135/480*100=21.875% -->
+            <div class="wwb-icon-pos" style="left:50%;top:21.875%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <span class="wwb-icon-label">PDF → Structured Data</span>
+            </div>
+            <!-- 120°: left=50+28.125*sin120=50+24.36=74.36%, top=50-28.125*cos120=50+14.06=64.06% -->
+            <div class="wwb-icon-pos" style="left:74.36%;top:64.06%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              </div>
+              <span class="wwb-icon-label">UGC Video Maker</span>
+            </div>
+            <!-- 240°: left=50-24.36=25.64%, top=64.06% -->
+            <div class="wwb-icon-pos" style="left:25.64%;top:64.06%">
               <div class="wwb-icon-card">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                <span class="wwb-icon-label">AI Business OS</span>
               </div>
+              <span class="wwb-icon-label">AI Business OS</span>
             </div>
-            <div class="wwb-icon-pos" style="left:19.79%;top:50.00%">
+          </div>
+
+          <!-- Ring 3: outer, 3 icons, 48s reverse -->
+          <div class="wwb-spin-ring wwb-ring-3">
+            <!-- 60°: left=50+185/480*100*sin60=50+38.54*0.866=50+33.39=83.39%, top=50-38.54*0.5=50-19.27=30.73% -->
+            <div class="wwb-icon-pos" style="left:83.39%;top:30.73%">
+              <div class="wwb-icon-card">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <span class="wwb-icon-label">AI Voice + WhatsApp</span>
+            </div>
+            <!-- 180°: left=50%, top=50+38.54=88.54% -->
+            <div class="wwb-icon-pos" style="left:50%;top:88.54%">
               <div class="wwb-icon-card">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                <span class="wwb-icon-label">Video Editing Automation</span>
               </div>
+              <span class="wwb-icon-label">Video Editing Automation</span>
             </div>
-            <div class="wwb-icon-pos" style="left:28.64%;top:28.64%">
+            <!-- 300°: left=50-33.39=16.61%, top=30.73% -->
+            <div class="wwb-icon-pos" style="left:16.61%;top:30.73%">
               <div class="wwb-icon-card">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                <span class="wwb-icon-label">Brand Intelligence Runner</span>
               </div>
+              <span class="wwb-icon-label">Brand Intelligence Runner</span>
             </div>
           </div>
 
