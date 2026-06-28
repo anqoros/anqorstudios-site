@@ -1839,59 +1839,53 @@
 
           <!-- Center logo card -->
           <div class="wwb-center-card">
-            <div class="wwb-center-logo"><img src="anqor_logo.png" alt="Anqor Studios" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div class="wwb-center-logo"><img src="anqor_logo.png" alt="Anqor Studios" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;"></div>
           </div>
 
           <!--
-            8 icons placed at 45° intervals (0,45,90,135,180,225,270,315).
-            All rings spin at same 30s speed → angular gaps are PERMANENT, no overlap ever.
-
-            Ring 1 r=80  → ratio=16.667%:  0°→top=33.33%  |  180°→top=66.67%
-            Ring 2 r=135 → ratio=28.125%: 45°→(69.89,30.11) | 135°→(69.89,69.89) | 270°→(21.88,50)
-            Ring 3 r=160 → ratio=33.333%: 90°→(83.33,50) | 225°→(26.43,73.57) | 315°→(26.43,26.43)
+            8 icons evenly spaced at 45° intervals on a single ring (r=36.36% of 440px = 160px).
+            sin/cos(45°) = 0.7071 → offset = 36.36% × 0.7071 = 25.71%
           -->
-
-          <!-- Ring 1: 2 icons @ 0° and 180° -->
-          <div class="wwb-spin-ring wwb-ring-1">
-            <div class="wwb-icon-pos" style="left:50%;top:33.33%">
+          <div class="wwb-spin-ring">
+            <!-- 0° top -->
+            <div class="wwb-icon-pos" style="left:50%;top:13.64%">
+              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg></div>
+              <span class="wwb-icon-label">Outreach Drafters</span>
+            </div>
+            <!-- 45° top-right -->
+            <div class="wwb-icon-pos" style="left:75.71%;top:24.29%">
               <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-              <span class="wwb-icon-label">AI Setter</span>
+              <span class="wwb-icon-label">Follow-Up Agents</span>
             </div>
-            <div class="wwb-icon-pos" style="left:50%;top:66.67%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
-              <span class="wwb-icon-label">Faceless Video</span>
+            <!-- 90° right -->
+            <div class="wwb-icon-pos" style="left:86.36%;top:50%">
+              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+              <span class="wwb-icon-label">Auto Reporting</span>
             </div>
-          </div>
-
-          <!-- Ring 2: 3 icons @ 45°, 135°, 270° -->
-          <div class="wwb-spin-ring wwb-ring-2">
-            <div class="wwb-icon-pos" style="left:69.89%;top:30.11%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-              <span class="wwb-icon-label">PDF → Data</span>
+            <!-- 135° bottom-right -->
+            <div class="wwb-icon-pos" style="left:75.71%;top:75.71%">
+              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+              <span class="wwb-icon-label">Custom CRMs</span>
             </div>
-            <div class="wwb-icon-pos" style="left:69.89%;top:69.89%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-              <span class="wwb-icon-label">UGC Video</span>
-            </div>
-            <div class="wwb-icon-pos" style="left:21.88%;top:50%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-              <span class="wwb-icon-label">AI Business OS</span>
-            </div>
-          </div>
-
-          <!-- Ring 3: 3 icons @ 90°, 225°, 315° -->
-          <div class="wwb-spin-ring wwb-ring-3">
-            <div class="wwb-icon-pos" style="left:83.33%;top:50%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-              <span class="wwb-icon-label">AI Voice</span>
-            </div>
-            <div class="wwb-icon-pos" style="left:26.43%;top:73.57%">
-              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-              <span class="wwb-icon-label">Video Edit</span>
-            </div>
-            <div class="wwb-icon-pos" style="left:26.43%;top:26.43%">
+            <!-- 180° bottom -->
+            <div class="wwb-icon-pos" style="left:50%;top:86.36%">
               <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
-              <span class="wwb-icon-label">Brand Intel</span>
+              <span class="wwb-icon-label">Lead Research</span>
+            </div>
+            <!-- 225° bottom-left -->
+            <div class="wwb-icon-pos" style="left:24.29%;top:75.71%">
+              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg></div>
+              <span class="wwb-icon-label">Lead Routing</span>
+            </div>
+            <!-- 270° left -->
+            <div class="wwb-icon-pos" style="left:13.64%;top:50%">
+              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+              <span class="wwb-icon-label">Data Extraction</span>
+            </div>
+            <!-- 315° top-left -->
+            <div class="wwb-icon-pos" style="left:24.29%;top:24.29%">
+              <div class="wwb-icon-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              <span class="wwb-icon-label">Analyst Agents</span>
             </div>
           </div>
 
