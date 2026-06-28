@@ -1378,6 +1378,71 @@
 
     footer { padding: 28px 24px; flex-direction: column; gap: 10px; text-align: center; }
     }
+
+    /* pill two-line */
+    .pill { flex-direction: column; align-items: flex-start; padding: 10px 18px; gap: 2px; }
+    .pill-main { font-size: 13px; font-weight: 600; color: var(--white); }
+    .pill-sub  { font-size: 11px; font-weight: 400; color: var(--muted); }
+
+    /* tag cloud */
+    .tag-cloud-wrap { display: flex; flex-direction: column; gap: 14px; padding: 40px 0; }
+    .tag-cloud-row  { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag-cloud-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* tradeoff table */
+    .tradeoff-table-wrap { overflow-x: auto; }
+    .tradeoff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .tradeoff-table thead th {
+      text-align: left;
+      padding: 14px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .tradeoff-table thead th.tradeoff-us {
+      background: rgba(46,125,82,0.06);
+      border-radius: 8px 8px 0 0;
+    }
+    .tradeoff-capability { color: var(--muted); font-size: 11px; }
+    .tradeoff-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    .tradeoff-plan { font-size: 11px; color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .tradeoff-plan-name { font-size: 15px; font-weight: 700; color: var(--white); text-transform: none; letter-spacing: 0; }
+    .tradeoff-table tbody td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      color: var(--white);
+    }
+    .tradeoff-table tbody td.tradeoff-us { background: rgba(46,125,82,0.04); font-weight: 600; }
+    .tradeoff-yes { color: var(--accent); font-weight: 700; }
+    .tradeoff-no  { color: var(--muted); }
+    .tradeoff-limited { color: var(--muted); font-style: italic; }
+
   </style>
 </head>
 <body>
@@ -1407,9 +1472,9 @@
         <h1>Custom AI automations.<br><em>Real operational impact.</em></h1>
         <p class="hero-sub">We build AI systems that handle the repetitive, operationally expensive parts of your business — so you and your team can focus on growth.</p>
         <div class="hero-pills">
-          <div class="pill"><span class="pill-dot"></span>Built in 2–3 weeks, not months</div>
-          <div class="pill"><span class="pill-dot"></span>Works with your stack</div>
-          <div class="pill"><span class="pill-dot"></span>Measurable impact</div>
+          <div class="pill"><span class="pill-dot"></span><span class="pill-main">Built in 2-3 weeks</span><span class="pill-sub">not months</span></div>
+          <div class="pill"><span class="pill-dot"></span><span class="pill-main">Works with your stack</span><span class="pill-sub">no rip and replace</span></div>
+          <div class="pill"><span class="pill-dot"></span><span class="pill-main">Measurable impact</span><span class="pill-sub">track what matters</span></div>
         </div>
         <div class="hero-ctas">
           <a href="#cta" class="btn btn-primary">Book a Strategy Call</a>
@@ -1417,7 +1482,7 @@
         </div>
         <div class="hero-rating">
           <span class="stars">★★★★★</span>
-          <span>Trusted by founder-operators across Dubai & beyond</span>
+          <span>5.0 rating from 23+ founder-operators</span>
         </div>
       </div>
 
@@ -1433,16 +1498,16 @@
         </div>
         <div class="panel-metrics">
           <div class="metric">
-            <div class="metric-val">22+</div>
-            <div class="metric-label">Agents Live</div>
+            <div class="metric-val">+42%</div>
+            <div class="metric-label">Replies increased vs manual</div>
           </div>
           <div class="metric">
-            <div class="metric-val">12h</div>
-            <div class="metric-label">Saved / Week</div>
+            <div class="metric-val">+68%</div>
+            <div class="metric-label">Qualified leads vs manual</div>
           </div>
           <div class="metric">
-            <div class="metric-val">0</div>
-            <div class="metric-label">Manual Tasks</div>
+            <div class="metric-val">17h/wk</div>
+            <div class="metric-label">Time saved per team member</div>
           </div>
         </div>
       </div>
@@ -1496,10 +1561,31 @@
         </div>
       </div>
 
-      <!-- Right: orbit -->
+      <!-- Right: tag cloud -->
       <div class="build-orbit-right">
-        <div class="orbit-scene" id="orbit-scene">
-          <div class="orbit-center">🤖</div>
+        <div class="tag-cloud-wrap">
+          <div class="tag-cloud-row">
+            <span class="tag-cloud-item">Lead Drafters</span>
+            <span class="tag-cloud-item">Ad Variant Engines</span>
+            <span class="tag-cloud-item">Analyst Agents</span>
+          </div>
+          <div class="tag-cloud-row">
+            <span class="tag-cloud-item">Reporting Agents</span>
+            <span class="tag-cloud-item">Custom CRMs</span>
+          </div>
+          <div class="tag-cloud-row">
+            <span class="tag-cloud-item">Follow-up Drafters</span>
+            <span class="tag-cloud-item">Lead Routing</span>
+          </div>
+          <div class="tag-cloud-row">
+            <span class="tag-cloud-item">Content Extraction</span>
+            <span class="tag-cloud-item">WhatsApp Automation</span>
+          </div>
+          <div class="tag-cloud-row">
+            <span class="tag-cloud-item">CRM Sync</span>
+            <span class="tag-cloud-item">Inbox Automation</span>
+            <span class="tag-cloud-item">Data Enrichment</span>
+          </div>
         </div>
       </div>
 
@@ -1675,6 +1761,88 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+
+  <!-- HONEST TRADE-OFFS -->
+  <div class="section-full" id="tradeoffs">
+    <div class="section">
+      <p class="section-tag">The Honest Trade-offs</p>
+      <h2 class="section-title">Why not just use <em>Claude directly?</em></h2>
+      <p class="section-sub" style="margin-bottom:40px;">Custom code means we use the best model for each task today — and upgrade you the moment a better one arrives.</p>
+      <div class="tradeoff-table-wrap">
+        <table class="tradeoff-table">
+          <thead>
+            <tr>
+              <th class="tradeoff-capability">CAPABILITY</th>
+              <th>
+                <div class="tradeoff-plan">$20-30/mo</div>
+                <div class="tradeoff-plan-name">ChatGPT</div>
+              </th>
+              <th>
+                <div class="tradeoff-plan">Bundled w/ Claude Pro</div>
+                <div class="tradeoff-plan-name">Claude Directly</div>
+              </th>
+              <th class="tradeoff-us">
+                <div class="tradeoff-badge">RECOMMENDED</div>
+                <div class="tradeoff-plan">From $4k, yours forever</div>
+                <div class="tradeoff-plan-name">Anqor Studios</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Plugs into your stack (CRM, WhatsApp, ERP)</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-limited">Limited</td>
+              <td class="tradeoff-yes tradeoff-us">✓</td>
+            </tr>
+            <tr>
+              <td>Custom logic for your business</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-limited">Templates</td>
+              <td class="tradeoff-yes tradeoff-us">✓</td>
+            </tr>
+            <tr>
+              <td>You own the system</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-yes tradeoff-us">✓</td>
+            </tr>
+            <tr>
+              <td>Swap / mix AI models freely</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-yes tradeoff-us">✓</td>
+            </tr>
+            <tr>
+              <td>Local-model / data-residency option</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-yes tradeoff-us">✓</td>
+            </tr>
+            <tr>
+              <td>Lives in your infrastructure</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-no">✗</td>
+              <td class="tradeoff-yes tradeoff-us">✓</td>
+            </tr>
+            <tr>
+              <td>Setup time</td>
+              <td>Endless</td>
+              <td>5 min</td>
+              <td class="tradeoff-us">2-3 weeks</td>
+            </tr>
+            <tr>
+              <td>Long-term flexibility</td>
+              <td>Locked</td>
+              <td>Locked</td>
+              <td class="tradeoff-us">Open</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -1871,14 +2039,14 @@
 
   <!-- CTA -->
   <div class="cta-section" id="cta">
-    <p class="section-tag">Ready to Build</p>
-    <h2 class="section-title">Let's find where AI makes<br>the <em>biggest impact.</em></h2>
-    <p class="section-sub">Book a strategy call. We'll audit your operations, identify the highest-leverage automation opportunities, and give you a clear plan — no fluff, no commitment.</p>
+    <p class="section-tag">READY TO BUILD YOUR ADVANTAGE</p>
+    <h2 class="section-title">Let's identify the highest leverage<br><em>opportunities in your business.</em></h2>
+    <p class="section-sub">Book a strategy call and I'll show you exactly where AI can make the biggest impact.</p>
     <a href="https://calendar.app.google/BhKutbXeodpFReu6A" target="_blank" class="btn btn-primary" style="font-size:15px;padding:14px 40px;margin-top:8px;">Book a Strategy Call →</a>
     <div class="cta-checks">
-      <div class="cta-check">Custom audit of your operations</div>
-      <div class="cta-check">Prioritized automation opportunities</div>
-      <div class="cta-check">Clear next steps, no commitment</div>
+      <div class="cta-check">✓ Custom audit of your funnel</div>
+      <div class="cta-check">✓ Prioritized automation opportunities</div>
+      <div class="cta-check">✓ Clear next steps</div>
     </div>
     <div class="founder-block">
       <img src="ubong_headshot.jpg" alt="Ubong Udoessien" class="founder-photo"/>
