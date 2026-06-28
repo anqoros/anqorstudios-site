@@ -1599,15 +1599,15 @@
       position: absolute;
       left: 50%; top: 50%;
       transform: translate(-50%, -50%);
-      width: 68px; height: 68px;
-      border-radius: 16px;
-      background: var(--bg2);
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: #fff;
       border: 1px solid rgba(46,125,82,0.2);
-      box-shadow: 0 0 60px -5px rgba(46,125,82,0.4), 0 8px 30px -8px rgba(0,0,0,0.3);
+      box-shadow: 0 0 60px -5px rgba(46,125,82,0.35), 0 8px 30px -8px rgba(0,0,0,0.2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 26px; font-weight: 800;
-      color: var(--accent);
       z-index: 2;
+      overflow: hidden;
+      padding: 12px;
     }
 
     /* All 3 rings spin at identical speed   icons stay at fixed angular gaps, never overlap */
@@ -1828,14 +1828,12 @@
               </radialGradient>
             </defs>
             <circle cx="0" cy="0" r="110" fill="url(#wwb-glow-center)"/>
-            <circle cx="0" cy="0" r="80"  fill="none" stroke="rgba(17,26,20,0.1)"   stroke-width="1" stroke-dasharray="3 8"/>
-            <circle cx="0" cy="0" r="135" fill="none" stroke="rgba(46,125,82,0.5)"  stroke-width="1" stroke-dasharray="3 6"/>
-            <circle cx="0" cy="0" r="160" fill="none" stroke="rgba(17,26,20,0.08)"  stroke-width="1" stroke-dasharray="3 10"/>
+            <circle cx="0" cy="0" r="160" fill="none" stroke="rgba(46,125,82,0.4)"  stroke-width="1" stroke-dasharray="4 7"/>
           </svg>
 
           <!-- Center logo card -->
           <div class="wwb-center-card">
-            <div class="wwb-center-logo"><img src="anqor_logo.png" alt="Anqor Studios" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;"></div>
+            <div class="wwb-center-logo"><img src="anqor_logo.png" alt="Anqor Studios" style="width:100%;height:100%;object-fit:contain;"></div>
           </div>
 
           <!--
