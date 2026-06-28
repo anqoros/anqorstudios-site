@@ -938,20 +938,15 @@
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
-      stroke-dasharray: 800;
-      stroke-dashoffset: 800;
-      transition: stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1);
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
     }
 
-    .spark-path.drawn { stroke-dashoffset: 0; }
+
 
     .spark-area {
-      fill: url(#spark-grad);
-      opacity: 0;
-      transition: opacity 0.8s ease 0.3s;
+      opacity: 1;
     }
-
-    .spark-area.drawn { opacity: 1; }
 
     .cta-section {
       text-align: center;
