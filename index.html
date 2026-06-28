@@ -8,8 +8,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
+    // ── FAQ accordion ──────────────────────────────────────────────────────
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js">
+    // ── FAQ accordion ──────────────────────────────────────────────────────
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1012,6 +1030,123 @@
       .founder-quote-wrap { order: 3; }
     }
 
+
+    /* ── FAQ Section ── */
+    .faq-section {
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 96px 48px;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .faq-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .faq-heading {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .faq-sub {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 280px;
+    }
+
+    .faq-book-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .faq-book-link:hover { opacity: 1; }
+
+    .faq-accordion {
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 0;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--white);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+
+    .faq-btn:hover { opacity: 0.8; }
+
+    .faq-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--muted);
+      transition: transform 0.25s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding-bottom: 24px;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-answer p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .faq-answer p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 768px) {
+      .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+      .faq-inner { padding: 64px 24px; }
+      .faq-heading { font-size: 30px; }
+    }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 48px;
@@ -1031,7 +1166,124 @@
       .nav-links { display: none; }
       .section { padding: 80px 24px; }
       .cta-section { padding: 96px 24px; }
-      footer { padding: 28px 24px; flex-direction: column; gap: 10px; text-align: center; }
+  
+    /* ── FAQ Section ── */
+    .faq-section {
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 96px 48px;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .faq-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .faq-heading {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .faq-sub {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 280px;
+    }
+
+    .faq-book-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .faq-book-link:hover { opacity: 1; }
+
+    .faq-accordion {
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 0;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--white);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+
+    .faq-btn:hover { opacity: 0.8; }
+
+    .faq-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--muted);
+      transition: transform 0.25s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding-bottom: 24px;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-answer p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .faq-answer p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 768px) {
+      .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+      .faq-inner { padding: 64px 24px; }
+      .faq-heading { font-size: 30px; }
+    }
+
+    footer { padding: 28px 24px; flex-direction: column; gap: 10px; text-align: center; }
     }
   </style>
 </head>
@@ -1373,6 +1625,119 @@
     </div>
   </div>
 
+  <!-- FAQ -->
+  <div class="faq-section" id="faq">
+    <div class="faq-inner">
+      <div class="faq-grid">
+
+        <!-- Left: label + intro -->
+        <div class="faq-left">
+          <div class="faq-tag">FAQ</div>
+          <h2 class="faq-heading">Questions operators ask before signing.</h2>
+          <p class="faq-sub">Straight answers to the questions that matter most before you bring us into your stack.</p>
+          <a href="https://calendar.app.google/BhKutbXeodpFReu6A" target="_blank" class="faq-book-link">Still have questions? Book a call →</a>
+        </div>
+
+        <!-- Right: accordion -->
+        <div class="faq-accordion">
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>How much does it cost?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Custom builds start at $4,000 for a basic system. Full multi-agent setups run upward depending on scope and integrations. Most clients recoup the setup cost with one or two closed deals. AI API fees are billed directly to you with no markup.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>Where will my data live? Is it compliant?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Default: API calls to Claude or OpenAI with commercial DPAs in place (GDPR-compliant, no training on your data).</p>
+              <p>If you need data in-country (UAE residency, regulated industry, healthcare/finance), we deploy local models on your hardware so nothing leaves your network.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>Who owns the code? What if you disappear?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>You own the code. No IP markups, no licensing fees, no vendor lock-in.</p>
+              <p>By default we host and maintain the system on our managed VPS so you don't have to think about infrastructure. If we ever vanish, your developers can pick it up — it's standard Python/TypeScript, no proprietary platform.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>How long does it take?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Typically 2–3 weeks from kickoff to production, depending on scope and integrations. Simpler single-workflow builds land on the shorter end, multi-agent systems on the longer. We move through discovery, architecture, working version, production in clear checkpoints. No 6-month enterprise timelines.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>Do I need special hardware or infrastructure?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>No. Default deploy is a VPS we manage for you. If you want it on your own hardware for data-sovereignty reasons, we can do that too — but it's not required.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>How do you handle hallucinations and errors?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Three layers: (1) we strip AI off the non-creative steps so code does the deterministic work and AI only reasons; (2) human-in-the-loop on anything that touches money, contracts, or external comms; (3) full action logging plus failure alerts when an agent can't complete a task.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>Why not just use ChatGPT or Claude directly?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Subscriptions are for personal use. They're not protected by commercial DPAs, can't take action in your tools, and have no memory of your business data. The API gives you GDPR-compliant data handling plus the ability to plug into your CRM, WhatsApp, inbox, and dashboards.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>Does it do AI voice calling?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Not yet, and we don't recommend it. The tech isn't reliable enough for business calls. We focus on text channels (WhatsApp, email, internal chat) where the experience is genuinely better than human-handled.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-btn" onclick="toggleFaq(this)">
+              <span>How big is your team?</span>
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>You work directly with me — the operator building your system — from kickoff to handover. Decisions land in hours instead of weeks of approvals. That's how we ship in weeks, not quarters.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="cta-section" id="cta">
     <p class="section-tag">Ready to Build</p>
@@ -1396,7 +1761,12 @@
   <!-- BUILT BY AN OPERATOR -->
   <div class="founder-section">
     <div class="founder-grid">
-      <!-- Left: bio -->
+      <!-- Left: portrait photo (matches setmyclaw column order) -->
+      <div class="founder-portrait-wrap">
+        <img src="ubong_headshot.jpg" alt="Ubong Udoessien, Founder of Anqor Studios"/>
+      </div>
+
+      <!-- Center: bio -->
       <div>
         <div class="founder-bio-tag">Built by an Operator</div>
         <div class="founder-bio-name">Hey, I'm Ubong Udoessien.</div>
@@ -1415,11 +1785,6 @@
             WhatsApp
           </a>
         </div>
-      </div>
-
-      <!-- Center: portrait photo -->
-      <div class="founder-portrait-wrap">
-        <img src="ubong_headshot.jpg" alt="Ubong Udoessien, Founder of Anqor Studios"/>
       </div>
 
       <!-- Right: testimonial -->
@@ -1581,6 +1946,15 @@
         scene.appendChild(ring);
       });
     })();
+  
+    // ── FAQ accordion ──────────────────────────────────────────────────────
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
   </script>
 </body>
 </html>
