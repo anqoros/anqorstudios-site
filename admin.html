@@ -479,10 +479,10 @@ async function loadCdBriefs() {
         section:     li.section || 'own',
         description: li.description || '',
         qty:         li.qty || 1,
-        unit_price:  li.full_day_price || li.unit_price || 0,
+        unit_price:  li.unit_price || li.full_day_price || 0,
         half_day_price: li.half_day_price || null,
         full_day_price: li.full_day_price || null,
-        fullDay: true,
+        fullDay: li.fullDay !== undefined ? li.fullDay : true,
       }))
     };
   });
@@ -678,7 +678,7 @@ async function generateFromAdmin(id) {
     timeline: ex.timeline || null,
     payment_terms: { anqor_advance_pct:advPct, anqor_balance_pct:100-advPct, third_party:'100% upfront',
       due_on_signing_aed:(ownSub*1.05*advPct/100)+(ptSub*1.05), balance_on_delivery_aed:ownSub*1.05*(100-advPct)/100 },
-    notes: ex.notes || null, prepared_by:'Ubong Essien, Anqor Studios', date:_fd(today),
+    notes: ex.notes || null, prepared_by:'Ubong Udoessien, Anqor Studios', date:_fd(today),
   };
 
   const invoiceData = {

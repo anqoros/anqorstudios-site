@@ -588,7 +588,7 @@ async function generateProposal() {
       balance_on_delivery_aed: ownSub*1.05*(100-advPct)/100,
     },
     notes:       document.getElementById('rNotes').textContent.trim() || null,
-    prepared_by: 'Ubong Essien, Anqor Studios',
+    prepared_by: 'Ubong Udoessien, Anqor Studios',
     date:        fmtDate(today),
   };
 
@@ -660,7 +660,7 @@ function downloadBriefPDF() {
   <body><div class="page">
   <div class="header"><div class="logo"><img src="${logoUrl}" alt="Anqor Studios" onerror="this.style.display='none'"></div><div class="hr"><div class="lbl" style="margin-top:0">Project Proposal</div><div class="v">${p.date}</div><div class="lbl">Prepared for</div><div class="v">${esc(p.client.name)}</div></div></div>
   <h1 style="font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px">${esc(p.title)}</h1>
-  <p style="font-size:11px;color:#888;margin-bottom:28px">Prepared by Ubong Essien · Anqor Studios</p>
+  <p style="font-size:11px;color:#888;margin-bottom:28px">Prepared by Ubong Udoessien · Anqor Studios</p>
   ${p.overview?`<div class="lbl">Overview</div><p style="font-size:12px;line-height:1.7;color:#333;margin-bottom:8px">${esc(p.overview)}</p>`:''}
   ${p.timeline?`<div class="lbl">Timeline</div><p style="font-size:12px;line-height:1.7;color:#333;margin-bottom:8px">${esc(p.timeline)}</p>`:''}
   <div class="lbl">Scope of Work</div>
