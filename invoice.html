@@ -46,8 +46,11 @@ td { padding: 10px; border-bottom: 1px solid #f2f2f2; font-size: 12px; }
 .badge-paid { background: #f0faf5; color: #2e7d52; border: 1px solid #b8e8cc; }
 .badge-unpaid { background: #fef9f0; color: #c8882a; border: 1px solid #f0d8a8; }
 
-.topbar { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-.topbar-logo { font-size: 11px; font-weight: 800; color: #2e7d52; letter-spacing: 0.06em; }
+.topbar { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.topbar-logo-img { height: 40px; }
+.topbar-name { font-size: 15px; font-weight: 800; color: #1a1a1a; letter-spacing: 0.02em; line-height: 1.2; }
+.topbar-sub { font-size: 11px; color: #999; margin-top: 2px; }
 .btn { background: #1a1a1a; color: #fff; border: none; padding: 9px 18px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; }
 .btn-outline { background: transparent; color: #1a1a1a; border: 1px solid #ccc; }
 .btn-outline:hover { background: #f5f5f5; }
@@ -65,7 +68,13 @@ td { padding: 10px; border-bottom: 1px solid #f2f2f2; font-size: 12px; }
 <body>
 
 <div class="topbar">
-  <div class="topbar-logo">ANQOR STUDIOS</div>
+  <div class="topbar-left">
+    <img src="anqor_logo.png" class="topbar-logo-img" alt="Anqor Studios" onerror="this.style.display='none'">
+    <div>
+      <div class="topbar-name">Anqor Studios LLC FZ</div>
+      <div class="topbar-sub">Dubai, UAE</div>
+    </div>
+  </div>
   <button class="btn btn-outline" onclick="window.print()">Download PDF</button>
 </div>
 
@@ -101,11 +110,19 @@ async function load() {
   document.getElementById('invoicePage').innerHTML = `
     <div class="card">
       <div class="header">
-        <img src="anqor_logo.png" class="logo" alt="Anqor Studios" onerror="this.style.display='none'">
+        <div style="display:flex;align-items:center;gap:16px">
+          <img src="anqor_logo.png" style="height:64px" alt="Anqor Studios" onerror="this.style.display='none'">
+          <div>
+            <div style="font-size:18px;font-weight:800;letter-spacing:0.02em">Anqor Studios LLC FZ</div>
+            <div style="font-size:11px;color:#999;margin-top:3px">Meydan Grandstand, 6th Floor, Dubai, UAE</div>
+          </div>
+        </div>
         <div style="text-align:right">
-          <div class="lbl">Invoice Number</div><div class="val">${esc(inv.invoice_number||'')}</div>
-          <div class="lbl">Date</div><div class="val">${esc(inv.date||'')}</div>
-          <div class="lbl">Due Date</div><div class="val">${esc(inv.due_date||'')}</div>
+          <div style="display:flex;gap:28px;justify-content:flex-end;align-items:flex-start">
+            <div><div class="lbl">Invoice No.</div><div class="val">${esc(inv.invoice_number||'')}</div></div>
+            <div><div class="lbl">Date</div><div class="val">${esc(inv.date||'')}</div></div>
+            <div><div class="lbl">Due Date</div><div class="val">${esc(inv.due_date||'')}</div></div>
+          </div>
         </div>
       </div>
 
