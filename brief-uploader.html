@@ -416,7 +416,9 @@ Rules:
     catch { throw new Error('AI returned invalid JSON. Try again.'); }
 
     renderResults(parsed);
-    saveBrief(brief, parsed);
+    // Store for deferred save — brief is saved when user picks/saves client or generates
+    window._pendingBriefRaw    = brief;
+    window._pendingBriefParsed = parsed;
   } catch (e) {
     setStatus('');
     document.getElementById('resultSection').style.display = 'none';
@@ -611,9 +613,14 @@ async function generateProposal() {
     const sb = getSB();
     const clientEmail = document.getElementById('rClientEmail').textContent.trim();
     const clientId = _selectedClientId || (await upsertClient(clientName, clientEmail)).id;
+    // Save brief now if not already saved (user skipped Save Client step)
+    if (window._pendingBriefRaw && !_currentBriefId) {
+      if (!_selectedClientId && clientId) _selectedClientId = clientId;
+      await saveBrief(window._pendingBriefRaw, window._pendingBriefParsed);
+    }
     // Persist any edits the user made to line items back to the brief
     if (_currentBriefId) {
-      await sb.from('briefs').update({ line_items: _serializeLineItems() }).eq('id', _currentBriefId);
+      await sb.from('briefs').update({ client_id: clientId, client_name: clientName, line_items: _serializeLineItems() }).eq('id', _currentBriefId);
     }
     const { data: prop, error: pErr } = await sb.from('proposals')
       .insert({ slug: pSlug, client_id: clientId, client_name: clientName, data: proposalData }).select().single();
@@ -798,9 +805,19 @@ async function saveClientFromBrief(btn) {
   if (!name) { showSaveStatus('Enter a client name first.', true); return; }
   btn.disabled = true;
   const result = await upsertClient(name, email || null);
+  if (result.error) { btn.disabled = false; showSaveStatus('Error: ' + result.error, true); return; }
+  // Set selected client so the brief saves with correct client_id
+  if (result.id) _selectedClientId = result.id;
+  // Save the brief now that we have a confirmed client
+  if (window._pendingBriefRaw && !_currentBriefId) {
+    await saveBrief(window._pendingBriefRaw, window._pendingBriefParsed);
+  } else if (_currentBriefId) {
+    // Update client link on existing brief
+    const sb = getSB();
+    await sb.from('briefs').update({ client_id: result.id, client_name: name }).eq('id', _currentBriefId);
+  }
   btn.disabled = false;
-  if (result.error) { showSaveStatus('Error: ' + result.error, true); return; }
-  showSaveStatus(result.id ? 'Client saved ✓' : 'Client already exists ✓', false);
+  showSaveStatus(result.id ? 'Client & brief saved ✓' : 'Client already exists ✓', false);
 }
 
 function showSaveStatus(msg, isError) {
