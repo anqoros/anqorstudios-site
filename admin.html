@@ -453,22 +453,183 @@ function switchClientTab(tab, el) {
   if (tab==='invoices')  loadCdInvoices();
 }
 
+// ── Admin brief editor state ──────────────────────────────────────────────────
+const _abrief = {}; // keyed by brief id: { brief, items }
+const AQ_APP_ADMIN = 'https://www.anqorstudios.com';
+function _fmtAED(n) { return 'AED ' + Number(n||0).toLocaleString('en-AE',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+
 async function loadCdBriefs() {
-  // Fetch all briefs then filter client-side to avoid OR query quoting issues
   const { data: all } = await sb.from('briefs').select('*').order('created_at',{ascending:false});
   const name = (currentClient.name||'').toLowerCase().trim();
   const data = (all||[]).filter(b =>
     b.client_id === currentClient.id ||
     (b.client_name||'').toLowerCase().trim() === name
   );
-  document.getElementById('cdBriefs').innerHTML = data?.length ? data.map(b => `
-    <div class="row">
-      <div><div class="row-title">${b.project_title||'Untitled brief'}</div><div class="row-meta">${fmtDate(b.created_at)}</div></div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button onclick="showTool('brief-uploader.html?brief_id=${b.id}','Brief Uploader',null)" style="background:#111;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
-        <button onclick="deleteRec('briefs','${b.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+  if (!data?.length) { document.getElementById('cdBriefs').innerHTML = '<div class="empty">No briefs. <button onclick="uploadBriefForClient()" style="background:transparent;color:#4a9f6f;border:none;cursor:pointer;text-decoration:underline">Upload one</button></div>'; return; }
+
+  // Normalise line items and store
+  data.forEach(b => {
+    _abrief[b.id] = {
+      brief: b,
+      items: (b.line_items||[]).map((li,i) => ({
+        idx: i,
+        section:     li.section || 'own',
+        description: li.description || '',
+        qty:         li.qty || 1,
+        unit_price:  li.full_day_price || li.unit_price || 0,
+        half_day_price: li.half_day_price || null,
+        full_day_price: li.full_day_price || null,
+      }))
+    };
+  });
+
+  document.getElementById('cdBriefs').innerHTML = data.map(b => `
+    <div style="border:1px solid #1e1e1e;border-radius:10px;margin-bottom:12px;overflow:hidden">
+      <div onclick="expandBrief('${b.id}')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;background:#111;">
+        <div>
+          <div class="row-title">${b.project_title||'Untitled brief'}</div>
+          <div class="row-meta">${fmtDate(b.created_at)} · ${(b.line_items||[]).length} line items</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span id="bchev-${b.id}" style="color:#555;font-size:14px">▼</span>
+          <button onclick="event.stopPropagation();deleteRec('briefs','${b.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+        </div>
       </div>
-    </div>`).join('') : '<div class="empty">No briefs.</div>';
+      <div id="bpanel-${b.id}" style="display:none;padding:16px;background:#0d0d0d;border-top:1px solid #1e1e1e"></div>
+    </div>`).join('');
+}
+
+function expandBrief(id) {
+  const panel = document.getElementById('bpanel-' + id);
+  const chev  = document.getElementById('bchev-' + id);
+  if (panel.style.display !== 'none') { panel.style.display = 'none'; chev.textContent = '▼'; return; }
+  chev.textContent = '▲';
+  _renderBriefPanel(id);
+  panel.style.display = 'block';
+}
+
+function _renderBriefPanel(id) {
+  const { brief, items } = _abrief[id];
+  const ex = brief.extracted || {};
+  const rows = items.map((li, i) => `
+    <tr>
+      <td style="padding:6px 8px;font-size:12px;color:#ccc">${li.description}</td>
+      <td style="padding:6px 8px"><input type="number" value="${li.qty}" min="1" step="1"
+        onchange="_aUpdateLI('${id}',${i},'qty',this.value)"
+        style="width:52px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:center"></td>
+      <td style="padding:6px 8px"><input type="number" value="${li.unit_price}" min="0" step="100"
+        onchange="_aUpdateLI('${id}',${i},'unit_price',this.value)"
+        style="width:90px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:right"></td>
+      <td id="ali-total-${id}-${i}" style="padding:6px 8px;font-size:12px;color:#aaa;text-align:right">${_fmtAED(li.qty*li.unit_price)}</td>
+    </tr>`).join('');
+
+  const sub = items.reduce((s,li) => s + li.qty*li.unit_price, 0);
+  const vat = sub * 0.05;
+  const tot = sub + vat;
+
+  document.getElementById('bpanel-' + id).innerHTML = `
+    <div style="font-size:11px;color:#555;margin-bottom:10px">Edit quantities and prices below, then generate.</div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:12px">
+      <thead><tr style="border-bottom:1px solid #1e1e1e">
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:left">Service</th>
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:center">Qty</th>
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:right">Unit Price</th>
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:right">Total</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="text-align:right;font-size:12px;color:#888;margin-bottom:4px">Subtotal: <span id="asub-${id}">${_fmtAED(sub)}</span></div>
+    <div style="text-align:right;font-size:12px;color:#888;margin-bottom:4px">VAT (5%): <span id="avat-${id}">${_fmtAED(vat)}</span></div>
+    <div style="text-align:right;font-size:14px;font-weight:700;color:#e5e5e5;margin-bottom:16px">Total: <span id="atot-${id}">${_fmtAED(tot)}</span></div>
+    <div id="agenOut-${id}" style="display:none;background:#0a1f12;border:1px solid #1e4a2d;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:#4a9f6f;line-height:1.8"></div>
+    <button onclick="generateFromAdmin('${id}')" id="agenBtn-${id}"
+      style="background:#4a9f6f;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%">
+      Generate Proposal + Invoice
+    </button>`;
+}
+
+function _aUpdateLI(id, idx, field, val) {
+  const item = _abrief[id].items[idx];
+  if (!item) return;
+  item[field] = parseFloat(val) || 0;
+  document.getElementById(`ali-total-${id}-${idx}`).textContent = _fmtAED(item.qty * item.unit_price);
+  const sub = _abrief[id].items.reduce((s,li) => s + li.qty*li.unit_price, 0);
+  const vat = sub * 0.05;
+  document.getElementById(`asub-${id}`).textContent = _fmtAED(sub);
+  document.getElementById(`avat-${id}`).textContent = _fmtAED(vat);
+  document.getElementById(`atot-${id}`).textContent = _fmtAED(sub + vat);
+}
+
+async function generateFromAdmin(id) {
+  const { brief, items } = _abrief[id];
+  if (!items.length) { alert('No line items.'); return; }
+  const ex = brief.extracted || {};
+  const clientName  = brief.client_name || ex.client_name || currentClient.name;
+  const clientEmail = ex.client_email || currentClient.email || null;
+  const clientId    = brief.client_id  || currentClient.id;
+
+  const btn = document.getElementById('agenBtn-' + id);
+  btn.disabled = true; btn.textContent = 'Generating…';
+
+  const MARKUP = 20;
+  const own = items.filter(i => i.section === 'own');
+  const pt  = items.filter(i => i.section === 'pass_through');
+  const ownSub = own.reduce((s,i) => s + i.qty*i.unit_price, 0);
+  const ptSub  = pt.reduce((s,i)  => s + i.qty*Math.round(i.unit_price*(1+MARKUP/100)), 0);
+  const sub    = ownSub + ptSub;
+  const vat    = sub * 0.05;
+  const total  = sub + vat;
+  const advPct = 50;
+  const today  = new Date();
+  const due    = new Date(today); due.setDate(due.getDate()+14);
+  const _fd    = d => d.getDate()+' '+['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]+' '+d.getFullYear();
+  const pSlug  = clientName.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/,'') + '-' + Date.now().toString(36);
+  const iSlug  = 'inv-' + pSlug;
+  const invNo  = 'ANQ-' + today.getFullYear() + '-' + String(Math.floor(Math.random()*900)+100);
+
+  const allLines = [
+    ...own.map(i => ({ description:i.description, quantity:i.qty, unit_price_aed:i.unit_price, total_aed:i.qty*i.unit_price, type:'own' })),
+    ...pt.map(i  => ({ description:i.description, quantity:i.qty, vendor_cost_aed:i.unit_price, markup_pct:MARKUP, unit_price_aed:Math.round(i.unit_price*(1+MARKUP/100)), total_aed:i.qty*Math.round(i.unit_price*(1+MARKUP/100)), type:'pass_through' })),
+  ];
+
+  const proposalData = {
+    title:    ex.project_title || clientName + ' — Project Proposal',
+    overview: ex.overview || null,
+    client:   { name: clientName, email: clientEmail },
+    line_items: allLines,
+    own_services_subtotal: ownSub, third_party_subtotal: ptSub,
+    subtotal_aed: sub, vat_aed: vat, total_incl_vat: total,
+    timeline: ex.timeline || null,
+    payment_terms: { anqor_advance_pct:advPct, anqor_balance_pct:100-advPct, third_party:'100% upfront',
+      due_on_signing_aed:(ownSub*1.05*advPct/100)+(ptSub*1.05), balance_on_delivery_aed:ownSub*1.05*(100-advPct)/100 },
+    notes: ex.notes || null, prepared_by:'Ubong Essien, Anqor Studios', date:_fd(today),
+  };
+
+  const invoiceData = {
+    invoice_number: invNo, client_name: clientName, client_email: clientEmail,
+    date: today.toISOString().split('T')[0], due_date: due.toISOString().split('T')[0],
+    items: allLines.map(i => ({ description:i.description, quantity:i.quantity, unit_price_aed:i.unit_price_aed, total_aed:i.total_aed })),
+    subtotal_aed:sub, vat_rate:5, vat_aed:vat, total_aed:total,
+    advance_aed:(ownSub*1.05*advPct/100)+(ptSub*1.05), balance_aed:ownSub*1.05*(100-advPct)/100,
+    payment_instructions:'Bank transfer to Anqor Studios L.L.C-FZ. Account Number: 3003731440000001.',
+    third_party_note:'Third-party costs are collected 100% upfront on signing.',
+  };
+
+  try {
+    const { data: prop, error: pErr } = await sb.from('proposals')
+      .insert({ slug:pSlug, client_id:clientId, client_name:clientName, data:proposalData }).select().single();
+    if (pErr) throw pErr;
+    const { error: iErr } = await sb.from('invoices')
+      .insert({ slug:iSlug, proposal_id:prop.id, client_id:clientId, client_name:clientName, data:invoiceData });
+    if (iErr) throw iErr;
+    const out = document.getElementById('agenOut-' + id);
+    out.innerHTML = `Proposal: <a href="${AQ_APP_ADMIN}/proposal?slug=${pSlug}" target="_blank" style="color:#4a9f6f">${AQ_APP_ADMIN}/proposal?slug=${pSlug}</a><br>Invoice: <a href="${AQ_APP_ADMIN}/invoice?slug=${iSlug}" target="_blank" style="color:#4a9f6f">${AQ_APP_ADMIN}/invoice?slug=${iSlug}</a>`;
+    out.style.display = 'block';
+    btn.textContent = 'Generated ✓'; btn.style.background = '#1e4a2d';
+  } catch(e) {
+    alert('Error: ' + (e.message||e));
+    btn.disabled = false; btn.textContent = 'Generate Proposal + Invoice';
+  }
 }
 
 function viewBrief(b) {
