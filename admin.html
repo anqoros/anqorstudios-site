@@ -214,6 +214,7 @@
           <div class="tab-btn active" onclick="switchClientTab('briefs',this)">Briefs</div>
           <div class="tab-btn" onclick="switchClientTab('proposals',this)">Proposals</div>
           <div class="tab-btn" onclick="switchClientTab('invoices',this)">Invoices</div>
+          <button onclick="uploadBriefForClient()" style="margin-left:auto;background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:5px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Upload Brief</button>
         </div>
         <div id="cdBriefs" class="card"></div>
         <div id="cdProposals" class="card" style="display:none"></div>
@@ -343,6 +344,14 @@ function showPage(name, navEl) {
   if (name === 'briefs')     loadBriefsPage();
 }
 
+function uploadBriefForClient() {
+  localStorage.setItem('aq_prefill', JSON.stringify({
+    clientName:  currentClient.name,
+    clientEmail: currentClient.email || '',
+  }));
+  showTool('brief-uploader.html', 'Brief Uploader', null);
+}
+
 function showTool(url, title, navEl) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-tool').classList.add('active');
@@ -453,7 +462,7 @@ async function loadCdBriefs() {
     <div class="row">
       <div><div class="row-title">${b.project_title||'Untitled brief'}</div><div class="row-meta">${fmtDate(b.created_at)}</div></div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button onclick="viewBrief(${JSON.stringify(b).split('"').join('&quot;')})" style="background:#111;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">View</button>
+        <button onclick="showTool('brief-uploader.html?brief_id=${b.id}','Brief Uploader',null)" style="background:#111;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
         <button onclick="deleteRec('briefs','${b.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
       </div>
     </div>`).join('') : '<div class="empty">No briefs.</div>';

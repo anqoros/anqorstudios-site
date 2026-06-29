@@ -826,6 +826,9 @@ function setStatus(msg) { document.getElementById('statusText').textContent = ms
 const populateResults = renderResults;
 loadConfig();
 loadBriefHistory();
+
+const _briefId = new URLSearchParams(location.search).get('brief_id');
+if (_briefId) restoreBrief(_briefId);
 </script>
 </body>
 </html>
