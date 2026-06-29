@@ -151,23 +151,28 @@
 
     <div class="preset-label">Photography</div>
     <div class="presets">
-      <button class="preset" onclick="addOwn('Photography — Half Day (4h)',1,4500)">Photo Half Day · 4,500</button>
-      <button class="preset" onclick="addOwn('Photography — Full Day (8h)',1,7500)">Photo Full Day · 7,500</button>
+      <button class="preset" onclick="addOwn('Photography — Half Day (up to 4h)',1,4500,4500,7500,'Photography — Half Day (up to 4h)','Photography — Full Day (up to 8h)')">Photo Half Day · 4,500</button>
+      <button class="preset" onclick="addOwn('Photography — Full Day (up to 8h)',1,7500,4500,7500,'Photography — Half Day (up to 4h)','Photography — Full Day (up to 8h)')">Photo Full Day · 7,500</button>
+      <button class="preset" onclick="addPhotoAddon()">Photo Add-on (Ubong shoots both) · 50%</button>
+      <button class="preset" onclick="addOwn('Photography — Half Day to Full Day Upgrade',1,3000)">Photo Half→Full Upgrade · 3,000</button>
+      <button class="preset" onclick="addOwn('Photography — Overtime (per hour past 8h)',1,1500)">Photo Overtime /hr · 1,500</button>
       <button class="preset" onclick="addOwn('Additional Hour — Photography',1,1000)">Extra Hour · 1,000</button>
-      <button class="preset" onclick="addOwn('Corporate Headshots — Half Day (≤10 pax)',1,4500)">Headshots Half Day · 4,500</button>
-      <button class="preset" onclick="addOwn('Corporate Headshots — Full Day (≤20 pax)',1,7000)">Headshots Full Day · 7,000</button>
+      <button class="preset" onclick="addOwn('Corporate Headshots — Half Day (≤10 pax)',1,4500,4500,7000,'Corporate Headshots — Half Day (≤10 pax)','Corporate Headshots — Full Day (≤20 pax)')">Headshots Half Day · 4,500</button>
+      <button class="preset" onclick="addOwn('Corporate Headshots — Full Day (≤20 pax)',1,7000,4500,7000,'Corporate Headshots — Half Day (≤10 pax)','Corporate Headshots — Full Day (≤20 pax)')">Headshots Full Day · 7,000</button>
       <button class="preset" onclick="addOwn('Image Editing & Retouching',10,150)">Retouching /image · 150</button>
       <button class="preset" onclick="addOwn('Rush Editing — 48hr Delivery',1,500)">Rush Edit · +500</button>
     </div>
 
     <div class="preset-label">Video Production</div>
     <div class="presets">
-      <button class="preset" onclick="addOwn('Videographer — Half Day (4h)',1,4500)">Video Half Day · 4,500</button>
-      <button class="preset" onclick="addOwn('Videographer — Full Day (8h)',1,7500)">Video Full Day · 7,500</button>
+      <button class="preset" onclick="addOwn('Videographer — Half Day (up to 4h)',1,4500,4500,7500,'Videographer — Half Day (up to 4h)','Videographer — Full Day (up to 8h)')">Video Half Day · 4,500</button>
+      <button class="preset" onclick="addOwn('Videographer — Full Day (up to 8h)',1,7500,4500,7500,'Videographer — Half Day (up to 4h)','Videographer — Full Day (up to 8h)')">Video Full Day · 7,500</button>
+      <button class="preset" onclick="addOwn('Videographer — Half Day to Full Day Upgrade',1,3000)">Video Half→Full Upgrade · 3,000</button>
+      <button class="preset" onclick="addOwn('Videographer — Overtime (per hour past 8h)',1,1500)">Video Overtime /hr · 1,500</button>
       <button class="preset" onclick="addOwn('Director of Photography — Full Day',1,9000)">DoP Full Day · 9,000</button>
       <button class="preset" onclick="addOwn('Filming, Direction & Camera Package',1,6500)">Filming + Direction · 6,500</button>
-      <button class="preset" onclick="addOwn('Event Coverage — Photo + Video — Half Day',1,7000)">Event Half Day · 7,000</button>
-      <button class="preset" onclick="addOwn('Event Coverage — Photo + Video — Full Day',1,10000)">Event Full Day · 10,000</button>
+      <button class="preset" onclick="addOwn('Event Coverage — Photo + Video — Half Day',1,7000,7000,10000,'Event Coverage — Photo + Video — Half Day','Event Coverage — Photo + Video — Full Day')">Event Half Day · 7,000</button>
+      <button class="preset" onclick="addOwn('Event Coverage — Photo + Video — Full Day',1,10000,7000,10000,'Event Coverage — Photo + Video — Half Day','Event Coverage — Photo + Video — Full Day')">Event Full Day · 10,000</button>
       <button class="preset" onclick="addOwn('Corporate Brand Film (shoot + post, up to 3min)',1,16000)">Brand Film · 16,000</button>
       <button class="preset" onclick="addOwn('Social Media Content Day (up to 10 assets)',1,9000)">Social Content Day · 9,000</button>
     </div>
@@ -251,6 +256,7 @@
       <button class="preset pt" onclick="addPT('Studio Hire — Full Day (8h)',1,2000)">Studio Full Day</button>
       <button class="preset pt" onclick="addPT('Lighting Package',1,800)">Lighting Package</button>
       <button class="preset pt" onclick="addPT('Lighting Technician — Full Day',1,1000)">Lighting Tech</button>
+      <button class="preset pt" onclick="addDedicatedPhotographer()">Dedicated Photographer (at cost)</button>
       <button class="preset pt" onclick="addPT('B-Camera / Second Angle',1,2000)">B-Camera</button>
       <button class="preset pt" onclick="addPT('Drone — Half Day (with licensed pilot)',1,2500)">Drone Half Day</button>
       <button class="preset pt" onclick="addPT('Drone — Full Day (with licensed pilot)',1,4000)">Drone Full Day</button>
@@ -372,8 +378,31 @@ function saveConfig() {
 function toggleConfig() { document.getElementById('configPanel').classList.toggle('open'); }
 
 // ── Own Items ────────────────────────────────────────────────────────────────
-function addOwn(desc='', qty=1, price=0) {
-  ownItems.push({ id: ++uid, desc, qty, price });
+// halfPrice / fullPrice / halfDesc / fullDesc are optional — set when a preset has both rates
+function addDedicatedPhotographer() {
+  const rate = prompt('Enter the photographer\'s day rate (AED) — this will be passed to the client at cost with no markup:');
+  if (!rate || isNaN(parseFloat(rate))) return;
+  const cost = parseFloat(rate);
+  // Pass at cost = set vendor cost so that after 0% markup, client price = cost
+  // We achieve this by temporarily overriding: store as a special PT item with vendorCost = cost and flag noMarkup
+  ptItems.push({ id: ++uid, desc: 'Dedicated Photographer — passed at cost (no markup)', qty: 1, vendorCost: cost, noMarkup: true });
+  renderPT();
+}
+
+function addPhotoAddon() {
+  // Find the photography line item already in the quote
+  const photoItem = ownItems.find(i => i.desc && i.desc.toLowerCase().includes('photograph'));
+  const basePrice = photoItem ? photoItem.price : 0;
+  if (!basePrice) {
+    alert('Add a photography line item first — the add-on is calculated at 50% of that rate.');
+    return;
+  }
+  const addonPrice = Math.round(basePrice * 0.5);
+  addOwn(`Photography Add-on — Ubong shoots stills alongside video (50% of photo rate)`, 1, addonPrice);
+}
+
+function addOwn(desc='', qty=1, price=0, halfPrice=null, fullPrice=null, halfDesc=null, fullDesc=null) {
+  ownItems.push({ id: ++uid, desc, qty, price, halfPrice, fullPrice, halfDesc, fullDesc, isFull: price === fullPrice });
   renderOwn();
 }
 function removeOwn(id) { ownItems = ownItems.filter(i => i.id !== id); renderOwn(); }
@@ -383,16 +412,35 @@ function updateOwn(id, field, value) {
   item[field] = field === 'desc' ? value : parseFloat(value) || 0;
   renderOwn();
 }
+function toggleDayRate(id) {
+  const item = ownItems.find(i => i.id === id);
+  if (!item || item.halfPrice == null) return;
+  item.isFull = !item.isFull;
+  item.price = item.isFull ? item.fullPrice : item.halfPrice;
+  item.desc  = item.isFull ? item.fullDesc  : item.halfDesc;
+  renderOwn();
+}
 function renderOwn() {
-  document.getElementById('ownBody').innerHTML = ownItems.map(item => `
+  document.getElementById('ownBody').innerHTML = ownItems.map(item => {
+    const toggleable = item.halfPrice != null && item.fullPrice != null;
+    const toggleHtml = toggleable ? `
+      <div style="display:flex;gap:4px;margin-top:4px">
+        <button onclick="toggleDayRate(${item.id})" style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;border:1px solid ${!item.isFull ? '#4a9f6f' : '#333'};background:${!item.isFull ? '#4a9f6f' : 'transparent'};color:${!item.isFull ? '#fff' : '#888'}">HD</button>
+        <button onclick="toggleDayRate(${item.id})" style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;border:1px solid ${item.isFull ? '#4a9f6f' : '#333'};background:${item.isFull ? '#4a9f6f' : 'transparent'};color:${item.isFull ? '#fff' : '#888'}">FD</button>
+        <span style="font-size:10px;color:#555;align-self:center">${!item.isFull ? '4h' : '8h'} · AED ${fmt(item.isFull ? item.fullPrice : item.halfPrice)}</span>
+      </div>` : '';
+    return `
     <tr>
-      <td class="col-desc"><input type="text" value="${esc(item.desc)}" placeholder="Description" oninput="updateOwn(${item.id},'desc',this.value)" /></td>
+      <td class="col-desc">
+        <input type="text" value="${esc(item.desc)}" placeholder="Description" oninput="updateOwn(${item.id},'desc',this.value)" />
+        ${toggleHtml}
+      </td>
       <td class="col-qty"><input type="number" min="1" value="${item.qty}" oninput="updateOwn(${item.id},'qty',this.value)" /></td>
       <td class="col-price"><input type="number" min="0" step="50" value="${item.price}" oninput="updateOwn(${item.id},'price',this.value)" /></td>
       <td class="col-total"><div class="total-cell green">${fmt(item.qty * item.price)}</div></td>
       <td class="col-del"><button class="btn-del" onclick="removeOwn(${item.id})">✕</button></td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
   renderSummary();
 }
 
@@ -412,16 +460,22 @@ function updatePT(id, field, value) {
   renderPT();
 }
 function recomputeAllPT() { renderPT(); }
+function itemClientPrice(item) {
+  return item.noMarkup ? item.vendorCost : clientPrice(item.vendorCost);
+}
 function renderPT() {
   const mkup = markup();
   document.getElementById('ptBody').innerHTML = ptItems.map(item => {
-    const cp = clientPrice(item.vendorCost);
+    const cp = itemClientPrice(item);
+    const mkupLabel = item.noMarkup
+      ? `<span style="color:#4a9f6f;font-size:11px;font-weight:600">at cost</span>`
+      : `<span style="color:#c8882a;font-size:13px;font-weight:600">+${mkup}%</span>`;
     return `
     <tr>
       <td class="col-desc"><input type="text" value="${esc(item.desc)}" placeholder="Description" oninput="updatePT(${item.id},'desc',this.value)" /></td>
       <td class="col-qty"><input type="number" min="1" value="${item.qty}" oninput="updatePT(${item.id},'qty',this.value)" /></td>
       <td class="col-vendor"><input type="number" min="0" step="50" value="${item.vendorCost}" oninput="updatePT(${item.id},'vendorCost',this.value)" /></td>
-      <td class="col-mkup" style="text-align:center;color:#c8882a;font-size:13px;font-weight:600">+${mkup}%</td>
+      <td class="col-mkup" style="text-align:center">${mkupLabel}</td>
       <td class="col-client"><input type="number" class="readonly-price" value="${cp}" readonly /></td>
       <td class="col-total"><div class="total-cell amber">${fmt(item.qty * cp)}</div></td>
       <td class="col-del"><button class="btn-del" onclick="removePT(${item.id})">✕</button></td>
@@ -434,7 +488,7 @@ function renderPT() {
 function renderSummary() {
   const mkup = markup();
   const ownSub = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
-  const ptSub  = ptItems.reduce((s,i) => s + i.qty * clientPrice(i.vendorCost), 0);
+  const ptSub  = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
   const subtotal = ownSub + ptSub;
   const vat = subtotal * 0.05;
   const total = subtotal + vat;
@@ -474,7 +528,7 @@ async function generate() {
   setLoading(true);
   const mkup = markup();
   const ownSub = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
-  const ptSub  = ptItems.reduce((s,i) => s + i.qty * clientPrice(i.vendorCost), 0);
+  const ptSub  = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
   const subtotal = ownSub + ptSub;
   const vat = subtotal * 0.05;
   const total = subtotal + vat;
@@ -486,8 +540,11 @@ async function generate() {
   const invNo = 'ANQ-' + today.getFullYear() + '-' + String(Math.floor(Math.random()*900)+100);
 
   const allLines = [
-    ...ownItems.map(i => ({ description: i.desc, quantity: i.qty, unit_price_aed: i.price, total_aed: i.qty*i.price, type: 'own' })),
-    ...ptItems.map(i => ({ description: i.desc, quantity: i.qty, vendor_cost_aed: i.vendorCost, markup_pct: mkup, unit_price_aed: clientPrice(i.vendorCost), total_aed: i.qty*clientPrice(i.vendorCost), type: 'pass_through' })),
+    ...ownItems.map(i => ({
+      description: i.desc, quantity: i.qty, unit_price_aed: i.price, total_aed: i.qty*i.price, type: 'own',
+      ...(i.halfPrice != null ? { half_day_price_aed: i.halfPrice, full_day_price_aed: i.fullPrice, half_day_desc: i.halfDesc, full_day_desc: i.fullDesc } : {}),
+    })),
+    ...ptItems.map(i => ({ description: i.desc, quantity: i.qty, vendor_cost_aed: i.vendorCost, markup_pct: i.noMarkup ? 0 : mkup, unit_price_aed: itemClientPrice(i), total_aed: i.qty*itemClientPrice(i), type: 'pass_through' })),
   ];
 
   const proposalData = {
@@ -527,7 +584,7 @@ async function generate() {
     advance_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05),
     balance_aed: ownSub * 1.05 * (100-advPct) / 100,
     third_party_note: 'Third-party costs are collected 100% upfront on signing.',
-    payment_instructions: 'Bank transfer to Anqor Studios. Account details provided separately. Reference invoice number.',
+    payment_instructions: 'Bank transfer to Anqor Studios L.L.C-FZ. Account Number: 3003731440000001. Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, UAE. Please reference the invoice number on your transfer.',
     notes: document.getElementById('notes').value.trim() || null,
   };
 
@@ -573,7 +630,7 @@ function downloadPDF() {
   const notes        = document.getElementById('notes').value.trim();
   const mkup = markup();
   const ownSub  = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
-  const ptSub   = ptItems.reduce((s,i) => s + i.qty * clientPrice(i.vendorCost), 0);
+  const ptSub   = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
   const subtotal = ownSub + ptSub;
   const vat      = subtotal * 0.05;
   const total    = subtotal + vat;
@@ -599,7 +656,7 @@ function downloadPDF() {
     <tr>
       <td>${i.desc} <span style="color:#999;font-size:10px">(third-party)</span></td>
       <td class="num">${i.qty}</td>
-      <td class="num">AED ${fmt(clientPrice(i.vendorCost))}</td>
+      <td class="num">AED ${fmt(itemClientPrice(i))}</td>
       <td class="num">AED ${fmt(i.qty * clientPrice(i.vendorCost))}</td>
     </tr>`).join('');
 
