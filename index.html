@@ -926,9 +926,15 @@
 
     .industry-grid {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       gap: 10px;
       margin-top: 48px;
+    }
+    .industry-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       justify-content: center;
     }
 
@@ -1881,13 +1887,19 @@
       <h2 class="section-title">Built for <em>high-ticket</em><br>service businesses.</h2>
       <p class="section-sub">If you run a premium service business and want your operations to run on autopilot, we build for you.</p>
       <div class="industry-grid">
-        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Real Estate</span></div>
-        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Finance &amp; Investment</span></div>
-        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Insurance &amp; Mortgage</span></div>
-        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Healthcare &amp; Wellness</span></div>
-        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Recruitment</span></div>
-        <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Consulting &amp; Advisory</span></div>
-        <div class="industry-card industry-card--accent"><div class="industry-dot"></div><span class="industry-name">Any Premium Service</span></div>
+        <div class="industry-row">
+          <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Real Estate</span></div>
+          <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Finance &amp; Investment</span></div>
+          <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Insurance &amp; Mortgage</span></div>
+        </div>
+        <div class="industry-row">
+          <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Healthcare &amp; Wellness</span></div>
+          <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Recruitment</span></div>
+          <div class="industry-card"><div class="industry-dot"></div><span class="industry-name">Consulting &amp; Advisory</span></div>
+        </div>
+        <div class="industry-row">
+          <div class="industry-card industry-card--accent"><div class="industry-dot"></div><span class="industry-name">Any Premium Service</span></div>
+        </div>
       </div>
     </div>
   </div>
