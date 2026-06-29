@@ -49,17 +49,20 @@ td { padding: 6px 8px; border-bottom: 1px solid #f2f2f2; font-size: 12px; vertic
 .muted { color: #999; }
 
 /* Payment */
-.pay-box { background: #f8f8f6; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 10px 16px; margin-top: 12px; }
+.pay-box { background: #f8f8f6; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 10px 16px; margin-top: 12px; break-inside: avoid; }
 .pay-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 8px; }
 .pay-row { display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0; }
 .pay-row.hi { margin-top: 4px; padding-top: 6px; border-top: 1px solid #e0e0e0; }
 
 /* Bank */
-.bank-box { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 8px; padding: 10px 14px; margin-top: 8px; }
+.bank-box { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 8px; padding: 10px 14px; margin-top: 8px; break-inside: avoid; }
 .bank-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 6px; }
 .bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .bank-item .k { font-size: 9px; color: #aaa; margin-bottom: 1px; }
 .bank-item .v { font-size: 11px; font-weight: 600; }
+
+/* Keep totals + payment + bank together */
+.bottom-block { break-inside: avoid; }
 
 /* T&C — 2 columns */
 .tc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-top: 6px; }
@@ -90,7 +93,10 @@ td { padding: 6px 8px; border-bottom: 1px solid #f2f2f2; font-size: 12px; vertic
 
 <div class="topbar">
   <div class="topbar-logo">ANQOR STUDIOS</div>
-  <button class="btn btn-outline" onclick="window.print()">Download PDF</button>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="font-size:11px;color:#999">💡 In print dialog → <strong>More settings</strong> → uncheck <strong>Headers and footers</strong></span>
+    <button class="btn btn-outline" onclick="window.print()">Download PDF</button>
+  </div>
 </div>
 
 <div id="loading">Loading proposal…</div>
@@ -192,6 +198,7 @@ function render(p) {
         </tbody>
       </table>
 
+      <div class="bottom-block">
       <div class="totals">
         ${p.own_services_subtotal > 0 ? `<div class="total-row"><span class="muted">Anqor Services</span><span>AED ${fmt(p.own_services_subtotal)}</span></div>` : ''}
         ${p.third_party_subtotal  > 0 ? `<div class="total-row"><span class="muted">Third-Party Costs</span><span>AED ${fmt(p.third_party_subtotal)}</span></div>` : ''}
@@ -223,6 +230,7 @@ function render(p) {
           <div class="bank-item" style="grid-column:span 2"><div class="k">Address</div><div class="v">Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, UAE</div></div>
         </div>
         <div style="font-size:10px;color:#aaa;margin-top:8px">Please reference your name or company on the transfer.</div>
+      </div>
       </div>
     </div>
 
