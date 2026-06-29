@@ -611,6 +611,10 @@ async function generateProposal() {
     const sb = getSB();
     const clientEmail = document.getElementById('rClientEmail').textContent.trim();
     const clientId = _selectedClientId || (await upsertClient(clientName, clientEmail)).id;
+    // Persist any edits the user made to line items back to the brief
+    if (_currentBriefId) {
+      await sb.from('briefs').update({ line_items: _serializeLineItems() }).eq('id', _currentBriefId);
+    }
     const { data: prop, error: pErr } = await sb.from('proposals')
       .insert({ slug: pSlug, client_id: clientId, client_name: clientName, data: proposalData }).select().single();
     if (pErr) throw pErr;
@@ -759,18 +763,31 @@ async function upsertClient(name, email) {
   return { id: created?.id || null };
 }
 
+let _currentBriefId = null;
+
+function _serializeLineItems() {
+  return lineItems.map(li => ({
+    section: li.section, description: li.description,
+    qty: li.qty, unit_price: li.unit_price,
+    half_day_price: li.half_day_price || null,
+    full_day_price: li.full_day_price || null,
+  }));
+}
+
 async function saveBrief(rawText, extracted) {
   const sb = getSB();
   if (!sb) { showSaveStatus('No database connected — brief not saved.', true); return; }
   const clientId = _selectedClientId || (extracted.client_name ? (await upsertClient(extracted.client_name, extracted.client_email || null)).id : null);
-  const { error } = await sb.from('briefs').insert({
+  const { data: saved, error } = await sb.from('briefs').insert({
     client_id:     clientId,
     client_name:   extracted.client_name   || null,
     project_title: extracted.project_title || null,
     raw_text:      rawText,
     extracted:     extracted,
-  });
+    line_items:    _serializeLineItems(),
+  }).select('id').single();
   if (error) { showSaveStatus('Save failed: ' + error.message, true); return; }
+  _currentBriefId = saved?.id || null;
   showSaveStatus('Brief saved ✓');
   loadBriefHistory();
 }
@@ -830,11 +847,23 @@ async function loadBriefHistory() {
 
 async function restoreBrief(id) {
   const sb = getSB(); if (!sb) return;
-  const { data, error } = await sb.from('briefs').select('raw_text, extracted').eq('id', id).single();
+  const { data, error } = await sb.from('briefs').select('raw_text, extracted, line_items').eq('id', id).single();
   if (error || !data) { alert('Could not load brief.'); return; }
-  document.getElementById('briefText').value = data.raw_text;
+  _currentBriefId = id;
+  document.getElementById('briefText').value = data.raw_text || '';
   if (data.extracted) {
-    populateResults(data.extracted);
+    renderResults(data.extracted);
+    // Override with saved line_items if present (may include user edits)
+    if (data.line_items && data.line_items.length) {
+      let uid2 = 0;
+      lineItems = data.line_items.map(li => ({
+        id: ++uid2, section: li.section, description: li.description,
+        qty: li.qty || 1, unit_price: li.unit_price || 0,
+        half_day_price: li.half_day_price || null, full_day_price: li.full_day_price || null,
+      }));
+      renderLineItems();
+    }
+    document.getElementById('resultSection').style.display = 'block';
   }
   document.getElementById('briefText').scrollIntoView({ behavior: 'smooth' });
 }
