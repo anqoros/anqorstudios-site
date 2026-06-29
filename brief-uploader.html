@@ -547,7 +547,18 @@ function updateLI(id, field, val) {
   if (!item) return;
   if (field === 'section' || field === 'description') item[field] = val;
   else item[field] = parseFloat(val) || 0;
-  renderLineItems();
+  // Update just the line total and summary — don't re-render the whole table (kills focus)
+  const row = document.querySelector(`tr[data-li="${id}"]`);
+  if (row) row.querySelector('.li-total').textContent = fmt(item.qty * item.unit_price);
+  updateTotals();
+}
+
+function updateTotals() {
+  const ownSub = lineItems.filter(i => i.section === 'own').reduce((s,i) => s + i.qty * i.unit_price, 0);
+  const ptSub  = lineItems.filter(i => i.section === 'pass_through').reduce((s,i) => s + i.qty * i.unit_price, 0);
+  document.getElementById('ownSubtotal').textContent = fmt(ownSub);
+  document.getElementById('ptSubtotal').textContent  = fmt(ptSub);
+  document.getElementById('grandTotal').textContent  = fmt(ownSub + ptSub);
 }
 
 function fmt(n) { return 'AED ' + Number(n).toLocaleString('en-AE', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
@@ -558,22 +569,16 @@ function renderLineItems() {
     const total = item.qty * item.unit_price;
     const tagClass = item.section === 'own' ? 'li-own' : 'li-pt';
     const tagLabel = item.section === 'own' ? 'Anqor' : 'Pass-thru';
-    return `<tr>
+    return `<tr data-li="${item.id}">
       <td><span class="li-section ${tagClass}">${tagLabel}</span></td>
       <td><input type="text" value="${esc(item.description)}" style="font-size:12px" oninput="updateLI(${item.id},'description',this.value)" /></td>
       <td><input type="number" min="1" value="${item.qty}" style="width:55px;font-size:12px" oninput="updateLI(${item.id},'qty',this.value)" /></td>
-      <td><input type="number" min="0" step="50" value="${item.unit_price}" style="font-size:12px" oninput="updateLI(${item.id},'unit_price',this.value)" /></td>
+      <td><input type="number" min="0" step="1" value="${item.unit_price}" style="font-size:12px;width:100px" oninput="updateLI(${item.id},'unit_price',this.value)" /></td>
       <td class="li-total">${fmt(total)}</td>
       <td><button class="btn-del-li" onclick="removeLineItem(${item.id})">✕</button></td>
     </tr>`;
   }).join('');
-
-  // Totals
-  const ownSub = lineItems.filter(i => i.section === 'own').reduce((s,i) => s + i.qty * i.unit_price, 0);
-  const ptSub  = lineItems.filter(i => i.section === 'pass_through').reduce((s,i) => s + i.qty * i.unit_price, 0);
-  document.getElementById('ownSubtotal').textContent = fmt(ownSub);
-  document.getElementById('ptSubtotal').textContent  = fmt(ptSub);
-  document.getElementById('grandTotal').textContent  = fmt(ownSub + ptSub * 1.2); // approx with 20% markup
+  updateTotals();
 }
 
 // ── Send to Quote Generator ───────────────────────────────────────────────────
