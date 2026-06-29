@@ -522,6 +522,7 @@ function _renderBriefPanel(id) {
         onchange="_aUpdateLI('${id}',${i},'unit_price',this.value)"
         style="width:90px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:right"></td>
       <td id="ali-total-${id}-${i}" style="padding:6px 8px;font-size:12px;color:#aaa;text-align:right">${_fmtAED(li.qty*li.unit_price)}</td>
+      <td style="padding:6px 8px"><button onclick="_aDeleteLI('${id}',${i})" style="background:transparent;color:#e05555;border:none;font-size:14px;cursor:pointer;padding:2px 6px">✕</button></td>
     </tr>`).join('');
 
   const sub = items.reduce((s,li) => s + li.qty*li.unit_price, 0);
@@ -559,6 +560,11 @@ function _aUpdateLI(id, idx, field, val) {
   document.getElementById(`asub-${id}`).textContent = _fmtAED(sub);
   document.getElementById(`avat-${id}`).textContent = _fmtAED(vat);
   document.getElementById(`atot-${id}`).textContent = _fmtAED(sub + vat);
+}
+
+function _aDeleteLI(id, idx) {
+  _abrief[id].items.splice(idx, 1);
+  _renderBriefPanel(id);
 }
 
 async function generateFromAdmin(id) {
