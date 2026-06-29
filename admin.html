@@ -97,6 +97,8 @@
     .tools-grid { grid-template-columns: 1fr 1fr; }
     .two-col { grid-template-columns: 1fr; }
   }
+  .tag-own { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap }
+  .tag-pt  { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;background:#1a1200;color:#c8882a;border:1px solid #3a2800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap }
 </style>
 </head>
 <body>
@@ -518,7 +520,10 @@ function _renderBriefPanel(id) {
       ? `<button onclick="_aToggleDay('${id}',${i})" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid ${li.fullDay ? '#2a5a3a' : '#2a2000'};background:${li.fullDay ? '#0d1f15' : '#1a1200'};color:${li.fullDay ? '#4a9f6f' : '#c8882a'};white-space:nowrap">${li.fullDay ? 'Full Day' : 'Half Day'}</button>`
       : '';
     return `<tr>
-      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">${dayToggle}<input type="text" value="${li.description.replace(/"/g,'&quot;')}" onchange="_aUpdateLI('${id}',${i},'description',this.value)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 8px;font-size:12px;min-width:0"></div></td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:6px">
+        <span class="${li.section==='own'?'tag-own':'tag-pt'}" onclick="_aToggleSection('${id}',${i})" title="Click to toggle Anqor / Pass-thru">${li.section==='own'?'Anqor':'Pass-thru'}</span>
+        ${dayToggle}<input type="text" value="${li.description.replace(/"/g,'&quot;')}" onchange="_aUpdateLI('${id}',${i},'description',this.value)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 8px;font-size:12px;min-width:0">
+      </div></td>
       <td style="padding:6px 8px"><input type="number" value="${li.qty}" min="1" step="1"
         onchange="_aUpdateLI('${id}',${i},'qty',this.value)"
         style="width:52px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:center"></td>
@@ -577,6 +582,13 @@ function _aUpdateLI(id, idx, field, val) {
 
 function _aDeleteLI(id, idx) {
   _abrief[id].items.splice(idx, 1);
+  _renderBriefPanel(id);
+}
+
+function _aToggleSection(id, idx) {
+  const item = _abrief[id].items[idx];
+  if (!item) return;
+  item.section = item.section === 'own' ? 'pass_through' : 'own';
   _renderBriefPanel(id);
 }
 
