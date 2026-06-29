@@ -783,20 +783,22 @@ function _serializeLineItems() {
 
 async function saveBrief(rawText, extracted) {
   const sb = getSB();
-  if (!sb) { showSaveStatus('No database connected — brief not saved.', true); return; }
-  const clientId = _selectedClientId || (extracted.client_name ? (await upsertClient(extracted.client_name, extracted.client_email || null)).id : null);
+  if (!sb) { showSaveStatus('No database connected.', true); return false; }
+  // Use whatever name the user typed, fall back to AI extraction
+  const clientName = document.getElementById('rClientName').value.trim() || extracted.client_name || null;
+  const clientId = _selectedClientId || (clientName ? (await upsertClient(clientName, extracted.client_email || null)).id : null);
   const { data: saved, error } = await sb.from('briefs').insert({
     client_id:     clientId,
-    client_name:   extracted.client_name   || null,
+    client_name:   clientName,
     project_title: extracted.project_title || null,
     raw_text:      rawText,
     extracted:     extracted,
     line_items:    _serializeLineItems(),
   }).select('id').single();
-  if (error) { showSaveStatus('Save failed: ' + error.message, true); return; }
+  if (error) { showSaveStatus('Brief save failed: ' + error.message, true); return false; }
   _currentBriefId = saved?.id || null;
-  showSaveStatus('Brief saved ✓');
   loadBriefHistory();
+  return true;
 }
 
 async function saveClientFromBrief(btn) {
@@ -806,18 +808,19 @@ async function saveClientFromBrief(btn) {
   btn.disabled = true;
   const result = await upsertClient(name, email || null);
   if (result.error) { btn.disabled = false; showSaveStatus('Error: ' + result.error, true); return; }
-  // Set selected client so the brief saves with correct client_id
   if (result.id) _selectedClientId = result.id;
-  // Save the brief now that we have a confirmed client
+
+  let briefOk = true;
   if (window._pendingBriefRaw && !_currentBriefId) {
-    await saveBrief(window._pendingBriefRaw, window._pendingBriefParsed);
+    briefOk = await saveBrief(window._pendingBriefRaw, window._pendingBriefParsed);
   } else if (_currentBriefId) {
-    // Update client link on existing brief
     const sb = getSB();
-    await sb.from('briefs').update({ client_id: result.id, client_name: name }).eq('id', _currentBriefId);
+    const { error } = await sb.from('briefs').update({ client_id: result.id, client_name: name }).eq('id', _currentBriefId);
+    if (error) { briefOk = false; showSaveStatus('Brief update failed: ' + error.message, true); }
   }
+
   btn.disabled = false;
-  showSaveStatus(result.id ? 'Client & brief saved ✓' : 'Client already exists ✓', false);
+  if (briefOk) showSaveStatus('Client & brief saved ✓', false);
 }
 
 function showSaveStatus(msg, isError) {
