@@ -180,7 +180,7 @@
         <div class="tool-card" onclick="showTool('quote-generator.html','Quote Generator',null)">
           <div class="tool-icon">💰</div>
           <div class="tool-name">Quote Generator</div>
-          <div class="tool-desc">Build a quote from scratch using Anqor's rate card. Generates proposal + invoice links.</div>
+          <div class="tool-desc">Build a quote from scratch using Anqor's rate card. Generates quote + invoice links.</div>
         </div>
         <div class="tool-card" onclick="showPage('clients', document.querySelectorAll('.nav-item')[3])">
           <div class="tool-icon">👥</div>
@@ -543,7 +543,7 @@ function _renderBriefPanel(id) {
   document.getElementById('bpanel-' + id).innerHTML = `
     <div style="max-width:680px;margin:0 auto">
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:6px">Project Summary</div>
-    <textarea rows="3" placeholder="Describe the project scope, goals, or any notes for the proposal…"
+    <textarea rows="3" placeholder="Describe the project scope, goals, or any notes for the quote…"
       oninput="_aUpdateSummary('${id}',this.value)"
       style="width:100%;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:7px;color:#e5e5e5;padding:8px 10px;font-size:12px;line-height:1.6;resize:vertical;margin-bottom:14px;font-family:inherit"
     >${(ex.overview||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
@@ -576,7 +576,7 @@ function _renderBriefPanel(id) {
     <div id="agenOut-${id}" style="display:none;background:#0a1f12;border:1px solid #1e4a2d;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:#4a9f6f;line-height:1.8"></div>
     <button onclick="generateFromAdmin('${id}')" id="agenBtn-${id}"
       style="background:#4a9f6f;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%">
-      Generate Proposal + Invoice
+      Generate Quote + Invoice
     </button>
     </div>`;
 }
@@ -686,7 +686,7 @@ async function generateFromAdmin(id) {
   ];
 
   const proposalData = {
-    title:    ex.project_title || clientName + ' — Project Proposal',
+    title:    ex.project_title || clientName + ' — Quote',
     overview: ex.overview || null,
     client:   { name: clientName, email: clientEmail },
     line_items: allLines,
@@ -721,7 +721,7 @@ async function generateFromAdmin(id) {
     btn.textContent = 'Generated ✓'; btn.style.background = '#1e4a2d';
   } catch(e) {
     alert('Error: ' + (e.message||e));
-    btn.disabled = false; btn.textContent = 'Generate Proposal + Invoice';
+    btn.disabled = false; btn.textContent = 'Generate Quote + Invoice';
   }
 }
 

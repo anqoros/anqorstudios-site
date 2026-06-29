@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proposal — Anqor Studios</title>
+<title>Quote — Anqor Studios</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -99,7 +99,7 @@ td { padding: 6px 8px; border-bottom: 1px solid #f2f2f2; font-size: 12px; vertic
   </div>
 </div>
 
-<div id="loading">Loading proposal…</div>
+<div id="loading">Loading quote…</div>
 <div id="error" style="display:none"></div>
 <div class="page" id="proposalPage" style="display:none"></div>
 
@@ -115,12 +115,12 @@ const esc  = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/
 let itemStates = {};
 
 async function load() {
-  if (!slug) { showError('No proposal slug in URL.'); return; }
+  if (!slug) { showError('No quote slug in URL.'); return; }
   const { data, error } = await sb.from('proposals').select('*').eq('slug', slug).single();
-  if (error || !data) { showError('Proposal not found.'); return; }
+  if (error || !data) { showError('Quote not found.'); return; }
   sb.from('proposals').update({ viewed_at: new Date().toISOString() }).eq('slug', slug).then(() => {});
   const p = data.data;
-  document.title = (p.title || 'Proposal') + ' — Anqor Studios';
+  document.title = (p.title || 'Quote') + ' — Anqor Studios';
   (p.line_items || []).forEach((item, i) => { itemStates[i] = { fullDay: true }; });
   render(p);
 }
@@ -177,12 +177,12 @@ function render(p) {
           <div style="font-size:22px;font-weight:800;letter-spacing:-0.4px;line-height:1">Anqor Studios L.L.C-FZ</div>
         </div>
         <div class="header-right">
-          <div class="lbl">Proposal Date</div><div class="val">${esc(p.date||'')}</div>
+          <div class="lbl">Quote Date</div><div class="val">${esc(p.date||'')}</div>
           <div class="lbl">Prepared for</div><div class="val">${esc((p.client&&p.client.name)||p.client_name||'')}</div>
         </div>
       </div>
 
-      <h1>${esc(p.title||'Project Proposal')}</h1>
+      <h1>${esc(p.title||'Quote')}</h1>
       <div class="sub">Prepared by Ubong Udoessien · Anqor Studios</div>
       ${overview ? `<div class="overview-line">${esc(overview)}</div>` : ''}
       ${metaParts ? `<div class="meta-chips">${metaParts}</div>` : ''}

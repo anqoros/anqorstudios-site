@@ -251,19 +251,19 @@
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="generateProposal()" id="generateProposalBtn">Generate Proposal + Invoice</button>
+        <button class="btn btn-primary" onclick="generateProposal()" id="generateProposalBtn">Generate Quote + Invoice</button>
         <button class="btn btn-ghost" onclick="saveClientFromBrief(this)">Save Client</button>
         <button class="btn btn-ghost" onclick="clearAll()">Start Over</button>
       </div>
       <div id="saveStatus" style="display:none;font-size:13px;font-weight:600;margin-top:10px"></div>
-      <div id="proposalSpinner" style="display:none;font-size:13px;color:#888;margin-top:12px">Saving proposal…</div>
+      <div id="proposalSpinner" style="display:none;font-size:13px;color:#888;margin-top:12px">Saving quote…</div>
       <div id="proposalOutput" style="display:none;margin-top:20px;background:#0d1f15;border:1px solid #1e4a2d;border-radius:10px;padding:20px">
-        <div style="font-size:13px;color:#4a9f6f;font-weight:600;margin-bottom:12px">Proposal generated</div>
-        <div style="font-size:12px;color:#888;margin-bottom:6px">Proposal link</div>
+        <div style="font-size:13px;color:#4a9f6f;font-weight:600;margin-bottom:12px">Quote generated</div>
+        <div style="font-size:12px;color:#888;margin-bottom:6px">Quote link</div>
         <div id="poProposalUrl" style="font-size:13px;color:#e5e5e5;background:#111;border-radius:6px;padding:8px 12px;margin-bottom:8px;word-break:break-all"></div>
         <div style="font-size:12px;color:#888;margin-bottom:6px">Invoice link</div>
         <div id="poInvoiceUrl" style="font-size:13px;color:#e5e5e5;background:#111;border-radius:6px;padding:8px 12px;margin-bottom:12px;word-break:break-all"></div>
-        <button class="btn btn-primary" onclick="downloadBriefPDF()" style="background:#1a3a27;border:1px solid #4a9f6f;font-size:13px">⬇ Download Proposal PDF</button>
+        <button class="btn btn-primary" onclick="downloadBriefPDF()" style="background:#1a3a27;border:1px solid #4a9f6f;font-size:13px">⬇ Download Quote PDF</button>
       </div>
     </div>
   </div>
@@ -571,7 +571,7 @@ async function generateProposal() {
   ];
 
   const proposalData = {
-    title:    document.getElementById('rProjectTitle').textContent.trim() || clientName + ' — Project Proposal',
+    title:    document.getElementById('rProjectTitle').textContent.trim() || clientName + ' — Quote',
     overview: document.getElementById('rOverview').textContent.trim(),
     client:   { name: clientName, email: document.getElementById('rClientEmail').textContent.trim() || null },
     line_items: allLines,
