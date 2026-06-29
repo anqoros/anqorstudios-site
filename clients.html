@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clients — Anqor Studios</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; min-height: 100vh; padding: 40px 20px; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .nav { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #555; margin-bottom: 32px; }
+  .nav a { color: #555; text-decoration: none; } .nav a:hover { color: #e5e5e5; }
+  .logo { font-size: 13px; font-weight: 700; color: #4a9f6f; letter-spacing: 0.05em; margin-bottom: 6px; }
+  h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #555; margin-bottom: 32px; }
+  .card { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #4a9f6f; margin-bottom: 16px; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-primary { background: #1a3a27; color: #4a9f6f; border: 1px solid #2a5a3a; }
+  .btn-primary:hover { background: #22502f; }
+  .btn-ghost { background: transparent; color: #888; border: 1px solid #2a2a2a; }
+  .btn-ghost:hover { color: #e5e5e5; border-color: #444; }
+  .btn-danger { background: transparent; color: #e05555; border: 1px solid #2a1010; font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; }
+
+  /* Client list */
+  .client-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: background 0.1s; }
+  .client-row:last-child { border-bottom: none; }
+  .client-row:hover .client-name { color: #4a9f6f; }
+  .client-name { font-size: 14px; font-weight: 600; color: #e5e5e5; margin-bottom: 3px; }
+  .client-meta { font-size: 11px; color: #555; }
+  .client-stats { display: flex; gap: 16px; font-size: 11px; color: #555; text-align: right; }
+  .stat-val { font-size: 13px; font-weight: 600; color: #e5e5e5; display: block; }
+
+  /* Client detail panel */
+  .detail-panel { display: none; }
+  .back-btn { font-size: 13px; color: #555; cursor: pointer; margin-bottom: 24px; display: inline-block; }
+  .back-btn:hover { color: #e5e5e5; }
+  .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+  .detail-name { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+  .detail-sub { font-size: 13px; color: #555; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid #1e1e1e; padding-bottom: 0; }
+  .tab { padding: 8px 16px; font-size: 13px; font-weight: 600; color: #555; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.active { color: #4a9f6f; border-bottom-color: #4a9f6f; }
+  .tab-content { display: none; } .tab-content.active { display: block; }
+
+  /* Records */
+  .record-row { padding: 14px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
+  .record-row:last-child { border-bottom: none; }
+  .record-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .record-meta { font-size: 11px; color: #555; }
+  .record-amount { font-size: 14px; font-weight: 700; color: #4a9f6f; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-pending { background: #1a1a00; color: #c8882a; border: 1px solid #2a2a00; }
+  .badge-paid { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
+  .badge-viewed { background: #0a0a1a; color: #6a6aaf; border: 1px solid #1a1a3a; }
+
+  /* Empty state */
+  .empty { text-align: center; padding: 40px 0; font-size: 13px; color: #555; }
+
+  /* Edit client fields */
+  .field { margin-bottom: 14px; }
+  .field label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #555; display: block; margin-bottom: 5px; }
+  .field input, .field textarea { width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; color: #e5e5e5; border-radius: 6px; padding: 8px 12px; font-size: 13px; font-family: inherit; }
+  .field textarea { min-height: 80px; resize: vertical; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* Search */
+  .search-bar { width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; color: #e5e5e5; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 20px; }
+  .search-bar:focus { outline: none; border-color: #4a9f6f; }
+
+  .loading { text-align: center; padding: 40px; color: #555; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="nav">
+    <a href="command-center.html">← Command Center</a>
+    <span>/</span>
+    <a href="brief-uploader.html">Brief Uploader</a>
+    <span>/</span>
+    <a href="quote-generator.html">Quote Generator</a>
+  </div>
+
+  <div class="logo">Anqor Studios</div>
+  <h1>Clients</h1>
+  <p class="subtitle">Every client, every brief, every proposal and invoice — in one place.</p>
+
+  <!-- List view -->
+  <div id="listView">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <input class="search-bar" id="searchInput" placeholder="Search clients…" oninput="filterClients(this.value)" style="margin-bottom:0;max-width:320px" />
+      <button class="btn btn-primary" onclick="showNewClientForm()">+ New Client</button>
+    </div>
+
+    <!-- New client form (hidden by default) -->
+    <div class="card" id="newClientForm" style="display:none;margin-bottom:20px">
+      <div class="card-title">New Client</div>
+      <div class="grid2">
+        <div class="field"><label>Name *</label><input type="text" id="ncName" placeholder="Client or company name" /></div>
+        <div class="field"><label>Email</label><input type="email" id="ncEmail" placeholder="client@email.com" /></div>
+        <div class="field"><label>Phone</label><input type="text" id="ncPhone" placeholder="+971 50 000 0000" /></div>
+        <div class="field"><label>Company</label><input type="text" id="ncCompany" placeholder="Company name" /></div>
+      </div>
+      <div class="field"><label>Notes</label><textarea id="ncNotes" placeholder="Any notes about this client…"></textarea></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="createClient()">Save Client</button>
+        <button class="btn btn-ghost" onclick="hideNewClientForm()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">All Clients</div>
+      <div id="clientList"><div class="loading">Loading…</div></div>
+    </div>
+  </div>
+
+  <!-- Detail view -->
+  <div id="detailView" class="detail-panel">
+    <div class="back-btn" onclick="showList()">← Back to clients</div>
+    <div class="detail-header">
+      <div>
+        <div class="detail-name" id="dName"></div>
+        <div class="detail-sub" id="dSub"></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="editClient()">Edit</button>
+        <button class="btn-danger" onclick="deleteClient()">Delete client</button>
+      </div>
+    </div>
+
+    <!-- Edit form -->
+    <div class="card" id="editClientForm" style="display:none;margin-bottom:20px">
+      <div class="card-title">Edit Client</div>
+      <div class="grid2">
+        <div class="field"><label>Name *</label><input type="text" id="ecName" /></div>
+        <div class="field"><label>Email</label><input type="email" id="ecEmail" /></div>
+        <div class="field"><label>Phone</label><input type="text" id="ecPhone" /></div>
+        <div class="field"><label>Company</label><input type="text" id="ecCompany" /></div>
+      </div>
+      <div class="field"><label>Notes</label><textarea id="ecNotes"></textarea></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="saveClientEdit()">Save</button>
+        <button class="btn btn-ghost" onclick="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('briefs')">Briefs</div>
+      <div class="tab" onclick="switchTab('proposals')">Proposals</div>
+      <div class="tab" onclick="switchTab('invoices')">Invoices</div>
+    </div>
+
+    <div class="tab-content active" id="tab-briefs">
+      <div class="card"><div id="briefsList"><div class="loading">Loading…</div></div></div>
+    </div>
+    <div class="tab-content" id="tab-proposals">
+      <div class="card"><div id="proposalsList"><div class="loading">Loading…</div></div></div>
+    </div>
+    <div class="tab-content" id="tab-invoices">
+      <div class="card"><div id="invoicesList"><div class="loading">Loading…</div></div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
+const AQ_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2F5c251ZnVlbmFkb2hmaHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjM1MTUsImV4cCI6MjA5Mzc5OTUxNX0.OlEQgmohTXgnZ9nadizbhhBRO5FhiDTYy-AjGY-WL4w';
+const AQ_APP = 'https://www.anqorstudios.com';
+
+const sb = supabase.createClient(AQ_URL, AQ_KEY);
+let allClients = [];
+let currentClient = null;
+
+function fmt(n) { return 'AED ' + Number(n).toLocaleString('en-AE', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+function fmtDate(d) { return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+
+// ── Load clients ───────────────────────────────────────────────────────────────
+async function loadClients() {
+  const { data, error } = await sb.from('clients').select('*').order('created_at', { ascending: false });
+  if (error) { document.getElementById('clientList').innerHTML = `<div class="empty">Error loading clients: ${error.message}</div>`; return; }
+  allClients = data || [];
+  renderClientList(allClients);
+}
+
+function renderClientList(clients) {
+  const el = document.getElementById('clientList');
+  if (!clients.length) { el.innerHTML = '<div class="empty">No clients yet. Add your first client above.</div>'; return; }
+  el.innerHTML = clients.map(c => `
+    <div class="client-row" onclick="openClient('${c.id}')">
+      <div>
+        <div class="client-name">${c.name}</div>
+        <div class="client-meta">${[c.email, c.phone, c.company].filter(Boolean).join(' · ') || 'No contact info'} · Added ${fmtDate(c.created_at)}</div>
+      </div>
+      <div style="font-size:12px;color:#4a9f6f">View →</div>
+    </div>`).join('');
+}
+
+function filterClients(q) {
+  const filtered = allClients.filter(c =>
+    [c.name, c.email, c.phone, c.company].some(f => f && f.toLowerCase().includes(q.toLowerCase()))
+  );
+  renderClientList(filtered);
+}
+
+// ── Open client detail ────────────────────────────────────────────────────────
+async function openClient(id) {
+  currentClient = allClients.find(c => c.id === id);
+  if (!currentClient) return;
+
+  document.getElementById('dName').textContent = currentClient.name;
+  document.getElementById('dSub').textContent = [currentClient.email, currentClient.phone, currentClient.company].filter(Boolean).join(' · ') || 'No contact info';
+
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('detailView').style.display = 'block';
+
+  loadClientBriefs();
+  loadClientProposals();
+  loadClientInvoices();
+}
+
+function showList() {
+  document.getElementById('detailView').style.display = 'none';
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('editClientForm').style.display = 'none';
+  loadClients();
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['briefs','proposals','invoices'][i] === name));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── Load client records ────────────────────────────────────────────────────────
+async function loadClientBriefs() {
+  const { data } = await sb.from('briefs').select('*').eq('client_id', currentClient.id).order('created_at', { ascending: false });
+  const el = document.getElementById('briefsList');
+  if (!data || !data.length) { el.innerHTML = '<div class="empty">No briefs yet.</div>'; return; }
+  el.innerHTML = data.map(b => `
+    <div class="record-row">
+      <div>
+        <div class="record-title">${b.project_title || 'Untitled brief'}</div>
+        <div class="record-meta">${fmtDate(b.created_at)}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a href="brief-uploader.html" style="font-size:12px;color:#4a9f6f;text-decoration:none">Open uploader</a>
+        <button class="btn-danger" onclick="deleteRecord('briefs','${b.id}',this)">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+async function loadClientProposals() {
+  const { data } = await sb.from('proposals').select('*').eq('client_id', currentClient.id).order('created_at', { ascending: false });
+  const el = document.getElementById('proposalsList');
+  if (!data || !data.length) { el.innerHTML = '<div class="empty">No proposals yet.</div>'; return; }
+  el.innerHTML = data.map(p => {
+    const total = p.data?.total_incl_vat || 0;
+    const status = p.accepted_at ? `<span class="badge badge-paid">Accepted</span>` : p.viewed_at ? `<span class="badge badge-viewed">Viewed</span>` : `<span class="badge badge-pending">Sent</span>`;
+    return `<div class="record-row">
+      <div>
+        <div class="record-title">${p.data?.title || p.client_name}</div>
+        <div class="record-meta">${fmtDate(p.created_at)} ${p.viewed_at ? '· Viewed ' + fmtDate(p.viewed_at) : ''} ${p.accepted_at ? '· Accepted ' + fmtDate(p.accepted_at) : ''}</div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        ${status}
+        ${total ? `<span class="record-amount">${fmt(total)}</span>` : ''}
+        <a href="${AQ_APP}/proposals/${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
+        <button class="btn-danger" onclick="deleteRecord('proposals','${p.id}',this)">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function loadClientInvoices() {
+  const { data } = await sb.from('invoices').select('*').eq('client_id', currentClient.id).order('created_at', { ascending: false });
+  const el = document.getElementById('invoicesList');
+  if (!data || !data.length) { el.innerHTML = '<div class="empty">No invoices yet.</div>'; return; }
+  el.innerHTML = data.map(inv => {
+    const total = inv.data?.total_aed || 0;
+    const status = inv.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
+    return `<div class="record-row">
+      <div>
+        <div class="record-title">${inv.data?.invoice_number || 'Invoice'}</div>
+        <div class="record-meta">${fmtDate(inv.created_at)} ${inv.paid_at ? '· Paid ' + fmtDate(inv.paid_at) : ''}</div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        ${status}
+        ${total ? `<span class="record-amount">${fmt(total)}</span>` : ''}
+        <a href="${AQ_APP}/invoices/${inv.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
+        <button class="btn-danger" onclick="deleteRecord('invoices','${inv.id}',this)">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Create client ─────────────────────────────────────────────────────────────
+function showNewClientForm() { document.getElementById('newClientForm').style.display = 'block'; document.getElementById('ncName').focus(); }
+function hideNewClientForm() { document.getElementById('newClientForm').style.display = 'none'; }
+
+async function createClient() {
+  const name = document.getElementById('ncName').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  const { error } = await sb.from('clients').insert({
+    name,
+    email:   document.getElementById('ncEmail').value.trim()   || null,
+    phone:   document.getElementById('ncPhone').value.trim()   || null,
+    company: document.getElementById('ncCompany').value.trim() || null,
+    notes:   document.getElementById('ncNotes').value.trim()   || null,
+  });
+  if (error) { alert('Error: ' + error.message); return; }
+  hideNewClientForm();
+  ['ncName','ncEmail','ncPhone','ncCompany','ncNotes'].forEach(id => document.getElementById(id).value = '');
+  loadClients();
+}
+
+// ── Edit client ───────────────────────────────────────────────────────────────
+function editClient() {
+  document.getElementById('ecName').value    = currentClient.name    || '';
+  document.getElementById('ecEmail').value   = currentClient.email   || '';
+  document.getElementById('ecPhone').value   = currentClient.phone   || '';
+  document.getElementById('ecCompany').value = currentClient.company || '';
+  document.getElementById('ecNotes').value   = currentClient.notes   || '';
+  document.getElementById('editClientForm').style.display = 'block';
+}
+function cancelEdit() { document.getElementById('editClientForm').style.display = 'none'; }
+
+async function saveClientEdit() {
+  const name = document.getElementById('ecName').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  const { error } = await sb.from('clients').update({
+    name,
+    email:   document.getElementById('ecEmail').value.trim()   || null,
+    phone:   document.getElementById('ecPhone').value.trim()   || null,
+    company: document.getElementById('ecCompany').value.trim() || null,
+    notes:   document.getElementById('ecNotes').value.trim()   || null,
+  }).eq('id', currentClient.id);
+  if (error) { alert('Error: ' + error.message); return; }
+  currentClient = { ...currentClient, name, email: document.getElementById('ecEmail').value.trim() };
+  document.getElementById('dName').textContent = name;
+  cancelEdit();
+}
+
+// ── Delete ────────────────────────────────────────────────────────────────────
+async function deleteClient() {
+  if (!confirm(`Delete ${currentClient.name}? This will not delete their proposals or invoices, but will unlink them.`)) return;
+  await sb.from('briefs').update({ client_id: null }).eq('client_id', currentClient.id);
+  await sb.from('proposals').update({ client_id: null }).eq('client_id', currentClient.id);
+  await sb.from('invoices').update({ client_id: null }).eq('client_id', currentClient.id);
+  await sb.from('clients').delete().eq('id', currentClient.id);
+  showList();
+}
+
+async function deleteRecord(table, id, btn) {
+  if (!confirm('Delete this record? This cannot be undone.')) return;
+  btn.disabled = true;
+  const { error } = await sb.from(table).delete().eq('id', id);
+  if (error) { alert('Error: ' + error.message); btn.disabled = false; return; }
+  if (table === 'briefs') loadClientBriefs();
+  if (table === 'proposals') loadClientProposals();
+  if (table === 'invoices') loadClientInvoices();
+}
+
+loadClients();
+</script>
+</body>
+</html>

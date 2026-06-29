@@ -356,6 +356,10 @@
 </div>
 
 <script>
+const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
+const AQ_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2F5c251ZnVlbmFkb2hmaHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjM1MTUsImV4cCI6MjA5Mzc5OTUxNX0.OlEQgmohTXgnZ9nadizbhhBRO5FhiDTYy-AjGY-WL4w';
+const AQ_APP = 'https://www.anqorstudios.com';
+
 // ── State ────────────────────────────────────────────────────────────────────
 let ownItems = [];   // Anqor services
 let ptItems  = [];   // Third-party pass-throughs
@@ -363,8 +367,8 @@ let uid = 0;
 
 // ── Config ───────────────────────────────────────────────────────────────────
 function loadConfig() {
-  document.getElementById('supabaseUrl').value = localStorage.getItem('aq_url') || '';
-  document.getElementById('supabaseKey').value = localStorage.getItem('aq_key') || '';
+  document.getElementById('supabaseUrl').value = localStorage.getItem('aq_url') || AQ_URL;
+  document.getElementById('supabaseKey').value = localStorage.getItem('aq_key') || AQ_KEY;
   document.getElementById('appUrl').value = localStorage.getItem('aq_app') || 'https://www.anqorstudios.com';
 }
 function saveConfig() {
@@ -517,9 +521,9 @@ function renderSummary() {
 
 // ── Generate ─────────────────────────────────────────────────────────────────
 async function generate() {
-  const url = localStorage.getItem('aq_url');
-  const key = localStorage.getItem('aq_key');
-  const appUrl = (localStorage.getItem('aq_app') || 'https://www.anqorstudios.com').replace(/\/$/,'');
+  const url = localStorage.getItem('aq_url') || AQ_URL;
+  const key = localStorage.getItem('aq_key') || AQ_KEY;
+  const appUrl = (localStorage.getItem('aq_app') || AQ_APP).replace(/\/$/,'');
   if (!url || !key) { showError('Add Supabase credentials first.'); return; }
   const clientName = document.getElementById('clientName').value.trim();
   if (!clientName) { showError('Client name is required.'); return; }
@@ -590,12 +594,14 @@ async function generate() {
 
   try {
     const sb = supabase.createClient(url, key);
+    const clientEmail = document.getElementById('clientEmail').value.trim();
+    const clientId = await upsertClient(clientName, clientEmail);
     const { data: prop, error: pErr } = await sb.from('proposals')
-      .insert({ slug: pSlug, client_name: clientName, data: proposalData })
+      .insert({ slug: pSlug, client_id: clientId, client_name: clientName, data: proposalData })
       .select().single();
     if (pErr) throw pErr;
     const { error: iErr } = await sb.from('invoices')
-      .insert({ slug: iSlug, proposal_id: prop.id, client_name: clientName, data: invoiceData });
+      .insert({ slug: iSlug, proposal_id: prop.id, client_id: clientId, client_name: clientName, data: invoiceData });
     if (iErr) throw iErr;
 
     document.getElementById('proposalUrl').textContent = `${appUrl}/proposals/${pSlug}`;
@@ -620,6 +626,20 @@ function copyEl(id) { navigator.clipboard.writeText(document.getElementById(id).
 
 loadConfig();
 renderSummary();
+
+async function upsertClient(name, email) {
+  const url = localStorage.getItem('aq_url') || AQ_URL;
+  const key = localStorage.getItem('aq_key') || AQ_KEY;
+  const sb = supabase.createClient(url, key);
+  if (email) {
+    const { data } = await sb.from('clients').select('id').eq('email', email).maybeSingle();
+    if (data) return data.id;
+  }
+  const { data } = await sb.from('clients').select('id').eq('name', name).maybeSingle();
+  if (data) return data.id;
+  const { data: created } = await sb.from('clients').insert({ name, email: email || null }).select('id').single();
+  return created?.id || null;
+}
 
 function downloadPDF() {
   const clientName   = document.getElementById('clientName').value.trim() || 'Client';

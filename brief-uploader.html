@@ -259,6 +259,10 @@
 </div>
 
 <script>
+const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
+const AQ_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2F5c251ZnVlbmFkb2hmaHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjM1MTUsImV4cCI6MjA5Mzc5OTUxNX0.OlEQgmohTXgnZ9nadizbhhBRO5FhiDTYy-AjGY-WL4w';
+const AQ_APP = 'https://www.anqorstudios.com';
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let lineItems = [];
 let uid = 0;
@@ -627,12 +631,14 @@ async function generateProposal() {
   window._lastProposalData = proposalData;
 
   try {
-    const sb = supabase.createClient(url, key);
+    const sb = getSB();
+    const clientEmail = document.getElementById('rClientEmail').textContent.trim();
+    const clientId = await upsertClient(clientName, clientEmail);
     const { data: prop, error: pErr } = await sb.from('proposals')
-      .insert({ slug: pSlug, client_name: clientName, data: proposalData }).select().single();
+      .insert({ slug: pSlug, client_id: clientId, client_name: clientName, data: proposalData }).select().single();
     if (pErr) throw pErr;
     const { error: iErr } = await sb.from('invoices')
-      .insert({ slug: iSlug, proposal_id: prop.id, client_name: clientName, data: invoiceData });
+      .insert({ slug: iSlug, proposal_id: prop.id, client_id: clientId, client_name: clientName, data: invoiceData });
     if (iErr) throw iErr;
 
     document.getElementById('poProposalUrl').textContent = `${appUrl}/proposals/${pSlug}`;
@@ -703,22 +709,36 @@ function downloadBriefPDF() {
   win.document.close();
 }
 
-// ── Brief History ─────────────────────────────────────────────────────────────
+// ── Supabase ──────────────────────────────────────────────────────────────────
 function getSB() {
-  const url = localStorage.getItem('aq_url');
-  const key = localStorage.getItem('aq_key');
-  if (!url || !key) return null;
+  const url = localStorage.getItem('aq_url') || AQ_URL;
+  const key = localStorage.getItem('aq_key') || AQ_KEY;
   return supabase.createClient(url, key);
 }
 
+async function upsertClient(name, email) {
+  const sb = getSB();
+  if (email) {
+    const { data } = await sb.from('clients').select('id').eq('email', email).maybeSingle();
+    if (data) return data.id;
+  }
+  const { data } = await sb.from('clients').select('id').eq('name', name).maybeSingle();
+  if (data) return data.id;
+  const { data: created } = await sb.from('clients').insert({ name, email: email || null }).select('id').single();
+  return created?.id || null;
+}
+
 async function saveBrief(rawText, extracted) {
-  const sb = getSB(); if (!sb) return;
+  const sb = getSB();
+  const clientId = extracted.client_name ? await upsertClient(extracted.client_name, extracted.client_email || null) : null;
   await sb.from('briefs').insert({
+    client_id:     clientId,
     client_name:   extracted.client_name   || null,
     project_title: extracted.project_title || null,
     raw_text:      rawText,
     extracted:     extracted,
   });
+  loadBriefHistory();
 }
 
 async function loadBriefHistory() {
