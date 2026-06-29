@@ -430,9 +430,11 @@ Respond ONLY with a valid JSON object in this exact structure:
   "line_items": [
     {
       "section": "own" | "pass_through",
-      "description": "exact string from catalog",
+      "description": "base name only — e.g. 'MUA', 'Studio Hire', 'Videographer' (no Half/Full Day suffix)",
       "qty": number,
-      "unit_price": number
+      "unit_price": number,
+      "half_day_price": number | null,
+      "full_day_price": number | null
     }
   ]
 }
@@ -441,10 +443,12 @@ Rules:
 - Only include line items from the catalog above. Do not invent new services.
 - For pass_through items, unit_price is the VENDOR COST (before markup).
 - qty should reflect days, hours, or units as appropriate.
+- For items that exist in both Half Day and Full Day variants in the catalog, ALWAYS populate BOTH half_day_price and full_day_price, and set unit_price to the full_day_price. Use the base description without a day suffix. These items are: Photography, Corporate Headshots, Videographer, Event Coverage (Photo+Video), Studio Hire, Drone, Model, MUA, Hairstylist.
+- Items with only a Full Day rate (Director of Photography, Lighting Technician, Wardrobe Stylist, Production Assistant) should have half_day_price: null and full_day_price equal to unit_price.
 - If the input involves any photo or video shoot (on-location or in-studio), you MUST include:
-  - Studio Hire (half or full day) in pass_through UNLESS explicitly a location shoot with no studio
-  - MUA — Half Day or Full Day in pass_through if models or talent are present
-  - Hairstylist — Half Day or Full Day in pass_through if models or talent are present
+  - Studio Hire in pass_through UNLESS explicitly a location shoot with no studio
+  - MUA in pass_through if models or talent are present
+  - Hairstylist in pass_through if models or talent are present
   - Model fees in pass_through if models or talent are mentioned
 - If grooming requirements are mentioned (hair, nails, makeup), always include MUA and Hairstylist
 - If wardrobe or styling is mentioned, include Wardrobe Stylist in pass_through
@@ -528,7 +532,10 @@ function renderResults(data) {
     section: li.section,
     description: li.description,
     qty: li.qty || 1,
-    unit_price: li.unit_price || 0
+    unit_price: li.full_day_price || li.unit_price || 0,
+    half_day_price: li.half_day_price || null,
+    full_day_price: li.full_day_price || null,
+    fullDay: true
   }));
   renderLineItems();
 
@@ -553,6 +560,14 @@ function updateLI(id, field, val) {
   updateTotals();
 }
 
+function toggleDayRate(id) {
+  const item = lineItems.find(i => i.id === id);
+  if (!item || !item.half_day_price || !item.full_day_price) return;
+  item.fullDay = !item.fullDay;
+  item.unit_price = item.fullDay ? item.full_day_price : item.half_day_price;
+  renderLineItems();
+}
+
 function updateTotals() {
   const ownSub = lineItems.filter(i => i.section === 'own').reduce((s,i) => s + i.qty * i.unit_price, 0);
   const ptSub  = lineItems.filter(i => i.section === 'pass_through').reduce((s,i) => s + i.qty * i.unit_price, 0);
@@ -569,9 +584,12 @@ function renderLineItems() {
     const total = item.qty * item.unit_price;
     const tagClass = item.section === 'own' ? 'li-own' : 'li-pt';
     const tagLabel = item.section === 'own' ? 'Anqor' : 'Pass-thru';
+    const toggleBtn = (item.half_day_price && item.full_day_price)
+      ? `<button onclick="toggleDayRate(${item.id})" style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;border:1px solid ${item.fullDay ? '#2a5a3a' : '#2a2000'};background:${item.fullDay ? '#0d1f15' : '#1a1200'};color:${item.fullDay ? '#4a9f6f' : '#c8882a'}">${item.fullDay ? 'Full Day' : 'Half Day'}</button>`
+      : '';
     return `<tr data-li="${item.id}">
       <td><span class="li-section ${tagClass}">${tagLabel}</span></td>
-      <td><input type="text" value="${esc(item.description)}" style="font-size:12px" oninput="updateLI(${item.id},'description',this.value)" /></td>
+      <td style="display:flex;gap:6px;align-items:center">${toggleBtn}<input type="text" value="${esc(item.description)}" style="font-size:12px;flex:1" oninput="updateLI(${item.id},'description',this.value)" /></td>
       <td><input type="number" min="1" value="${item.qty}" style="width:55px;font-size:12px" oninput="updateLI(${item.id},'qty',this.value)" /></td>
       <td><input type="number" min="0" step="1" value="${item.unit_price}" style="font-size:12px;width:100px" oninput="updateLI(${item.id},'unit_price',this.value)" /></td>
       <td class="li-total">${fmt(total)}</td>
