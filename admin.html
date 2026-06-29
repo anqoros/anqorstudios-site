@@ -454,10 +454,13 @@ function switchClientTab(tab, el) {
 }
 
 async function loadCdBriefs() {
-  // Match by client_id OR client_name so older records without client_id still show
-  const { data } = await sb.from('briefs').select('*')
-    .or(`client_id.eq.${currentClient.id},client_name.eq."${currentClient.name.replace(/"/g,'\\"')}"`)
-    .order('created_at',{ascending:false});
+  // Fetch all briefs then filter client-side to avoid OR query quoting issues
+  const { data: all } = await sb.from('briefs').select('*').order('created_at',{ascending:false});
+  const name = (currentClient.name||'').toLowerCase().trim();
+  const data = (all||[]).filter(b =>
+    b.client_id === currentClient.id ||
+    (b.client_name||'').toLowerCase().trim() === name
+  );
   document.getElementById('cdBriefs').innerHTML = data?.length ? data.map(b => `
     <div class="row">
       <div><div class="row-title">${b.project_title||'Untitled brief'}</div><div class="row-meta">${fmtDate(b.created_at)}</div></div>

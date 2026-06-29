@@ -607,7 +607,7 @@ async function generateProposal() {
   try {
     const sb = getSB();
     const clientEmail = document.getElementById('rClientEmail').textContent.trim();
-    const clientId = await upsertClient(clientName, clientEmail);
+    const clientId = (await upsertClient(clientName, clientEmail)).id;
     const { data: prop, error: pErr } = await sb.from('proposals')
       .insert({ slug: pSlug, client_id: clientId, client_name: clientName, data: proposalData }).select().single();
     if (pErr) throw pErr;
