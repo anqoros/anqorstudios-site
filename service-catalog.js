@@ -16,7 +16,7 @@ window.AQ_CATALOG = [
   // ── OWN SERVICES (Anqor's fees) ──────────────────────────────────────────────
 
   // Photography
-  { name: 'Photography',                              section: 'own', halfDayPrice: 4500,  fullDayPrice: 7500,  unit: null,           notes: '4h / 8h' },
+  { name: 'Photography',                              section: 'own', halfDayPrice: 1500,  fullDayPrice: 3000,  unit: null,           notes: '4h / 8h' },
   { name: 'Additional Hour — Photography',            section: 'own', halfDayPrice: null,  fullDayPrice: 1000,  unit: 'per hour',     notes: null },
   { name: 'Corporate Headshots',                      section: 'own', halfDayPrice: 4500,  fullDayPrice: 7000,  unit: null,           notes: '≤10 pax / ≤20 pax' },
   { name: 'Image Editing & Retouching',               section: 'own', halfDayPrice: null,  fullDayPrice: 150,   unit: 'per image',    notes: null },
