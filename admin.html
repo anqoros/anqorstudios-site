@@ -673,9 +673,22 @@ async function markPaid(id, btn) {
 async function deleteRec(table, id, btn) {
   if (!confirm('Delete this record?')) return;
   btn.disabled = true;
-  await sb.from(table).delete().eq('id', id);
+  btn.textContent = '…';
+
+  // If deleting a proposal, delete its linked invoice first (FK constraint)
+  if (table === 'proposals') {
+    const { error: ie } = await sb.from('invoices').delete().eq('proposal_id', id);
+    if (ie) { alert('Could not delete linked invoice: ' + ie.message); btn.disabled = false; btn.textContent = 'Delete'; return; }
+  }
+
+  const { error } = await sb.from(table).delete().eq('id', id);
+  if (error) {
+    alert('Delete failed: ' + error.message);
+    btn.disabled = false; btn.textContent = 'Delete';
+    return;
+  }
   if (table==='briefs')    loadCdBriefs();
-  if (table==='proposals') loadCdProposals();
+  if (table==='proposals') { loadCdProposals(); loadCdInvoices(); }
   if (table==='invoices')  loadCdInvoices();
 }
 
