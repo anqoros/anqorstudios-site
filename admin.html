@@ -518,7 +518,7 @@ function _renderBriefPanel(id) {
       ? `<button onclick="_aToggleDay('${id}',${i})" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid ${li.fullDay ? '#2a5a3a' : '#2a2000'};background:${li.fullDay ? '#0d1f15' : '#1a1200'};color:${li.fullDay ? '#4a9f6f' : '#c8882a'};white-space:nowrap">${li.fullDay ? 'Full Day' : 'Half Day'}</button>`
       : '';
     return `<tr>
-      <td style="padding:6px 8px;font-size:12px;color:#ccc"><div style="display:flex;align-items:center;gap:8px">${dayToggle}<span>${li.description}</span></div></td>
+      <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:8px">${dayToggle}<input type="text" value="${li.description.replace(/"/g,'&quot;')}" onchange="_aUpdateLI('${id}',${i},'description',this.value)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 8px;font-size:12px;min-width:0"></div></td>
       <td style="padding:6px 8px"><input type="number" value="${li.qty}" min="1" step="1"
         onchange="_aUpdateLI('${id}',${i},'qty',this.value)"
         style="width:52px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:center"></td>
@@ -561,6 +561,7 @@ function _renderBriefPanel(id) {
 function _aUpdateLI(id, idx, field, val) {
   const item = _abrief[id].items[idx];
   if (!item) return;
+  if (field === 'description') { item[field] = val; return; }
   item[field] = parseFloat(val) || 0;
   document.getElementById(`ali-total-${id}-${idx}`).textContent = _fmtAED(item.qty * item.unit_price);
   const sub = _abrief[id].items.reduce((s,li) => s + li.qty*li.unit_price, 0);
