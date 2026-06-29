@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dubai Studio Market Research — Anqor Studios</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; min-height: 100vh; padding: 40px 20px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .logo { font-size: 12px; letter-spacing: 0.15em; color: #4a9f6f; text-transform: uppercase; margin-bottom: 8px; }
+  h1 { font-size: 26px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #555; margin-bottom: 36px; }
+
+  /* Market snapshot */
+  .snapshot { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 36px; }
+  .snap-card { background: #141414; border: 1px solid #222; border-radius: 10px; padding: 18px 20px; }
+  .snap-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 6px; }
+  .snap-value { font-size: 22px; font-weight: 700; color: #4a9f6f; }
+  .snap-note { font-size: 11px; color: #444; margin-top: 4px; }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .filter-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid #2a2a2a; background: #141414; color: #666; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { border-color: #4a9f6f; color: #4a9f6f; background: #0d1f15; }
+
+  /* Studios grid */
+  .studios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 48px; }
+  .studio-card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 14px; transition: border-color 0.15s; }
+  .studio-card:hover { border-color: #333; }
+  .studio-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .studio-name { font-size: 15px; font-weight: 700; color: #fff; }
+  .studio-location { font-size: 11px; color: #555; margin-top: 3px; }
+  .tag { display: inline-block; padding: 3px 9px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .tag-photo { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
+  .tag-video { background: #0d1020; color: #7a5af8; border: 1px solid #2a1a50; }
+  .tag-podcast { background: #1a0d00; color: #c8882a; border: 1px solid #3a2010; }
+  .tag-production { background: #0a0a14; color: #5a8af8; border: 1px solid #1a2a50; }
+
+  /* Rates table */
+  .rates { width: 100%; border-collapse: collapse; }
+  .rates td { padding: 6px 0; font-size: 13px; border-bottom: 1px solid #1a1a1a; }
+  .rates td:first-child { color: #666; width: 55%; }
+  .rates td:last-child { color: #e5e5e5; font-weight: 600; text-align: right; }
+  .rates tr:last-child td { border-bottom: none; }
+  .rate-highlight { color: #4a9f6f !important; }
+
+  /* Packages */
+  .packages-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #444; margin-bottom: 8px; }
+  .pkg { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 6px; padding: 10px 12px; margin-bottom: 6px; }
+  .pkg-name { font-size: 12px; font-weight: 600; color: #ccc; }
+  .pkg-price { font-size: 13px; font-weight: 700; color: #4a9f6f; margin-top: 2px; }
+  .pkg-desc { font-size: 11px; color: #555; margin-top: 3px; line-height: 1.4; }
+
+  /* Includes */
+  .includes { display: flex; flex-wrap: wrap; gap: 5px; }
+  .include-chip { background: #111; border: 1px solid #1e1e1e; border-radius: 4px; padding: 3px 8px; font-size: 11px; color: #666; }
+
+  /* Studio link */
+  .studio-link { display: inline-block; margin-top: 4px; font-size: 11px; color: #4a9f6f; text-decoration: none; opacity: 0.7; }
+  .studio-link:hover { opacity: 1; }
+
+  /* Notes */
+  .studio-note { font-size: 12px; color: #555; font-style: italic; }
+
+  /* Comparison table */
+  .comp-section { margin-bottom: 48px; }
+  .comp-section h2 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 20px; }
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #555; padding: 10px 12px; text-align: left; border-bottom: 1px solid #1e1e1e; background: #0d0d0d; }
+  .comp-table td { padding: 12px 12px; font-size: 13px; border-bottom: 1px solid #141414; vertical-align: top; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr.anqor-row { background: #0d1f15; }
+  .comp-table tr.anqor-row td { color: #4a9f6f; font-weight: 600; border-bottom: 1px solid #1e4a2d; }
+  .comp-table td:first-child { font-weight: 600; color: #ccc; }
+  .comp-table tr.anqor-row td:first-child { color: #4a9f6f; }
+
+  /* Last updated */
+  .updated { font-size: 11px; color: #333; margin-top: 40px; padding-top: 20px; border-top: 1px solid #1a1a1a; }
+
+  @media (max-width: 600px) {
+    .snapshot { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="logo">Anqor Studios — Internal</div>
+  <h1>Dubai Studio Market Research</h1>
+  <p class="subtitle">Competitive rate intelligence across Dubai's top photography, video & podcast studios. Last updated June 2026.</p>
+
+  <!-- Market Snapshot -->
+  <div class="snapshot">
+    <div class="snap-card">
+      <div class="snap-label">Photo Studio — Hourly</div>
+      <div class="snap-value">300–490</div>
+      <div class="snap-note">AED/hr · market range</div>
+    </div>
+    <div class="snap-card">
+      <div class="snap-label">Photo Studio — Full Day</div>
+      <div class="snap-value">1,800–2,500</div>
+      <div class="snap-note">AED · 8h typical</div>
+    </div>
+    <div class="snap-card">
+      <div class="snap-label">Podcast Studio — Hourly</div>
+      <div class="snap-value">300–490</div>
+      <div class="snap-note">AED/hr · varies by equipment level</div>
+    </div>
+    <div class="snap-card">
+      <div class="snap-label">Anqor Pass-Through (studio)</div>
+      <div class="snap-value">1,200–2,000</div>
+      <div class="snap-note">AED · vendor cost, half/full day</div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterStudios('all', this)">All Studios</button>
+    <button class="filter-btn" onclick="filterStudios('photo', this)">Photography</button>
+    <button class="filter-btn" onclick="filterStudios('video', this)">Video</button>
+    <button class="filter-btn" onclick="filterStudios('podcast', this)">Podcast</button>
+    <button class="filter-btn" onclick="filterStudios('production', this)">Full Production</button>
+  </div>
+
+  <!-- Studio Cards -->
+  <div class="studios-grid" id="studiosGrid">
+
+    <!-- 1. Fabric.a -->
+    <div class="studio-card" data-types="photo video">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Fabric.a Studios</div>
+            <div class="studio-location">Tecom (Barsha Heights) + Jebel Ali</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-photo">Photo</span>
+            <span class="tag tag-video">Video</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Hourly rate</td><td class="rate-highlight">AED 300 / hr</td></tr>
+        <tr><td>Halls available</td><td>5 unique spaces</td></tr>
+        <tr><td>Styles</td><td>Daylight · Cyclorama · Bali · French</td></tr>
+        <tr><td>In-studio assistant</td><td>Included</td></tr>
+        <tr><td>Lighting (Profoto + Aputure)</td><td>Included</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Hourly Rental</div>
+          <div class="pkg-price">AED 300 / hr</div>
+          <div class="pkg-desc">Any hall. Profoto gear + assistant included.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Long-Term Partnership</div>
+          <div class="pkg-price">Contact for quote</div>
+          <div class="pkg-desc">Discounted rates for recurring bookings.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Profoto lighting</span>
+          <span class="include-chip">Aputure gear</span>
+          <span class="include-chip">In-studio assistant</span>
+          <span class="include-chip">Makeup room</span>
+          <span class="include-chip">Changing room</span>
+          <span class="include-chip">5 halls</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://fabricastudios.ae" target="_blank">fabricastudios.ae ↗</a>
+    </div>
+
+    <!-- 2. Studio 321 -->
+    <div class="studio-card" data-types="photo video podcast">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Studio 321</div>
+            <div class="studio-location">Al Mamzar, Dubai</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-photo">Photo</span>
+            <span class="tag tag-video">Video</span>
+            <span class="tag tag-podcast">Podcast</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Hourly rate</td><td class="rate-highlight">AED 350 / hr</td></tr>
+        <tr><td>Half-day rate</td><td>Available</td></tr>
+        <tr><td>Full-day rate</td><td>Available</td></tr>
+        <tr><td>Bundle discount</td><td>Up to 30% off</td></tr>
+        <tr><td>Podcast space from</td><td>AED 300 / hr</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Hourly Studio</div>
+          <div class="pkg-price">AED 350 / hr</div>
+          <div class="pkg-desc">Photography or video. Lighting add-ons available.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Multi-Session Bundle</div>
+          <div class="pkg-price">Up to 30% discount</div>
+          <div class="pkg-desc">Book multiple sessions, save on each.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Podcast Space</div>
+          <div class="pkg-price">From AED 300 / hr</div>
+          <div class="pkg-desc">Recording + video podcast setup.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Lighting options</span>
+          <span class="include-chip">Podcast recording</span>
+          <span class="include-chip">Bundle discounts</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://s321.ae" target="_blank">s321.ae ↗</a>
+    </div>
+
+    <!-- 3. Studio360 -->
+    <div class="studio-card" data-types="photo video podcast">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Studio360</div>
+            <div class="studio-location">Barsha Heights (Tecom), Dubai</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-photo">Photo</span>
+            <span class="tag tag-video">Video</span>
+            <span class="tag tag-podcast">Podcast</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Photo/video — hourly</td><td class="rate-highlight">Available</td></tr>
+        <tr><td>Half-day rate</td><td>Available</td></tr>
+        <tr><td>Full-day rate</td><td>Available</td></tr>
+        <tr><td>Podcast space from</td><td class="rate-highlight">AED 300 / hr</td></tr>
+        <tr><td>Studio size</td><td>1,200 sqft (110 sqm)</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Zone 1 — Primary Shoot Space</div>
+          <div class="pkg-price">Hourly / Half / Full Day</div>
+          <div class="pkg-desc">5.5m × 7.5m × 3.5m. Hair & makeup + changing room included.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Zone 2 — Interview / Talking Head</div>
+          <div class="pkg-price">Hourly / Half / Full Day</div>
+          <div class="pkg-desc">5.5m × 4m × 3.2m. Ideal for 1–2 person video interviews.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Podcast Studio</div>
+          <div class="pkg-price">From AED 300 / hr</div>
+          <div class="pkg-desc">Pro mics, soundproofing, recording + mixing equipment.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">2 shooting zones</span>
+          <span class="include-chip">Hair & makeup station</span>
+          <span class="include-chip">Changing room</span>
+          <span class="include-chip">Lounge area</span>
+          <span class="include-chip">Lighting add-ons</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://studio360.ae" target="_blank">studio360.ae ↗</a>
+    </div>
+
+    <!-- 4. Cloud Spaces -->
+    <div class="studio-card" data-types="photo podcast">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Cloud Spaces</div>
+            <div class="studio-location">Dubai (multiple locations)</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-photo">Photo</span>
+            <span class="tag tag-podcast">Podcast</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Photo studio — hourly</td><td class="rate-highlight">AED 300 / hr</td></tr>
+        <tr><td>Photo studio — daily</td><td class="rate-highlight">AED 1,800 / day</td></tr>
+        <tr><td>Podcast studio — hourly</td><td class="rate-highlight">AED 450 / hr</td></tr>
+        <tr><td>Podcast studio — daily</td><td class="rate-highlight">AED 2,500 / day</td></tr>
+        <tr><td>Editing (simple)</td><td>Add-on price</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Photo Studio Rental</div>
+          <div class="pkg-price">AED 300/hr · AED 1,800/day</div>
+          <div class="pkg-desc">Canon 7D + Adobe Suite desktop + lighting + backdrops.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Podcast Studio Rental</div>
+          <div class="pkg-price">AED 450/hr · AED 2,500/day</div>
+          <div class="pkg-desc">Dynamic mics, headsets, ProFX mixer, acoustic treatment.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Editing Add-On</div>
+          <div class="pkg-price">Contact for pricing</div>
+          <div class="pkg-desc">Simple or premium: color correction, audio refinement, branding, YouTube edits, teleprompter, live mix.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Canon 7D camera</span>
+          <span class="include-chip">Adobe Suite</span>
+          <span class="include-chip">Backdrops</span>
+          <span class="include-chip">ProFX Mixer</span>
+          <span class="include-chip">Acoustic treatment</span>
+          <span class="include-chip">Teleprompter</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://www.cloudspaces.ae/en/creative-studios" target="_blank">cloudspaces.ae ↗</a>
+    </div>
+
+    <!-- 5. Nuria Production -->
+    <div class="studio-card" data-types="video podcast">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Nuria Production</div>
+            <div class="studio-location">Dubai Media City</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-video">Video</span>
+            <span class="tag tag-podcast">Podcast</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Studio rental from</td><td class="rate-highlight">AED 300 / hr</td></tr>
+        <tr><td>On-site support</td><td>Included</td></tr>
+        <tr><td>Cameras</td><td>Sony FX30 / FX3</td></tr>
+        <tr><td>Raw files delivery</td><td>Same day / next day</td></tr>
+        <tr><td>Podcast edit turnaround</td><td>7 calendar days</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Studio Rental</div>
+          <div class="pkg-price">From AED 300 / hr</div>
+          <div class="pkg-desc">Full studio access. Sony FX30/FX3. Aputure + Nanlite lighting. On-site tech support included.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Podcast Episode Edit</div>
+          <div class="pkg-price">Contact for pricing</div>
+          <div class="pkg-desc">Up to 60 min. Multi-cam sync, color correction, audio cleanup. Delivered in 7 days. 2 weeks free revisions.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Sony FX3 cameras</span>
+          <span class="include-chip">Carl Zeiss lenses</span>
+          <span class="include-chip">Aputure 100x/300c</span>
+          <span class="include-chip">Nanlite 15c</span>
+          <span class="include-chip">Tech support</span>
+          <span class="include-chip">Raw files same day</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://nuriaproduction.com" target="_blank">nuriaproduction.com ↗</a>
+    </div>
+
+    <!-- 6. Poddster -->
+    <div class="studio-card" data-types="podcast video">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Poddster</div>
+            <div class="studio-location">9 studios — Al Barsha · DMC · Motor City · Palm Jumeirah</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-podcast">Podcast</span>
+            <span class="tag tag-video">Video</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Single session (1hr)</td><td class="rate-highlight">AED 490 / hr</td></tr>
+        <tr><td>Multi-session bundle</td><td class="rate-highlight">AED 400 / hr</td></tr>
+        <tr><td>Cameras per studio</td><td>Up to 5 × Sony FX3</td></tr>
+        <tr><td>Microphones</td><td>Shure SM7dB</td></tr>
+        <tr><td>Producer/tech included</td><td>Yes, every session</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Single Session</div>
+          <div class="pkg-price">AED 490 / hr</div>
+          <div class="pkg-desc">Up to 5 mics, 3 cameras, lighting, studio operator. Raw audio + video files included.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Multi-Session Bundle</div>
+          <div class="pkg-price">AED 400 / hr</div>
+          <div class="pkg-desc">Buy sessions in bulk, save AED 90/hr vs single rate.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Social Package</div>
+          <div class="pkg-price">AED 3,400</div>
+          <div class="pkg-desc">2-hour studio session + teleprompter + 12 edited Reels delivered.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Standard Highlights</div>
+          <div class="pkg-price">AED 550</div>
+          <div class="pkg-desc">3 short-form clips cut from your session.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Single Edited Reel</div>
+          <div class="pkg-price">AED 220</div>
+          <div class="pkg-desc">One standalone Reel, edited from your content.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Sony FX3 (up to 5)</span>
+          <span class="include-chip">Shure SM7dB mics</span>
+          <span class="include-chip">Soundproofing</span>
+          <span class="include-chip">Teleprompter</span>
+          <span class="include-chip">Studio operator</span>
+          <span class="include-chip">Raw files</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://dubai.poddster.com" target="_blank">dubai.poddster.com ↗</a>
+    </div>
+
+    <!-- 7. Sweet Home Studio -->
+    <div class="studio-card" data-types="photo">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Sweet Home Studio</div>
+            <div class="studio-location">Dubai</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-photo">Photo</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Studio rental from</td><td class="rate-highlight">AED 300 / hr</td></tr>
+        <tr><td>Max booking</td><td>Up to 10 hours</td></tr>
+        <tr><td>Lighting</td><td>Professional (included)</td></tr>
+        <tr><td>Photographer add-on</td><td>Available</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Product Package 1</div>
+          <div class="pkg-price">AED 1,500</div>
+          <div class="pkg-desc">1-hour shoot · 1 background · 10 edited images delivered.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Product Package 2</div>
+          <div class="pkg-price">AED 2,500</div>
+          <div class="pkg-desc">2-hour shoot · 2 backgrounds · 20 edited images delivered.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Product Package 3</div>
+          <div class="pkg-price">AED 4,000</div>
+          <div class="pkg-desc">4-hour shoot · 4 backgrounds · 40 edited images delivered.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Lookbook / Fashion</div>
+          <div class="pkg-price">From AED 2,000</div>
+          <div class="pkg-desc">Customized to fit your lookbook vision.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Outdoor Family Session</div>
+          <div class="pkg-price">AED 2,200 + VAT</div>
+          <div class="pkg-desc">Location-based family photography.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Professional lighting</span>
+          <span class="include-chip">Multiple backgrounds</span>
+          <span class="include-chip">Image editing</span>
+          <span class="include-chip">Photographer optional</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://sweethomestudio.ae" target="_blank">sweethomestudio.ae ↗</a>
+    </div>
+
+    <!-- 8. Dubai Podcast Studio -->
+    <div class="studio-card" data-types="podcast video">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Dubai Podcast Studio</div>
+            <div class="studio-location">Dubai</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-podcast">Podcast</span>
+            <span class="tag tag-video">Video</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Hourly rate from</td><td class="rate-highlight">AED 350 / hr</td></tr>
+        <tr><td>Minimum booking</td><td>1 hour</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Packages</div>
+        <div class="pkg">
+          <div class="pkg-name">Studio Rental</div>
+          <div class="pkg-price">From AED 350 / hr</div>
+          <div class="pkg-desc">Professional podcast and video recording studio. Book by the hour.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Notes</div>
+        <div class="studio-note">Specialist podcast + video studio. Full package details available on booking page.</div>
+      </div>
+      <a class="studio-link" href="https://www.dubaipodcaststudio.com" target="_blank">dubaipodcaststudio.com ↗</a>
+    </div>
+
+    <!-- 9. Mile Studios -->
+    <div class="studio-card" data-types="photo video production">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Mile Studios</div>
+            <div class="studio-location">Dubai</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-photo">Photo</span>
+            <span class="tag tag-video">Video</span>
+            <span class="tag tag-production">Post</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Studio rental</td><td>Contact for rates</td></tr>
+        <tr><td>Edit suite rental</td><td>Contact for rates</td></tr>
+        <tr><td>Green screen</td><td>Available</td></tr>
+        <tr><td>Sound engineer</td><td>Available</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Services</div>
+        <div class="pkg">
+          <div class="pkg-name">Photo / Video Shoot Studio</div>
+          <div class="pkg-price">Contact for pricing</div>
+          <div class="pkg-desc">High-res cameras, pro lighting, sound recording, green screen / chroma key.</div>
+        </div>
+        <div class="pkg">
+          <div class="pkg-name">Edit Suite Rental</div>
+          <div class="pkg-price">Contact for pricing</div>
+          <div class="pkg-desc">Professional post-production facility. Dedicated edit suites available for hire.</div>
+        </div>
+      </div>
+      <div>
+        <div class="packages-label">Included</div>
+        <div class="includes">
+          <span class="include-chip">Pro cameras</span>
+          <span class="include-chip">Pro lighting</span>
+          <span class="include-chip">Green screen</span>
+          <span class="include-chip">Sound engineer</span>
+          <span class="include-chip">Edit suites</span>
+          <span class="include-chip">High-speed Wi-Fi</span>
+        </div>
+      </div>
+      <a class="studio-link" href="https://www.milestudios.tv" target="_blank">milestudios.tv ↗</a>
+    </div>
+
+    <!-- 10. Alphacast -->
+    <div class="studio-card" data-types="podcast video">
+      <div>
+        <div class="studio-header">
+          <div>
+            <div class="studio-name">Alphacast</div>
+            <div class="studio-location">Dubai</div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="tag tag-podcast">Podcast</span>
+            <span class="tag tag-video">Video</span>
+          </div>
+        </div>
+      </div>
+      <table class="rates">
+        <tr><td>Hourly rate</td><td>Contact for rates</td></tr>
+        <tr><td>Speciality</td><td>Podcast recording studio</td></tr>
+      </table>
+      <div>
+        <div class="packages-label">Services</div>
+        <div class="pkg">
+          <div class="pkg-name">Podcast Recording Studio</div>
+          <div class="pkg-price">Contact for pricing</div>
+          <div class="pkg-desc">Professional podcast and video production facility for hire in Dubai.</div>
+        </div>
+      </div>
+      <a class="studio-link" href="https://alphacast.ae" target="_blank">alphacast.ae ↗</a>
+    </div>
+
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="comp-section">
+    <h2>Rate Comparison — Studios vs. Anqor Pass-Through</h2>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Studio</th>
+          <th>Hourly Rate</th>
+          <th>Half Day (4h)</th>
+          <th>Full Day (8h)</th>
+          <th>Podcast /hr</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fabric.a</td>
+          <td>AED 300</td>
+          <td>~AED 1,200</td>
+          <td>~AED 2,400</td>
+          <td>—</td>
+          <td>Photo · Video</td>
+        </tr>
+        <tr>
+          <td>Studio 321</td>
+          <td>AED 350</td>
+          <td>~AED 1,400</td>
+          <td>~AED 2,800</td>
+          <td>AED 300</td>
+          <td>Photo · Video · Pod</td>
+        </tr>
+        <tr>
+          <td>Studio360</td>
+          <td>TBC</td>
+          <td>Available</td>
+          <td>Available</td>
+          <td>AED 300</td>
+          <td>Photo · Video · Pod</td>
+        </tr>
+        <tr>
+          <td>Cloud Spaces</td>
+          <td>AED 300</td>
+          <td>AED 1,200</td>
+          <td>AED 1,800</td>
+          <td>AED 450</td>
+          <td>Photo · Podcast</td>
+        </tr>
+        <tr>
+          <td>Nuria Production</td>
+          <td>AED 300</td>
+          <td>~AED 1,200</td>
+          <td>~AED 2,400</td>
+          <td>AED 300</td>
+          <td>Video · Podcast</td>
+        </tr>
+        <tr>
+          <td>Poddster</td>
+          <td>AED 490 (single)</td>
+          <td>~AED 1,960</td>
+          <td>~AED 3,920</td>
+          <td>AED 400–490</td>
+          <td>Podcast · Video</td>
+        </tr>
+        <tr>
+          <td>Sweet Home Studio</td>
+          <td>AED 300</td>
+          <td>~AED 1,200</td>
+          <td>~AED 2,400</td>
+          <td>—</td>
+          <td>Photography</td>
+        </tr>
+        <tr>
+          <td>Dubai Podcast Studio</td>
+          <td>AED 350</td>
+          <td>~AED 1,400</td>
+          <td>~AED 2,800</td>
+          <td>AED 350</td>
+          <td>Podcast · Video</td>
+        </tr>
+        <tr>
+          <td>Mile Studios</td>
+          <td>Contact</td>
+          <td>Contact</td>
+          <td>Contact</td>
+          <td>—</td>
+          <td>Photo · Video · Post</td>
+        </tr>
+        <tr>
+          <td>Alphacast</td>
+          <td>Contact</td>
+          <td>Contact</td>
+          <td>Contact</td>
+          <td>Contact</td>
+          <td>Podcast</td>
+        </tr>
+        <tr class="anqor-row">
+          <td>Anqor Pass-Through (vendor cost)</td>
+          <td>~AED 300–350</td>
+          <td>AED 1,200</td>
+          <td>AED 2,000</td>
+          <td>~AED 300</td>
+          <td>Built into quotes</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#444;margin-top:12px">Anqor row shows the vendor cost entered into the quote generator. Your client sees this + 15–20% handling markup on top.</p>
+  </div>
+
+  <!-- Poddster Social Package Benchmark -->
+  <div class="comp-section">
+    <h2>Benchmark: Content Packages in the Market</h2>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Provider</th>
+          <th>Package</th>
+          <th>Price (AED)</th>
+          <th>Deliverables</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Poddster</td>
+          <td>Social Package</td>
+          <td>AED 3,400</td>
+          <td>2h studio + teleprompter + 12 edited Reels</td>
+        </tr>
+        <tr>
+          <td>Poddster</td>
+          <td>Standard Highlights</td>
+          <td>AED 550</td>
+          <td>3 short-form clips from your session</td>
+        </tr>
+        <tr>
+          <td>Poddster</td>
+          <td>Single Reel</td>
+          <td>AED 220</td>
+          <td>1 edited Reel</td>
+        </tr>
+        <tr>
+          <td>Sweet Home</td>
+          <td>Product Package 1</td>
+          <td>AED 1,500</td>
+          <td>1h shoot + 10 edited images</td>
+        </tr>
+        <tr>
+          <td>Sweet Home</td>
+          <td>Product Package 2</td>
+          <td>AED 2,500</td>
+          <td>2h shoot + 20 edited images</td>
+        </tr>
+        <tr>
+          <td>Sweet Home</td>
+          <td>Product Package 3</td>
+          <td>AED 4,000</td>
+          <td>4h shoot + 40 edited images</td>
+        </tr>
+        <tr class="anqor-row">
+          <td>Anqor Studios</td>
+          <td>Content Day Package</td>
+          <td>AED 18,000</td>
+          <td>Full shoot day + video + 5 Reels edit (Anqor crew + direction)</td>
+        </tr>
+        <tr class="anqor-row">
+          <td>Anqor Studios</td>
+          <td>Podcast Promo Clips × 3</td>
+          <td>AED 900</td>
+          <td>3 short-form clips cut from your content</td>
+        </tr>
+        <tr class="anqor-row">
+          <td>Anqor Studios</td>
+          <td>Retainer Basic</td>
+          <td>AED 7,000 / mo</td>
+          <td>8 assets/month ongoing</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#444;margin-top:12px">Anqor's pricing is justified at the higher end — we provide direction, creative oversight, and brand-level production, not just studio hire.</p>
+  </div>
+
+  <div class="updated">Research compiled June 2026. Rates sourced from public studio websites. All AED figures are approximate and subject to change — verify directly with each studio before quoting.</div>
+
+</div>
+
+<script>
+function filterStudios(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.studio-card').forEach(card => {
+    if (type === 'all') {
+      card.style.display = 'flex';
+    } else {
+      const types = card.dataset.types || '';
+      card.style.display = types.includes(type) ? 'flex' : 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

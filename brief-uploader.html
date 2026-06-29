@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief Uploader — Anqor Studios</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; min-height: 100vh; padding: 40px 20px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  .nav { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .nav a { font-size: 12px; color: #444; text-decoration: none; }
+  .nav a:hover { color: #aaa; }
+  .nav-sep { color: #2a2a2a; }
+  .logo { font-size: 11px; letter-spacing: 0.15em; color: #4a9f6f; text-transform: uppercase; margin-bottom: 8px; }
+  h1 { font-size: 26px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #555; margin-bottom: 32px; }
+
+  .card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 28px; margin-bottom: 22px; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4a9f6f; margin-bottom: 18px; }
+  .card-title.amber { color: #c8882a; }
+
+  /* API config */
+  .config-toggle { font-size: 12px; color: #333; cursor: pointer; text-decoration: underline; margin-bottom: 20px; display: inline-block; }
+  .config-toggle:hover { color: #555; }
+  .config-panel { display: none; margin-bottom: 20px; }
+  .config-panel.open { display: block; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  label { font-size: 11px; color: #555; letter-spacing: 0.05em; text-transform: uppercase; }
+  input, select, textarea {
+    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px;
+    color: #e5e5e5; padding: 10px 14px; font-size: 13px; width: 100%; outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #4a9f6f; }
+  textarea { resize: vertical; min-height: 180px; font-family: inherit; line-height: 1.6; }
+
+  /* Drop zone */
+  .drop-zone {
+    border: 2px dashed #2a2a2a; border-radius: 10px; padding: 32px;
+    text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: 18px;
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: #4a9f6f; background: #0d1f15; }
+  .drop-icon { font-size: 32px; margin-bottom: 10px; }
+  .drop-text { font-size: 13px; color: #666; }
+  .drop-sub { font-size: 11px; color: #333; margin-top: 4px; }
+  .drop-zone input[type="file"] { display: none; }
+
+  /* or divider */
+  .or-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .or-divider span { font-size: 11px; color: #333; white-space: nowrap; }
+  .or-divider::before, .or-divider::after { content: ''; flex: 1; border-top: 1px solid #1e1e1e; }
+
+  /* Buttons */
+  .btn { padding: 11px 22px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: #4a9f6f; color: #fff; }
+  .btn-ghost { background: #1e1e1e; color: #aaa; border: 1px solid #2a2a2a; }
+  .btn-amber { background: #c8882a; color: #fff; }
+  .btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  /* Spinner */
+  .spinner { display: none; width: 18px; height: 18px; border: 2px solid #4a9f6f33; border-top-color: #4a9f6f; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .status-text { font-size: 12px; color: #555; }
+
+  /* Results */
+  #resultSection { display: none; }
+  .result-field { margin-bottom: 18px; }
+  .result-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .result-value { font-size: 14px; color: #e5e5e5; background: #111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 10px 14px; line-height: 1.5; }
+  .result-value.editable { background: #1a1a1a; border-color: #2a2a2a; cursor: text; }
+  .result-value.editable:focus { border-color: #4a9f6f; outline: none; }
+
+  /* Line items review */
+  .line-items-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+  .line-items-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #444; padding: 8px 8px; text-align: left; border-bottom: 1px solid #1e1e1e; }
+  .line-items-table td { padding: 6px 6px; font-size: 13px; border-bottom: 1px solid #141414; vertical-align: middle; }
+  .line-items-table tr:last-child td { border-bottom: none; }
+  .line-items-table input { padding: 6px 8px; font-size: 12px; }
+  .li-section { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .li-own { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
+  .li-pt { background: #1a0d00; color: #c8882a; border: 1px solid #3a2010; }
+  .li-total { font-weight: 700; color: #4a9f6f; text-align: right; }
+  .btn-del-li { background: transparent; color: #e05555; border: 1px solid #2a1010; font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; }
+
+  /* Confidence badge */
+  .confidence { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .conf-high { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
+  .conf-med { background: #1a1000; color: #c8882a; border: 1px solid #3a2010; }
+  .conf-low { background: #1a0a0a; color: #e05555; border: 1px solid #3a1010; }
+
+  /* Warning */
+  .warn-box { background: #1a1000; border: 1px solid #3a2010; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #c8882a; margin-bottom: 16px; line-height: 1.5; }
+  .error-box { background: #1a0a0a; border: 1px solid #3a1010; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #e05555; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="nav">
+    <a href="command-center.html">← Command Center</a>
+    <span class="nav-sep">/</span>
+    <a href="quote-generator.html">Quote Generator</a>
+  </div>
+
+  <div class="logo">Anqor Studios</div>
+  <h1>Brief Uploader</h1>
+  <p class="subtitle">Upload or paste a client brief. AI extracts the project scope and pre-fills the quote generator.</p>
+
+  <!-- API Config -->
+  <span class="config-toggle" onclick="toggleConfig()">⚙ AI Config (DeepSeek / OpenAI)</span>
+  <div class="config-panel" id="configPanel">
+    <div class="card">
+      <div class="card-title">AI Provider Config</div>
+      <div class="field">
+        <label>API Key</label>
+        <input type="password" id="apiKey" placeholder="sk-..." />
+      </div>
+      <div class="field">
+        <label>API Base URL</label>
+        <input type="text" id="apiBase" placeholder="https://api.deepseek.com" />
+      </div>
+      <div class="field">
+        <label>Model</label>
+        <input type="text" id="apiModel" placeholder="deepseek-chat" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="saveConfig()">Save</button>
+        <span style="font-size:12px;color:#555">Stored locally in your browser. Never sent anywhere except the API endpoint above.</span>
+      </div>
+      <div style="font-size:11px;color:#333;margin-top:14px;line-height:1.5">
+        Default: DeepSeek (<code style="color:#555">api.deepseek.com</code>, model <code style="color:#555">deepseek-chat</code>).
+        Works with any OpenAI-compatible endpoint — OpenAI, Groq, Together, Ollama, etc.
+      </div>
+    </div>
+  </div>
+
+  <!-- Brief Input -->
+  <div class="card">
+    <div class="card-title">Client Brief</div>
+
+    <!-- Drop zone -->
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+      <div class="drop-icon">📎</div>
+      <div class="drop-text">Drop a file here, or click to browse</div>
+      <div class="drop-sub">Supports .txt, .pdf (text layer), .md, .docx (plain text)</div>
+      <input type="file" id="fileInput" accept=".txt,.md,.pdf,.docx" onchange="handleFile(event)" />
+    </div>
+
+    <div class="or-divider"><span>or paste brief below</span></div>
+
+    <div class="field">
+      <label>Brief Text</label>
+      <textarea id="briefText" placeholder="Paste the client brief, email thread, WhatsApp summary, or project description here..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="parseBrief()" id="parseBtn">Extract & Build Quote</button>
+      <div class="spinner" id="spinner"></div>
+      <span class="status-text" id="statusText"></span>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="resultSection">
+    <div class="card">
+      <div class="card-title">Extracted Project Info</div>
+      <div id="confidenceBadge" style="margin-bottom:18px"></div>
+      <div id="warnBox"></div>
+
+      <div class="result-field">
+        <div class="result-label">Client Name</div>
+        <div class="result-value editable" contenteditable="true" id="rClientName"></div>
+      </div>
+      <div class="result-field">
+        <div class="result-label">Client Email</div>
+        <div class="result-value editable" contenteditable="true" id="rClientEmail"></div>
+      </div>
+      <div class="result-field">
+        <div class="result-label">Project Title</div>
+        <div class="result-value editable" contenteditable="true" id="rProjectTitle"></div>
+      </div>
+      <div class="result-field">
+        <div class="result-label">Project Overview</div>
+        <div class="result-value editable" contenteditable="true" id="rOverview" style="min-height:80px"></div>
+      </div>
+      <div class="result-field">
+        <div class="result-label">Timeline</div>
+        <div class="result-value editable" contenteditable="true" id="rTimeline"></div>
+      </div>
+      <div class="result-field">
+        <div class="result-label">Notes / Special Requirements</div>
+        <div class="result-value editable" contenteditable="true" id="rNotes" style="min-height:60px"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recommended Line Items</div>
+      <p style="font-size:12px;color:#555;margin-bottom:16px">Review and edit before sending to the quote generator. Click × to remove any line you don't need.</p>
+
+      <table class="line-items-table" id="lineItemsTable">
+        <thead>
+          <tr>
+            <th style="width:8%">Type</th>
+            <th style="width:40%">Description</th>
+            <th style="width:8%">Qty</th>
+            <th style="width:18%">Unit Price (AED)</th>
+            <th style="width:18%">Line Total</th>
+            <th style="width:8%"></th>
+          </tr>
+        </thead>
+        <tbody id="lineItemsBody"></tbody>
+      </table>
+
+      <button class="btn btn-ghost" onclick="addLineItem()" style="margin-bottom:18px">+ Add Line</button>
+
+      <div style="background:#111;border:1px solid #1e1e1e;border-radius:8px;padding:16px;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #1a1a1a">
+          <span style="color:#666">Anqor Services subtotal</span><span id="ownSubtotal" style="color:#4a9f6f;font-weight:600">AED 0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #1a1a1a">
+          <span style="color:#666">Third-party subtotal (before markup)</span><span id="ptSubtotal" style="color:#c8882a;font-weight:600">AED 0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding:10px 0 0">
+          <span style="color:#888">Estimated Total (excl. VAT)</span><span id="grandTotal" style="color:#4a9f6f">AED 0</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="sendToQuoteGenerator()">Open in Quote Generator →</button>
+        <button class="btn btn-ghost" onclick="clearAll()">Start Over</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let lineItems = [];
+let uid = 0;
+
+// ── Config ────────────────────────────────────────────────────────────────────
+function loadConfig() {
+  document.getElementById('apiKey').value   = localStorage.getItem('aq_ai_key')   || '';
+  document.getElementById('apiBase').value  = localStorage.getItem('aq_ai_base')  || 'https://api.deepseek.com';
+  document.getElementById('apiModel').value = localStorage.getItem('aq_ai_model') || 'deepseek-chat';
+}
+function saveConfig() {
+  localStorage.setItem('aq_ai_key',   document.getElementById('apiKey').value.trim());
+  localStorage.setItem('aq_ai_base',  document.getElementById('apiBase').value.trim());
+  localStorage.setItem('aq_ai_model', document.getElementById('apiModel').value.trim());
+  toggleConfig();
+}
+function toggleConfig() { document.getElementById('configPanel').classList.toggle('open'); }
+
+// ── File handling ─────────────────────────────────────────────────────────────
+function onDragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
+function onDragLeave() { document.getElementById('dropZone').classList.remove('dragover'); }
+function onDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) readFile(file);
+}
+function handleFile(e) { if (e.target.files[0]) readFile(e.target.files[0]); }
+function readFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('briefText').value = e.target.result;
+    setStatus(`File loaded: ${file.name}`);
+  };
+  if (file.type === 'application/pdf') {
+    // PDF: read as text (works for text-layer PDFs)
+    reader.readAsText(file);
+  } else {
+    reader.readAsText(file);
+  }
+}
+
+// ── Anqor service catalog for the AI ─────────────────────────────────────────
+const SERVICE_CATALOG = `
+ANQOR STUDIOS — SERVICE CATALOG (use these exact descriptions and prices):
+
+SECTION: own (Anqor's own services, fixed prices)
+- Photography — Half Day (4h) | AED 4,500
+- Photography — Full Day (8h) | AED 7,500
+- Additional Hour — Photography | AED 1,000
+- Corporate Headshots — Half Day (≤10 pax) | AED 4,500
+- Corporate Headshots — Full Day (≤20 pax) | AED 7,000
+- Image Editing & Retouching | AED 150 per image
+- Rush Editing — 48hr Delivery | AED 500
+- Videographer — Half Day (4h) | AED 4,500
+- Videographer — Full Day (8h) | AED 7,500
+- Director of Photography — Full Day | AED 9,000
+- Filming, Direction & Camera Package | AED 6,500
+- Event Coverage — Photo + Video — Half Day | AED 7,000
+- Event Coverage — Photo + Video — Full Day | AED 10,000
+- Corporate Brand Film (shoot + post, up to 3min) | AED 16,000
+- Social Media Content Day (up to 10 assets) | AED 9,000
+- Video Edit — up to 30 seconds | AED 700
+- Video Edit — up to 60 seconds | AED 1,100
+- Video Edit — 1–2 minutes | AED 1,800
+- Video Edit — 2–3 minutes | AED 2,500
+- Video Edit — 3–5 minutes | AED 3,500
+- Video Edit — 5–10 minutes | AED 6,500
+- Vertical Format / Reel Cut-Down | AED 500
+- Color Grade — Full Project | AED 1,500
+- Sound Design & Audio Mix | AED 1,200
+- Motion Graphics (per 30 seconds) | AED 2,000
+- Additional Revision Round | AED 500
+- Rush Delivery — 48hr Turnaround | AED 750
+- Podcast Episode Edit (up to 60 min) | AED 1,200
+- Podcast Promo Clips — 3 clips | AED 900
+- Podcast Promo Clips — 6 clips | AED 1,500
+- Voiceover Record & Mix | AED 1,500
+- Audio Cleanup & Noise Reduction | AED 600
+- Creative Direction & Pre-Production | AED 2,500
+- Moodboard & Concept Deck | AED 1,500
+- Styling & Art Direction | AED 2,000
+- Scriptwriting & Storyboard | AED 2,500
+- Content Day Package — Photo + Video + 5 Reels Edit | AED 18,000
+- Starter Brand Film — 1 Shoot Day + 2min Edit + 3 Reels | AED 16,000
+- Monthly Content Retainer — Basic (8 assets/mo) | AED 7,000
+- Monthly Content Retainer — Growth (16 assets/mo) | AED 12,000
+
+SECTION: pass_through (third-party vendor costs — Anqor marks these up 15–20%, client sees higher price)
+- Studio Hire — Half Day (4h) | AED 1,200
+- Studio Hire — Full Day (8h) | AED 2,000
+- Lighting Package | AED 800
+- Lighting Technician — Full Day | AED 1,000
+- B-Camera / Second Angle | AED 2,000
+- Drone — Half Day (with licensed pilot) | AED 2,500
+- Drone — Full Day (with licensed pilot) | AED 4,000
+- Teleprompter | AED 500
+- Generator (on-location power) | AED 600
+- Model — Half Day (4h, 1yr online rights) | AED 3,000
+- Model — Full Day (8h, 1yr online rights) | AED 5,500
+- MUA — Half Day (4h) | AED 2,000
+- MUA — Full Day (8h) | AED 3,500
+- Hairstylist — Half Day (4h) | AED 2,000
+- Hairstylist — Full Day (8h) | AED 3,500
+- Wardrobe Stylist — Full Day | AED 2,500
+- Production Assistant — Full Day | AED 800
+- Location Scout & Coordination | AED 1,500
+- Location / Venue Hire | AED 2,500
+- Government Filming Permit | AED 800
+- Catering — Crew (per person) | AED 100
+- CGI / 3D Animation (outsourced, per second) | AED 800
+- CGI — Full Package (outsourced) | AED 8,000
+- Voiceover Artist (outsourced) | AED 1,500
+- Translator / Subtitles (per language) | AED 600
+`;
+
+// ── Parse brief ───────────────────────────────────────────────────────────────
+async function parseBrief() {
+  const brief = document.getElementById('briefText').value.trim();
+  if (!brief) { alert('Paste or upload a brief first.'); return; }
+
+  const apiKey   = localStorage.getItem('aq_ai_key')   || '';
+  const apiBase  = (localStorage.getItem('aq_ai_base')  || 'https://api.deepseek.com').replace(/\/$/, '');
+  const apiModel = localStorage.getItem('aq_ai_model') || 'deepseek-chat';
+
+  if (!apiKey) {
+    alert('Add your API key in the ⚙ AI Config panel above.');
+    document.getElementById('configPanel').classList.add('open');
+    return;
+  }
+
+  setLoading(true, 'Reading brief…');
+
+  const systemPrompt = `You are a production quoting assistant for Anqor Studios, a creative video/photo production company based in Dubai.
+
+Given a client brief, extract project details and map the required work to Anqor's service catalog.
+
+${SERVICE_CATALOG}
+
+Respond ONLY with a valid JSON object in this exact structure:
+{
+  "client_name": "string or empty",
+  "client_email": "string or empty",
+  "project_title": "string",
+  "overview": "string — 2-4 sentences summarising the project",
+  "timeline": "string or empty",
+  "notes": "string — any special requirements, references, or exclusions",
+  "confidence": "high" | "medium" | "low",
+  "warnings": ["array of strings — things unclear or missing from brief"],
+  "line_items": [
+    {
+      "section": "own" | "pass_through",
+      "description": "exact string from catalog",
+      "qty": number,
+      "unit_price": number
+    }
+  ]
+}
+
+Rules:
+- Only include line items from the catalog above. Do not invent new services.
+- For pass_through items, unit_price is the VENDOR COST (before markup).
+- Be conservative — only include what the brief clearly indicates. Add notes for ambiguous items.
+- If the brief mentions a studio, include the appropriate Studio Hire line item in pass_through.
+- If the brief mentions models, MUA, or hair, include those in pass_through.
+- qty should reflect days, hours, or units as appropriate.`;
+
+  try {
+    setStatus('Sending to AI…');
+    const res = await fetch(`${apiBase}/v1/chat/completions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: apiModel,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `CLIENT BRIEF:\n\n${brief}` }
+        ],
+        temperature: 0.2,
+        response_format: { type: 'json_object' }
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`API error ${res.status}: ${err}`);
+    }
+    const data = await res.json();
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) throw new Error('No content returned from API.');
+
+    let parsed;
+    try { parsed = JSON.parse(content); }
+    catch { throw new Error('AI returned invalid JSON. Try again.'); }
+
+    renderResults(parsed);
+  } catch (e) {
+    setStatus('');
+    document.getElementById('resultSection').style.display = 'none';
+    alert('Error: ' + e.message);
+  } finally {
+    setLoading(false, '');
+  }
+}
+
+// ── Render results ─────────────────────────────────────────────────────────────
+function renderResults(data) {
+  document.getElementById('rClientName').textContent    = data.client_name    || '';
+  document.getElementById('rClientEmail').textContent   = data.client_email   || '';
+  document.getElementById('rProjectTitle').textContent  = data.project_title  || '';
+  document.getElementById('rOverview').textContent      = data.overview       || '';
+  document.getElementById('rTimeline').textContent      = data.timeline       || '';
+  document.getElementById('rNotes').textContent         = data.notes          || '';
+
+  // Confidence badge
+  const conf = data.confidence || 'medium';
+  const confClass = conf === 'high' ? 'conf-high' : conf === 'medium' ? 'conf-med' : 'conf-low';
+  const confLabel = conf === 'high' ? '✓ High confidence — brief is detailed' :
+                    conf === 'medium' ? '⚠ Medium confidence — some details inferred' :
+                    '⚠ Low confidence — brief is sparse, review carefully';
+  document.getElementById('confidenceBadge').innerHTML =
+    `<span class="confidence ${confClass}">${confLabel}</span>`;
+
+  // Warnings
+  const warnEl = document.getElementById('warnBox');
+  if (data.warnings && data.warnings.length > 0) {
+    warnEl.innerHTML = `<div class="warn-box"><strong>Things to clarify with client:</strong><ul style="margin-top:6px;padding-left:18px;line-height:1.7">${data.warnings.map(w => `<li>${w}</li>`).join('')}</ul></div>`;
+  } else {
+    warnEl.innerHTML = '';
+  }
+
+  // Line items
+  lineItems = (data.line_items || []).map(li => ({
+    id: ++uid,
+    section: li.section,
+    description: li.description,
+    qty: li.qty || 1,
+    unit_price: li.unit_price || 0
+  }));
+  renderLineItems();
+
+  document.getElementById('resultSection').style.display = 'block';
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Line items ─────────────────────────────────────────────────────────────────
+function addLineItem() {
+  lineItems.push({ id: ++uid, section: 'own', description: '', qty: 1, unit_price: 0 });
+  renderLineItems();
+}
+function removeLineItem(id) { lineItems = lineItems.filter(i => i.id !== id); renderLineItems(); }
+function updateLI(id, field, val) {
+  const item = lineItems.find(i => i.id === id);
+  if (!item) return;
+  if (field === 'section' || field === 'description') item[field] = val;
+  else item[field] = parseFloat(val) || 0;
+  renderLineItems();
+}
+
+function fmt(n) { return 'AED ' + Number(n).toLocaleString('en-AE', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+
+function renderLineItems() {
+  const tbody = document.getElementById('lineItemsBody');
+  tbody.innerHTML = lineItems.map(item => {
+    const total = item.qty * item.unit_price;
+    const tagClass = item.section === 'own' ? 'li-own' : 'li-pt';
+    const tagLabel = item.section === 'own' ? 'Anqor' : 'Pass-thru';
+    return `<tr>
+      <td><span class="li-section ${tagClass}">${tagLabel}</span></td>
+      <td><input type="text" value="${esc(item.description)}" style="font-size:12px" oninput="updateLI(${item.id},'description',this.value)" /></td>
+      <td><input type="number" min="1" value="${item.qty}" style="width:55px;font-size:12px" oninput="updateLI(${item.id},'qty',this.value)" /></td>
+      <td><input type="number" min="0" step="50" value="${item.unit_price}" style="font-size:12px" oninput="updateLI(${item.id},'unit_price',this.value)" /></td>
+      <td class="li-total">${fmt(total)}</td>
+      <td><button class="btn-del-li" onclick="removeLineItem(${item.id})">✕</button></td>
+    </tr>`;
+  }).join('');
+
+  // Totals
+  const ownSub = lineItems.filter(i => i.section === 'own').reduce((s,i) => s + i.qty * i.unit_price, 0);
+  const ptSub  = lineItems.filter(i => i.section === 'pass_through').reduce((s,i) => s + i.qty * i.unit_price, 0);
+  document.getElementById('ownSubtotal').textContent = fmt(ownSub);
+  document.getElementById('ptSubtotal').textContent  = fmt(ptSub);
+  document.getElementById('grandTotal').textContent  = fmt(ownSub + ptSub * 1.2); // approx with 20% markup
+}
+
+// ── Send to Quote Generator ───────────────────────────────────────────────────
+function sendToQuoteGenerator() {
+  const prefill = {
+    clientName:    document.getElementById('rClientName').textContent.trim(),
+    clientEmail:   document.getElementById('rClientEmail').textContent.trim(),
+    projectTitle:  document.getElementById('rProjectTitle').textContent.trim(),
+    overview:      document.getElementById('rOverview').textContent.trim(),
+    timeline:      document.getElementById('rTimeline').textContent.trim(),
+    notes:         document.getElementById('rNotes').textContent.trim(),
+    ownItems:  lineItems.filter(i => i.section === 'own').map(i => ({ desc: i.description, qty: i.qty, price: i.unit_price })),
+    ptItems:   lineItems.filter(i => i.section === 'pass_through').map(i => ({ desc: i.description, qty: i.qty, vendorCost: i.unit_price })),
+  };
+  localStorage.setItem('aq_prefill', JSON.stringify(prefill));
+  window.location.href = 'quote-generator.html';
+}
+
+function clearAll() {
+  document.getElementById('briefText').value = '';
+  document.getElementById('resultSection').style.display = 'none';
+  lineItems = [];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function esc(s) { return (s || '').replace(/"/g, '&quot;'); }
+function setLoading(v, msg) {
+  document.getElementById('parseBtn').disabled = v;
+  document.getElementById('spinner').style.display = v ? 'block' : 'none';
+  setStatus(msg);
+}
+function setStatus(msg) { document.getElementById('statusText').textContent = msg; }
+
+loadConfig();
+</script>
+</body>
+</html>

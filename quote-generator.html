@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anqor Studios — Quote Generator</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; min-height: 100vh; padding: 40px 20px; }
+  .container { max-width: 920px; margin: 0 auto; }
+  .logo { font-size: 13px; letter-spacing: 0.15em; color: #4a9f6f; text-transform: uppercase; margin-bottom: 8px; }
+  h1 { font-size: 28px; font-weight: 600; color: #fff; margin-bottom: 32px; }
+  .card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
+  .card-title { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+  .green { color: #4a9f6f; }
+  .amber { color: #c8882a; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 12px; color: #888; letter-spacing: 0.05em; }
+  input, textarea, select { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; color: #e5e5e5; padding: 10px 14px; font-size: 14px; width: 100%; outline: none; transition: border-color 0.15s; }
+  input:focus, textarea:focus, select:focus { border-color: #4a9f6f; }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; }
+  thead th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #555; padding: 8px 6px; text-align: left; border-bottom: 1px solid #1e1e1e; }
+  tbody td { padding: 5px 4px; vertical-align: middle; }
+  tbody td input { padding: 8px 10px; font-size: 13px; }
+  .col-desc  { width: 38%; }
+  .col-qty   { width: 8%; }
+  .col-price { width: 18%; }
+  .col-total { width: 18%; }
+  .col-del   { width: 8%; text-align: center; }
+
+  /* Third-party table extra cols */
+  .col-vendor { width: 16%; }
+  .col-mkup   { width: 12%; }
+  .col-client { width: 16%; }
+
+  .total-cell { background: #1a1a1a; border-radius: 6px; padding: 8px 10px; font-size: 13px; font-weight: 600; text-align: right; }
+  .total-cell.green { color: #4a9f6f; }
+  .total-cell.amber { color: #c8882a; }
+  .readonly-price { background: #111 !important; color: #c8882a !important; }
+
+  /* Presets */
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .preset { border: 1px solid #2a2a2a; color: #aaa; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; background: #1a1a1a; }
+  .preset:hover { border-color: #4a9f6f; color: #4a9f6f; }
+  .preset.pt { border-color: #2a2010; color: #8a6030; background: #111008; }
+  .preset.pt:hover { border-color: #c8882a; color: #c8882a; }
+  .preset-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #444; margin-bottom: 6px; margin-top: 14px; }
+
+  /* Markup bar */
+  .markup-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #111008; border: 1px solid #2a2010; border-radius: 8px; margin-bottom: 18px; }
+  .markup-bar label { color: #8a6030; font-size: 12px; white-space: nowrap; }
+  .markup-bar select { width: auto; padding: 6px 10px; font-size: 13px; background: #1a1508; border-color: #3a3010; color: #c8882a; }
+  .markup-bar span { font-size: 12px; color: #555; }
+
+  /* Buttons */
+  .btn { padding: 10px 20px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-ghost { background: #1e1e1e; color: #aaa; border: 1px solid #2a2a2a; }
+  .btn-primary { background: #4a9f6f; color: #fff; }
+  .btn-del { background: transparent; color: #e05555; border: 1px solid #2a1010; font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+  .btn-row { display: flex; gap: 10px; align-items: center; margin-top: 14px; }
+
+  /* Summary */
+  .sum-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #1a1a1a; font-size: 14px; }
+  .sum-row.big { border-bottom: none; font-size: 19px; font-weight: 700; padding-top: 16px; }
+  .sum-row .lbl { color: #888; }
+  .sum-row .val { color: #e5e5e5; }
+  .sum-row.big .val { color: #4a9f6f; }
+
+  /* Config */
+  .config-toggle { font-size: 12px; color: #444; cursor: pointer; text-decoration: underline; margin-bottom: 20px; display: inline-block; }
+  .config-panel { display: none; }
+  .config-panel.open { display: block; }
+
+  /* Output */
+  .output { background: #0d1f15; border: 1px solid #1e4a2d; border-radius: 12px; padding: 24px; display: none; margin-bottom: 40px; }
+  .output h3 { color: #4a9f6f; margin-bottom: 16px; font-size: 16px; }
+  .url-box { background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #e5e5e5; word-break: break-all; margin-bottom: 8px; }
+  .url-label { font-size: 11px; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .copy-btn { background: #1e1e1e; border: 1px solid #2a2a2a; color: #aaa; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .copy-btn:hover { color: #4a9f6f; border-color: #4a9f6f; }
+
+  .spinner { display: none; width: 18px; height: 18px; border: 2px solid #4a9f6f33; border-top-color: #4a9f6f; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .divider { border: none; border-top: 1px solid #1e1e1e; margin: 24px 0; }
+  .terms-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 13px; color: #888; }
+  .terms-row input[type="number"] { width: 70px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">Anqor Studios</div>
+  <h1>Quote Generator</h1>
+
+  <span class="config-toggle" onclick="toggleConfig()">⚙ Supabase Config</span>
+  <div class="config-panel" id="configPanel">
+    <div class="card">
+      <div class="card-title green">Supabase Credentials</div>
+      <div class="grid2">
+        <div class="field full"><label>SUPABASE URL</label><input type="text" id="supabaseUrl" placeholder="https://xxxx.supabase.co" /></div>
+        <div class="field full"><label>ANON KEY</label><input type="text" id="supabaseKey" placeholder="eyJ..." /></div>
+        <div class="field full"><label>APP URL</label><input type="text" id="appUrl" placeholder="https://www.anqorstudios.com" /></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="saveConfig()">Save</button>
+        <span id="configSaved" style="font-size:12px;color:#4a9f6f;display:none">Saved</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client -->
+  <div class="card">
+    <div class="card-title green">Client Information</div>
+    <div class="grid2">
+      <div class="field"><label>CLIENT NAME</label><input type="text" id="clientName" placeholder="e.g. The Auroria Collection" /></div>
+      <div class="field"><label>CLIENT EMAIL (optional)</label><input type="email" id="clientEmail" placeholder="client@email.com" /></div>
+      <div class="field full"><label>PROJECT TITLE</label><input type="text" id="projectTitle" placeholder="e.g. Jewellery Campaign — Auroria Collection" /></div>
+      <div class="field full"><label>PROJECT OVERVIEW</label><textarea id="projectOverview" placeholder="What Anqor Studios will deliver..."></textarea></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Anqor Services -->
+  <div class="card">
+    <div class="card-title green">Anqor Studios Services</div>
+
+    <div class="preset-label">Photography</div>
+    <div class="presets">
+      <button class="preset" onclick="addOwn('Photography — Half Day (4h)',1,4500)">Photo Half Day · 4,500</button>
+      <button class="preset" onclick="addOwn('Photography — Full Day (8h)',1,7500)">Photo Full Day · 7,500</button>
+      <button class="preset" onclick="addOwn('Additional Hour — Photography',1,1000)">Extra Hour · 1,000</button>
+      <button class="preset" onclick="addOwn('Corporate Headshots — Half Day (≤10 pax)',1,4500)">Headshots Half Day · 4,500</button>
+      <button class="preset" onclick="addOwn('Corporate Headshots — Full Day (≤20 pax)',1,7000)">Headshots Full Day · 7,000</button>
+      <button class="preset" onclick="addOwn('Image Editing & Retouching',10,150)">Retouching /image · 150</button>
+      <button class="preset" onclick="addOwn('Rush Editing — 48hr Delivery',1,500)">Rush Edit · +500</button>
+    </div>
+
+    <div class="preset-label">Video Production</div>
+    <div class="presets">
+      <button class="preset" onclick="addOwn('Videographer — Half Day (4h)',1,4500)">Video Half Day · 4,500</button>
+      <button class="preset" onclick="addOwn('Videographer — Full Day (8h)',1,7500)">Video Full Day · 7,500</button>
+      <button class="preset" onclick="addOwn('Director of Photography — Full Day',1,9000)">DoP Full Day · 9,000</button>
+      <button class="preset" onclick="addOwn('Filming, Direction & Camera Package',1,6500)">Filming + Direction · 6,500</button>
+      <button class="preset" onclick="addOwn('Event Coverage — Photo + Video — Half Day',1,7000)">Event Half Day · 7,000</button>
+      <button class="preset" onclick="addOwn('Event Coverage — Photo + Video — Full Day',1,10000)">Event Full Day · 10,000</button>
+      <button class="preset" onclick="addOwn('Corporate Brand Film (shoot + post, up to 3min)',1,16000)">Brand Film · 16,000</button>
+      <button class="preset" onclick="addOwn('Social Media Content Day (up to 10 assets)',1,9000)">Social Content Day · 9,000</button>
+    </div>
+
+    <div class="preset-label">Post Production</div>
+    <div class="presets">
+      <button class="preset" onclick="addOwn('Video Edit — up to 30 seconds',1,700)">≤30s Edit · 700</button>
+      <button class="preset" onclick="addOwn('Video Edit — up to 60 seconds',1,1100)">≤60s Edit · 1,100</button>
+      <button class="preset" onclick="addOwn('Video Edit — 1–2 minutes',1,1800)">1–2min · 1,800</button>
+      <button class="preset" onclick="addOwn('Video Edit — 2–3 minutes',1,2500)">2–3min · 2,500</button>
+      <button class="preset" onclick="addOwn('Video Edit — 3–5 minutes',1,3500)">3–5min · 3,500</button>
+      <button class="preset" onclick="addOwn('Video Edit — 5–10 minutes',1,6500)">5–10min · 6,500</button>
+      <button class="preset" onclick="addOwn('Vertical Format / Reel Cut-Down',1,500)">Vertical Cut · 500</button>
+      <button class="preset" onclick="addOwn('Color Grade — Full Project',1,1500)">Color Grade · 1,500</button>
+      <button class="preset" onclick="addOwn('Sound Design & Audio Mix',1,1200)">Sound Mix · 1,200</button>
+      <button class="preset" onclick="addOwn('Motion Graphics (per 30 seconds)',1,2000)">Motion Graphics /30s · 2,000</button>
+      <button class="preset" onclick="addOwn('Additional Revision Round',1,500)">Extra Revision · 500</button>
+      <button class="preset" onclick="addOwn('Rush Delivery — 48hr Turnaround',1,750)">Rush Delivery · +750</button>
+    </div>
+
+    <div class="preset-label">Audio & Podcast</div>
+    <div class="presets">
+      <button class="preset" onclick="addOwn('Podcast Episode Edit (up to 60 min)',1,1200)">Podcast Edit · 1,200</button>
+      <button class="preset" onclick="addOwn('Podcast Promo Clips — 3 clips',1,900)">Promo Clips × 3 · 900</button>
+      <button class="preset" onclick="addOwn('Podcast Promo Clips — 6 clips',1,1500)">Promo Clips × 6 · 1,500</button>
+      <button class="preset" onclick="addOwn('Voiceover Record & Mix',1,1500)">Voiceover + Mix · 1,500</button>
+      <button class="preset" onclick="addOwn('Audio Cleanup & Noise Reduction',1,600)">Audio Cleanup · 600</button>
+    </div>
+
+    <div class="preset-label">Creative</div>
+    <div class="presets">
+      <button class="preset" onclick="addOwn('Creative Direction & Pre-Production',1,2500)">Creative Direction · 2,500</button>
+      <button class="preset" onclick="addOwn('Moodboard & Concept Deck',1,1500)">Moodboard · 1,500</button>
+      <button class="preset" onclick="addOwn('Styling & Art Direction',1,2000)">Styling & Art Direction · 2,000</button>
+      <button class="preset" onclick="addOwn('Scriptwriting & Storyboard',1,2500)">Script & Storyboard · 2,500</button>
+    </div>
+
+    <div class="preset-label">Packages & Retainers</div>
+    <div class="presets">
+      <button class="preset" onclick="addOwn('Content Day Package — Photo + Video + 5 Reels Edit',1,18000)">Content Day Package · 18,000</button>
+      <button class="preset" onclick="addOwn('Starter Brand Film — 1 Shoot Day + 2min Edit + 3 Reels',1,16000)">Starter Brand Film · 16,000</button>
+      <button class="preset" onclick="addOwn('Monthly Content Retainer — Basic (8 assets/mo)',1,7000)">Retainer Basic /mo · 7,000</button>
+      <button class="preset" onclick="addOwn('Monthly Content Retainer — Growth (16 assets/mo)',1,12000)">Retainer Growth /mo · 12,000</button>
+    </div>
+
+    <table id="ownTable">
+      <thead>
+        <tr>
+          <th class="col-desc">Description</th>
+          <th class="col-qty">Qty</th>
+          <th class="col-price">Unit Price (AED)</th>
+          <th class="col-total">Line Total (AED)</th>
+          <th class="col-del"></th>
+        </tr>
+      </thead>
+      <tbody id="ownBody"></tbody>
+    </table>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="addOwn()">+ Add Line</button>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Third-Party -->
+  <div class="card">
+    <div class="card-title amber">Third-Party / Production Costs</div>
+    <p style="font-size:13px;color:#666;margin-bottom:16px">Enter what you pay the vendor. Your markup is added automatically — the client sees only the final price.</p>
+
+    <div class="markup-bar">
+      <label>YOUR MARKUP</label>
+      <select id="globalMarkup" onchange="recomputeAllPT()">
+        <option value="15">15%</option>
+        <option value="17.5">17.5%</option>
+        <option value="20" selected>20%</option>
+      </select>
+      <span>Applied to all third-party items below</span>
+    </div>
+
+    <div class="preset-label">Studio & Equipment</div>
+    <div class="presets">
+      <button class="preset pt" onclick="addPT('Studio Hire — Half Day (4h)',1,1200)">Studio Half Day</button>
+      <button class="preset pt" onclick="addPT('Studio Hire — Full Day (8h)',1,2000)">Studio Full Day</button>
+      <button class="preset pt" onclick="addPT('Lighting Package',1,800)">Lighting Package</button>
+      <button class="preset pt" onclick="addPT('Lighting Technician — Full Day',1,1000)">Lighting Tech</button>
+      <button class="preset pt" onclick="addPT('B-Camera / Second Angle',1,2000)">B-Camera</button>
+      <button class="preset pt" onclick="addPT('Drone — Half Day (with licensed pilot)',1,2500)">Drone Half Day</button>
+      <button class="preset pt" onclick="addPT('Drone — Full Day (with licensed pilot)',1,4000)">Drone Full Day</button>
+      <button class="preset pt" onclick="addPT('Teleprompter',1,500)">Teleprompter</button>
+      <button class="preset pt" onclick="addPT('Generator (on-location power)',1,600)">Generator</button>
+    </div>
+
+    <div class="preset-label">Talent & Crew</div>
+    <div class="presets">
+      <button class="preset pt" onclick="addPT('Model — Half Day (4h, 1yr online rights)',1,3000)">Model Half Day</button>
+      <button class="preset pt" onclick="addPT('Model — Full Day (8h, 1yr online rights)',1,5500)">Model Full Day</button>
+      <button class="preset pt" onclick="addPT('MUA — Half Day (4h)',1,2000)">MUA Half Day</button>
+      <button class="preset pt" onclick="addPT('MUA — Full Day (8h)',1,3500)">MUA Full Day</button>
+      <button class="preset pt" onclick="addPT('Hairstylist — Half Day (4h)',1,2000)">Hair Half Day</button>
+      <button class="preset pt" onclick="addPT('Hairstylist — Full Day (8h)',1,3500)">Hair Full Day</button>
+      <button class="preset pt" onclick="addPT('Wardrobe Stylist — Full Day',1,2500)">Wardrobe Stylist</button>
+      <button class="preset pt" onclick="addPT('Production Assistant — Full Day',1,800)">Production Assistant</button>
+    </div>
+
+    <div class="preset-label">Location</div>
+    <div class="presets">
+      <button class="preset pt" onclick="addPT('Location Scout & Coordination',1,1500)">Location Scout</button>
+      <button class="preset pt" onclick="addPT('Location / Venue Hire',1,2500)">Venue Hire</button>
+      <button class="preset pt" onclick="addPT('Government Filming Permit',1,800)">Filming Permit</button>
+      <button class="preset pt" onclick="addPT('Catering — Crew (per person)',4,100)">Catering /person</button>
+    </div>
+
+    <div class="preset-label">Specialist Services</div>
+    <div class="presets">
+      <button class="preset pt" onclick="addPT('CGI / 3D Animation (outsourced, per second)',5,800)">CGI /second</button>
+      <button class="preset pt" onclick="addPT('CGI — Full Package (outsourced)',1,8000)">CGI Package</button>
+      <button class="preset pt" onclick="addPT('Voiceover Artist (outsourced)',1,1500)">Voiceover Artist</button>
+      <button class="preset pt" onclick="addPT('Translator / Subtitles (per language)',1,600)">Translation</button>
+    </div>
+
+    <table id="ptTable">
+      <thead>
+        <tr>
+          <th class="col-desc">Description</th>
+          <th class="col-qty">Qty</th>
+          <th class="col-vendor">Vendor Cost (AED)</th>
+          <th class="col-mkup">Markup</th>
+          <th class="col-client">Client Price (AED)</th>
+          <th class="col-total">Line Total (AED)</th>
+          <th class="col-del"></th>
+        </tr>
+      </thead>
+      <tbody id="ptBody"></tbody>
+    </table>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="addPT()">+ Add Line</button>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="card">
+    <div class="card-title green">Quote Summary</div>
+    <div id="summaryRows"></div>
+
+    <hr class="divider">
+
+    <div class="card-title green" style="margin-bottom:16px">Payment Terms</div>
+    <div class="terms-row">
+      Advance: <input type="number" id="advancePct" value="50" min="0" max="100" oninput="renderSummary()" /> % on signing
+    </div>
+    <div class="terms-row">
+      Balance: <span id="balancePct" style="color:#e5e5e5;font-weight:600;margin:0 4px">50%</span> on delivery
+    </div>
+
+    <hr class="divider">
+    <div class="field" style="margin-bottom:16px"><label>TIMELINE</label><input type="text" id="timeline" placeholder="e.g. 1 shoot day + 7 business days for delivery" /></div>
+    <div class="field"><label>NOTES (optional)</label><textarea id="notes" placeholder="Inclusions, exclusions, special terms..."></textarea></div>
+  </div>
+
+  <div class="btn-row" style="margin-bottom:32px">
+    <button class="btn btn-primary" onclick="generate()" id="generateBtn">Generate Proposal + Invoice</button>
+    <div class="spinner" id="spinner"></div>
+    <span id="errorMsg" style="font-size:13px;color:#e05555;display:none"></span>
+  </div>
+
+  <div class="output" id="output">
+    <h3>Links generated</h3>
+    <div>
+      <div class="url-label">Proposal</div>
+      <div class="url-box" id="proposalUrl"></div>
+      <button class="copy-btn" onclick="copyEl('proposalUrl')">Copy link</button>
+    </div>
+    <div style="margin-top:16px">
+      <div class="url-label">Invoice</div>
+      <div class="url-box" id="invoiceUrl"></div>
+      <button class="copy-btn" onclick="copyEl('invoiceUrl')">Copy link</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let ownItems = [];   // Anqor services
+let ptItems  = [];   // Third-party pass-throughs
+let uid = 0;
+
+// ── Config ───────────────────────────────────────────────────────────────────
+function loadConfig() {
+  document.getElementById('supabaseUrl').value = localStorage.getItem('aq_url') || '';
+  document.getElementById('supabaseKey').value = localStorage.getItem('aq_key') || '';
+  document.getElementById('appUrl').value = localStorage.getItem('aq_app') || 'https://www.anqorstudios.com';
+}
+function saveConfig() {
+  localStorage.setItem('aq_url', document.getElementById('supabaseUrl').value.trim());
+  localStorage.setItem('aq_key', document.getElementById('supabaseKey').value.trim());
+  localStorage.setItem('aq_app', document.getElementById('appUrl').value.trim());
+  const el = document.getElementById('configSaved');
+  el.style.display = 'inline';
+  setTimeout(() => el.style.display = 'none', 2000);
+}
+function toggleConfig() { document.getElementById('configPanel').classList.toggle('open'); }
+
+// ── Own Items ────────────────────────────────────────────────────────────────
+function addOwn(desc='', qty=1, price=0) {
+  ownItems.push({ id: ++uid, desc, qty, price });
+  renderOwn();
+}
+function removeOwn(id) { ownItems = ownItems.filter(i => i.id !== id); renderOwn(); }
+function updateOwn(id, field, value) {
+  const item = ownItems.find(i => i.id === id);
+  if (!item) return;
+  item[field] = field === 'desc' ? value : parseFloat(value) || 0;
+  renderOwn();
+}
+function renderOwn() {
+  document.getElementById('ownBody').innerHTML = ownItems.map(item => `
+    <tr>
+      <td class="col-desc"><input type="text" value="${esc(item.desc)}" placeholder="Description" oninput="updateOwn(${item.id},'desc',this.value)" /></td>
+      <td class="col-qty"><input type="number" min="1" value="${item.qty}" oninput="updateOwn(${item.id},'qty',this.value)" /></td>
+      <td class="col-price"><input type="number" min="0" step="50" value="${item.price}" oninput="updateOwn(${item.id},'price',this.value)" /></td>
+      <td class="col-total"><div class="total-cell green">${fmt(item.qty * item.price)}</div></td>
+      <td class="col-del"><button class="btn-del" onclick="removeOwn(${item.id})">✕</button></td>
+    </tr>
+  `).join('');
+  renderSummary();
+}
+
+// ── Pass-Through Items ────────────────────────────────────────────────────────
+function markup() { return parseFloat(document.getElementById('globalMarkup').value) || 20; }
+function clientPrice(vendorCost) { return Math.round(vendorCost * (1 + markup() / 100)); }
+
+function addPT(desc='', qty=1, vendorCost=0) {
+  ptItems.push({ id: ++uid, desc, qty, vendorCost });
+  renderPT();
+}
+function removePT(id) { ptItems = ptItems.filter(i => i.id !== id); renderPT(); }
+function updatePT(id, field, value) {
+  const item = ptItems.find(i => i.id === id);
+  if (!item) return;
+  item[field] = field === 'desc' ? value : parseFloat(value) || 0;
+  renderPT();
+}
+function recomputeAllPT() { renderPT(); }
+function renderPT() {
+  const mkup = markup();
+  document.getElementById('ptBody').innerHTML = ptItems.map(item => {
+    const cp = clientPrice(item.vendorCost);
+    return `
+    <tr>
+      <td class="col-desc"><input type="text" value="${esc(item.desc)}" placeholder="Description" oninput="updatePT(${item.id},'desc',this.value)" /></td>
+      <td class="col-qty"><input type="number" min="1" value="${item.qty}" oninput="updatePT(${item.id},'qty',this.value)" /></td>
+      <td class="col-vendor"><input type="number" min="0" step="50" value="${item.vendorCost}" oninput="updatePT(${item.id},'vendorCost',this.value)" /></td>
+      <td class="col-mkup" style="text-align:center;color:#c8882a;font-size:13px;font-weight:600">+${mkup}%</td>
+      <td class="col-client"><input type="number" class="readonly-price" value="${cp}" readonly /></td>
+      <td class="col-total"><div class="total-cell amber">${fmt(item.qty * cp)}</div></td>
+      <td class="col-del"><button class="btn-del" onclick="removePT(${item.id})">✕</button></td>
+    </tr>`;
+  }).join('');
+  renderSummary();
+}
+
+// ── Summary ──────────────────────────────────────────────────────────────────
+function renderSummary() {
+  const mkup = markup();
+  const ownSub = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
+  const ptSub  = ptItems.reduce((s,i) => s + i.qty * clientPrice(i.vendorCost), 0);
+  const subtotal = ownSub + ptSub;
+  const vat = subtotal * 0.05;
+  const total = subtotal + vat;
+  const advPct = parseInt(document.getElementById('advancePct').value) || 50;
+  const balPct = 100 - advPct;
+  document.getElementById('balancePct').textContent = balPct + '%';
+
+  document.getElementById('summaryRows').innerHTML = `
+    <div class="sum-row"><span class="lbl">Anqor Services</span><span class="val">AED ${fmt(ownSub)}</span></div>
+    <div class="sum-row"><span class="lbl">Third-Party Costs (incl. ${mkup}% handling)</span><span class="val" style="color:#c8882a">AED ${fmt(ptSub)}</span></div>
+    <div class="sum-row"><span class="lbl">Subtotal</span><span class="val">AED ${fmt(subtotal)}</span></div>
+    <div class="sum-row"><span class="lbl">VAT (5%)</span><span class="val">AED ${fmt(vat)}</span></div>
+    <div class="sum-row big"><span class="lbl">Total</span><span class="val">AED ${fmt(total)}</span></div>
+    <div class="sum-row" style="border-bottom:none;margin-top:8px"><span class="lbl">Advance (${advPct}%) on signing</span><span class="val" style="color:#888">AED ${fmt(total * advPct / 100)}</span></div>
+    <div class="sum-row" style="border-bottom:none"><span class="lbl">Balance (${balPct}%) on delivery</span><span class="val" style="color:#888">AED ${fmt(total * balPct / 100)}</span></div>
+  `;
+}
+
+// ── Generate ─────────────────────────────────────────────────────────────────
+async function generate() {
+  const url = localStorage.getItem('aq_url');
+  const key = localStorage.getItem('aq_key');
+  const appUrl = (localStorage.getItem('aq_app') || 'https://www.anqorstudios.com').replace(/\/$/,'');
+  if (!url || !key) { showError('Add Supabase credentials first.'); return; }
+  const clientName = document.getElementById('clientName').value.trim();
+  if (!clientName) { showError('Client name is required.'); return; }
+  if (ownItems.length + ptItems.length === 0) { showError('Add at least one line item.'); return; }
+
+  setLoading(true);
+  const mkup = markup();
+  const ownSub = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
+  const ptSub  = ptItems.reduce((s,i) => s + i.qty * clientPrice(i.vendorCost), 0);
+  const subtotal = ownSub + ptSub;
+  const vat = subtotal * 0.05;
+  const total = subtotal + vat;
+  const advPct = parseInt(document.getElementById('advancePct').value) || 50;
+  const today = new Date();
+  const dueDate = new Date(today); dueDate.setDate(dueDate.getDate() + 14);
+  const pSlug = mkSlug(clientName);
+  const iSlug = 'inv-' + pSlug;
+  const invNo = 'ANQ-' + today.getFullYear() + '-' + String(Math.floor(Math.random()*900)+100);
+
+  const allLines = [
+    ...ownItems.map(i => ({ description: i.desc, quantity: i.qty, unit_price_aed: i.price, total_aed: i.qty*i.price, type: 'own' })),
+    ...ptItems.map(i => ({ description: i.desc, quantity: i.qty, vendor_cost_aed: i.vendorCost, markup_pct: mkup, unit_price_aed: clientPrice(i.vendorCost), total_aed: i.qty*clientPrice(i.vendorCost), type: 'pass_through' })),
+  ];
+
+  const proposalData = {
+    title: document.getElementById('projectTitle').value.trim() || clientName + ' — Project Proposal',
+    overview: document.getElementById('projectOverview').value.trim(),
+    client: { name: clientName, email: document.getElementById('clientEmail').value.trim() || null },
+    line_items: allLines,
+    own_services_subtotal: ownSub,
+    third_party_subtotal: ptSub,
+    subtotal_aed: subtotal,
+    vat_aed: vat,
+    total_incl_vat: total,
+    timeline: document.getElementById('timeline').value.trim(),
+    payment_terms: { advance_pct: advPct, balance_pct: 100-advPct },
+    notes: document.getElementById('notes').value.trim() || null,
+    prepared_by: 'Ubong Essien, Anqor Studios',
+    date: fmtDate(today),
+  };
+
+  const invoiceData = {
+    invoice_number: invNo,
+    client_name: clientName,
+    client_email: document.getElementById('clientEmail').value.trim() || null,
+    date: today.toISOString().split('T')[0],
+    due_date: dueDate.toISOString().split('T')[0],
+    items: allLines.map(i => ({ description: i.description, quantity: i.quantity, unit_price_aed: i.unit_price_aed, total_aed: i.total_aed })),
+    subtotal_aed: subtotal,
+    vat_rate: 5,
+    vat_aed: vat,
+    total_aed: total,
+    advance_aed: total * advPct / 100,
+    balance_aed: total * (100-advPct) / 100,
+    payment_instructions: 'Bank transfer to Anqor Studios. Account details provided separately. Reference invoice number.',
+    notes: document.getElementById('notes').value.trim() || null,
+  };
+
+  try {
+    const sb = supabase.createClient(url, key);
+    const { data: prop, error: pErr } = await sb.from('proposals')
+      .insert({ slug: pSlug, client_name: clientName, data: proposalData })
+      .select().single();
+    if (pErr) throw pErr;
+    const { error: iErr } = await sb.from('invoices')
+      .insert({ slug: iSlug, proposal_id: prop.id, client_name: clientName, data: invoiceData });
+    if (iErr) throw iErr;
+
+    document.getElementById('proposalUrl').textContent = `${appUrl}/proposals/${pSlug}`;
+    document.getElementById('invoiceUrl').textContent = `${appUrl}/invoices/${iSlug}`;
+    document.getElementById('output').style.display = 'block';
+    document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+    clearError();
+  } catch(e) {
+    showError('Error: ' + (e.message || JSON.stringify(e)));
+  } finally { setLoading(false); }
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function fmt(n) { return Number(n).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function esc(s) { return (s||'').replace(/"/g,'&quot;'); }
+function mkSlug(n) { return n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now().toString(36); }
+function fmtDate(d) { return d.getDate()+' '+['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]+' '+d.getFullYear(); }
+function setLoading(v) { document.getElementById('generateBtn').disabled=v; document.getElementById('spinner').style.display=v?'block':'none'; }
+function showError(m) { const e=document.getElementById('errorMsg'); e.textContent=m; e.style.display='inline'; }
+function clearError() { document.getElementById('errorMsg').style.display='none'; }
+function copyEl(id) { navigator.clipboard.writeText(document.getElementById(id).textContent); }
+
+loadConfig();
+renderSummary();
+</script>
+</body>
+</html>
