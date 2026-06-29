@@ -430,7 +430,8 @@ Rules:
 
 // ── Render results ─────────────────────────────────────────────────────────────
 function renderResults(data) {
-  document.getElementById('rClientName').value           = data.client_name    || '';
+  // Don't overwrite client name if already locked from a client page
+  if (!_selectedClientId) document.getElementById('rClientName').value = data.client_name || '';
   document.getElementById('rClientEmail').textContent   = data.client_email   || '';
   document.getElementById('rProjectTitle').textContent  = data.project_title  || '';
   document.getElementById('rOverview').textContent      = data.overview       || '';
@@ -934,6 +935,24 @@ loadBriefHistory();
 
 const _briefId = new URLSearchParams(location.search).get('brief_id');
 if (_briefId) restoreBrief(_briefId);
+
+// If opened from a client page, lock to that client immediately
+(function() {
+  const raw = localStorage.getItem('aq_prefill');
+  if (!raw) return;
+  try {
+    const p = JSON.parse(raw);
+    if (p.clientId)    _selectedClientId = p.clientId;
+    if (p.clientName)  document.getElementById('rClientName').value = p.clientName;
+    if (p.clientEmail) document.getElementById('rClientEmail').textContent = p.clientEmail;
+    localStorage.removeItem('aq_prefill');
+    // Show a locked banner so the user knows which client this is for
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:#0a1f12;border:1px solid #1e4a2d;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:13px;color:#4a9f6f;font-weight:600';
+    banner.textContent = '📎 Linked to client: ' + p.clientName;
+    document.querySelector('.container')?.prepend(banner);
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

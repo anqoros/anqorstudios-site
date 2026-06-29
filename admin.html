@@ -346,6 +346,7 @@ function showPage(name, navEl) {
 
 function uploadBriefForClient() {
   localStorage.setItem('aq_prefill', JSON.stringify({
+    clientId:    currentClient.id,
     clientName:  currentClient.name,
     clientEmail: currentClient.email || '',
   }));
