@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal — Anqor Studios</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
+.page { max-width: 820px; margin: 0 auto; padding: 48px 24px 80px; }
+.card { background: #fff; border-radius: 12px; padding: 40px 44px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+
+/* Header */
+.header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid #1a1a1a; }
+.logo { height: 36px; }
+.header-right { text-align: right; }
+.lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 2px; margin-top: 12px; }
+.lbl:first-child { margin-top: 0; }
+.val { font-size: 13px; font-weight: 700; }
+
+/* Title */
+h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+.sub { font-size: 12px; color: #999; margin-bottom: 28px; }
+.section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 8px; margin-top: 24px; }
+.overview { font-size: 13px; line-height: 1.75; color: #444; }
+
+/* Line items table */
+table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+th { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #999; text-align: left; padding: 8px 10px; border-bottom: 1px solid #e8e8e8; }
+td { padding: 10px 10px; border-bottom: 1px solid #f2f2f2; font-size: 12px; vertical-align: middle; }
+.num { text-align: right; }
+.section-row td { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 10px; }
+.own-row td { background: #f9fdfb; color: #2e7d52; }
+.pt-row td { background: #fdfaf5; color: #c8882a; }
+
+/* Toggle pill */
+.toggle-pill { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; cursor: pointer; user-select: none; margin-right: 6px; border: 1px solid; }
+.pill-full { background: #f0faf5; color: #2e7d52; border-color: #b8e8cc; }
+.pill-half { background: #fef9f0; color: #c8882a; border-color: #f0d8a8; }
+
+/* Totals */
+.totals { margin-left: auto; width: 300px; margin-top: 16px; }
+.total-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+.total-row.big { font-size: 16px; font-weight: 800; border-top: 2px solid #1a1a1a; margin-top: 8px; padding-top: 10px; }
+.muted { color: #999; }
+
+/* Payment schedule */
+.pay-box { background: #f8f8f6; border-left: 3px solid #1a1a1a; border-radius: 0 8px 8px 0; padding: 18px 22px; margin-top: 24px; }
+.pay-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 14px; }
+.pay-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+.pay-row.hi { margin-top: 8px; padding-top: 10px; border-top: 1px solid #e0e0e0; }
+.pay-note { font-size: 10px; color: #999; margin-top: 10px; line-height: 1.6; }
+
+/* Bank */
+.bank-box { background: #fafafa; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 20px; margin-top: 16px; }
+.bank-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; margin-bottom: 10px; }
+.bank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.bank-item .k { font-size: 9px; color: #aaa; margin-bottom: 2px; }
+.bank-item .v { font-size: 12px; font-weight: 600; }
+
+/* T&C */
+.tc { margin-top: 8px; }
+.tc h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; margin-top: 16px; }
+.tc p { font-size: 11px; line-height: 1.7; color: #555; }
+
+/* Topbar */
+.topbar { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+.topbar-logo { font-size: 11px; font-weight: 800; color: #2e7d52; letter-spacing: 0.06em; }
+.btn { background: #1a1a1a; color: #fff; border: none; padding: 9px 18px; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn:hover { background: #333; }
+.btn-outline { background: transparent; color: #1a1a1a; border: 1px solid #ccc; }
+.btn-outline:hover { background: #f5f5f5; }
+
+#loading { text-align: center; padding: 80px; font-size: 14px; color: #999; }
+#error   { text-align: center; padding: 80px; font-size: 14px; color: #c00; }
+
+@media print {
+  .topbar { display: none; }
+  body { background: #fff; }
+  .card { box-shadow: none; border: 1px solid #e8e8e8; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">ANQOR STUDIOS</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-outline" onclick="window.print()">Download PDF</button>
+  </div>
+</div>
+
+<div id="loading">Loading proposal…</div>
+<div id="error" style="display:none"></div>
+<div class="page" id="proposalPage" style="display:none"></div>
+
+<script>
+const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
+const AQ_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2F5c251ZnVlbmFkb2hmaHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjM1MTUsImV4cCI6MjA5Mzc5OTUxNX0.OlEQgmohTXgnZ9nadizbhhBRO5FhiDTYy-AjGY-WL4w';
+const sb = supabase.createClient(AQ_URL, AQ_KEY);
+
+const slug = new URLSearchParams(location.search).get('slug');
+const fmt  = n => Number(n).toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const esc  = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+// Item state for HD/FD toggle
+let itemStates = {};
+
+async function load() {
+  if (!slug) { showError('No proposal slug in URL.'); return; }
+
+  const { data, error } = await sb.from('proposals').select('*').eq('slug', slug).single();
+  if (error || !data) { showError('Proposal not found.'); return; }
+
+  // Mark as viewed
+  sb.from('proposals').update({ viewed_at: new Date().toISOString() }).eq('slug', slug).then(() => {});
+
+  const p = data.data;
+  document.title = (p.title || 'Proposal') + ' — Anqor Studios';
+
+  // Init toggle state
+  (p.line_items || []).forEach((item, i) => {
+    itemStates[i] = { fullDay: true };
+  });
+
+  render(p);
+}
+
+function toggleDay(idx, item) {
+  itemStates[idx].fullDay = !itemStates[idx].fullDay;
+  const price = itemStates[idx].fullDay ? item.full_day_price_aed : item.half_day_price_aed;
+  const total = price * item.quantity;
+
+  document.querySelector(`[data-price="${idx}"]`).textContent = 'AED ' + fmt(price);
+  document.querySelector(`[data-total="${idx}"]`).textContent = 'AED ' + fmt(total);
+
+  const pill = document.querySelector(`[data-pill="${idx}"]`);
+  if (pill) {
+    pill.textContent = itemStates[idx].fullDay ? 'Full Day' : 'Half Day';
+    pill.className = 'toggle-pill ' + (itemStates[idx].fullDay ? 'pill-full' : 'pill-half');
+  }
+}
+
+function render(p) {
+  const ownItems = (p.line_items || []).filter(i => i.type === 'own');
+  const ptItems  = (p.line_items || []).filter(i => i.type === 'pass_through');
+  const allItems = p.line_items || [];
+
+  function itemRow(item, globalIdx) {
+    const hasToggle = item.half_day_price_aed && item.full_day_price_aed;
+    const pill = hasToggle
+      ? `<span class="toggle-pill pill-full" data-pill="${globalIdx}" onclick="toggleDay(${globalIdx}, ${JSON.stringify(item).replace(/"/g,'&quot;')})">Full Day</span>`
+      : '';
+    return `<tr>
+      <td>${pill}${esc(item.description)}</td>
+      <td class="num">${item.quantity}</td>
+      <td class="num" data-price="${globalIdx}">AED ${fmt(item.unit_price_aed)}</td>
+      <td class="num" data-total="${globalIdx}">AED ${fmt(item.total_aed)}</td>
+    </tr>`;
+  }
+
+  const pt = p.payment_terms || {};
+
+  document.getElementById('proposalPage').innerHTML = `
+    <div class="card">
+      <div class="header">
+        <div style="display:flex;align-items:center;gap:14px">
+        <img src="anqor_logo.png" class="logo" alt="Anqor Studios" onerror="this.style.display='none'">
+        <div>
+          <div style="font-size:13px;font-weight:800;letter-spacing:0.04em">Anqor Studios LLC FZ</div>
+          <div style="font-size:11px;color:#999;margin-top:2px">Prepared by Ubong Udoessien</div>
+        </div>
+      </div>
+        <div class="header-right">
+          <div class="lbl">Proposal Date</div><div class="val">${esc(p.date||'')}</div>
+          <div class="lbl">Prepared for</div><div class="val">${esc((p.client&&p.client.name)||p.client_name||'')}</div>
+        </div>
+      </div>
+
+      <h1>${esc(p.title||'Project Proposal')}</h1>
+      <div class="sub">Prepared by Ubong Essien · Anqor Studios</div>
+
+      ${p.overview ? `<div class="section-label">Overview</div><div class="overview">${esc(p.overview)}</div>` : ''}
+      ${p.timeline ? `<div class="section-label" style="margin-top:20px">Timeline</div><div class="overview">${esc(p.timeline)}</div>` : ''}
+      ${p.notes    ? `<div class="section-label" style="margin-top:20px">Notes</div><div class="overview">${esc(p.notes)}</div>` : ''}
+    </div>
+
+    <div class="card">
+      <div class="section-label">Scope of Work</div>
+      <table>
+        <thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit Price</th><th class="num">Total</th></tr></thead>
+        <tbody>
+          ${ownItems.length ? `<tr class="section-row own-row"><td colspan="4">Anqor Studios Services</td></tr>` : ''}
+          ${ownItems.map(item => itemRow(item, allItems.indexOf(item))).join('')}
+          ${ptItems.length ? `<tr class="section-row pt-row"><td colspan="4">Third-Party Costs (vendor pass-through)</td></tr>` : ''}
+          ${ptItems.map(item => itemRow(item, allItems.indexOf(item))).join('')}
+        </tbody>
+      </table>
+
+      <div class="totals">
+        ${p.own_services_subtotal > 0 ? `<div class="total-row"><span class="muted">Anqor Services</span><span>AED ${fmt(p.own_services_subtotal)}</span></div>` : ''}
+        ${p.third_party_subtotal  > 0 ? `<div class="total-row"><span class="muted">Third-Party Costs</span><span>AED ${fmt(p.third_party_subtotal)}</span></div>` : ''}
+        <div class="total-row"><span class="muted">Subtotal</span><span>AED ${fmt(p.subtotal_aed)}</span></div>
+        <div class="total-row"><span class="muted">VAT (5%)</span><span>AED ${fmt(p.vat_aed)}</span></div>
+        <div class="total-row big"><span>Total</span><span>AED ${fmt(p.total_incl_vat)}</span></div>
+      </div>
+
+      <div class="pay-box">
+        <div class="pay-title">Payment Schedule</div>
+        <div class="pay-row hi">
+          <span>Due on signing</span>
+          <span style="font-weight:700">AED ${fmt(pt.due_on_signing_aed||0)}</span>
+        </div>
+        <div class="pay-row" style="font-size:11px;color:#aaa;padding-left:8px">
+          <span>Anqor deposit (${pt.anqor_advance_pct||50}%) + all third-party costs (100%)</span>
+        </div>
+        <div class="pay-row hi">
+          <span>Balance on delivery (${pt.anqor_balance_pct||50}%)</span>
+          <span style="font-weight:700">AED ${fmt(pt.balance_on_delivery_aed||0)}</span>
+        </div>
+      </div>
+
+      <div class="bank-box">
+        <div class="bank-title">Bank Transfer Details</div>
+        <div class="bank-grid">
+          <div class="bank-item"><div class="k">Account Title</div><div class="v">Anqor Studios L.L.C-FZ</div></div>
+          <div class="bank-item"><div class="k">Account Number</div><div class="v">3003731440000001</div></div>
+          <div class="bank-item" style="grid-column:span 2"><div class="k">Address</div><div class="v">Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, UAE</div></div>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:10px">Please reference your name or company on the transfer.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Terms &amp; Conditions</div>
+      <div class="tc">
+        <h4>1. Acceptance</h4><p>This proposal is valid for 14 days from the date above. Acceptance is confirmed by written approval or payment of the deposit, whichever comes first.</p>
+        <h4>2. Shoot Duration &amp; Overtime</h4><p>Half-day = up to 4 hours. Full-day = up to 8 hours. Exceeding a half-day is automatically upgraded to the full-day rate. Time past 8 hours is billed at 1.5× the hourly rate, invoiced after the shoot.</p>
+        <h4>3. Payment</h4><p>50% of Anqor's fee is due on signing. All third-party costs (studio, crew, talent, equipment) are collected 100% upfront as they must be booked and held. The remaining 50% of Anqor's fee is due on delivery of final files.</p>
+        <h4>4. Cancellation</h4><p>14+ days notice: deposit refunded minus any committed third-party costs. 7–14 days: 50% of Anqor's fee forfeited; third-party costs non-refundable. Under 7 days: full Anqor fee forfeited; third-party costs non-refundable. One complimentary postponement is allowed with 7+ days notice, subject to availability.</p>
+        <h4>5. IP &amp; Usage Rights</h4><p>Copyright is retained by Anqor Studios until full payment is received. Upon final payment, the client receives a perpetual, non-exclusive licence for their own brand use. Raw files are not included unless explicitly listed in this proposal. Anqor Studios reserves the right to display the work in its portfolio unless a confidentiality request is made in writing before the shoot.</p>
+        <h4>6. Revisions</h4><p>The quote includes two rounds of revisions unless stated otherwise. Additional revision rounds are billed at the rate listed in the service catalog.</p>
+        <h4>7. Third-Party Costs</h4><p>Vendor quotes are estimates at time of proposal. If a vendor increases their rate before booking is confirmed, the difference will be passed to the client with prior written notice.</p>
+        <h4>8. Force Majeure</h4><p>Neither party is liable for delays caused by circumstances outside their reasonable control (weather, government restriction, illness, etc.). A reschedule will be agreed within 30 days at no additional Anqor fee.</p>
+        <h4>9. Governing Law</h4><p>This agreement is governed by the laws of the United Arab Emirates. Any disputes shall be subject to the jurisdiction of the courts of Dubai.</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('proposalPage').style.display = 'block';
+}
+
+function showError(msg) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('error').style.display = 'block';
+  document.getElementById('error').textContent = msg;
+}
+
+load();
+</script>
+</body>
+</html>

@@ -57,6 +57,10 @@ window.AQ_CATALOG = [
   { name: 'Styling & Art Direction',                  section: 'own', halfDayPrice: null,  fullDayPrice: 2000,  unit: null,           notes: null },
   { name: 'Scriptwriting & Storyboard',               section: 'own', halfDayPrice: null,  fullDayPrice: 2500,  unit: null,           notes: null },
 
+  // BTS
+  { name: 'BTS Coverage — Photo',  section: 'own', halfDayPrice: 2500, fullDayPrice: 4500, unit: null, notes: 'Behind the scenes stills' },
+  { name: 'BTS Coverage — Video',  section: 'own', halfDayPrice: 3000, fullDayPrice: 5500, unit: null, notes: 'Behind the scenes video footage' },
+
   // Packages
   { name: 'Content Day Package — Photo + Video + 5 Reels Edit', section: 'own', halfDayPrice: null, fullDayPrice: 18000, unit: null, notes: null },
   { name: 'Starter Brand Film — 1 Shoot Day + 2min Edit + 3 Reels', section: 'own', halfDayPrice: null, fullDayPrice: 16000, unit: null, notes: null },

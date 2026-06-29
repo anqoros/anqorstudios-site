@@ -439,7 +439,7 @@ async function loadCdProposals() {
     const status = p.accepted_at ? `<span class="badge badge-accepted">Accepted</span>` : p.viewed_at ? `<span class="badge badge-viewed">Viewed</span>` : `<span class="badge badge-pending">Sent</span>`;
     return `<div class="row"><div><div class="row-title">${p.data?.title||p.client_name}</div><div class="row-meta">${fmtDate(p.created_at)}</div></div>
     <div style="display:flex;gap:10px;align-items:center">${status}${p.data?.total_incl_vat?`<span class="row-amount">${fmt(p.data.total_incl_vat)}</span>`:''}
-    <a href="${AQ_APP}/proposals/${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
+    <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
     <button onclick="deleteRec('proposals','${p.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No proposals.</div>';
 }
@@ -449,7 +449,7 @@ async function loadCdInvoices() {
     const status = i.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'}</div><div class="row-meta">${fmtDate(i.created_at)}</div></div>
     <div style="display:flex;gap:10px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
-    <a href="${AQ_APP}/invoices/${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
+    <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
     ${!i.paid_at?`<button onclick="markPaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
     <button onclick="deleteRec('invoices','${i.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No invoices.</div>';
@@ -510,7 +510,7 @@ async function loadProposalsPage() {
     const status = p.accepted_at ? `<span class="badge badge-accepted">Accepted</span>` : p.viewed_at ? `<span class="badge badge-viewed">Viewed</span>` : `<span class="badge badge-pending">Sent</span>`;
     return `<div class="row"><div><div class="row-title">${p.data?.title||p.client_name}</div><div class="row-meta">${p.client_name} · ${fmtDate(p.created_at)}${p.viewed_at?' · Viewed '+fmtDate(p.viewed_at):''}${p.accepted_at?' · Accepted '+fmtDate(p.accepted_at):''}</div></div>
     <div style="display:flex;gap:12px;align-items:center">${status}${p.data?.total_incl_vat?`<span class="row-amount">${fmt(p.data.total_incl_vat)}</span>`:''}
-    <a href="${AQ_APP}/proposals/${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a></div></div>`;
+    <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a></div></div>`;
   }).join('') : '<div class="empty">No proposals yet.</div>';
 }
 
@@ -521,7 +521,7 @@ async function loadInvoicesPage() {
     const status = i.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'} — ${i.client_name}</div><div class="row-meta">${fmtDate(i.created_at)}${i.paid_at?' · Paid '+fmtDate(i.paid_at):''}</div></div>
     <div style="display:flex;gap:12px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
-    <a href="${AQ_APP}/invoices/${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
+    <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
     ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}</div></div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
 }

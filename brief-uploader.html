@@ -615,8 +615,8 @@ async function generateProposal() {
       .insert({ slug: iSlug, proposal_id: prop.id, client_id: clientId, client_name: clientName, data: invoiceData });
     if (iErr) throw iErr;
 
-    document.getElementById('poProposalUrl').textContent = `${appUrl}/proposals/${pSlug}`;
-    document.getElementById('poInvoiceUrl').textContent  = `${appUrl}/invoices/${iSlug}`;
+    document.getElementById('poProposalUrl').textContent = `${appUrl}/proposal?slug=${pSlug}`;
+    document.getElementById('poInvoiceUrl').textContent  = `${appUrl}/invoice?slug=${iSlug}`;
     document.getElementById('proposalOutput').style.display = 'block';
     document.getElementById('proposalOutput').scrollIntoView({ behavior: 'smooth' });
   } catch(e) {
@@ -694,18 +694,19 @@ async function upsertClient(name, email) {
   const sb = getSB();
   if (email) {
     const { data } = await sb.from('clients').select('id').eq('email', email).maybeSingle();
-    if (data) return data.id;
+    if (data) return { id: data.id };
   }
   const { data } = await sb.from('clients').select('id').eq('name', name).maybeSingle();
-  if (data) return data.id;
-  const { data: created } = await sb.from('clients').insert({ name, email: email || null }).select('id').single();
-  return created?.id || null;
+  if (data) return { id: data.id };
+  const { data: created, error } = await sb.from('clients').insert({ name, email: email || null }).select('id').single();
+  if (error) return { id: null, error: error.message };
+  return { id: created?.id || null };
 }
 
 async function saveBrief(rawText, extracted) {
   const sb = getSB();
   if (!sb) { showSaveStatus('No database connected — brief not saved.', true); return; }
-  const clientId = extracted.client_name ? await upsertClient(extracted.client_name, extracted.client_email || null) : null;
+  const clientId = extracted.client_name ? (await upsertClient(extracted.client_name, extracted.client_email || null)).id : null;
   const { error } = await sb.from('briefs').insert({
     client_id:     clientId,
     client_name:   extracted.client_name   || null,
@@ -723,9 +724,10 @@ async function saveClientFromBrief(btn) {
   const email = document.getElementById('rClientEmail').textContent.trim();
   if (!name) { showSaveStatus('Enter a client name first.', true); return; }
   btn.disabled = true;
-  const id = await upsertClient(name, email || null);
+  const result = await upsertClient(name, email || null);
   btn.disabled = false;
-  showSaveStatus(id ? 'Client saved ✓' : 'Failed to save client.', !id);
+  if (result.error) { showSaveStatus('Error: ' + result.error, true); return; }
+  showSaveStatus(result.id ? 'Client saved ✓' : 'Client already exists ✓', false);
 }
 
 function showSaveStatus(msg, isError) {
