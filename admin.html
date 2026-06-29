@@ -474,6 +474,7 @@ async function loadCdBriefs() {
   data.forEach(b => {
     _abrief[b.id] = {
       brief: b,
+      markup: (b.extracted && b.extracted.markup) || 20,
       items: (b.line_items||[]).map((li,i) => ({
         idx: i,
         section:     li.section || 'own',
@@ -564,12 +565,28 @@ function _renderBriefPanel(id) {
       <button onclick="_aSaveBrief('${id}')" id="aSaveBtn-${id}" style="flex:1;background:#1a1a1a;color:#e5e5e5;border:1px solid #2a2a2a;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">Save Changes</button>
     </div>
     <div id="aSaveMsg-${id}" style="display:none;font-size:11px;text-align:center;margin-bottom:10px"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <span style="font-size:11px;color:#555">Pass-through markup:</span>
+      <button id="aMarkupBtn-${id}" onclick="_aToggleMarkup('${id}')"
+        style="font-size:11px;font-weight:700;padding:4px 14px;border-radius:5px;cursor:pointer;border:1px solid #2a5a3a;background:#0d1f15;color:#4a9f6f">
+        ${_abrief[id].markup}%
+      </button>
+      <span style="font-size:10px;color:#444">(applied to third-party vendor costs)</span>
+    </div>
     <div id="agenOut-${id}" style="display:none;background:#0a1f12;border:1px solid #1e4a2d;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:#4a9f6f;line-height:1.8"></div>
     <button onclick="generateFromAdmin('${id}')" id="agenBtn-${id}"
       style="background:#4a9f6f;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%">
       Generate Proposal + Invoice
     </button>
     </div>`;
+}
+
+function _aToggleMarkup(id) {
+  _abrief[id].markup = _abrief[id].markup === 20 ? 15 : 20;
+  if (!_abrief[id].brief.extracted) _abrief[id].brief.extracted = {};
+  _abrief[id].brief.extracted.markup = _abrief[id].markup;
+  const btn = document.getElementById('aMarkupBtn-' + id);
+  if (btn) btn.textContent = _abrief[id].markup + '%';
 }
 
 function _aUpdateSummary(id, val) {
@@ -647,7 +664,7 @@ async function generateFromAdmin(id) {
   const btn = document.getElementById('agenBtn-' + id);
   btn.disabled = true; btn.textContent = 'Generating…';
 
-  const MARKUP = 20;
+  const MARKUP = _abrief[id].markup || 20;
   const own = items.filter(i => i.section === 'own');
   const pt  = items.filter(i => i.section === 'pass_through');
   const ownSub = own.reduce((s,i) => s + i.qty*i.unit_price, 0);
