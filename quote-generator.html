@@ -90,8 +90,27 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .divider { border: none; border-top: 1px solid #1e1e1e; margin: 24px 0; }
-  .terms-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 13px; color: #888; }
+  .terms-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; font-size: 15px; color: #888; }
   .terms-row input[type="number"] { width: 70px; }
+
+  /* ── Font size lift ── */
+  body { font-size: 16px; }
+  label { font-size: 14px !important; }
+  .preset-label { font-size: 13px !important; }
+  .preset { font-size: 14px !important; padding: 7px 14px !important; }
+  .card-title { font-size: 14px !important; }
+  input, textarea, select { font-size: 15px !important; }
+  thead th { font-size: 13px !important; }
+  tbody td input { font-size: 14px !important; }
+  .total-cell { font-size: 15px !important; }
+  .sum-row { font-size: 16px !important; }
+  .sum-row.big { font-size: 21px !important; }
+  .btn { font-size: 15px !important; }
+  .config-toggle { font-size: 14px !important; }
+  .logo { font-size: 14px !important; }
+  h1 { font-size: 32px !important; }
+  .url-label { font-size: 13px !important; }
+  .url-box { font-size: 14px !important; }
 </style>
 </head>
 <body>
@@ -324,6 +343,9 @@
       <div class="url-box" id="invoiceUrl"></div>
       <button class="copy-btn" onclick="copyEl('invoiceUrl')">Copy link</button>
     </div>
+    <div style="margin-top:24px;border-top:1px solid #1e4a2d;padding-top:20px">
+      <button class="btn btn-primary" onclick="downloadPDF()" style="background:#1a3a27;border:1px solid #4a9f6f">⬇ Download Proposal PDF</button>
+    </div>
   </div>
 </div>
 
@@ -420,14 +442,22 @@ function renderSummary() {
   const balPct = 100 - advPct;
   document.getElementById('balancePct').textContent = balPct + '%';
 
+  const ownVat = ownSub * 0.05;
+  const ptVat  = ptSub  * 0.05;
+  const ownAdv = (ownSub + ownVat) * advPct / 100;
+  const ownBal = (ownSub + ownVat) * balPct / 100;
+  const ptDue  = ptSub + ptVat; // always 100% upfront
+
   document.getElementById('summaryRows').innerHTML = `
     <div class="sum-row"><span class="lbl">Anqor Services</span><span class="val">AED ${fmt(ownSub)}</span></div>
     <div class="sum-row"><span class="lbl">Third-Party Costs (incl. ${mkup}% handling)</span><span class="val" style="color:#c8882a">AED ${fmt(ptSub)}</span></div>
     <div class="sum-row"><span class="lbl">Subtotal</span><span class="val">AED ${fmt(subtotal)}</span></div>
     <div class="sum-row"><span class="lbl">VAT (5%)</span><span class="val">AED ${fmt(vat)}</span></div>
     <div class="sum-row big"><span class="lbl">Total</span><span class="val">AED ${fmt(total)}</span></div>
-    <div class="sum-row" style="border-bottom:none;margin-top:8px"><span class="lbl">Advance (${advPct}%) on signing</span><span class="val" style="color:#888">AED ${fmt(total * advPct / 100)}</span></div>
-    <div class="sum-row" style="border-bottom:none"><span class="lbl">Balance (${balPct}%) on delivery</span><span class="val" style="color:#888">AED ${fmt(total * balPct / 100)}</span></div>
+    <div class="sum-row" style="border-bottom:none;margin-top:8px;color:#4a9f6f"><span class="lbl">Due on signing</span><span class="val" style="color:#4a9f6f">AED ${fmt(ownAdv + ptDue)}</span></div>
+    <div class="sum-row" style="border-bottom:none;font-size:11px;color:#888"><span class="lbl">&nbsp;&nbsp;↳ Anqor deposit (${advPct}%)</span><span class="val">AED ${fmt(ownAdv)}</span></div>
+    ${ptDue > 0 ? `<div class="sum-row" style="border-bottom:none;font-size:11px;color:#888"><span class="lbl">&nbsp;&nbsp;↳ Third-party costs (100% upfront)</span><span class="val">AED ${fmt(ptDue)}</span></div>` : ''}
+    <div class="sum-row" style="border-bottom:none"><span class="lbl">Balance on delivery (${balPct}%)</span><span class="val" style="color:#888">AED ${fmt(ownBal)}</span></div>
   `;
 }
 
@@ -471,7 +501,13 @@ async function generate() {
     vat_aed: vat,
     total_incl_vat: total,
     timeline: document.getElementById('timeline').value.trim(),
-    payment_terms: { advance_pct: advPct, balance_pct: 100-advPct },
+    payment_terms: {
+      anqor_advance_pct: advPct,
+      anqor_balance_pct: 100-advPct,
+      third_party: '100% upfront',
+      due_on_signing_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05),
+      balance_on_delivery_aed: ownSub * 1.05 * (100-advPct) / 100,
+    },
     notes: document.getElementById('notes').value.trim() || null,
     prepared_by: 'Ubong Essien, Anqor Studios',
     date: fmtDate(today),
@@ -488,8 +524,9 @@ async function generate() {
     vat_rate: 5,
     vat_aed: vat,
     total_aed: total,
-    advance_aed: total * advPct / 100,
-    balance_aed: total * (100-advPct) / 100,
+    advance_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05),
+    balance_aed: ownSub * 1.05 * (100-advPct) / 100,
+    third_party_note: 'Third-party costs are collected 100% upfront on signing.',
     payment_instructions: 'Bank transfer to Anqor Studios. Account details provided separately. Reference invoice number.',
     notes: document.getElementById('notes').value.trim() || null,
   };
@@ -526,6 +563,310 @@ function copyEl(id) { navigator.clipboard.writeText(document.getElementById(id).
 
 loadConfig();
 renderSummary();
+
+function downloadPDF() {
+  const clientName   = document.getElementById('clientName').value.trim() || 'Client';
+  const clientEmail  = document.getElementById('clientEmail').value.trim();
+  const projectTitle = document.getElementById('projectTitle').value.trim() || clientName + ' — Project Proposal';
+  const overview     = document.getElementById('projectOverview').value.trim();
+  const timeline     = document.getElementById('timeline').value.trim();
+  const notes        = document.getElementById('notes').value.trim();
+  const mkup = markup();
+  const ownSub  = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
+  const ptSub   = ptItems.reduce((s,i) => s + i.qty * clientPrice(i.vendorCost), 0);
+  const subtotal = ownSub + ptSub;
+  const vat      = subtotal * 0.05;
+  const total    = subtotal + vat;
+  const advPct   = parseInt(document.getElementById('advancePct').value) || 50;
+  const balPct   = 100 - advPct;
+  const ownDueNow = ownSub * 1.05 * advPct / 100;
+  const ptDueNow  = ptSub  * 1.05;
+  const dueOnSigning  = ownDueNow + ptDueNow;
+  const dueOnDelivery = ownSub * 1.05 * balPct / 100;
+  const today = new Date();
+
+  const logoUrl = window.location.origin + (window.location.pathname.replace(/\/[^/]*$/, '/')) + 'anqor_logo.png';
+
+  const ownRows = ownItems.map(i => `
+    <tr>
+      <td>${i.desc}</td>
+      <td class="num">${i.qty}</td>
+      <td class="num">AED ${fmt(i.price)}</td>
+      <td class="num">AED ${fmt(i.qty * i.price)}</td>
+    </tr>`).join('');
+
+  const ptRows = ptItems.map(i => `
+    <tr>
+      <td>${i.desc} <span style="color:#999;font-size:10px">(third-party)</span></td>
+      <td class="num">${i.qty}</td>
+      <td class="num">AED ${fmt(clientPrice(i.vendorCost))}</td>
+      <td class="num">AED ${fmt(i.qty * clientPrice(i.vendorCost))}</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${projectTitle}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11px; color: #1a1a1a; background: #fff; }
+  .page { max-width: 780px; margin: 0 auto; padding: 48px 48px 64px; }
+
+  /* Header */
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; border-bottom: 2px solid #1a1a1a; padding-bottom: 24px; }
+  .logo img { height: 36px; }
+  .header-right { text-align: right; }
+  .header-right .label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; }
+  .header-right .value { font-size: 12px; font-weight: 600; margin-top: 2px; }
+  .doc-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .doc-sub   { font-size: 11px; color: #555; }
+
+  /* Client block */
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+  .meta-block .label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; color: #888; margin-bottom: 4px; }
+  .meta-block .value { font-size: 12px; font-weight: 600; }
+  .meta-block .sub   { font-size: 10px; color: #666; margin-top: 2px; }
+
+  /* Section heading */
+  .section-title { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; margin-bottom: 12px; margin-top: 28px; }
+
+  /* Overview */
+  .overview { font-size: 11px; line-height: 1.7; color: #333; margin-bottom: 8px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  th { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #888; text-align: left; padding: 6px 8px; border-bottom: 1px solid #e0e0e0; }
+  td { padding: 8px 8px; border-bottom: 1px solid #f0f0f0; font-size: 11px; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; }
+
+  /* Totals */
+  .totals { margin-left: auto; width: 280px; margin-top: 12px; }
+  .tot-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 11px; }
+  .tot-row.sub { color: #555; border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; margin-bottom: 4px; }
+  .tot-row.vat { color: #555; }
+  .tot-row.total { font-size: 14px; font-weight: 700; border-top: 2px solid #1a1a1a; margin-top: 8px; padding-top: 8px; }
+
+  /* Payment schedule */
+  .pay-box { background: #f8f8f8; border-left: 3px solid #1a1a1a; padding: 14px 18px; margin-top: 20px; }
+  .pay-box .pay-title { font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; color: #888; margin-bottom: 10px; }
+  .pay-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; }
+  .pay-row .pay-label { color: #444; }
+  .pay-row .pay-amt   { font-weight: 600; }
+  .pay-row.highlight  { margin-top: 6px; padding-top: 8px; border-top: 1px solid #ddd; }
+  .pay-note { font-size: 9px; color: #888; margin-top: 8px; line-height: 1.5; }
+
+  /* Terms */
+  .terms { margin-top: 36px; }
+  .terms-section { margin-bottom: 18px; }
+  .terms-section h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .terms-section p, .terms-section li { font-size: 10px; line-height: 1.65; color: #444; }
+  .terms-section ul { padding-left: 16px; }
+  .terms-section li { margin-bottom: 3px; }
+
+  /* Footer */
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; font-size: 9px; color: #aaa; }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { padding: 24px 32px 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo"><img src="${logoUrl}" alt="Anqor Studios" onerror="this.style.display='none'"></div>
+    <div class="header-right">
+      <div class="label">Document</div>
+      <div class="value">Project Proposal</div>
+      <div class="label" style="margin-top:8px">Date</div>
+      <div class="value">${fmtDate(today)}</div>
+    </div>
+  </div>
+
+  <div class="doc-title">${projectTitle}</div>
+  <div class="doc-sub">Prepared by Anqor Studios &nbsp;·&nbsp; Ubong Essien</div>
+
+  <!-- Client + Anqor -->
+  <div class="meta-grid" style="margin-top:24px">
+    <div class="meta-block">
+      <div class="label">Prepared for</div>
+      <div class="value">${clientName}</div>
+      ${clientEmail ? `<div class="sub">${clientEmail}</div>` : ''}
+    </div>
+    <div class="meta-block">
+      <div class="label">Prepared by</div>
+      <div class="value">Anqor Studios</div>
+      <div class="sub">hello@anqorstudios.com &nbsp;·&nbsp; Dubai, UAE</div>
+    </div>
+  </div>
+
+  ${overview ? `
+  <div class="section-title">Project Overview</div>
+  <div class="overview">${overview.replace(/\n/g,'<br>')}</div>
+  ` : ''}
+
+  ${timeline ? `
+  <div class="section-title">Timeline</div>
+  <div class="overview">${timeline.replace(/\n/g,'<br>')}</div>
+  ` : ''}
+
+  <!-- Line Items -->
+  <div class="section-title">Scope of Work &amp; Fees</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th class="num">Qty</th>
+        <th class="num">Unit Price</th>
+        <th class="num">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${ownRows}
+      ${ptRows}
+    </tbody>
+  </table>
+
+  <!-- Totals -->
+  <div class="totals">
+    <div class="tot-row sub"><span>Anqor Services</span><span>AED ${fmt(ownSub)}</span></div>
+    ${ptSub > 0 ? `<div class="tot-row sub"><span>Third-Party Costs</span><span>AED ${fmt(ptSub)}</span></div>` : ''}
+    <div class="tot-row vat"><span>Subtotal</span><span>AED ${fmt(subtotal)}</span></div>
+    <div class="tot-row vat"><span>VAT (5%)</span><span>AED ${fmt(vat)}</span></div>
+    <div class="tot-row total"><span>Total</span><span>AED ${fmt(total)}</span></div>
+  </div>
+
+  <!-- Payment Schedule -->
+  <div class="pay-box">
+    <div class="pay-title">Payment Schedule</div>
+    <div class="pay-row highlight">
+      <span class="pay-label">Due on signing</span>
+      <span class="pay-amt">AED ${fmt(dueOnSigning)}</span>
+    </div>
+    <div class="pay-row" style="font-size:9px;color:#888;padding-left:12px">
+      <span>Anqor deposit (${advPct}% of Anqor fee incl. VAT)</span>
+      <span>AED ${fmt(ownDueNow)}</span>
+    </div>
+    ${ptSub > 0 ? `<div class="pay-row" style="font-size:9px;color:#888;padding-left:12px">
+      <span>Third-party costs — 100% upfront (incl. VAT)</span>
+      <span>AED ${fmt(ptDueNow)}</span>
+    </div>` : ''}
+    <div class="pay-row highlight">
+      <span class="pay-label">Balance on delivery (${balPct}% of Anqor fee incl. VAT)</span>
+      <span class="pay-amt">AED ${fmt(dueOnDelivery)}</span>
+    </div>
+    <div class="pay-note">Payment by bank transfer. Account details provided separately. Please reference the project name on your transfer. Third-party vendor costs are collected in full upon signing as Anqor Studios must secure bookings in advance.</div>
+  </div>
+
+  ${notes ? `
+  <div class="section-title">Additional Notes</div>
+  <div class="overview">${notes.replace(/\n/g,'<br>')}</div>
+  ` : ''}
+
+  <!-- Terms & Conditions -->
+  <div class="terms">
+    <div class="section-title">Terms &amp; Conditions</div>
+
+    <div class="terms-section">
+      <h4>1. Agreement</h4>
+      <p>This proposal constitutes a binding agreement upon receipt of the advance payment. By making payment, the client confirms acceptance of all terms herein. Anqor Studios reserves the right to decline a project before payment is received.</p>
+    </div>
+
+    <div class="terms-section">
+      <h4>2. Payment Terms</h4>
+      <ul>
+        <li>An advance of ${advPct}% of Anqor Studios' fees is due upon signing. Work does not commence until this payment clears.</li>
+        <li>All third-party vendor costs are due in full (100%) upon signing. Anqor Studios cannot secure external bookings — talent, venues, equipment, or other vendors — until these funds are received.</li>
+        <li>The remaining ${balPct}% balance is due upon delivery of final files. Final deliverables will not be released until the balance is paid in full.</li>
+        <li>Invoices unpaid after 7 days of the due date attract a late fee of 2% per month on the outstanding balance.</li>
+      </ul>
+    </div>
+
+    <div class="terms-section">
+      <h4>3. Revisions</h4>
+      <ul>
+        <li>This proposal includes one round of revisions unless otherwise stated in the scope above.</li>
+        <li>Additional revision rounds are billed at AED 500 per round for photo/copy edits, or at an agreed hourly rate for video.</li>
+        <li>Revision requests must be submitted in writing within 7 days of delivery. Approval is assumed after this window.</li>
+      </ul>
+    </div>
+
+    <div class="terms-section">
+      <h4>4. Cancellation &amp; Postponement</h4>
+      <ul>
+        <li>Cancellation with more than 14 days' notice: advance payment is refunded minus any third-party costs already committed.</li>
+        <li>Cancellation with 7–14 days' notice: 50% of the Anqor fee is forfeited; third-party costs are non-refundable.</li>
+        <li>Cancellation with fewer than 7 days' notice: the full Anqor fee is forfeited; third-party costs are non-refundable.</li>
+        <li>One complimentary postponement is permitted with a minimum of 7 days' notice, subject to availability.</li>
+      </ul>
+    </div>
+
+    <div class="terms-section">
+      <h4>5. Intellectual Property &amp; Usage Rights</h4>
+      <ul>
+        <li>Anqor Studios retains copyright over all creative work produced until full payment is received.</li>
+        <li>Upon receipt of final payment, the client is granted a perpetual, non-exclusive licence to use the delivered assets for the purposes described in this proposal.</li>
+        <li>Unless a buyout is explicitly agreed and invoiced, usage is limited to the client's own brand and channels. Resale or sub-licensing of assets is not permitted.</li>
+        <li>Anqor Studios retains the right to display work in its portfolio and for marketing purposes unless the client requests confidentiality in writing prior to the shoot.</li>
+        <li>For photography and video: raw/unedited files are not included in the standard deliverables unless explicitly listed in the scope above.</li>
+      </ul>
+    </div>
+
+    <div class="terms-section">
+      <h4>6. Third-Party Vendors</h4>
+      <p>Anqor Studios acts as an intermediary for third-party services (talent, venues, equipment, etc.) and is not liable for third-party cancellations, delays, or quality issues beyond our reasonable control. We will make every effort to secure replacements at no additional markup.</p>
+    </div>
+
+    <div class="terms-section">
+      <h4>7. Confidentiality</h4>
+      <p>Both parties agree to keep the terms of this proposal and any shared materials confidential. Neither party shall disclose project details to third parties without written consent, except as required by law.</p>
+    </div>
+
+    <div class="terms-section">
+      <h4>8. Limitation of Liability</h4>
+      <p>Anqor Studios' total liability under this agreement shall not exceed the total fees paid. We are not liable for indirect, consequential, or incidental damages. In the event of equipment failure, illness, or force majeure, Anqor Studios will offer a rescheduled shoot at no additional fee.</p>
+    </div>
+
+    <div class="terms-section">
+      <h4>9. Governing Law</h4>
+      <p>This agreement is governed by the laws of the United Arab Emirates. Any disputes shall be resolved in the courts of Dubai, UAE.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>Anqor Studios · Dubai, UAE · hello@anqorstudios.com</span>
+    <span>Generated ${fmtDate(today)} · Confidential</span>
+  </div>
+
+</div>
+<script>window.onload = function(){ window.print(); }<\/script>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+}
+
+function loadPrefill() {
+  const raw = localStorage.getItem('aq_prefill');
+  if (!raw) return;
+  try {
+    const p = JSON.parse(raw);
+    if (p.clientName)   document.getElementById('clientName').value    = p.clientName;
+    if (p.clientEmail)  document.getElementById('clientEmail').value   = p.clientEmail;
+    if (p.projectTitle) document.getElementById('projectTitle').value  = p.projectTitle;
+    if (p.overview)     document.getElementById('projectOverview').value = p.overview;
+    localStorage.removeItem('aq_prefill');
+  } catch(e) {}
+}
+loadPrefill();
 </script>
 </body>
 </html>
