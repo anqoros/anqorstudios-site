@@ -89,6 +89,7 @@
   /* Pages */
   .page { display: none; }
   .page.active { display: block; }
+  #page-tool.active { display: flex; }
 
   /* Responsive */
   @media (max-width: 900px) {
@@ -240,7 +241,7 @@
   </div>
 
   <!-- Tool iframe -->
-  <div class="page" id="page-tool" style="display:flex;flex-direction:column">
+  <div class="page" id="page-tool" style="flex-direction:column">
     <div class="topbar">
       <div><div class="page-title" id="toolTitle"></div><div class="page-sub">Running inside Admin</div></div>
     </div>
