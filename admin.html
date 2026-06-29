@@ -480,6 +480,7 @@ async function loadCdBriefs() {
         unit_price:  li.full_day_price || li.unit_price || 0,
         half_day_price: li.half_day_price || null,
         full_day_price: li.full_day_price || null,
+        fullDay: true,
       }))
     };
   });
@@ -512,9 +513,12 @@ function expandBrief(id) {
 function _renderBriefPanel(id) {
   const { brief, items } = _abrief[id];
   const ex = brief.extracted || {};
-  const rows = items.map((li, i) => `
-    <tr>
-      <td style="padding:6px 8px;font-size:12px;color:#ccc">${li.description}</td>
+  const rows = items.map((li, i) => {
+    const dayToggle = (li.half_day_price && li.full_day_price)
+      ? `<button onclick="_aToggleDay('${id}',${i})" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid ${li.fullDay ? '#2a5a3a' : '#2a2000'};background:${li.fullDay ? '#0d1f15' : '#1a1200'};color:${li.fullDay ? '#4a9f6f' : '#c8882a'};white-space:nowrap">${li.fullDay ? 'Full Day' : 'Half Day'}</button>`
+      : '';
+    return `<tr>
+      <td style="padding:6px 8px;font-size:12px;color:#ccc"><div style="display:flex;align-items:center;gap:8px">${dayToggle}<span>${li.description}</span></div></td>
       <td style="padding:6px 8px"><input type="number" value="${li.qty}" min="1" step="1"
         onchange="_aUpdateLI('${id}',${i},'qty',this.value)"
         style="width:52px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:center"></td>
@@ -523,7 +527,8 @@ function _renderBriefPanel(id) {
         style="width:90px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:right"></td>
       <td id="ali-total-${id}-${i}" style="padding:6px 8px;font-size:12px;color:#aaa;text-align:right">${_fmtAED(li.qty*li.unit_price)}</td>
       <td style="padding:6px 8px"><button onclick="_aDeleteLI('${id}',${i})" style="background:transparent;color:#e05555;border:none;font-size:14px;cursor:pointer;padding:2px 6px">✕</button></td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 
   const sub = items.reduce((s,li) => s + li.qty*li.unit_price, 0);
   const vat = sub * 0.05;
@@ -566,6 +571,14 @@ function _aUpdateLI(id, idx, field, val) {
 
 function _aDeleteLI(id, idx) {
   _abrief[id].items.splice(idx, 1);
+  _renderBriefPanel(id);
+}
+
+function _aToggleDay(id, idx) {
+  const item = _abrief[id].items[idx];
+  if (!item || !item.half_day_price || !item.full_day_price) return;
+  item.fullDay = !item.fullDay;
+  item.unit_price = item.fullDay ? item.full_day_price : item.half_day_price;
   _renderBriefPanel(id);
 }
 
