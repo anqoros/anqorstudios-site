@@ -189,9 +189,12 @@
         <div class="result-value" id="rConversationSummary" style="min-height:60px;line-height:1.7;color:#aaa"></div>
       </div>
 
-      <div class="result-field">
+      <div class="result-field" style="position:relative">
         <div class="result-label">Client Name</div>
-        <div class="result-value editable" contenteditable="true" id="rClientName"></div>
+        <input type="text" id="rClientName" autocomplete="off" placeholder="Type to search or add new client…"
+          style="width:100%;font-size:14px;color:#e5e5e5;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:10px 14px;outline:none;box-sizing:border-box;"
+          oninput="clientNameTyped(this.value)" onfocus="clientNameTyped(this.value)">
+        <div id="clientDropdown" style="display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#1e1e1e;border:1px solid #333;border-radius:8px;z-index:100;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
       </div>
       <div class="result-field">
         <div class="result-label">Client Email</div>
@@ -425,7 +428,7 @@ Rules:
 
 // ── Render results ─────────────────────────────────────────────────────────────
 function renderResults(data) {
-  document.getElementById('rClientName').textContent    = data.client_name    || '';
+  document.getElementById('rClientName').value           = data.client_name    || '';
   document.getElementById('rClientEmail').textContent   = data.client_email   || '';
   document.getElementById('rProjectTitle').textContent  = data.project_title  || '';
   document.getElementById('rOverview').textContent      = data.overview       || '';
@@ -535,7 +538,7 @@ async function generateProposal() {
   const key    = localStorage.getItem('aq_key') || AQ_KEY;
   const appUrl = (localStorage.getItem('aq_app') || AQ_APP).replace(/\/$/,'');
 
-  const clientName  = document.getElementById('rClientName').textContent.trim();
+  const clientName  = document.getElementById('rClientName').value.trim();
   if (!clientName)  { alert('Client name is required.'); return; }
   if (!lineItems.length) { alert('No line items to generate from.'); return; }
 
@@ -607,7 +610,7 @@ async function generateProposal() {
   try {
     const sb = getSB();
     const clientEmail = document.getElementById('rClientEmail').textContent.trim();
-    const clientId = (await upsertClient(clientName, clientEmail)).id;
+    const clientId = _selectedClientId || (await upsertClient(clientName, clientEmail)).id;
     const { data: prop, error: pErr } = await sb.from('proposals')
       .insert({ slug: pSlug, client_id: clientId, client_name: clientName, data: proposalData }).select().single();
     if (pErr) throw pErr;
@@ -690,6 +693,47 @@ function getSB() {
   return supabase.createClient(url, key);
 }
 
+// ── Client name autocomplete ───────────────────────────────────────────────────
+let _selectedClientId = null;
+let _clientSearchTimer = null;
+
+function clientNameTyped(val) {
+  _selectedClientId = null;
+  clearTimeout(_clientSearchTimer);
+  const dd = document.getElementById('clientDropdown');
+  if (!val || val.length < 1) { dd.style.display = 'none'; return; }
+  _clientSearchTimer = setTimeout(() => _searchClients(val), 200);
+}
+
+async function _searchClients(q) {
+  const sb = getSB();
+  const { data } = await sb.from('clients').select('id,name,email')
+    .ilike('name', `%${q}%`).limit(8);
+  const dd = document.getElementById('clientDropdown');
+  if (!data || data.length === 0) { dd.style.display = 'none'; return; }
+  dd.innerHTML = data.map(c => `
+    <div onclick="_pickClient('${c.id}','${(c.name||'').replace(/'/g,"\\'")}','${(c.email||'').replace(/'/g,"\\'")}'')"
+      style="padding:10px 14px;cursor:pointer;font-size:13px;color:#e5e5e5;border-bottom:1px solid #2a2a2a;"
+      onmouseover="this.style.background='#2a2a2a'" onmouseout="this.style.background=''">
+      <span style="font-weight:600">${c.name}</span>
+      ${c.email ? `<span style="color:#888;font-size:11px;margin-left:8px">${c.email}</span>` : ''}
+    </div>`).join('');
+  dd.style.display = 'block';
+}
+
+function _pickClient(id, name, email) {
+  _selectedClientId = id;
+  document.getElementById('rClientName').value = name;
+  document.getElementById('rClientEmail').textContent = email;
+  document.getElementById('clientDropdown').style.display = 'none';
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#clientDropdown') && e.target.id !== 'rClientName') {
+    document.getElementById('clientDropdown').style.display = 'none';
+  }
+});
+
 async function upsertClient(name, email) {
   const sb = getSB();
   if (email) {
@@ -706,7 +750,7 @@ async function upsertClient(name, email) {
 async function saveBrief(rawText, extracted) {
   const sb = getSB();
   if (!sb) { showSaveStatus('No database connected — brief not saved.', true); return; }
-  const clientId = extracted.client_name ? (await upsertClient(extracted.client_name, extracted.client_email || null)).id : null;
+  const clientId = _selectedClientId || (extracted.client_name ? (await upsertClient(extracted.client_name, extracted.client_email || null)).id : null);
   const { error } = await sb.from('briefs').insert({
     client_id:     clientId,
     client_name:   extracted.client_name   || null,
@@ -720,7 +764,7 @@ async function saveBrief(rawText, extracted) {
 }
 
 async function saveClientFromBrief(btn) {
-  const name  = document.getElementById('rClientName').textContent.trim();
+  const name  = document.getElementById('rClientName').value.trim();
   const email = document.getElementById('rClientEmail').textContent.trim();
   if (!name) { showSaveStatus('Enter a client name first.', true); return; }
   btn.disabled = true;
@@ -794,7 +838,7 @@ async function deleteBrief(id, btn) {
 
 function sendToQuoteGenerator() {
   const prefill = {
-    clientName:    document.getElementById('rClientName').textContent.trim(),
+    clientName:    document.getElementById('rClientName').value.trim(),
     clientEmail:   document.getElementById('rClientEmail').textContent.trim(),
     projectTitle:  document.getElementById('rProjectTitle').textContent.trim(),
     overview:      document.getElementById('rOverview').textContent.trim(),
