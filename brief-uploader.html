@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brief Uploader — Anqor Studios</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; min-height: 100vh; padding: 40px 20px; }
@@ -229,8 +230,17 @@
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="sendToQuoteGenerator()">Open in Quote Generator →</button>
+        <button class="btn btn-primary" onclick="generateProposal()" id="generateProposalBtn">Generate Proposal + Invoice</button>
         <button class="btn btn-ghost" onclick="clearAll()">Start Over</button>
+      </div>
+      <div id="proposalSpinner" style="display:none;font-size:13px;color:#888;margin-top:12px">Saving proposal…</div>
+      <div id="proposalOutput" style="display:none;margin-top:20px;background:#0d1f15;border:1px solid #1e4a2d;border-radius:10px;padding:20px">
+        <div style="font-size:13px;color:#4a9f6f;font-weight:600;margin-bottom:12px">Proposal generated</div>
+        <div style="font-size:12px;color:#888;margin-bottom:6px">Proposal link</div>
+        <div id="poProposalUrl" style="font-size:13px;color:#e5e5e5;background:#111;border-radius:6px;padding:8px 12px;margin-bottom:8px;word-break:break-all"></div>
+        <div style="font-size:12px;color:#888;margin-bottom:6px">Invoice link</div>
+        <div id="poInvoiceUrl" style="font-size:13px;color:#e5e5e5;background:#111;border-radius:6px;padding:8px 12px;margin-bottom:12px;word-break:break-all"></div>
+        <button class="btn btn-primary" onclick="downloadBriefPDF()" style="background:#1a3a27;border:1px solid #4a9f6f;font-size:13px">⬇ Download Proposal PDF</button>
       </div>
     </div>
   </div>
@@ -400,10 +410,16 @@ Respond ONLY with a valid JSON object in this exact structure:
 Rules:
 - Only include line items from the catalog above. Do not invent new services.
 - For pass_through items, unit_price is the VENDOR COST (before markup).
-- Be conservative — only include what the brief clearly indicates. Add notes for ambiguous items.
-- If the brief mentions a studio, include the appropriate Studio Hire line item in pass_through.
-- If the brief mentions models, MUA, or hair, include those in pass_through.
-- qty should reflect days, hours, or units as appropriate.`;
+- qty should reflect days, hours, or units as appropriate.
+- If the brief involves any photo or video shoot (on-location or in-studio), you MUST include:
+  - Studio Hire (half or full day) in pass_through UNLESS the brief explicitly states a location shoot with no studio
+  - MUA — Half Day or Full Day in pass_through if models or talent are present
+  - Hairstylist — Half Day or Full Day in pass_through if models or talent are present
+  - Model fees in pass_through if the brief mentions models or talent
+- If the brief mentions specific grooming requirements (hair, nails, makeup), always include MUA and Hairstylist
+- If the brief mentions wardrobe or styling, include Wardrobe Stylist in pass_through
+- For video shoots, include a Production Assistant unless the brief is very small scale
+- Add warnings for anything ambiguous or missing from the brief that the client should clarify`;
 
   try {
     setStatus('Sending to AI…');
@@ -523,6 +539,158 @@ function renderLineItems() {
 }
 
 // ── Send to Quote Generator ───────────────────────────────────────────────────
+async function generateProposal() {
+  const url    = localStorage.getItem('aq_url');
+  const key    = localStorage.getItem('aq_key');
+  const appUrl = (localStorage.getItem('aq_app') || 'https://www.anqorstudios.com').replace(/\/$/,'');
+  if (!url || !key) { alert('Add Supabase credentials in the Quote Generator config first.'); return; }
+
+  const clientName  = document.getElementById('rClientName').textContent.trim();
+  if (!clientName)  { alert('Client name is required.'); return; }
+  if (!lineItems.length) { alert('No line items to generate from.'); return; }
+
+  const btn = document.getElementById('generateProposalBtn');
+  btn.disabled = true;
+  document.getElementById('proposalSpinner').style.display = 'block';
+
+  const MARKUP = 20;
+  const ownItems = lineItems.filter(i => i.section === 'own');
+  const ptItems  = lineItems.filter(i => i.section === 'pass_through');
+  const ownSub   = ownItems.reduce((s,i) => s + i.qty * i.unit_price, 0);
+  const ptSub    = ptItems.reduce((s,i)  => s + i.qty * Math.round(i.unit_price * (1 + MARKUP/100)), 0);
+  const subtotal = ownSub + ptSub;
+  const vat      = subtotal * 0.05;
+  const total    = subtotal + vat;
+  const advPct   = 50;
+  const today    = new Date();
+  const dueDate  = new Date(today); dueDate.setDate(dueDate.getDate() + 14);
+  const pSlug    = clientName.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/,'') + '-' + Date.now().toString(36);
+  const iSlug    = 'inv-' + pSlug;
+  const invNo    = 'ANQ-' + today.getFullYear() + '-' + String(Math.floor(Math.random()*900)+100);
+  const fmtDate  = d => d.getDate()+' '+['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()]+' '+d.getFullYear();
+
+  const allLines = [
+    ...ownItems.map(i => ({ description: i.description, quantity: i.qty, unit_price_aed: i.unit_price, total_aed: i.qty*i.unit_price, type: 'own' })),
+    ...ptItems.map(i  => ({ description: i.description, quantity: i.qty, vendor_cost_aed: i.unit_price, markup_pct: MARKUP, unit_price_aed: Math.round(i.unit_price*(1+MARKUP/100)), total_aed: i.qty*Math.round(i.unit_price*(1+MARKUP/100)), type: 'pass_through' })),
+  ];
+
+  const proposalData = {
+    title:    document.getElementById('rProjectTitle').textContent.trim() || clientName + ' — Project Proposal',
+    overview: document.getElementById('rOverview').textContent.trim(),
+    client:   { name: clientName, email: document.getElementById('rClientEmail').textContent.trim() || null },
+    line_items: allLines,
+    own_services_subtotal: ownSub,
+    third_party_subtotal:  ptSub,
+    subtotal_aed:    subtotal,
+    vat_aed:         vat,
+    total_incl_vat:  total,
+    timeline:        document.getElementById('rTimeline').textContent.trim(),
+    payment_terms: {
+      anqor_advance_pct: advPct, anqor_balance_pct: 100-advPct,
+      third_party: '100% upfront',
+      due_on_signing_aed:     (ownSub*1.05*advPct/100) + (ptSub*1.05),
+      balance_on_delivery_aed: ownSub*1.05*(100-advPct)/100,
+    },
+    notes:       document.getElementById('rNotes').textContent.trim() || null,
+    prepared_by: 'Ubong Essien, Anqor Studios',
+    date:        fmtDate(today),
+  };
+
+  const invoiceData = {
+    invoice_number: invNo,
+    client_name:  clientName,
+    client_email: document.getElementById('rClientEmail').textContent.trim() || null,
+    date:     today.toISOString().split('T')[0],
+    due_date: dueDate.toISOString().split('T')[0],
+    items:    allLines.map(i => ({ description: i.description, quantity: i.quantity, unit_price_aed: i.unit_price_aed, total_aed: i.total_aed })),
+    subtotal_aed: subtotal, vat_rate: 5, vat_aed: vat, total_aed: total,
+    advance_aed: (ownSub*1.05*advPct/100)+(ptSub*1.05),
+    balance_aed: ownSub*1.05*(100-advPct)/100,
+    payment_instructions: 'Bank transfer to Anqor Studios L.L.C-FZ. Account Number: 3003731440000001. Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, UAE.',
+    notes: document.getElementById('rNotes').textContent.trim() || null,
+    third_party_note: 'Third-party costs are collected 100% upfront on signing.',
+  };
+
+  // store for PDF
+  window._lastProposalData = proposalData;
+
+  try {
+    const sb = supabase.createClient(url, key);
+    const { data: prop, error: pErr } = await sb.from('proposals')
+      .insert({ slug: pSlug, client_name: clientName, data: proposalData }).select().single();
+    if (pErr) throw pErr;
+    const { error: iErr } = await sb.from('invoices')
+      .insert({ slug: iSlug, proposal_id: prop.id, client_name: clientName, data: invoiceData });
+    if (iErr) throw iErr;
+
+    document.getElementById('poProposalUrl').textContent = `${appUrl}/proposals/${pSlug}`;
+    document.getElementById('poInvoiceUrl').textContent  = `${appUrl}/invoices/${iSlug}`;
+    document.getElementById('proposalOutput').style.display = 'block';
+    document.getElementById('proposalOutput').scrollIntoView({ behavior: 'smooth' });
+  } catch(e) {
+    alert('Error saving proposal: ' + (e.message || JSON.stringify(e)));
+  } finally {
+    btn.disabled = false;
+    document.getElementById('proposalSpinner').style.display = 'none';
+  }
+}
+
+function downloadBriefPDF() {
+  const p = window._lastProposalData;
+  if (!p) { alert('Generate the proposal first.'); return; }
+  const fmt = n => Number(n).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const logoUrl = window.location.origin + (window.location.pathname.replace(/\/[^/]*$/,'/')) + 'anqor_logo.png';
+  const ownLines = p.line_items.filter(i=>i.type==='own');
+  const ptLines  = p.line_items.filter(i=>i.type==='pass_through');
+  const advPct   = p.payment_terms.anqor_advance_pct;
+  const balPct   = p.payment_terms.anqor_balance_pct;
+
+  const rows = items => items.map(i=>`<tr><td>${esc(i.description)}</td><td class="num">${i.quantity}</td><td class="num">AED ${fmt(i.unit_price_aed)}</td><td class="num">AED ${fmt(i.total_aed)}</td></tr>`).join('');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${esc(p.title)}</title>
+  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#1a1a1a;background:#fff}.page{max-width:780px;margin:0 auto;padding:48px 48px 64px}.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;border-bottom:2px solid #1a1a1a;padding-bottom:22px}.logo img{height:34px}.hr{text-align:right;font-size:11px}.hr .v{font-weight:600;margin-top:2px}.lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:10px;margin-top:22px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}.mb{font-size:10px;color:#888;margin-bottom:3px}.mv{font-size:12px;font-weight:600}table{width:100%;border-collapse:collapse;margin-bottom:8px}th{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#888;text-align:left;padding:6px 8px;border-bottom:1px solid #e0e0e0}td{padding:8px;border-bottom:1px solid #f0f0f0;font-size:11px}td.num,th.num{text-align:right}.totals{margin-left:auto;width:280px;margin-top:10px}.tr{display:flex;justify-content:space-between;padding:4px 0;font-size:11px}.tr.big{font-size:14px;font-weight:700;border-top:2px solid #1a1a1a;margin-top:6px;padding-top:8px}.pay{background:#f8f8f8;border-left:3px solid #1a1a1a;padding:14px 18px;margin-top:18px}.pay-title{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:10px}.pr{display:flex;justify-content:space-between;font-size:11px;padding:3px 0}.pr.hi{margin-top:6px;padding-top:8px;border-top:1px solid #ddd}.pn{font-size:9px;color:#888;margin-top:8px;line-height:1.5}.ts{margin-top:30px}.ts h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}.ts p{font-size:10px;line-height:1.65;color:#555;margin-bottom:14px}.footer{margin-top:40px;padding-top:14px;border-top:1px solid #e0e0e0;display:flex;justify-content:space-between;font-size:9px;color:#aaa}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head>
+  <body><div class="page">
+  <div class="header"><div class="logo"><img src="${logoUrl}" alt="Anqor Studios" onerror="this.style.display='none'"></div><div class="hr"><div class="lbl" style="margin-top:0">Project Proposal</div><div class="v">${p.date}</div><div class="lbl">Prepared for</div><div class="v">${esc(p.client.name)}</div></div></div>
+  <h1 style="font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px">${esc(p.title)}</h1>
+  <p style="font-size:11px;color:#888;margin-bottom:28px">Prepared by Ubong Essien · Anqor Studios</p>
+  ${p.overview?`<div class="lbl">Overview</div><p style="font-size:12px;line-height:1.7;color:#333;margin-bottom:8px">${esc(p.overview)}</p>`:''}
+  ${p.timeline?`<div class="lbl">Timeline</div><p style="font-size:12px;line-height:1.7;color:#333;margin-bottom:8px">${esc(p.timeline)}</p>`:''}
+  <div class="lbl">Scope of Work</div>
+  <table><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit Price</th><th class="num">Total</th></tr></thead><tbody>
+  ${ownLines.length?`<tr><td colspan="4" style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#2e7d52;background:#f9fdfb;padding:6px 8px">Anqor Studios Services</td></tr>${rows(ownLines)}`:''}
+  ${ptLines.length?`<tr><td colspan="4" style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#c8882a;background:#fdfaf5;padding:6px 8px">Third-Party Costs (vendor pass-through)</td></tr>${rows(ptLines)}`:''}
+  </tbody></table>
+  <div class="totals">
+    ${p.own_services_subtotal>0?`<div class="tr"><span>Anqor Services</span><span>AED ${fmt(p.own_services_subtotal)}</span></div>`:''}
+    ${p.third_party_subtotal>0?`<div class="tr"><span>Third-Party Costs</span><span>AED ${fmt(p.third_party_subtotal)}</span></div>`:''}
+    <div class="tr"><span>Subtotal</span><span>AED ${fmt(p.subtotal_aed)}</span></div>
+    <div class="tr"><span style="color:#888">VAT (5%)</span><span>AED ${fmt(p.vat_aed)}</span></div>
+    <div class="tr big"><span>Total</span><span>AED ${fmt(p.total_incl_vat)}</span></div>
+  </div>
+  <div class="pay"><div class="pay-title">Payment Schedule</div>
+    <div class="pr hi"><span>Due on signing</span><span style="font-weight:600">AED ${fmt(p.payment_terms.due_on_signing_aed)}</span></div>
+    <div class="pr" style="font-size:9px;color:#888;padding-left:12px"><span>Anqor deposit (${advPct}%) + third-party costs (100%)</span></div>
+    <div class="pr hi"><span>Balance on delivery (${balPct}%)</span><span style="font-weight:600">AED ${fmt(p.payment_terms.balance_on_delivery_aed)}</span></div>
+    <div class="pn">Bank transfer · Account Title: Anqor Studios L.L.C-FZ · Account No: 3003731440000001 · Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, UAE. Please reference client name on transfer.</div>
+  </div>
+  <div class="ts"><div class="lbl">Terms &amp; Conditions</div>
+    <h4>1. Payment</h4><p>Advance due on signing covers Anqor deposit (${advPct}%) plus 100% of third-party costs. Final files released on balance receipt. Late payments attract 2%/month.</p>
+    <h4>2. Shoot Duration &amp; Overtime</h4><p>Half-day = up to 4h. Full-day = up to 8h. Running past half-day is upgraded to full-day rate (difference invoiced). Past 8h billed at 1.5× hourly overtime.</p>
+    <h4>3. Revisions</h4><p>One revision round included. Additional rounds at AED 500/round (photo) or agreed hourly rate (video). Requests must be submitted within 7 days of delivery.</p>
+    <h4>4. Cancellation</h4><p>14+ days notice: advance refunded minus committed third-party costs. 7–14 days: 50% Anqor fee forfeited; third-party non-refundable. Under 7 days: full Anqor fee forfeited; third-party non-refundable. One free postponement with 7+ days notice, subject to availability.</p>
+    <h4>5. IP &amp; Usage Rights</h4><p>Copyright retained by Anqor Studios until full payment received. On final payment, client receives perpetual non-exclusive licence for own brand use. Raw files not included unless listed. Anqor Studios may display work in portfolio unless confidentiality requested in writing before shoot.</p>
+    <h4>6. Third-Party Vendors</h4><p>Anqor Studios acts as intermediary and is not liable for third-party cancellations or delays beyond our control.</p>
+    <h4>7. Governing Law</h4><p>Governed by UAE law. Disputes resolved in Dubai courts.</p>
+  </div>
+  <div class="footer"><span>Anqor Studios · Dubai, UAE · hello@anqorstudios.com</span><span>Generated ${p.date} · Confidential</span></div>
+  </div><script>window.onload=function(){window.print()}<\/script></body></html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+}
+
 function sendToQuoteGenerator() {
   const prefill = {
     clientName:    document.getElementById('rClientName').textContent.trim(),
