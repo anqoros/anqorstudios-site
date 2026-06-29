@@ -61,6 +61,17 @@ window.AQ_CATALOG = [
   { name: 'BTS Coverage — Photo',  section: 'own', halfDayPrice: 2500, fullDayPrice: 4500, unit: null, notes: 'Behind the scenes stills' },
   { name: 'BTS Coverage — Video',  section: 'own', halfDayPrice: 3000, fullDayPrice: 5500, unit: null, notes: 'Behind the scenes video footage' },
 
+  // Camera Equipment (Anqor gear)
+  { name: 'Camera — Sony A7R5',    section: 'own', halfDayPrice: 400,  fullDayPrice: 700,  unit: null, notes: 'Stills / hybrid' },
+  { name: 'Camera — Sony FX3',     section: 'own', halfDayPrice: 450,  fullDayPrice: 800,  unit: null, notes: 'Cinema video' },
+
+  // Lighting Equipment (Anqor gear)
+  { name: 'Lighting — Godox AD600', section: 'own', halfDayPrice: null, fullDayPrice: 350,  unit: null, notes: 'Strobe' },
+  { name: 'Lighting — Godox AD400', section: 'own', halfDayPrice: null, fullDayPrice: 250,  unit: null, notes: 'Strobe' },
+  { name: 'Lighting — Nanlite Forza 500B', section: 'own', halfDayPrice: null, fullDayPrice: 400, unit: null, notes: 'Bi-colour LED' },
+  { name: 'Softboxes & Light Modifiers', section: 'own', halfDayPrice: null, fullDayPrice: 200, unit: null, notes: 'Softboxes, grids, diffusers' },
+  { name: 'Stands, Tripods & C-Stands', section: 'own', halfDayPrice: null, fullDayPrice: 150, unit: null, notes: 'Full grip kit' },
+
   // Packages
   { name: 'Content Day Package — Photo + Video + 5 Reels Edit', section: 'own', halfDayPrice: null, fullDayPrice: 18000, unit: null, notes: null },
   { name: 'Starter Brand Film — 1 Shoot Day + 2min Edit + 3 Reels', section: 'own', halfDayPrice: null, fullDayPrice: 16000, unit: null, notes: null },
