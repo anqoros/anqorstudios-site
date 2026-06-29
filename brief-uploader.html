@@ -248,6 +248,7 @@
 
       <div class="btn-row">
         <button class="btn btn-primary" onclick="generateProposal()" id="generateProposalBtn">Generate Proposal + Invoice</button>
+        <button class="btn btn-ghost" onclick="saveClientFromBrief(this)">Save Client</button>
         <button class="btn btn-ghost" onclick="clearAll()">Start Over</button>
       </div>
       <div id="saveStatus" style="display:none;font-size:13px;font-weight:600;margin-top:10px"></div>
@@ -577,10 +578,9 @@ function renderLineItems() {
 
 // ── Send to Quote Generator ───────────────────────────────────────────────────
 async function generateProposal() {
-  const url    = localStorage.getItem('aq_url');
-  const key    = localStorage.getItem('aq_key');
-  const appUrl = (localStorage.getItem('aq_app') || 'https://www.anqorstudios.com').replace(/\/$/,'');
-  if (!url || !key) { alert('Add Supabase credentials in the Quote Generator config first.'); return; }
+  const url    = localStorage.getItem('aq_url') || AQ_URL;
+  const key    = localStorage.getItem('aq_key') || AQ_KEY;
+  const appUrl = (localStorage.getItem('aq_app') || AQ_APP).replace(/\/$/,'');
 
   const clientName  = document.getElementById('rClientName').textContent.trim();
   if (!clientName)  { alert('Client name is required.'); return; }
@@ -763,6 +763,16 @@ async function saveBrief(rawText, extracted) {
   if (error) { showSaveStatus('Save failed: ' + error.message, true); return; }
   showSaveStatus('Brief saved ✓');
   loadBriefHistory();
+}
+
+async function saveClientFromBrief(btn) {
+  const name  = document.getElementById('rClientName').textContent.trim();
+  const email = document.getElementById('rClientEmail').textContent.trim();
+  if (!name) { showSaveStatus('Enter a client name first.', true); return; }
+  btn.disabled = true;
+  const id = await upsertClient(name, email || null);
+  btn.disabled = false;
+  showSaveStatus(id ? 'Client saved ✓' : 'Failed to save client.', !id);
 }
 
 function showSaveStatus(msg, isError) {
