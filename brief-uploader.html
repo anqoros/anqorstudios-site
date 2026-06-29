@@ -110,6 +110,17 @@
   <h1>Brief Uploader</h1>
   <p class="subtitle">Upload or paste a client brief. AI extracts the project scope and pre-fills the quote generator.</p>
 
+  <!-- Brief History -->
+  <div id="briefHistoryPanel" style="display:none;margin-bottom:24px">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin-bottom:0">Previous Briefs</div>
+        <button class="btn btn-ghost" style="font-size:11px;padding:5px 12px" onclick="loadBriefHistory()">↻ Refresh</button>
+      </div>
+      <div id="briefHistoryList"></div>
+    </div>
+  </div>
+
   <!-- API Config -->
   <span class="config-toggle" onclick="toggleConfig()">⚙ AI Config (DeepSeek / OpenAI)</span>
   <div class="config-panel" id="configPanel">
@@ -449,6 +460,7 @@ Rules:
     catch { throw new Error('AI returned invalid JSON. Try again.'); }
 
     renderResults(parsed);
+    saveBrief(brief, parsed);
   } catch (e) {
     setStatus('');
     document.getElementById('resultSection').style.display = 'none';
@@ -691,6 +703,78 @@ function downloadBriefPDF() {
   win.document.close();
 }
 
+// ── Brief History ─────────────────────────────────────────────────────────────
+function getSB() {
+  const url = localStorage.getItem('aq_url');
+  const key = localStorage.getItem('aq_key');
+  if (!url || !key) return null;
+  return supabase.createClient(url, key);
+}
+
+async function saveBrief(rawText, extracted) {
+  const sb = getSB(); if (!sb) return;
+  await sb.from('briefs').insert({
+    client_name:   extracted.client_name   || null,
+    project_title: extracted.project_title || null,
+    raw_text:      rawText,
+    extracted:     extracted,
+  });
+}
+
+async function loadBriefHistory() {
+  const sb = getSB();
+  if (!sb) return;
+  const { data, error } = await sb.from('briefs')
+    .select('id, client_name, project_title, created_at')
+    .order('created_at', { ascending: false })
+    .limit(30);
+  if (error || !data) return;
+
+  const panel = document.getElementById('briefHistoryPanel');
+  const list  = document.getElementById('briefHistoryList');
+
+  if (!data.length) {
+    list.innerHTML = '<p style="font-size:12px;color:#555;padding:8px 0">No briefs saved yet.</p>';
+  } else {
+    list.innerHTML = data.map(b => {
+      const date = new Date(b.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+      const name = b.client_name || 'Unknown client';
+      const title = b.project_title || 'Untitled brief';
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1a1a1a">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#e5e5e5">${name}</div>
+          <div style="font-size:11px;color:#555;margin-top:2px">${title} &nbsp;·&nbsp; ${date}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" style="font-size:11px;padding:5px 12px" onclick="restoreBrief('${b.id}')">Load</button>
+          <button class="btn-del-li" onclick="deleteBrief('${b.id}', this)">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  panel.style.display = 'block';
+}
+
+async function restoreBrief(id) {
+  const sb = getSB(); if (!sb) return;
+  const { data, error } = await sb.from('briefs').select('raw_text, extracted').eq('id', id).single();
+  if (error || !data) { alert('Could not load brief.'); return; }
+  document.getElementById('briefText').value = data.raw_text;
+  if (data.extracted) {
+    populateResults(data.extracted);
+  }
+  document.getElementById('briefText').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function deleteBrief(id, btn) {
+  if (!confirm('Delete this brief? This cannot be undone.')) return;
+  const sb = getSB(); if (!sb) return;
+  btn.disabled = true;
+  const { error } = await sb.from('briefs').delete().eq('id', id);
+  if (error) { alert('Delete failed: ' + error.message); btn.disabled = false; return; }
+  loadBriefHistory();
+}
+
 function sendToQuoteGenerator() {
   const prefill = {
     clientName:    document.getElementById('rClientName').textContent.trim(),
@@ -722,7 +806,9 @@ function setLoading(v, msg) {
 }
 function setStatus(msg) { document.getElementById('statusText').textContent = msg; }
 
+const populateResults = renderResults;
 loadConfig();
+loadBriefHistory();
 </script>
 </body>
 </html>
