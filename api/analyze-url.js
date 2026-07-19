@@ -77,6 +77,36 @@ module.exports = async (req, res) => {
     if (/operations|ops|process|workflow|fulfillment/i.test(lower)) functionalAreas.push('operations');
     if (/hiring|onboard|hr|recruit/i.test(lower)) functionalAreas.push('hr');
 
+    // Generate a human-readable business summary via DeepSeek
+    let businessSummary = '';
+    if (process.env.DEEPSEEK_API_KEY) {
+      try {
+        const aiRes = await fetch('https://api.deepseek.com/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            max_tokens: 80,
+            messages: [
+              {
+                role: 'system',
+                content: 'You summarize businesses in exactly 1 sentence. Be specific. Do not use the word "I". Output only the sentence, nothing else.',
+              },
+              {
+                role: 'user',
+                content: `Summarize what this business does in one sentence:\n\n${signals.slice(0, 800)}`,
+              },
+            ],
+          }),
+        });
+        const aiData = await aiRes.json();
+        businessSummary = aiData.choices?.[0]?.message?.content?.trim() || '';
+      } catch (_) {}
+    }
+
     return res.status(200).json({
       status: 'success',
       domain: parsedUrl.hostname,
@@ -84,6 +114,7 @@ module.exports = async (req, res) => {
       size,
       functionalAreas,
       rawSignals: signals.slice(0, 500),
+      businessSummary,
     });
   } catch (err) {
     return res.status(200).json({ status: 'failed', reason: err.name === 'AbortError' ? 'timeout' : 'fetch_error' });
