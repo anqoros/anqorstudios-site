@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { siteContext, persona, answers } = req.body || {};
+  const { siteContext, persona, answers, leadName, leadEmail } = req.body || {};
 
   if (!persona || !answers) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -84,6 +84,41 @@ Output the JSON analysis now.`;
     if (!jsonMatch) throw new Error('No JSON in response');
 
     const parsed = JSON.parse(jsonMatch[0]);
+
+    // Fire-and-forget notification email
+    if (leadEmail && process.env.RESEND_API_KEY) {
+      const oppList = (parsed.opportunities || []).map((o, i) =>
+        `<li><strong>${o.title}</strong> — ${o.impact}<br/><small>${o.description}</small></li>`
+      ).join('');
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Anqor Assessment <assessment@anqorstudios.com>',
+          to: ['ubongudoessien@gmail.com'],
+          subject: `New Assessment Lead: ${leadName || 'Unknown'} (${leadEmail})`,
+          html: `
+            <h2>New Assessment Submission</h2>
+            <p><strong>Name:</strong> ${leadName || '—'}</p>
+            <p><strong>Email:</strong> ${leadEmail}</p>
+            <p><strong>Persona:</strong> ${persona}</p>
+            <p><strong>Site:</strong> ${siteContext?.domain || 'not provided'} (${siteContext?.industry || '—'})</p>
+            <hr/>
+            <h3>Their Answers</h3>
+            <pre style="background:#f4f4f4;padding:12px;border-radius:6px;">${Object.entries(answers || {}).map(([q,a]) => `${q}: ${a}`).join('\n')}</pre>
+            <hr/>
+            <h3>AI Summary</h3>
+            <p>${parsed.summary}</p>
+            <h3>Opportunities</h3>
+            <ul>${oppList}</ul>
+          `,
+        }),
+      }).catch(() => {});
+    }
+
     return res.status(200).json(parsed);
   } catch (err) {
     console.error('Synthesis error:', err.message);
