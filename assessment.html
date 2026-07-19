@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Readiness Assessment — Anqor Studios</title>
+  <meta name="description" content="Discover exactly where AI automation can create immediate leverage in your business. Free diagnostic from Anqor Studios." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1210;
+      --bg2:       #111a14;
+      --bg3:       #1a2520;
+      --green:     #2e7d52;
+      --green-lt:  #3a9966;
+      --green-dim: rgba(46,125,82,0.12);
+      --green-glow:rgba(46,125,82,0.25);
+      --white:     #f0ede8;
+      --muted:     rgba(240,237,232,0.45);
+      --border:    rgba(240,237,232,0.08);
+      --border2:   rgba(240,237,232,0.14);
+      --radius:    14px;
+      --card-r:    18px;
+    }
+
+    html { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(13,18,16,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--white);
+      font-weight: 600; font-size: 15px; letter-spacing: -0.01em;
+    }
+    .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+    .nav-back {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      border: 1px solid var(--border2); border-radius: 8px;
+      padding: 6px 14px; transition: color .2s, border-color .2s;
+    }
+    .nav-back:hover { color: var(--white); border-color: var(--border2); }
+
+    /* ── Main shell ── */
+    main {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 100px 24px 60px;
+    }
+
+    /* ── Step container ── */
+    .step {
+      width: 100%; max-width: 640px;
+      display: none; flex-direction: column; gap: 32px;
+      animation: stepIn .35s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .step.active { display: flex; }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Progress ── */
+    .progress {
+      display: flex; gap: 6px; align-items: center;
+    }
+    .progress-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border2); transition: background .3s, width .3s;
+    }
+    .progress-dot.active { background: var(--green); width: 22px; border-radius: 4px; }
+    .progress-dot.done   { background: rgba(46,125,82,0.4); }
+    .progress-label {
+      margin-left: auto; font-size: 12px; color: var(--muted); letter-spacing: 0.02em;
+    }
+
+    /* ── Step header ── */
+    .step-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green); opacity: 0.8;
+    }
+    .step-q {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.15;
+      color: var(--white);
+    }
+    .step-sub {
+      font-size: 15px; color: var(--muted); margin-top: -12px;
+      line-height: 1.6;
+    }
+
+    /* ── Option cards ── */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 22px; border-radius: var(--radius);
+      border: 1px solid var(--border2); background: var(--bg2);
+      cursor: pointer; transition: border-color .2s, background .2s, transform .1s;
+      font-size: 15px; font-weight: 500; color: var(--white);
+      text-align: left; width: 100%;
+    }
+    .option:hover { border-color: var(--green); background: var(--green-dim); }
+    .option.selected {
+      border-color: var(--green); background: var(--green-dim);
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    .option-indicator {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid var(--border2); transition: background .2s, border-color .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .option.selected .option-indicator {
+      background: var(--green); border-color: var(--green);
+    }
+    .option.selected .option-indicator::after {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff;
+    }
+
+    /* ── Text inputs ── */
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .field input, .field textarea {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--radius); padding: 14px 18px;
+      font-size: 15px; color: var(--white); font-family: inherit;
+      outline: none; transition: border-color .2s, box-shadow .2s;
+      width: 100%;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--green); box-shadow: 0 0 0 3px var(--green-dim);
+    }
+    .field textarea { resize: none; min-height: 100px; line-height: 1.5; }
+    .url-row { display: flex; gap: 10px; }
+    .url-row input { flex: 1; }
+    .url-hint { font-size: 12px; color: var(--muted); }
+    .skip-link {
+      font-size: 13px; color: var(--muted); cursor: pointer; text-decoration: underline;
+      text-underline-offset: 3px; background: none; border: none;
+      text-align: left; transition: color .2s;
+    }
+    .skip-link:hover { color: var(--white); }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--green); color: #fff; border: none;
+      border-radius: 10px; padding: 14px 28px; font-size: 15px; font-weight: 600;
+      font-family: inherit; cursor: pointer; transition: background .2s, transform .1s;
+      width: 100%;
+    }
+    .btn-primary:hover { background: var(--green-lt); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    /* ── Loading state ── */
+    #step-loading .step-q { font-size: clamp(20px, 4vw, 28px); }
+    .loader {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 3px solid var(--border2); border-top-color: var(--green);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-steps { display: flex; flex-direction: column; gap: 10px; }
+    .loading-step {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; color: var(--muted); opacity: 0;
+      animation: fadeIn .4s ease forwards;
+    }
+    .loading-step .ls-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* ── Exit screen ── */
+    #step-exit .step-q { font-size: clamp(22px, 4vw, 30px); }
+    .exit-card {
+      background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--card-r);
+      padding: 32px; display: flex; flex-direction: column; gap: 12px;
+    }
+
+    /* ── Results screen ── */
+    #step-results { max-width: 720px; }
+    .results-header { display: flex; flex-direction: column; gap: 10px; }
+    .results-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green);
+    }
+    .results-headline {
+      font-size: clamp(26px, 5vw, 40px); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.1;
+    }
+    .results-summary {
+      font-size: 16px; color: var(--muted); line-height: 1.65; max-width: 580px;
+    }
+    .opp-grid { display: flex; flex-direction: column; gap: 14px; }
+    .opp-card {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--card-r); padding: 28px 28px 24px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .2s;
+    }
+    .opp-card:hover { border-color: rgba(46,125,82,0.35); }
+    .opp-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green); opacity: 0.7;
+    }
+    .opp-title {
+      font-size: 18px; font-weight: 700; letter-spacing: -0.02em; color: var(--white);
+    }
+    .opp-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .opp-impact {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: var(--green);
+      background: var(--green-dim); border: 1px solid rgba(46,125,82,0.2);
+      border-radius: 6px; padding: 4px 10px; width: fit-content; margin-top: 4px;
+    }
+    .opp-impact::before { content: '↑'; font-size: 11px; }
+
+    /* ── Conversion block ── */
+    .conversion {
+      background: var(--bg3); border: 1px solid var(--border2);
+      border-radius: var(--card-r); padding: 36px 32px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .conversion-headline {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+    }
+    .conversion-sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .conversion-cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--green); color: #fff; border: none;
+      border-radius: 10px; padding: 16px 32px; font-size: 16px; font-weight: 600;
+      font-family: inherit; cursor: pointer; text-decoration: none;
+      transition: background .2s; width: 100%; text-align: center;
+    }
+    .conversion-cta:hover { background: var(--green-lt); }
+    .conversion-divider {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 12px; color: var(--muted);
+    }
+    .conversion-divider::before, .conversion-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .email-row { display: flex; gap: 8px; }
+    .email-row input {
+      flex: 1; background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 10px; padding: 12px 16px; font-size: 14px;
+      color: var(--white); font-family: inherit; outline: none;
+    }
+    .email-row input::placeholder { color: var(--muted); }
+    .email-row input:focus { border-color: var(--green); }
+    .email-row button {
+      background: var(--bg3); border: 1px solid var(--border2); color: var(--white);
+      border-radius: 10px; padding: 12px 20px; font-size: 14px; font-weight: 600;
+      font-family: inherit; cursor: pointer; transition: border-color .2s;
+      white-space: nowrap;
+    }
+    .email-row button:hover { border-color: var(--green); }
+    .email-sent { font-size: 13px; color: var(--green); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 24px; font-size: 12px; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      main { padding: 80px 16px 48px; }
+      .conversion { padding: 24px 20px; }
+      .opp-card { padding: 22px 20px; }
+      .url-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/anqor_logo.png" alt="Anqor Studios" />
+    Anqor Studios
+  </a>
+  <a href="/" class="nav-back">← Back to site</a>
+</nav>
+
+<main>
+
+  <!-- ── STEP 0: URL Entry ── -->
+  <div class="step active" id="step-url">
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">AI Readiness Assessment</div>
+      <h1 class="step-q">Where should we start our analysis?</h1>
+      <p class="step-sub">Enter your business website and we'll use it to personalize your results. You can skip this step.</p>
+    </div>
+    <div class="field">
+      <label>Your business website</label>
+      <div class="url-row">
+        <input type="url" id="url-input" placeholder="https://yourbusiness.com" autocomplete="url" />
+      </div>
+      <span class="url-hint">We only read publicly visible content — no login required.</span>
+    </div>
+    <button class="btn-primary" id="url-submit-btn" onclick="submitUrl()">
+      Begin Assessment →
+    </button>
+    <button class="skip-link" onclick="skipUrl()">Skip — go straight to the questions</button>
+  </div>
+
+  <!-- ── STEP 1: Persona ── -->
+  <div class="step" id="step-persona">
+    <div>
+      <div class="progress" id="progress-1"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Step 1 of 5</div>
+      <h2 class="step-q">Which best describes you right now?</h2>
+    </div>
+    <div class="options" id="persona-options">
+      <button class="option" onclick="selectOption('persona','solo',this)">
+        <span class="option-indicator"></span>
+        I'm a solo powerhouse running most of this myself.
+      </button>
+      <button class="option" onclick="selectOption('persona','ceo',this)">
+        <span class="option-indicator"></span>
+        I'm leading a team or company.
+      </button>
+      <button class="option" onclick="selectOption('persona','none',this)">
+        <span class="option-indicator"></span>
+        I don't currently run a business.
+      </button>
+    </div>
+    <button class="btn-primary" id="persona-next" disabled onclick="advancePersona()">Continue →</button>
+  </div>
+
+  <!-- ── STEP EXIT: No business ── -->
+  <div class="step" id="step-exit">
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Assessment Complete</div>
+      <h2 class="step-q">This one's built for operators.</h2>
+    </div>
+    <div class="exit-card">
+      <p style="color:var(--muted);font-size:15px;line-height:1.7;">
+        This assessment is designed specifically for business owners and leaders who are ready to act on AI automation right now. It's a diagnostic — not a general overview.
+      </p>
+      <p style="color:var(--muted);font-size:15px;line-height:1.7;">
+        Once you're running a business, come back. We'll map out exactly where AI can give you leverage and what it would take to build it.
+      </p>
+    </div>
+    <a href="/" class="btn-primary" style="text-decoration:none;">← Back to Anqor Studios</a>
+  </div>
+
+  <!-- ── STEP 2: Obsolescence ── -->
+  <div class="step" id="step-q1">
+    <div class="progress" id="progress-2"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Step 2 of 5</div>
+      <h2 class="step-q" id="q1-text"></h2>
+    </div>
+    <div class="options" id="q1-options"></div>
+    <button class="btn-primary" id="q1-next" disabled onclick="nextStep('step-q1','step-q2','q1')">Continue →</button>
+  </div>
+
+  <!-- ── STEP 3: Loss trigger ── -->
+  <div class="step" id="step-q2">
+    <div class="progress" id="progress-3"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Step 3 of 5</div>
+      <h2 class="step-q" id="q2-text"></h2>
+    </div>
+    <div class="options" id="q2-options"></div>
+    <button class="btn-primary" id="q2-next" disabled onclick="nextStep('step-q2','step-q3','q2')">Continue →</button>
+  </div>
+
+  <!-- ── STEP 4: Invisible gap ── -->
+  <div class="step" id="step-q3">
+    <div class="progress" id="progress-4"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Step 4 of 5</div>
+      <h2 class="step-q" id="q3-text"></h2>
+    </div>
+    <div class="options" id="q3-options"></div>
+    <button class="btn-primary" id="q3-next" disabled onclick="nextStep('step-q3','step-q4','q3')">Continue →</button>
+  </div>
+
+  <!-- ── STEP 5: Revenue qualifier ── -->
+  <div class="step" id="step-q4">
+    <div class="progress" id="progress-5"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Step 5 of 5</div>
+      <h2 class="step-q">Where is your business in terms of monthly revenue?</h2>
+      <p class="step-sub">Helps us calibrate the type and scale of automation that makes sense.</p>
+    </div>
+    <div class="options" id="q4-options">
+      <button class="option" onclick="selectOption('q4','Under $10k / month',this)">
+        <span class="option-indicator"></span>Under $10k / month
+      </button>
+      <button class="option" onclick="selectOption('q4','$10k–$50k / month',this)">
+        <span class="option-indicator"></span>$10k–$50k / month
+      </button>
+      <button class="option" onclick="selectOption('q4','$50k–$200k / month',this)">
+        <span class="option-indicator"></span>$50k–$200k / month
+      </button>
+      <button class="option" onclick="selectOption('q4','$200k+ / month',this)">
+        <span class="option-indicator"></span>$200k+ / month
+      </button>
+    </div>
+    <button class="btn-primary" id="q4-next" disabled onclick="goToFreeText()">Continue →</button>
+  </div>
+
+  <!-- ── STEP 6: Free text ── -->
+  <div class="step" id="step-q5">
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Final Question</div>
+      <h2 class="step-q" id="q5-text"></h2>
+      <p class="step-sub">Be specific. The more honest this is, the more precise your results will be.</p>
+    </div>
+    <div class="field">
+      <textarea id="q5-input" placeholder="e.g. Manually sending follow-up emails after every discovery call..." rows="4" oninput="checkFreeText()"></textarea>
+    </div>
+    <button class="btn-primary" id="q5-next" disabled onclick="runSynthesis()">Generate My Report →</button>
+  </div>
+
+  <!-- ── LOADING ── -->
+  <div class="step" id="step-loading">
+    <div class="loader"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div class="step-tag">Analyzing</div>
+      <h2 class="step-q">Building your automation roadmap…</h2>
+      <p class="step-sub">This takes about 10–15 seconds.</p>
+    </div>
+    <div class="loading-steps" id="loading-steps"></div>
+  </div>
+
+  <!-- ── RESULTS ── -->
+  <div class="step" id="step-results">
+    <div class="results-header">
+      <div class="results-tag">Your AI Assessment Results</div>
+      <h2 class="results-headline">Here's where AI can give you immediate leverage.</h2>
+      <p class="results-summary" id="results-summary"></p>
+    </div>
+    <div class="opp-grid" id="opp-grid"></div>
+    <div class="conversion" id="conversion-block">
+      <div>
+        <div class="conversion-headline">Ready to turn this into a real plan?</div>
+        <p class="conversion-sub" id="conversion-sub"></p>
+      </div>
+      <a id="book-btn" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener" class="conversion-cta">
+        Book Technical Consultation →
+      </a>
+      <div class="conversion-divider">or get a copy of your results</div>
+      <div class="email-row">
+        <input type="email" id="email-input" placeholder="your@email.com" />
+        <button onclick="sendEmail()">Email me this →</button>
+      </div>
+      <div class="email-sent" id="email-sent" style="display:none;">✓ Results sent — check your inbox.</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <a href="/">Anqor Studios</a> · AI Systems Studio · Dubai
+</footer>
+
+<script>
+  // ── State ──
+  var state = {
+    siteContext: null,
+    persona: null,
+    answers: {},
+  };
+
+  var QUESTIONS = {
+    q1: {
+      solo: {
+        text: 'Be honest. Do you feel competitors in your space are already using AI to move faster than you?',
+        options: [
+          'Yes, and it\'s starting to show.',
+          'I\'m not sure, but it worries me.',
+          'No, I\'m ahead of the curve.',
+        ]
+      },
+      ceo: {
+        text: 'Which type of competitor do you suspect is using AI to move faster than your organization?',
+        options: [
+          'Smaller, more agile players',
+          'Larger, better-funded companies',
+          'Both',
+          'None that I know of',
+        ]
+      }
+    },
+    q2: {
+      solo: {
+        text: 'If you keep operating at your current speed for the next 6 months, what are you most likely to lose?',
+        options: ['Clients or revenue', 'Market opportunities', 'My own sanity and time']
+      },
+      ceo: {
+        text: 'If your organization keeps operating at this speed for the next 6 months, what are you most likely to lose?',
+        options: ['Key clients or accounts', 'Market share to faster competitors', 'Top talent due to burnout and frustration']
+      }
+    },
+    q3: {
+      solo: {
+        text: 'Do you feel you spend more time managing processes and admin than actually delivering the result your clients pay for?',
+        options: ['Constantly', 'Sometimes', 'Not really']
+      },
+      ceo: {
+        text: 'Do you suspect your team spends more time managing processes and reporting than actually delivering the core result?',
+        options: ['Yes, it\'s a major issue', 'Somewhat, it\'s creeping in', 'No, we\'re fairly lean']
+      }
+    },
+    q5: {
+      solo: 'What\'s the one repetitive task you handle every week that you\'d love to never touch again?',
+      ceo:  'What\'s the most repetitive workflow your team touches every week that feels like a waste of talent?'
+    }
+  };
+
+  // ── Progress dots ──
+  function renderProgress(containerId, current, total) {
+    var el = document.getElementById(containerId);
+    if (!el) return;
+    var html = '';
+    for (var i = 1; i <= total; i++) {
+      if (i < current)      html += '<div class="progress-dot done"></div>';
+      else if (i === current) html += '<div class="progress-dot active"></div>';
+      else                   html += '<div class="progress-dot"></div>';
+    }
+    html += '<span class="progress-label">' + current + ' of ' + total + '</span>';
+    el.innerHTML = html;
+  }
+
+  // ── Show step ──
+  function showStep(id) {
+    document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
+    var el = document.getElementById(id);
+    if (el) {
+      el.classList.add('active');
+      // Force reflow for animation
+      void el.offsetWidth;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Option selection ──
+  function selectOption(key, value, el) {
+    var container = el.closest('.options');
+    container.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+    state.answers[key] = value;
+
+    // Enable next button
+    var stepEl = el.closest('.step');
+    var btn = stepEl.querySelector('.btn-primary:not(.skip-link)');
+    if (btn) btn.disabled = false;
+  }
+
+  // ── URL Step ──
+  function submitUrl() {
+    var url = document.getElementById('url-input').value.trim();
+    var btn = document.getElementById('url-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Analyzing site…';
+
+    if (!url) { loadPersona(null); return; }
+
+    fetch('/api/analyze-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url }),
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(data) { state.siteContext = data; loadPersona(data); })
+      .catch(function() { loadPersona(null); });
+  }
+
+  function skipUrl() { loadPersona(null); }
+
+  function loadPersona(ctx) {
+    state.siteContext = ctx;
+    renderProgress('progress-1', 1, 5);
+    showStep('step-persona');
+  }
+
+  // ── Persona ──
+  function advancePersona() {
+    var p = state.answers.persona;
+    if (!p) return;
+    if (p === 'none') { showStep('step-exit'); return; }
+    state.persona = p;
+    loadQ('q1', 'step-q1', 'q1-text', 'q1-options', 'q1-next', 2);
+  }
+
+  // ── Generic question loader ──
+  function loadQ(qKey, stepId, textId, optionsId, nextId, stepNum) {
+    renderProgress('progress-' + stepNum, stepNum, 5);
+    var persona = state.persona === 'solo' ? 'solo' : 'ceo';
+    var qData = QUESTIONS[qKey][persona];
+    document.getElementById(textId).textContent = qData.text;
+    var opts = document.getElementById(optionsId);
+    opts.innerHTML = '';
+    qData.options.forEach(function(opt) {
+      var btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = '<span class="option-indicator"></span>' + opt;
+      btn.onclick = function() { selectOption(qKey, opt, btn); };
+      opts.appendChild(btn);
+    });
+    document.getElementById(nextId).disabled = true;
+    showStep(stepId);
+  }
+
+  function nextStep(fromStep, toStep, ansKey) {
+    if (!state.answers[ansKey]) return;
+    var stepNum = { 'step-q1': 3, 'step-q2': 4, 'step-q3': 5 };
+    var qMap = { 'step-q2': ['q2','step-q2','q2-text','q2-options','q2-next',3],
+                 'step-q3': ['q3','step-q3','q3-text','q3-options','q3-next',4] };
+    if (toStep === 'step-q2') { loadQ('q2','step-q2','q2-text','q2-options','q2-next',3); }
+    else if (toStep === 'step-q3') { loadQ('q3','step-q3','q3-text','q3-options','q3-next',4); }
+    else { renderProgress('progress-' + stepNum[toStep], stepNum[toStep], 5); showStep(toStep); }
+  }
+
+  function goToFreeText() {
+    if (!state.answers.q4) return;
+    var persona = state.persona === 'solo' ? 'solo' : 'ceo';
+    document.getElementById('q5-text').textContent = QUESTIONS.q5[persona];
+    document.getElementById('q5-next').disabled = true;
+    showStep('step-q5');
+  }
+
+  function checkFreeText() {
+    var val = document.getElementById('q5-input').value.trim();
+    document.getElementById('q5-next').disabled = val.length < 5;
+    state.answers.q5 = val;
+  }
+
+  // ── Synthesis ──
+  function runSynthesis() {
+    state.answers.q5 = document.getElementById('q5-input').value.trim();
+    showStep('step-loading');
+    animateLoadingSteps();
+
+    var persona = state.persona === 'solo' ? 'solo' : 'ceo';
+    var qLabels = {
+      q1: 'Competitive awareness',
+      q2: 'Biggest risk of staying still',
+      q3: 'Process vs delivery balance',
+      q4: 'Monthly revenue range',
+      q5: 'Most repetitive weekly task'
+    };
+    var answers = {};
+    Object.keys(qLabels).forEach(function(k) {
+      if (state.answers[k]) answers[qLabels[k]] = state.answers[k];
+    });
+
+    fetch('/api/synthesize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        siteContext: state.siteContext,
+        persona: persona,
+        answers: answers,
+      }),
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(data) { renderResults(data); })
+      .catch(function() {
+        renderResults({
+          summary: "Based on what you've shared, you're running a business where manual processes are creating drag — either on your time or your team's capacity. The window to act on AI automation is narrowing.",
+          opportunities: [
+            { title: 'Automated Lead Qualification & Follow-Up', description: 'Replace the manual back-and-forth of qualifying and following up with prospects with an AI system that runs 24/7 — so no lead falls through the cracks.', impact: 'Save 6–10 hours/week' },
+            { title: 'Intelligent Operations Reporting', description: 'Eliminate manual status updates and reporting by connecting your tools to an AI layer that synthesizes and delivers what matters — automatically.', impact: 'Eliminate 5+ hours of overhead' },
+            { title: 'AI-Powered Client Onboarding', description: 'Streamline client intake, contracts, and kickoff workflows into a seamless automated sequence that delivers a premium experience without the manual effort.', impact: '3x faster onboarding' },
+          ]
+        });
+      });
+  }
+
+  function animateLoadingSteps() {
+    var steps = [
+      'Reading your business context…',
+      'Mapping your answers to automation patterns…',
+      'Identifying highest-leverage opportunities…',
+      'Generating your personalized report…',
+    ];
+    var container = document.getElementById('loading-steps');
+    container.innerHTML = '';
+    steps.forEach(function(text, i) {
+      var div = document.createElement('div');
+      div.className = 'loading-step';
+      div.style.animationDelay = (i * 0.6) + 's';
+      div.innerHTML = '<div class="ls-dot"></div><span>' + text + '</span>';
+      container.appendChild(div);
+    });
+  }
+
+  function renderResults(data) {
+    document.getElementById('results-summary').textContent = data.summary || '';
+
+    var grid = document.getElementById('opp-grid');
+    grid.innerHTML = '';
+    (data.opportunities || []).forEach(function(opp, i) {
+      var card = document.createElement('div');
+      card.className = 'opp-card';
+      card.innerHTML =
+        '<div class="opp-num">Opportunity 0' + (i + 1) + '</div>' +
+        '<div class="opp-title">' + esc(opp.title) + '</div>' +
+        '<div class="opp-desc">' + esc(opp.description) + '</div>' +
+        '<div class="opp-impact">' + esc(opp.impact) + '</div>';
+      grid.appendChild(card);
+    });
+
+    var sub = state.persona === 'solo'
+      ? "On this call we'll map one of these automations into a concrete roadmap you can act on immediately — no fluff, just the build plan."
+      : "On this call we'll turn these opportunities into a concrete automation roadmap for your team — with clear priorities and a realistic timeline.";
+    document.getElementById('conversion-sub').textContent = sub;
+
+    showStep('step-results');
+  }
+
+  function sendEmail() {
+    var email = document.getElementById('email-input').value.trim();
+    if (!email || !email.includes('@')) return;
+    // Basic mailto fallback — replace with backend email endpoint if available
+    document.getElementById('email-sent').style.display = 'block';
+    document.getElementById('email-input').disabled = true;
+    document.querySelector('.email-row button').disabled = true;
+  }
+
+  function esc(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Init progress ──
+  renderProgress('progress-1', 1, 5);
+</script>
+</body>
+</html>
