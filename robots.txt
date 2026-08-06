@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block admin and internal tools
+Disallow: /admin.html
+Disallow: /brief-uploader.html
+Disallow: /admin/
+
+Sitemap: https://anqorstudios.com/sitemap.xml
