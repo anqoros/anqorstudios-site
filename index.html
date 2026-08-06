@@ -535,17 +535,18 @@
 
     .results-layout {
       display: grid;
-      grid-template-columns: 300px 1fr 1fr 1fr;
+      grid-template-columns: minmax(0, 280px) repeat(3, minmax(0, 1fr));
       gap: 0;
       margin-top: 64px;
+      overflow: hidden;
     }
 
     .results-label {
-      padding: 40px 36px 40px 0;
+      padding: 36px 36px 40px 0;
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: flex-start;
       background: transparent;
     }
 
@@ -923,6 +924,10 @@
       .build-orbit-right  { display: none; }
       .build-orbit-left   { padding: 56px 28px; }
     }
+
+    #industries .section-tag,
+    #industries .section-title,
+    #industries .section-sub { text-align: center; max-width: 100%; }
 
     .industry-grid {
       display: flex;
