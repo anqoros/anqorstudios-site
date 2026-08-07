@@ -5,6 +5,5 @@ Allow: /
 Disallow: /admin.html
 Disallow: /brief-uploader.html
 Disallow: /admin/
-Disallow: /anqor-socials.html
 
 Sitemap: https://anqorstudios.com/sitemap.xml
