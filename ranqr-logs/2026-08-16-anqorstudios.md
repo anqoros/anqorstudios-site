@@ -86,6 +86,31 @@ The AI model reads the full page content and scored it 18 → 22. The improvemen
 
 ---
 
+---
+
+## Audit 3 — After Crawler Bug Fix
+**Audit ID:** 090d491f-ccb6-44c5-bdaf-34e4f86ac12b
+**Bug fixed:** `analyze_geo_signals()` in `analyzer.py` — `has_type()` only checked top-level `@type`, not items nested inside `@graph`. Since anqorstudios.com uses a single JSON-LD block with `@graph` containing all types (Organization, FAQPage, ProfessionalService, WebSite), every schema check returned False. Fix: recurse into `@graph` children.
+
+| Signal | Audit 1 (Baseline) | Audit 2 (Meta) | **Audit 3 (Fixed)** | Net change |
+|---|---|---|---|---|
+| **Overall** | 81 | 81 | **90** | **+9** |
+| Technical SEO | 89 | 89 | 89 | — |
+| Content Quality | 99 | 99 | 99 | — |
+| **GEO Signals** | 42 | 42 | **75** | **+33** |
+| Performance | 100 | 100 | 100 | — |
+| AI GEO Readiness | 18 | 22 | 22 | +4 |
+
+**GEO check results (Audit 3):**
+- ✅ FAQ Schema (25%) — FAQPage JSON-LD detected
+- ✅ Organization Schema (15%) — Organization JSON-LD detected
+- ⚠️ Article Schema (15%) — N/A for homepage, expected warning
+- ⚠️ Author Attribution (15%) — Person schema exists but author markup not detected in HTML; next priority
+- ⚠️ Publication Date (10%) — N/A for service page
+- ⚠️ Breadcrumb Schema (10%) — not present, low priority
+
+---
+
 ## Remaining Recommendations (Next Session)
 
 | Priority | Action | Expected Lift |
