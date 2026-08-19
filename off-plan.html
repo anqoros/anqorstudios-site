@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Off Plan · Anqor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0A0A0A; --white:#FFFFFF; --gray:rgba(255,255,255,0.58); --gray-on-white:rgba(10,10,10,0.55); --line-dark:rgba(255,255,255,0.14); --line-light:rgba(10,10,10,0.12); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--white); color: var(--black); font-family: 'Archivo', sans-serif; }
+  a { color: inherit; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; background: var(--black); color: var(--white); }
+  .wordmark { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.015em; }
+  .navlinks { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; align-items: center; font-size: 13.5px; color: var(--gray); }
+  .navlinks a { color: inherit; text-decoration: none; }
+  .navlinks li.book { color: var(--black); background: var(--white); padding: 10px 20px; border-radius: 4px; font-weight: 700; }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); margin: 5px 0; }
+  @media (max-width: 780px) {
+    nav { padding: 20px 22px; flex-wrap: wrap; }
+    .hamburger { display: block; }
+    .navlinks { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px; }
+    .navlinks.open { display: flex; }
+    .navlinks li { padding: 12px 0; border-top: 1px solid var(--line-dark); }
+    .navlinks li.book { margin-top: 10px; text-align: center; border-top: none; }
+  }
+
+  .cinematic { background: var(--black); color: var(--white); padding: 90px 48px 70px; position: relative; overflow: hidden; }
+  .cinematic::before { content:""; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.08), transparent 55%); }
+  .tag { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 22px; position: relative; }
+  .cinematic h1 { font-size: clamp(44px, 7vw, 92px); font-weight: 900; line-height: 0.98; letter-spacing: -0.02em; margin: 0 0 26px; position: relative; }
+  .cinematic .sub { font-size: 19px; color: var(--gray); max-width: 58ch; line-height: 1.6; margin: 0 0 40px; position: relative; }
+
+  .frame { position: relative; aspect-ratio: 16/8; background: linear-gradient(135deg, #1a1a1a, #050505 60%); border: 1px solid var(--line-dark); border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 36px; margin-top: 10px; }
+  .frame-label { font-family: ui-monospace, monospace; font-size: 12px; color: var(--gray); text-align: center; max-width: 62ch; line-height: 1.7; }
+  .frame-label b { display: block; color: var(--white); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+
+  .status-row { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--line-dark); margin-top: 60px; }
+  .status-row div { padding: 28px 48px; border-right: 1px solid var(--line-dark); }
+  .status-row div:last-child { border-right: none; }
+  .status-row b { display: block; font-size: 15px; margin-bottom: 4px; }
+  .status-row span { font-size: 13px; color: var(--gray); }
+
+  section { padding: 100px 48px; max-width: 1100px; }
+  .eyebrow { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-on-white); margin-bottom: 18px; }
+  h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; max-width: 20ch; margin: 0 0 30px; letter-spacing: -0.01em; }
+  p.lead { font-size: 17px; line-height: 1.7; color: var(--gray-on-white); max-width: 68ch; margin: 0 0 20px; }
+
+  .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 50px; }
+  .why-card { border-top: 2px solid var(--black); padding-top: 18px; }
+  .why-card h3 { font-size: 16px; margin: 0 0 10px; }
+  .why-card p { font-size: 14px; line-height: 1.6; color: var(--gray-on-white); margin: 0; }
+
+  .cta-band { background: var(--black); color: var(--white); padding: 80px 48px; text-align: left; }
+  .cta-band h2 { color: var(--white); }
+  .btn-primary { display: inline-block; background: var(--white); color: var(--black); padding: 15px 26px; border-radius: 4px; font-weight: 700; font-size: 15px; text-decoration: none; margin-top: 10px; }
+
+  @media (max-width: 700px) { .why-grid, .status-row { grid-template-columns: 1fr; } .status-row div { border-right: none; border-bottom: 1px solid var(--line-dark); } }
+
+  .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--black); color: var(--white); padding: 18px 24px; display: none; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .cookie-banner p { margin: 0; font-size: 13.5px; color: rgba(255,255,255,0.75); max-width: 60ch; }
+  .cookie-banner .actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .cookie-banner button { font-size: 13px; font-weight: 600; padding: 9px 16px; border-radius: 5px; border: none; cursor: pointer; }
+  .cookie-banner .accept { background: var(--white); color: var(--black); }
+  .cookie-banner .decline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .why-card, .ep-row { transition: transform 0.25s ease; }
+  .why-card:hover { transform: translateY(-3px); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="draft.html" class="wordmark" style="text-decoration:none; color:white;">Anqor</a>
+  <ul class="navlinks">
+    <li><a href="draft.html">Home</a></li>
+    <li><a href="draft.html#systems">Systems</a></li>
+    <li><a href="draft.html#content">Content</a></li>
+    <li><a href="draft.html#web">Web</a></li>
+    <li><a href="draft.html#visibility">Visibility</a></li>
+    <li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="cinematic">
+  <div class="tag">A production from Anqor · Coming soon</div>
+  <h1>Off Plan.</h1>
+  <p class="sub">A real estate interview series: the developers, brokers, and investors shaping Dubai's skyline, on camera, on the record.</p>
+
+  <div class="frame">
+    <img src="images/draft/off-plan-bts.jpg" alt="Behind the scenes of the Off Plan interview series shoot" style="width:100%; height:100%; object-fit:cover; border-radius:9px;">
+  </div>
+
+  <div class="status-row">
+    <div><b>In development</b><span>Format and first guests being scoped</span></div>
+    <div><b>Working title</b><span>"Off Plan" (not final)</span></div>
+    <div><b>Produced by</b><span>ZANA &amp; AnqorClip, fully in-house</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="eyebrow">Why this exists</div>
+  <h2>Dubai off-plan has a trust problem. This is how we help close it.</h2>
+  <p class="lead">Off-plan buyers in Dubai are cautious for real reasons: handover delays, escalating service charges, and launch-price buyers later undercut by better deals on the same building. Agents are paid by developers on commission, which is exactly why an independent, on-camera conversation with the people actually building these projects is worth more than another brochure.</p>
+
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <h3>For developers</h3>
+      <p>A direct, credible channel to answer the delay and delivery questions buyers are already asking privately, before a broker has to answer for them.</p>
+    </div>
+    <div class="why-card reveal">
+      <h3>For buyers &amp; investors</h3>
+      <p>Straight answers on track record, payment plans, and handover timelines from the source, not a sales script.</p>
+    </div>
+    <div class="why-card reveal">
+      <h3>For Anqor</h3>
+      <p>Ongoing, produced proof that we run a real video production house, and a natural feed into the Real Estate Intelligence Toolkit's developer-track-record data.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="eyebrow">Season one · eight episodes</div>
+  <h2>The full buyer journey, one pain point per episode.</h2>
+  <p class="lead">Each episode targets a specific fear a real buyer already has, and points at exactly the kind of guest who can answer it credibly.</p>
+
+  <div style="display:flex; flex-direction:column;">
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">01</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">The Handover Truth</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Will it actually finish on time?</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a developer with a strong on-time delivery record, or a project director</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">02</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">The Launch-Day Price Trap</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Buyers overpay at launch, watch better deals appear later.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a market data analyst, or a broker who's seen multiple cycles</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">03</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">Financing the Skyline</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Payment plans, post-handover financing, DLD fees.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a mortgage broker or bank real-estate finance lead</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">04</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">Read Before You Sign</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Escrow law, RERA protections, developer default.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a RERA-registered real estate lawyer</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">05</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">The Oversupply Question</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Which areas actually hold value vs. flood the market.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a real estate research/data analyst</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">06</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">Buying a Home, Buying a Visa</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">The Golden Visa investor-migration angle.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: an immigration / Golden Visa consultant</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">07</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">The Exit Nobody Plans For</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Selling off-plan before handover.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a resale specialist broker or experienced flipper</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">08</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">From Land to Handover</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">How a project actually gets built: the season closer, from the builder's side.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: a senior developer executive</div>
+    </div>
+    <div style="display:grid; grid-template-columns: 50px 1fr 1.3fr; gap:24px; padding:26px 0; border-top:1px solid var(--line-light); border-bottom:1px solid var(--line-light); align-items:start;">
+      <div style="font-family:ui-monospace,monospace; color:var(--gray-on-white);">09*</div>
+      <div><h3 style="font-size:19px; margin:0 0 6px;">The Africa Corridor</h3><p style="margin:0; font-size:14px; color:var(--gray-on-white);">Why African capital is flowing into Dubai property, and what it means for both markets.</p></div>
+      <div style="font-size:13.5px; color:var(--gray-on-white); padding-top:2px;">Guest: an Africa–UAE investment advisor or diaspora-focused wealth manager</div>
+    </div>
+  </div>
+  <p style="font-size:12.5px; color:var(--gray-on-white); margin-top:16px;">*Ninth topic added on request. Overlaps with episode 6's investor-migration theme. Confirm whether this stays a 9th episode or merges with/replaces one of the eight.</p>
+</section>
+
+<div class="cta-band">
+  <h2>Want to be a guest, or a launch partner?</h2>
+  <p class="lead" style="color: var(--gray);">First episodes and guest list are still being locked. Reach out and we'll factor you into early scheduling.</p>
+  <a class="btn-primary" href="#">Get in touch</a>
+</div>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use cookies to improve your experience and understand how this site is used. See our <a href="privacy.html" style="color:white;">Privacy Policy</a>.</p>
+  <div class="actions">
+    <button class="decline" onclick="cookieChoice(false)">Decline</button>
+    <button class="accept" onclick="cookieChoice(true)">Accept</button>
+  </div>
+</div>
+<script>
+  if (!localStorage.getItem('cookieConsent')) document.getElementById('cookieBanner').style.display = 'flex';
+  function cookieChoice(accepted) {
+    localStorage.setItem('cookieConsent', accepted ? 'accepted' : 'declined');
+    document.getElementById('cookieBanner').style.display = 'none';
+  }
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function(el, i) {
+    el.style.transitionDelay = (i % 3) * 70 + 'ms';
+    revealObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>

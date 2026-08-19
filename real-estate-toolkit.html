@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anqor for Real Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0A0A0A; --white:#FFFFFF; --gray:rgba(255,255,255,0.58); --gray-on-white:rgba(10,10,10,0.55); --line-dark:rgba(255,255,255,0.14); --line-light:rgba(10,10,10,0.12); --setta:#267870; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--white); color: var(--black); font-family: 'Archivo', sans-serif; }
+  a { color: inherit; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; background: var(--black); color: var(--white); }
+  .wordmark { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.015em; }
+  .navlinks { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; align-items: center; font-size: 13.5px; color: var(--gray); }
+  .navlinks a { color: inherit; text-decoration: none; }
+  .navlinks li.book { color: var(--black); background: var(--white); padding: 10px 20px; border-radius: 4px; font-weight: 700; }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); margin: 5px 0; }
+  @media (max-width: 780px) {
+    nav { padding: 20px 22px; flex-wrap: wrap; }
+    .hamburger { display: block; }
+    .navlinks { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 0; padding-top: 14px; }
+    .navlinks.open { display: flex; }
+    .navlinks li { padding: 12px 0; border-top: 1px solid var(--line-dark); }
+    .navlinks li.book { margin-top: 10px; text-align: center; border-top: none; }
+  }
+
+  .hero { background: var(--black); color: var(--white); padding: 80px 48px 60px; }
+  .eyebrow { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 22px; }
+  .hero h1 { font-size: clamp(38px, 5.5vw, 64px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 24px; max-width: 16ch; }
+  .hero .sub { font-size: 18px; color: var(--gray); max-width: 60ch; line-height: 1.6; margin: 0 0 36px; }
+  .status-pill { display: inline-block; font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--line-dark); color: var(--gray); padding: 6px 14px; border-radius: 100px; }
+
+  section { padding: 90px 48px; max-width: 1150px; }
+  .eyebrow-light { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-on-white); margin-bottom: 18px; }
+  h2 { font-size: clamp(28px, 3.4vw, 42px); font-weight: 800; max-width: 20ch; margin: 0 0 20px; letter-spacing: -0.01em; }
+  p.lead { font-size: 17px; line-height: 1.7; color: var(--gray-on-white); max-width: 70ch; margin: 0 0 50px; }
+
+  /* Bundle: 3 parts */
+  .bundle-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--line-light); border: 1px solid var(--line-light); border-radius: 10px; overflow: hidden; }
+  .bundle-card { background: var(--white); padding: 34px; }
+  .bundle-card .n { font-family: ui-monospace, monospace; font-size: 12px; color: var(--gray-on-white); margin-bottom: 14px; }
+  .bundle-card h3 { font-size: 19px; margin: 0 0 10px; }
+  .bundle-card p { font-size: 14px; line-height: 1.6; color: var(--gray-on-white); margin: 0; }
+
+  /* Feature rows */
+  .feat-row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 40px; padding: 44px 0; border-top: 1px solid var(--line-light); align-items: start; }
+  .feat-row:last-child { border-bottom: 1px solid var(--line-light); }
+  .feat-row h3 { font-size: 22px; margin: 0 0 6px; }
+  .feat-row .feat-tag { font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-on-white); }
+  .feat-row p { font-size: 15.5px; line-height: 1.65; color: var(--gray-on-white); margin: 14px 0 0; max-width: 62ch; }
+  .feat-row ul { margin: 14px 0 0; padding-left: 18px; font-size: 14.5px; line-height: 1.8; color: var(--gray-on-white); }
+
+  .market-band { background: #F5F4F1; }
+  .market-source { font-size: 12.5px; color: var(--gray-on-white); margin-top: 30px; }
+  .market-source a { color: var(--black); }
+
+  .cta-band { background: var(--black); color: var(--white); padding: 80px 48px; }
+  .cta-band h2 { color: var(--white); }
+  .btn-primary { display: inline-block; background: var(--white); color: var(--black); padding: 15px 26px; border-radius: 4px; font-weight: 700; font-size: 15px; text-decoration: none; margin-top: 10px; }
+
+  @media (max-width: 800px) { .bundle-grid, .feat-row { grid-template-columns: 1fr; } }
+
+  .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--black); color: var(--white); padding: 18px 24px; display: none; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .cookie-banner p { margin: 0; font-size: 13.5px; color: rgba(255,255,255,0.75); max-width: 60ch; }
+  .cookie-banner .actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .cookie-banner button { font-size: 13px; font-weight: 600; padding: 9px 16px; border-radius: 5px; border: none; cursor: pointer; }
+  .cookie-banner .accept { background: var(--white); color: var(--black); }
+  .cookie-banner .decline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .bundle-card, .feat-row { transition: transform 0.25s ease; }
+  .bundle-card:hover { transform: translateY(-3px); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="draft.html" class="wordmark" style="text-decoration:none; color:white;">Anqor</a>
+  <ul class="navlinks">
+    <li><a href="draft.html">Home</a></li>
+    <li><a href="draft.html#systems">Systems</a></li>
+    <li><a href="draft.html#content">Content</a></li>
+    <li><a href="draft.html#web">Web</a></li>
+    <li><a href="draft.html#visibility">Visibility</a></li>
+    <li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">Anqor for Real Estate</div>
+  <h1>The Real Estate Intelligence Toolkit.</h1>
+  <p class="sub">One system for a Dubai brokerage: your website, your AI receptionist, your agent roster, your listings, and a live market-intelligence feed, installed as one toolkit, not five separate vendors.</p>
+  <span class="status-pill">In development · scoping data sources now</span>
+</div>
+
+<section>
+  <div class="eyebrow-light">What's inside</div>
+  <h2>Four systems, bundled as one.</h2>
+  <div class="bundle-grid">
+    <div class="bundle-card reveal">
+      <div class="n">01</div>
+      <h3>Your website</h3>
+      <p>A custom-built, SEO-ready site for the brokerage, not a template, built the same way every Anqor site is built.</p>
+    </div>
+    <div class="bundle-card reveal">
+      <div class="n">02</div>
+      <h3>Usetta, as your AI receptionist</h3>
+      <p>Answers inbound leads over WhatsApp and email, qualifies them, and books the call, embedded directly into the site.</p>
+    </div>
+    <div class="bundle-card reveal">
+      <div class="n">03</div>
+      <h3>Live market intelligence</h3>
+      <p>A continuously-updated brief on the market this brokerage actually operates in, not a generic industry report.</p>
+    </div>
+    <div class="bundle-card reveal">
+      <div class="n">04</div>
+      <h3>A branded content engine</h3>
+      <p>A show or podcast crafted to position the brokerage as a premium name, plus the carousels and reels to run alongside it: the same in-house production pipeline behind ZANA and AnqorClip, pointed at their brand instead of ours.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="eyebrow-light">The operations layer</div>
+  <h2>Built to run how a brokerage actually works.</h2>
+
+  <div class="feat-row">
+    <div>
+      <h3>Agent directory</h3>
+      <div class="feat-tag">Roster &amp; real-time contact</div>
+    </div>
+    <div>
+      <p>Every agent listed with their specialty and active listings. A prospect can reach a specific agent in real time (over WhatsApp, via Usetta if no one's free, or direct) instead of a contact form that goes nowhere for two days.</p>
+    </div>
+  </div>
+
+  <div class="feat-row">
+    <div>
+      <h3>Listings</h3>
+      <div class="feat-tag">For rent, for sale, off-plan</div>
+    </div>
+    <div>
+      <p>Rentals, resales, and off-plan inventory in one feed, matched to inbound leads automatically: the same "real-time listing match" pattern the strongest Dubai CRMs already run on, built into the site itself instead of a separate portal.</p>
+    </div>
+  </div>
+
+  <div class="feat-row">
+    <div>
+      <h3>Market intelligence</h3>
+      <div class="feat-tag">What buyers actually ask about</div>
+    </div>
+    <div>
+      <p>Grounded in what real Dubai buyers are actually cautious about, not a generic dashboard:</p>
+      <ul>
+        <li>Handover timelines and delay history, by developer</li>
+        <li>Service-charge trends, by building</li>
+        <li>Price-per-sqft and comps, by area</li>
+        <li>Oversupply risk signals, by zone</li>
+        <li>Off-plan launch tracking and payment-plan comparisons</li>
+        <li>RERA and regulatory changes as they land</li>
+      </ul>
+      <div class="market-source">Grounded in market research on Dubai CRM standards and real buyer concerns: <a href="https://propcrm.ae/blog/best-real-estate-crm-dubai-2026" target="_blank" rel="noopener">PropCRM</a>, <a href="https://gulfnews.com/business/property/get-a-plan-in-place-for-off-plan-1.2222676" target="_blank" rel="noopener">Gulf News</a>, <a href="https://realtytimes.com/consumeradvice/ask-the-expert/5-risks-of-buying-off-plan-property-in-dubai" target="_blank" rel="noopener">Realty Times</a>.</div>
+    </div>
+  </div>
+</section>
+
+<section class="market-band">
+  <div class="eyebrow-light">Why this, why now</div>
+  <h2>The same delay and transparency questions, on every desk.</h2>
+  <p class="lead">Handover delays, escalating service charges, and buyers overpaying at launch only to see better deals later. These are the concerns actually driving Dubai off-plan hesitation right now. A brokerage that can answer them instantly, with real data, closes faster than one relying on a developer's brochure. That's the entire premise of this toolkit.</p>
+</section>
+
+<div class="cta-band">
+  <h2>Want this built for your brokerage?</h2>
+  <p class="lead" style="color: var(--gray);">Data sources and exact scope are still being finalized. Get in touch and we'll walk you through what's ready now.</p>
+  <a class="btn-primary" href="#">Contact Sales</a>
+</div>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use cookies to improve your experience and understand how this site is used. See our <a href="privacy.html" style="color:white;">Privacy Policy</a>.</p>
+  <div class="actions">
+    <button class="decline" onclick="cookieChoice(false)">Decline</button>
+    <button class="accept" onclick="cookieChoice(true)">Accept</button>
+  </div>
+</div>
+<script>
+  if (!localStorage.getItem('cookieConsent')) document.getElementById('cookieBanner').style.display = 'flex';
+  function cookieChoice(accepted) {
+    localStorage.setItem('cookieConsent', accepted ? 'accepted' : 'declined');
+    document.getElementById('cookieBanner').style.display = 'none';
+  }
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function(el, i) {
+    el.style.transitionDelay = (i % 4) * 60 + 'ms';
+    revealObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>
