@@ -1,3 +1,10 @@
-.vercel
+
+# Competitor reference images — internal comparison only, never publish
+# Dependencies and build output
+.DS_Store
 .env
 .env.local
+.next/
+.vercel
+brand/_reference/
+node_modules/

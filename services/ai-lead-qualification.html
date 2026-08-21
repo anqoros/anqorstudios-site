@@ -144,7 +144,7 @@
           "@type": "HowToStep",
           "position": 1,
           "name": "Message arrives",
-          "text": "WhatsApp, email, web chat or Instagram DM. The agent is event-driven rather than polling on a schedule, so it sees the message the instant it lands — not on the next cron cycle."
+          "text": "WhatsApp, email, web chat or Instagram DM. The agent is event-driven rather than polling on a schedule, so it sees the message the instant it lands, not on the next cron cycle."
         },
         {
           "@type": "HowToStep",
@@ -156,13 +156,13 @@
           "@type": "HowToStep",
           "position": 3,
           "name": "Qualified against your criteria",
-          "text": "Budget, timeline, location, financing status, decision authority — whatever your criteria actually are. Not a generic lead score somebody else's product designed for a different market."
+          "text": "Budget, timeline, location, financing status, decision authority, whatever your criteria actually are. Not a generic lead score somebody else's product designed for a different market."
         },
         {
           "@type": "HowToStep",
           "position": 4,
           "name": "Objections handled from your playbook",
-          "text": "The questions that stall a conversation — price, service charges, handover risk, contract terms — get answered from material you wrote and approved, in your positioning, not improvised."
+          "text": "The questions that stall a conversation, price, service charges, handover risk, contract terms, get answered from material you wrote and approved, in your positioning, not improvised."
         },
         {
           "@type": "HowToStep",
@@ -174,7 +174,7 @@
           "@type": "HowToStep",
           "position": 6,
           "name": "Escalation when it's needed",
-          "text": "Anything outside the playbook, anything high-value, anything where the prospect asks for a person — routed to the right human immediately with the full thread attached, so nobody starts the conversation over."
+          "text": "Anything outside the playbook, anything high-value, anything where the prospect asks for a person, routed to the right human immediately with the full thread attached, so nobody starts the conversation over."
         }
       ]
     },
@@ -187,7 +187,7 @@
           "name": "How fast does it actually respond?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Seconds. The agent is event-driven rather than polling on a schedule, so it replies as soon as the message lands. There's no queue and no business-hours gate unless you deliberately set one — some businesses do want an out-of-hours message that sets expectations differently, and that's a configuration choice."
+            "text": "Seconds. The agent is event-driven rather than polling on a schedule, so it replies as soon as the message lands. There's no queue and no business-hours gate unless you deliberately set one. Some businesses do want an out-of-hours message that sets expectations differently, and that's a configuration choice."
           }
         },
         {
@@ -203,7 +203,7 @@
           "name": "Does it work in Arabic?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, Arabic and English, including threads that switch between the two mid-conversation — which is how a large share of UAE enquiries actually arrive. This is handled at the model layer rather than by translating an English response, which is a visible quality difference to a native reader."
+            "text": "Yes, Arabic and English, including threads that switch between the two mid-conversation, which is how a large share of UAE enquiries actually arrive. This is handled at the model layer rather than by translating an English response, which is a visible quality difference to a native reader."
           }
         },
         {
@@ -219,7 +219,7 @@
           "name": "Can it work with our existing CRM?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. We build around what you already run rather than asking you to migrate first — migration is a separate decision and usually a bad one to bundle into an automation project. If you don't have a CRM, the dashboard covers the basics until you need more."
+            "text": "Yes. We build around what you already run rather than asking you to migrate first, because migration is a separate decision and usually a bad one to bundle into an automation project. If you don't have a CRM, the dashboard covers the basics until you need more."
           }
         },
         {
@@ -243,7 +243,7 @@
           "name": "Do customers know they're talking to AI?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We recommend being straightforward about it. In practice it doesn't reduce conversion — response speed matters far more to a prospect than who typed the reply — and being caught pretending is a worse outcome than disclosing."
+            "text": "We recommend being straightforward about it. In practice it doesn't reduce conversion, because response speed matters far more to a prospect than who typed the reply, and being caught pretending is a worse outcome than disclosing."
           }
         }
       ]
@@ -257,279 +257,293 @@
     --ink:#FFFFFF; --muted:rgba(255,255,255,0.62); --faint:rgba(255,255,255,0.42);
     --line:rgba(255,255,255,0.10); --line-2:rgba(255,255,255,0.16);
     --teal:#2FD4C4; --coral:#FA5051; --green:#3FA66B; --amber:#D8A24A; --violet:#8B7BF0;
-    --accent:var(--teal);
   }
-  * { box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { margin:0; background:var(--bg); color:var(--ink);
-         font-family:'Archivo',sans-serif; -webkit-font-smoothing:antialiased;
-         overflow-x:hidden; }
-  a { color:inherit; }
-  img { max-width:100%; display:block; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased;
+         overflow-x: hidden; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
 
-  /* ambient grid texture */
-  .grid-bg { position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55;
-    background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
-                     linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
-    background-size:64px 64px;
-    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
-    -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%); }
-  .page { position:relative; z-index:1; }
+  .grid-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.6;
+    background-image: linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%); }
+  .grid-bg::after { content: ""; position: absolute; inset: -50%;
+    background: radial-gradient(circle at 30% 30%, rgba(47,212,196,0.10), transparent 42%),
+                radial-gradient(circle at 72% 58%, rgba(139,123,240,0.09), transparent 45%);
+    animation: drift 26s ease-in-out infinite alternate; }
+  @keyframes drift {
+    from { transform: translate3d(-2%, -1%, 0) scale(1); }
+    to   { transform: translate3d(2%, 2%, 0) scale(1.06); }
+  }
+  .page { position: relative; z-index: 1; }
 
-  /* nav */
-  .navbar-wrap { position:sticky; top:0; z-index:80; background:rgba(8,8,9,.82);
-                 backdrop-filter:blur(14px); border-bottom:1px solid var(--line); }
-  nav { display:flex; justify-content:space-between; align-items:center;
-        padding:18px 48px; max-width:1600px; margin:0 auto; }
-  .wordmark { font-family:'Bricolage Grotesque','Archivo',sans-serif; font-size:23px;
-              font-weight:800; letter-spacing:-.015em; text-decoration:none; color:var(--ink); }
-  .navlinks { display:flex; gap:28px; list-style:none; margin:0; padding:0; align-items:center;
-              font-size:13.5px; color:var(--muted); }
-  .navlinks a { color:inherit; text-decoration:none; transition:color .18s; }
-  .navlinks a:hover { color:var(--ink); }
-  .navlinks li.book a { color:#06110F; background:var(--teal); padding:10px 20px;
-                        border-radius:100px; font-weight:700; }
-  .navlinks li.book a:hover { filter:brightness(1.1); }
-  .hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
-  .hamburger span { display:block; width:22px; height:2px; background:var(--ink); margin:5px 0; }
-  @media (max-width:960px){
-    nav{padding:16px 22px;flex-wrap:wrap;} .hamburger{display:block;}
-    .navlinks{display:none;width:100%;flex-direction:column;align-items:stretch;gap:0;padding-top:14px;}
-    .navlinks.open{display:flex;}
-    .navlinks li{padding:13px 0;border-top:1px solid var(--line);}
-    .navlinks li.book{margin-top:12px;text-align:center;border-top:none;}
+  .navbar-wrap { position: sticky; top: 0; z-index: 80; background: rgba(8, 8, 9, 0.82);
+                 backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  nav { display: flex; justify-content: space-between; align-items: center;
+        padding: 18px 48px; max-width: 1600px; margin: 0 auto; }
+  .wordmark { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif; font-size: 28px;
+              font-weight: 800; letter-spacing: -0.018em; text-decoration: none; color: var(--ink); }
+  .navlinks { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0;
+              align-items: center; font-size: 13.5px; color: var(--muted); }
+  .navlinks a { color: inherit; text-decoration: none; transition: color 0.18s; }
+  .navlinks a:hover { color: var(--ink); }
+  .navlinks li.book a { color: #06110F; background: var(--teal); padding: 10px 20px;
+                        border-radius: 100px; font-weight: 700; }
+  .navlinks li.book a:hover { filter: brightness(1.1); }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); margin: 5px 0; }
+  @media (max-width: 960px) {
+    nav { padding: 16px 22px; flex-wrap: wrap; }
+    .hamburger { display: block; }
+    .navlinks { display: none; width: 100%; flex-direction: column; align-items: stretch;
+                gap: 0; padding-top: 14px; }
+    .navlinks.open { display: flex; }
+    .navlinks li { padding: 13px 0; border-top: 1px solid var(--line); }
+    .navlinks li.book { margin-top: 12px; text-align: center; border-top: none; }
   }
 
-  .crumbs { padding:16px 48px; font-size:12.5px; color:var(--faint);
-            max-width:1600px; margin:0 auto; }
-  .crumbs a { text-decoration:none; } .crumbs a:hover { color:var(--ink); }
-  .crumbs i { font-style:normal; opacity:.35; margin:0 9px; }
+  .crumbs { padding: 16px 48px; font-size: 12.5px; color: var(--faint);
+            max-width: 1600px; margin: 0 auto; }
+  .crumbs a { text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .crumbs i { font-style: normal; opacity: 0.35; margin: 0 9px; }
 
-  /* hero */
-  .hero { position:relative; overflow:hidden; }
-  .hero::before { content:""; position:absolute; top:-30%; left:50%; transform:translateX(-50%);
-    width:1200px; height:800px; pointer-events:none;
-    background:radial-gradient(ellipse at center, rgba(47,212,196,.16), transparent 62%); }
-  .hero-inner { position:relative; max-width:1600px; margin:0 auto; padding:96px 48px 84px; }
-  .kicker { display:inline-flex; align-items:center; gap:9px; font-family:ui-monospace,monospace;
-            font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
-            border:1px solid var(--line-2); border-radius:100px; padding:8px 16px; margin-bottom:26px; }
-  .kicker::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--teal);
-                    box-shadow:0 0 10px var(--teal); }
-  h1 { font-family:'Bricolage Grotesque','Archivo',sans-serif; font-size:clamp(36px,5.4vw,72px);
-       font-weight:800; line-height:1.02; letter-spacing:-.025em; margin:0 0 26px;
-       max-width:19ch; text-wrap:balance; }
-  h1 em { font-style:normal; color:var(--teal); }
-  .hero .lede { font-size:18px; line-height:1.68; color:var(--muted); max-width:60ch; margin:0 0 34px; }
+  .hero { position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; top: -30%; left: 50%;
+    transform: translateX(-50%); width: 1200px; height: 800px; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(47,212,196,0.16), transparent 62%); }
+  .hero-inner { position: relative; max-width: 1600px; margin: 0 auto; padding: 96px 48px 84px; }
 
-  .cta-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-  .btn-primary { background:var(--teal); color:#06110F; padding:15px 28px; border-radius:100px;
-                 font-weight:700; font-size:15px; text-decoration:none; transition:filter .18s; }
-  .btn-primary:hover { filter:brightness(1.1); }
-  .btn-ghost { border:1px solid var(--line-2); color:var(--ink); padding:14px 26px;
-               border-radius:100px; font-weight:600; font-size:15px; text-decoration:none;
-               transition:border-color .18s, background .18s; }
-  .btn-ghost:hover { border-color:rgba(255,255,255,.4); background:rgba(255,255,255,.04); }
+  .kicker { display: inline-flex; align-items: center; gap: 9px;
+            font-family: ui-monospace, monospace; font-size: 11.5px; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-2);
+            border-radius: 100px; padding: 8px 16px; margin-bottom: 26px; }
+  .kicker::before { content: ""; width: 6px; height: 6px; border-radius: 50%;
+                    background: var(--teal); box-shadow: 0 0 10px var(--teal); }
 
-  /* stat strip */
-  .metric { display:flex; gap:0; flex-wrap:wrap; margin-top:52px; border-top:1px solid var(--line); }
-  .metric div { padding:26px 34px 0 0; margin-right:34px; border-right:1px solid var(--line);
-                padding-right:34px; }
-  .metric div:last-child { border-right:none; }
-  .metric b { display:block; font-family:'Bricolage Grotesque',sans-serif; font-size:34px;
-              font-weight:800; line-height:1; letter-spacing:-.02em; }
-  .metric b.acc { color:var(--teal); }
-  .metric span { font-size:12.5px; color:var(--faint); }
+  .hero-tags { font-size: 15.5px; color: var(--muted); margin-bottom: 26px; letter-spacing: 0.01em; }
+  .hero-tags b { color: var(--ink); font-weight: 600; }
 
-  /* sections */
-  section { padding:92px 48px; max-width:1600px; margin:0 auto; position:relative; }
-  .eyebrow { font-family:ui-monospace,monospace; font-size:11.5px; letter-spacing:.16em;
-             text-transform:uppercase; color:var(--faint); margin-bottom:18px;
-             display:flex; align-items:center; gap:14px; }
-  .eyebrow::after { content:""; flex:1; height:1px; background:var(--line); }
-  h2 { font-family:'Bricolage Grotesque','Archivo',sans-serif; font-size:clamp(27px,3.4vw,42px);
-       font-weight:800; letter-spacing:-.018em; margin:0 0 22px; max-width:22ch; text-wrap:balance; }
-  h2 em { font-style:normal; color:var(--teal); }
-  h3 { font-family:'Archivo',sans-serif; }
-  p.lead { font-size:16.5px; line-height:1.78; color:var(--muted); max-width:72ch; margin:0 0 20px; }
+  h1 { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif;
+       font-size: clamp(40px, 5vw, 68px); font-weight: 800; line-height: 1.03;
+       letter-spacing: -0.026em; margin: 0 0 28px; max-width: 15ch; text-wrap: balance; }
+  h1 em { font-style: normal; color: var(--teal); }
+  .hero .lede { font-size: 18px; line-height: 1.68; color: var(--muted);
+                max-width: 62ch; margin: 0 0 34px; }
 
-  .band { background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-  .band-inner { max-width:1600px; margin:0 auto; padding:88px 48px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .btn-primary { background: var(--teal); color: #06110F; padding: 15px 28px;
+                 border-radius: 100px; font-weight: 700; font-size: 15px;
+                 text-decoration: none; transition: filter 0.18s; }
+  .btn-primary:hover { filter: brightness(1.1); }
+  .btn-ghost { border: 1px solid var(--line-2); color: var(--ink); padding: 14px 26px;
+               border-radius: 100px; font-weight: 600; font-size: 15px; text-decoration: none;
+               transition: border-color 0.18s, background 0.18s; }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); }
 
-  /* image cards */
-  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:46px; }
-  .cards.c4 { grid-template-columns:repeat(4,1fr); }
-  .icard { background:var(--panel); border:1px solid var(--line); border-radius:16px;
-           overflow:hidden; text-decoration:none; display:flex; flex-direction:column;
-           transition:transform .28s cubic-bezier(.16,1,.3,1), border-color .28s, box-shadow .28s;
-           position:relative; }
-  .icard::after { content:""; position:absolute; inset:0; border-radius:16px; pointer-events:none;
-                  opacity:0; transition:opacity .28s;
-                  background:radial-gradient(ellipse 70% 50% at 50% 0%, var(--gl,rgba(47,212,196,.22)), transparent 70%); }
-  .icard:hover { transform:translateY(-4px); border-color:var(--line-2);
-                 box-shadow:0 22px 50px -28px rgba(0,0,0,.9); }
-  .icard:hover::after { opacity:1; }
-  .icard-img { aspect-ratio:16/9; overflow:hidden; position:relative; background:var(--bg); }
-  .icard-img img { width:100%; height:100%; object-fit:cover;
-                   transition:transform .5s cubic-bezier(.16,1,.3,1); }
-  .icard:hover .icard-img img { transform:scale(1.05); }
-  .icard-img::after { content:""; position:absolute; inset:0;
-                      background:linear-gradient(to bottom, transparent 45%, var(--panel) 100%); }
-  .icard-body { padding:22px 24px 26px; flex:1; display:flex; flex-direction:column;
-                position:relative; z-index:1; }
-  .icard h3 { font-size:17px; font-weight:700; margin:0 0 9px; letter-spacing:-.01em; }
-  .icard p { font-size:14px; line-height:1.62; color:var(--muted); margin:0 0 16px; flex:1; }
-  .pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
-  .pills span { font-size:11px; color:var(--faint); border:1px solid var(--line);
-                border-radius:100px; padding:5px 11px; white-space:nowrap; }
-  .icard .go { font-size:12.5px; font-weight:700; color:var(--teal); }
+  .metric { display: flex; flex-wrap: wrap; margin-top: 54px; border-top: 1px solid var(--line); }
+  .metric div { padding: 26px 34px 0 0; margin-right: 34px; padding-right: 34px;
+                border-right: 1px solid var(--line); }
+  .metric div:last-child { border-right: none; }
+  .metric b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 36px;
+              font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .metric b.acc { color: var(--teal); }
+  .metric span { font-size: 12.5px; color: var(--faint); }
 
-  /* plain feature cards */
-  .fcards { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:46px; }
-  .fcard { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:28px 26px; }
-  .fcard h3 { font-size:17.5px; margin:0 0 11px; }
-  .fcard p { font-size:14.5px; line-height:1.68; color:var(--muted); margin:0; }
-  .fcard .dot { width:9px; height:9px; border-radius:50%; margin-bottom:18px; }
+  section { padding: 92px 48px; max-width: 1600px; margin: 0 auto; position: relative; }
+  .eyebrow { font-family: ui-monospace, monospace; font-size: 11.5px; letter-spacing: 0.16em;
+             text-transform: uppercase; color: var(--faint); margin-bottom: 18px;
+             display: flex; align-items: center; gap: 14px; }
+  .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  h2 { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif;
+       font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; letter-spacing: -0.02em;
+       margin: 0 0 22px; max-width: 22ch; text-wrap: balance; }
+  h2 em { font-style: normal; color: var(--teal); }
+  h3 { font-family: 'Archivo', sans-serif; }
+  p.lead { font-size: 16.5px; line-height: 1.78; color: var(--muted);
+           max-width: 72ch; margin: 0 0 20px; }
 
-  /* checklist */
-  ul.checks { list-style:none; padding:0; margin:28px 0 0; max-width:76ch; }
-  ul.checks li { font-size:15.5px; line-height:1.65; color:var(--muted);
-                 padding:14px 0 14px 30px; border-bottom:1px solid var(--line); position:relative; }
-  ul.checks li::before { content:""; position:absolute; left:0; top:22px; width:10px; height:1px;
-                         background:var(--teal); }
-  ul.checks li b { color:var(--ink); font-weight:700; }
+  .band { background: var(--bg-2); border-top: 1px solid var(--line);
+          border-bottom: 1px solid var(--line); }
+  .band-inner { max-width: 1600px; margin: 0 auto; padding: 88px 48px; }
 
-  .stackrow { display:flex; flex-wrap:wrap; gap:8px; margin-top:30px; }
-  .stackrow span { font-family:ui-monospace,monospace; font-size:12px; border:1px solid var(--line);
-                   padding:8px 14px; border-radius:100px; color:var(--faint); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 46px; }
+  .cards.c4 { grid-template-columns: repeat(4, 1fr); }
+  .icard { background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+           overflow: hidden; text-decoration: none; display: flex; flex-direction: column;
+           position: relative;
+           transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s, box-shadow 0.28s; }
+  .icard::after { content: ""; position: absolute; inset: 0; border-radius: 16px;
+                  pointer-events: none; opacity: 0; transition: opacity 0.28s;
+                  background: radial-gradient(ellipse 70% 50% at 50% 0%,
+                              var(--gl, rgba(47,212,196,0.22)), transparent 70%); }
+  .icard:hover { transform: translateY(-4px); border-color: var(--line-2);
+                 box-shadow: 0 22px 50px -28px rgba(0, 0, 0, 0.9); }
+  .icard:hover::after { opacity: 1; }
+  .icard-img { aspect-ratio: 16 / 9; overflow: hidden; position: relative; background: var(--bg); }
+  .icard-img img { width: 100%; height: 100%; object-fit: cover;
+                   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .icard:hover .icard-img img { transform: scale(1.05); }
+  .icard-img::after { content: ""; position: absolute; inset: 0;
+                      background: linear-gradient(to bottom, transparent 45%, var(--panel) 100%); }
+  .icard-body { padding: 22px 24px 26px; flex: 1; display: flex; flex-direction: column;
+                position: relative; z-index: 1; }
+  .icard h3 { font-size: 17px; font-weight: 700; margin: 0 0 9px; letter-spacing: -0.01em; }
+  .icard p { font-size: 14px; line-height: 1.62; color: var(--muted); margin: 0 0 16px; flex: 1; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .pills span { font-size: 11px; color: var(--faint); border: 1px solid var(--line);
+                border-radius: 100px; padding: 5px 11px; white-space: nowrap; }
+  .icard .go { font-size: 12.5px; font-weight: 700; color: var(--teal); }
 
-  /* steps */
-  .steps { margin-top:46px; }
-  .step { display:grid; grid-template-columns:56px 1fr; gap:24px; padding:26px 0;
-          border-top:1px solid var(--line); align-items:start; }
-  .step:last-child { border-bottom:1px solid var(--line); }
-  .step .num { font-family:ui-monospace,monospace; font-size:12.5px; color:var(--teal); padding-top:3px; }
-  .step h3 { font-size:16.5px; margin:0 0 9px; }
-  .step p { font-size:14.5px; line-height:1.7; color:var(--muted); margin:0; max-width:70ch; }
+  .cards.feature { gap: 26px; margin-top: 52px; }
+  .cards.feature .icard { border-radius: 20px; }
+  .cards.feature .icard-img { aspect-ratio: 4 / 3; }
+  .cards.feature .icard-body { padding: 30px 32px 34px; }
+  .cards.feature .icard h3 { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif;
+    font-size: clamp(22px, 2vw, 29px); font-weight: 800; line-height: 1.16;
+    letter-spacing: -0.02em; margin: 0 0 14px; }
+  .cards.feature .icard p { font-size: 15.5px; line-height: 1.7; margin: 0 0 20px; }
+  .cards.feature .pills span { font-size: 11.5px; padding: 6px 13px; }
+  .cards.feature .icard .go { font-size: 13.5px; }
 
-  /* compare */
-  .compare { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:46px; }
-  .compare > div { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:24px 22px; }
-  .compare h3 { font-size:15.5px; margin:0 0 10px; color:var(--ink); }
-  .compare h3::before { content:"✕"; color:var(--coral); font-weight:700; margin-right:8px; }
-  .compare p { font-size:14px; line-height:1.66; color:var(--muted); margin:0; }
+  .fcards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 46px; }
+  .fcard { background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+           padding: 28px 26px; }
+  .fcard h3 { font-size: 17.5px; margin: 0 0 11px; }
+  .fcard p { font-size: 14.5px; line-height: 1.68; color: var(--muted); margin: 0; }
+  .fcard .dot { width: 9px; height: 9px; border-radius: 50%; margin-bottom: 18px; }
 
-  /* limits */
-  .limits { background:linear-gradient(180deg, rgba(250,80,81,.05), transparent 60%), var(--bg-2); }
-  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:80ch; }
-  .limits li { font-size:15.5px; line-height:1.7; color:var(--muted); padding:15px 0 15px 30px;
-               border-bottom:1px solid var(--line); position:relative; }
-  .limits li::before { content:""; position:absolute; left:0; top:24px; width:10px; height:1px;
-                       background:var(--coral); }
+  ul.checks { list-style: none; padding: 0; margin: 28px 0 0; max-width: 76ch; }
+  ul.checks li { font-size: 15.5px; line-height: 1.65; color: var(--muted);
+                 padding: 14px 0 14px 30px; border-bottom: 1px solid var(--line);
+                 position: relative; }
+  ul.checks li::before { content: ""; position: absolute; left: 0; top: 22px;
+                         width: 10px; height: 1px; background: var(--teal); }
+  ul.checks li b { color: var(--ink); font-weight: 700; }
 
-  .proof p { font-size:16px; line-height:1.78; color:var(--muted); max-width:72ch; margin:0 0 18px; }
+  .stackrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+  .stackrow span { font-family: ui-monospace, monospace; font-size: 12px;
+                   border: 1px solid var(--line); padding: 8px 14px; border-radius: 100px;
+                   color: var(--faint); }
 
-  /* faq */
-  .faq-list { margin-top:42px; border-top:1px solid var(--line); }
-  .faq-item { border-bottom:1px solid var(--line); padding:26px 0; }
-  .faq-item h3 { font-size:17px; margin:0 0 11px; max-width:62ch; }
-  .faq-item p { font-size:15px; line-height:1.76; color:var(--muted); margin:0; max-width:74ch; }
+  .steps { margin-top: 46px; }
+  .step { display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 26px 0;
+          border-top: 1px solid var(--line); align-items: start; }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step .num { font-family: ui-monospace, monospace; font-size: 12.5px; color: var(--teal);
+               padding-top: 3px; }
+  .step h3 { font-size: 16.5px; margin: 0 0 9px; }
+  .step p { font-size: 14.5px; line-height: 1.7; color: var(--muted); margin: 0; max-width: 70ch; }
 
-  .founder-box { display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;
-                 background:var(--panel); border:1px solid var(--line); border-radius:16px;
-                 padding:30px; margin-top:44px; }
-  .founder-box b { display:block; font-size:16px; }
-  .founder-box .role { font-size:13.5px; color:var(--faint); }
-  .founder-box p { font-size:14.5px; line-height:1.72; color:var(--muted); margin:13px 0 11px; max-width:70ch; }
-  .founder-box a { font-size:13.5px; font-weight:700; color:var(--teal); }
+  .compare { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 46px; }
+  .compare > div { background: var(--panel); border: 1px solid var(--line);
+                   border-radius: 14px; padding: 24px 22px; }
+  .compare h3 { font-size: 15.5px; margin: 0 0 10px; color: var(--ink); }
+  .compare h3::before { content: "\2715"; color: var(--coral); font-weight: 700; margin-right: 8px; }
+  .compare p { font-size: 14px; line-height: 1.66; color: var(--muted); margin: 0; }
 
-  /* cta */
-  .cta-band { position:relative; overflow:hidden; border-top:1px solid var(--line); }
-  .cta-band::before { content:""; position:absolute; bottom:-50%; left:50%; transform:translateX(-50%);
-    width:1000px; height:700px; pointer-events:none;
-    background:radial-gradient(ellipse at center, rgba(47,212,196,.14), transparent 65%); }
-  .cta-band .inner { position:relative; max-width:1600px; margin:0 auto; padding:96px 48px; }
-  .cta-band p { color:var(--muted); font-size:17px; line-height:1.68; max-width:56ch; margin:0 0 30px; }
+  .limits { background: linear-gradient(180deg, rgba(250,80,81,0.05), transparent 60%), var(--bg-2); }
+  .limits ul { list-style: none; padding: 0; margin: 30px 0 0; max-width: 80ch; }
+  .limits li { font-size: 15.5px; line-height: 1.7; color: var(--muted);
+               padding: 15px 0 15px 30px; border-bottom: 1px solid var(--line); position: relative; }
+  .limits li::before { content: ""; position: absolute; left: 0; top: 24px;
+                       width: 10px; height: 1px; background: var(--coral); }
 
-  .related { display:flex; gap:10px; flex-wrap:wrap; margin-top:36px; }
-  .related a { font-size:13px; border:1px solid var(--line); padding:11px 18px; border-radius:100px;
-               text-decoration:none; color:var(--muted); transition:border-color .18s,color .18s; }
-  .related a:hover { border-color:var(--teal); color:var(--ink); }
+  .proof p { font-size: 16px; line-height: 1.78; color: var(--muted);
+             max-width: 72ch; margin: 0 0 18px; }
 
-  /* footer */
-  footer { border-top:1px solid var(--line); background:var(--bg-2); }
-  .foot-inner { max-width:1600px; margin:0 auto; padding:70px 48px 32px; }
-  .foot-cols { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:38px;
-               padding-bottom:36px; border-bottom:1px solid var(--line); }
-  .foot-cols .lbl { font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-                    color:var(--faint); margin-bottom:16px; }
-  .foot-cols a { display:block; font-size:13.5px; color:var(--muted); margin-bottom:10px;
-                 text-decoration:none; transition:color .18s; }
-  .foot-cols a:hover { color:var(--ink); }
-  .foot-cols p, .foot-cols address { font-size:13.5px; line-height:1.75; font-style:normal;
-                                     margin:0; color:var(--muted); }
-  .foot-bottom { display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
-                 padding-top:24px; font-size:12.5px; color:var(--faint); }
-  .foot-bottom a { text-decoration:none; color:var(--muted); }
+  .faq-list { margin-top: 42px; border-top: 1px solid var(--line); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-item summary { list-style: none; cursor: pointer; padding: 24px 44px 24px 0;
+                      position: relative; font-size: 17px; font-weight: 600;
+                      max-width: 64ch; transition: color 0.18s; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: var(--teal); }
+  .faq-item summary::after { content: ""; position: absolute; right: 6px; top: 31px;
+    width: 11px; height: 11px; border-right: 2px solid var(--faint);
+    border-bottom: 2px solid var(--faint); transform: rotate(45deg);
+    transition: transform 0.25s, border-color 0.25s; }
+  .faq-item[open] summary { color: var(--teal); }
+  .faq-item[open] summary::after { transform: rotate(-135deg); border-color: var(--teal); }
+  .faq-item p { font-size: 15px; line-height: 1.76; color: var(--muted);
+                margin: 0 0 26px; max-width: 76ch; }
 
-  @media (max-width:1180px){ .cards, .cards.c4 { grid-template-columns:repeat(2,1fr); }
-                             .foot-cols { grid-template-columns:1fr 1fr; } }
-  @media (max-width:820px){ .cards, .cards.c4, .fcards, .compare { grid-template-columns:1fr; }
-                            .metric div { border-right:none; padding-right:0; margin-right:0; } }
-  @media (max-width:640px){
+  .founder-box { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap;
+                 background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+                 padding: 30px; margin-top: 44px; }
+  .founder-box b { display: block; font-size: 16px; }
+  .founder-box .role { font-size: 13.5px; color: var(--faint); }
+  .founder-box p { font-size: 14.5px; line-height: 1.72; color: var(--muted);
+                   margin: 13px 0 11px; max-width: 70ch; }
+  .founder-box a { font-size: 13.5px; font-weight: 700; color: var(--teal); }
+
+  .cta-band { position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+  .cta-band::before { content: ""; position: absolute; bottom: -50%; left: 50%;
+    transform: translateX(-50%); width: 1000px; height: 700px; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(47,212,196,0.14), transparent 65%); }
+  .cta-band .inner { position: relative; max-width: 1600px; margin: 0 auto; padding: 96px 48px; }
+  .cta-band p { color: var(--muted); font-size: 17px; line-height: 1.68;
+                max-width: 56ch; margin: 0 0 30px; }
+
+  .related { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 36px; }
+  .related a { font-size: 13px; border: 1px solid var(--line); padding: 11px 18px;
+               border-radius: 100px; text-decoration: none; color: var(--muted);
+               transition: border-color 0.18s, color 0.18s; }
+  .related a:hover { border-color: var(--teal); color: var(--ink); }
+
+  footer { border-top: 1px solid var(--line); background: var(--bg-2); }
+  .foot-inner { max-width: 1600px; margin: 0 auto; padding: 70px 48px 32px; }
+  .foot-cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 38px;
+               padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+  .foot-cols .lbl { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+                    color: var(--faint); margin-bottom: 16px; }
+  .foot-cols a { display: block; font-size: 13.5px; color: var(--muted);
+                 margin-bottom: 10px; text-decoration: none; transition: color 0.18s; }
+  .foot-cols a:hover { color: var(--ink); }
+  .foot-cols p, .foot-cols address { font-size: 13.5px; line-height: 1.75;
+                                     font-style: normal; margin: 0; color: var(--muted); }
+  .foot-bottom { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+                 padding-top: 24px; font-size: 12.5px; color: var(--faint); }
+  .foot-bottom a { text-decoration: none; color: var(--muted); }
+
+  @media (max-width: 1180px) {
+    .cards, .cards.c4 { grid-template-columns: repeat(2, 1fr); }
+    .cards.feature { grid-template-columns: repeat(2, 1fr); }
+    .foot-cols { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 820px) {
+    .cards, .cards.c4, .cards.feature, .fcards, .compare { grid-template-columns: 1fr; }
+    .cards.feature .icard-img { aspect-ratio: 16 / 9; }
+    .metric div { border-right: none; padding-right: 0; margin-right: 0; }
+  }
+  @media (max-width: 640px) {
     .crumbs, section, .hero-inner, .band-inner, .cta-band .inner, .foot-inner {
-      padding-left:22px; padding-right:22px; }
-    .hero-inner { padding-top:64px; padding-bottom:60px; }
-    section { padding-top:64px; padding-bottom:64px; }
-    .metric { gap:22px; } .metric div { padding-top:20px; }
+      padding-left: 22px; padding-right: 22px; }
+    .hero-inner { padding-top: 64px; padding-bottom: 60px; }
+    section { padding-top: 64px; padding-bottom: 64px; }
+    .metric { gap: 22px; }
+    .metric div { padding-top: 20px; }
   }
-  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important;} }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
 
   .svc-hero-img { border-radius:18px; overflow:hidden; border:1px solid var(--line);
-                  margin-top:44px; aspect-ratio:21/9; }
+                  margin-top:46px; aspect-ratio:21/9; }
   .svc-hero-img img { width:100%; height:100%; object-fit:cover; }
-
-  .steps { counter-reset:step; margin-top:42px; }
-  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
-          border-top:1px solid var(--line-light); align-items:start; }
-  .step:last-child { border-bottom:1px solid var(--line-light); }
-  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
-               color:var(--gray-on-white); padding-top:3px; }
-  .step .num::before { content:"0" counter(step); }
-  .step h3 { font-size:17px; margin:0 0 9px; }
-  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
-
-  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
-             border:1px solid var(--line-light); margin-top:42px; }
-  .compare > div { background:var(--white); padding:26px 24px; }
-  .compare h3 { font-size:15.5px; margin:0 0 10px; }
-  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
-  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
-
-  .limits { background:var(--black); color:var(--white); }
-  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
-  .limits h2 { color:var(--white); }
-  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
-  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
-               border-bottom:1px solid var(--line-dark); position:relative; }
-  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
-
-  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
+  .steps .num::before { content:"0"; }
 </style>
 </head>
 <body>
-
 <div class="grid-bg"></div>
 <div class="page">
-<div class="navbar-wrap"><nav>
-  <a href="../draft.html" class="wordmark">Anqor</a>
-  <ul class="navlinks" id="navlinks">
-    <li><a href="../services/index.html">Services</a></li><li><a href="../industries/index.html">Industries</a></li><li><a href="../locations/index.html">Locations</a></li><li><a href="../blog/index.html">Blog</a></li><li><a href="../about.html">About</a></li>
-    <li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li>
-  </ul>
-  <button class="hamburger" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')"><span></span><span></span><span></span></button>
-</nav></div>
-<div class="crumbs"><a href="../draft.html">Home</a><i>/</i><a href="index.html">Services</a><i>/</i>AI Lead Qualification</div>
+<div class="navbar-wrap"><nav><a href="../index.html" class="wordmark">Anqor</a><ul class="navlinks" id="navlinks"><li><a href="../services/index.html">Services</a></li><li><a href="../industries/index.html">Industries</a></li><li><a href="../locations/index.html">Locations</a></li><li><a href="../shows.html">Shows</a></li><li><a href="../about.html">About</a></li><li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li></ul><button class="hamburger" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')"><span></span><span></span><span></span></button></nav></div>
+<div class="crumbs"><a href="../index.html">Home</a><i>/</i><a href="index.html">Services</a><i>/</i>AI Lead Qualification</div>
 <div class="hero"><div class="hero-inner">
   <div class="kicker">Powered by Usetta</div>
   <h1>An inbound agent that answers in seconds, at 3am, every time.</h1>
@@ -543,96 +557,97 @@
 
 <section>
   <div class="eyebrow">The problem</div>
-  <h2>The problem.</h2>
-  <p class="lead">Almost every business we look at has the same leak, and almost none of them have measured it. Enquiries arrive at 9pm, on a Friday, or while the two people who could answer are already on calls. The message sits. By the time somebody replies the next morning, the prospect has messaged two competitors and is deep in conversation with whichever one answered first.</p><p class="lead">The uncomfortable part is that this has nothing to do with how good your service is, what you charge, or how strong your reputation is. It is purely a function of who replied first. You can be the best brokerage in Dubai and lose a serious buyer to a mediocre one with a faster thumb.</p><p class="lead">The instinctive fix is more staff, and it doesn&#x27;t work. Adding headcount extends your coverage window; it doesn&#x27;t eliminate it. Nobody staffs 2am. Nobody staffs the fifteen minutes when the whole team is in a meeting. And every additional person raises your fixed cost against a problem that is fundamentally about latency, not capacity.</p><p class="lead">The correct fix is an agent that never queues. Not a chatbot with buttons, and not an autoresponder that says &#x27;thanks, we&#x27;ll be in touch&#x27; — an agent that reads what was actually written, works from your qualification criteria, answers the questions a prospect asks before they&#x27;ll agree to a call, and books that call while the intent is still warm.</p>
+  <h2>You are not losing leads on price. You&#x27;re losing them on latency.</h2>
+  <p class="lead">Almost every business we look at has the same leak, and almost none of them have measured it. Enquiries arrive at 9pm, on a Friday, or while the two people who could answer are already on calls. The message sits. By the time somebody replies the next morning, the prospect has messaged two competitors and is deep in conversation with whichever one answered first.</p><p class="lead">The uncomfortable part is that this has nothing to do with how good your service is, what you charge, or how strong your reputation is. It is purely a function of who replied first. You can be the best brokerage in Dubai and lose a serious buyer to a mediocre one with a faster thumb.</p><p class="lead">The instinctive fix is more staff, and it doesn&#x27;t work. Adding headcount extends your coverage window; it doesn&#x27;t eliminate it. Nobody staffs 2am. Nobody staffs the fifteen minutes when the whole team is in a meeting. And every additional person raises your fixed cost against a problem that is fundamentally about latency, not capacity.</p><p class="lead">The correct fix is an agent that never queues. Not a chatbot with buttons, and not an autoresponder that says &#x27;thanks, we&#x27;ll be in touch&#x27;, but an agent that reads what was actually written, works from your qualification criteria, answers the questions a prospect asks before they&#x27;ll agree to a call, and books that call while the intent is still warm.</p>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">How it works</div>
-  <h2>How it works, step by step.</h2>
-  <div class="steps"><div class="step"><div class="num"></div><div><h3>Message arrives</h3><p>WhatsApp, email, web chat or Instagram DM. The agent is event-driven rather than polling on a schedule, so it sees the message the instant it lands — not on the next cron cycle.</p></div></div><div class="step"><div class="num"></div><div><h3>Intent and context read</h3><p>It reads the actual message rather than matching keywords. A message saying &#x27;is the 2BR in Marina still available, and what&#x27;s the service charge&#x27; is understood as three things at once: a specific unit enquiry, an availability question, and a cost objection forming.</p></div></div><div class="step"><div class="num"></div><div><h3>Qualified against your criteria</h3><p>Budget, timeline, location, financing status, decision authority — whatever your criteria actually are. Not a generic lead score somebody else&#x27;s product designed for a different market.</p></div></div><div class="step"><div class="num"></div><div><h3>Objections handled from your playbook</h3><p>The questions that stall a conversation — price, service charges, handover risk, contract terms — get answered from material you wrote and approved, in your positioning, not improvised.</p></div></div><div class="step"><div class="num"></div><div><h3>Meeting booked</h3><p>Straight into your existing calendar, with availability respected and a confirmation sent. No back-and-forth about times, which is where a surprising share of warm leads quietly die.</p></div></div><div class="step"><div class="num"></div><div><h3>Escalation when it&#x27;s needed</h3><p>Anything outside the playbook, anything high-value, anything where the prospect asks for a person — routed to the right human immediately with the full thread attached, so nobody starts the conversation over.</p></div></div></div>
+  <h2>What happens between the message and the meeting.</h2>
+  <div class="steps"><div class="step"><div class="num">01</div><div><h3>Message arrives</h3><p>WhatsApp, email, web chat or Instagram DM. The agent is event-driven rather than polling on a schedule, so it sees the message the instant it lands, not on the next cron cycle.</p></div></div><div class="step"><div class="num">02</div><div><h3>Intent and context read</h3><p>It reads the actual message rather than matching keywords. A message saying &#x27;is the 2BR in Marina still available, and what&#x27;s the service charge&#x27; is understood as three things at once: a specific unit enquiry, an availability question, and a cost objection forming.</p></div></div><div class="step"><div class="num">03</div><div><h3>Qualified against your criteria</h3><p>Budget, timeline, location, financing status, decision authority, whatever your criteria actually are. Not a generic lead score somebody else&#x27;s product designed for a different market.</p></div></div><div class="step"><div class="num">04</div><div><h3>Objections handled from your playbook</h3><p>The questions that stall a conversation, price, service charges, handover risk, contract terms, get answered from material you wrote and approved, in your positioning, not improvised.</p></div></div><div class="step"><div class="num">05</div><div><h3>Meeting booked</h3><p>Straight into your existing calendar, with availability respected and a confirmation sent. No back-and-forth about times, which is where a surprising share of warm leads quietly die.</p></div></div><div class="step"><div class="num">06</div><div><h3>Escalation when it&#x27;s needed</h3><p>Anything outside the playbook, anything high-value, anything where the prospect asks for a person, routed to the right human immediately with the full thread attached, so nobody starts the conversation over.</p></div></div></div>
 </div></div>
 
 <section>
   <div class="eyebrow">What it isn't</div>
   <h2>Four things people assume this is.</h2>
-  <div class="compare"><div><h3>A decision-tree chatbot</h3><p>Button-menu bots fail the moment a prospect writes a real sentence. This reads free text, including a message with three questions in it and a spelling mistake.</p></div><div><h3>An autoresponder</h3><p>&#x27;Thanks for your message, we&#x27;ll get back to you&#x27; buys nothing. The prospect still leaves. The point is a substantive first reply, not an acknowledgement.</p></div><div><h3>A replacement for your sales team</h3><p>It handles the first ten minutes — the part that&#x27;s the same every time. Your closers get a qualified prospect who already has their basic questions answered, at the moment they&#x27;re most engaged.</p></div><div><h3>A generic AI wrapper</h3><p>It runs on Usetta, which we built and operate on our own pipeline. When it needs to behave differently for your business, we change it. There&#x27;s no vendor roadmap in the way.</p></div></div>
+  <div class="compare"><div><h3>A decision-tree chatbot</h3><p>Button-menu bots fail the moment a prospect writes a real sentence. This reads free text, including a message with three questions in it and a spelling mistake.</p></div><div><h3>An autoresponder</h3><p>&#x27;Thanks for your message, we&#x27;ll get back to you&#x27; buys nothing. The prospect still leaves. The point is a substantive first reply, not an acknowledgement.</p></div><div><h3>A replacement for your sales team</h3><p>It handles the first ten minutes, the part that&#x27;s the same every time. Your closers get a qualified prospect who already has their basic questions answered, at the moment they&#x27;re most engaged.</p></div><div><h3>A generic AI wrapper</h3><p>It runs on Usetta, which we built and operate on our own pipeline. When it needs to behave differently for your business, we change it. There&#x27;s no vendor roadmap in the way.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Instant first response</b> on WhatsApp, email, web chat and Instagram — measured in seconds, not hours</li><li><b>Qualification against your own criteria</b>, not a generic scoring model designed for a different market</li><li><b>Objection handling from your playbook</b>, in English and Arabic, including mixed-language threads</li><li><b>Calendar booking</b> straight into your existing scheduling tool, with availability respected</li><li><b>Human escalation rules</b> you control — when to hand over, to whom, and with what context attached</li><li><b>Full transcript logging</b>, so you can audit every conversation the agent ever had</li><li><b>A dashboard</b> showing what came in, what qualified, what booked and what was escalated</li><li><b>Ongoing tuning</b> — the playbook is a living document, and we adjust it as you learn what actually converts</li></ul>
+  <ul class="checks"><li><b>Instant first response</b> on WhatsApp, email, web chat and Instagram, measured in seconds, not hours</li><li><b>Qualification against your own criteria</b>, not a generic scoring model designed for a different market</li><li><b>Objection handling from your playbook</b>, in English and Arabic, including mixed-language threads</li><li><b>Calendar booking</b> straight into your existing scheduling tool, with availability respected</li><li><b>Human escalation rules</b> you control: when to hand over, to whom, and with what context attached</li><li><b>Full transcript logging</b>, so you can audit every conversation the agent ever had</li><li><b>A dashboard</b> showing what came in, what qualified, what booked and what was escalated</li><li><b>Ongoing tuning</b>, because the playbook is a living document and we adjust it as you learn what converts</li></ul>
   <div class="stackrow"><span>WhatsApp Business API</span><span>Claude</span><span>Supabase</span><span>FastAPI</span><span>Postgres</span><span>Calendar APIs</span><span>Instagram DM</span></div>
 </div></div>
 
 <section class="proof">
   <div class="eyebrow">Why we can say this</div>
-  <h2>Why we can say this.</h2>
-  <p>We run this on Anqor&#x27;s own inbound before selling it. That isn&#x27;t a positioning line — it&#x27;s the reason we can make changes quickly, because we feel the same problems our clients do, in the same week.</p><p>The product is Usetta, a multi-tenant system in production. It handles WhatsApp Business API, email and web chat, stores conversations in Postgres, and runs its classification and reply generation through frontier models with routing to cheaper models for the simpler turns.</p>
+  <h2>We run it on our own inbound first.</h2>
+  <p>We run this on Anqor&#x27;s own inbound before selling it. That isn&#x27;t a positioning line, it&#x27;s the reason we can make changes quickly, because we feel the same problems our clients do, in the same week.</p><p>The product is Usetta, a multi-tenant system in production. It handles WhatsApp Business API, email and web chat, stores conversations in Postgres, and runs its classification and reply generation through frontier models with routing to cheaper models for the simpler turns.</p>
 </section>
 
 <div class="band limits"><div class="band-inner">
-  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <div class="eyebrow">Honest limits</div>
   <h2>What this won't do.</h2>
-  <ul><li>It will not close a complex deal. It qualifies and books; the human closes.</li><li>It needs a real playbook from you. If your qualification criteria only exist in one person&#x27;s head, the first week of work is getting them written down — and that&#x27;s genuinely useful whether or not you automate afterwards.</li><li>It is not free to run. Model inference has a per-conversation cost. For high-value leads that&#x27;s trivially worth it; for very low-value, very high-volume enquiries we&#x27;ll tell you if the arithmetic doesn&#x27;t work.</li><li>It shouldn&#x27;t commit inventory without a confirmation step. An overbooking costs more than a slower reply.</li></ul>
+  <ul><li>It will not close a complex deal. It qualifies and books; the human closes.</li><li>It needs a real playbook from you. If your qualification criteria only exist in one person&#x27;s head, the first week of work is getting them written down, and that&#x27;s genuinely useful whether or not you automate afterwards.</li><li>It is not free to run. Model inference has a per-conversation cost. For high-value leads that&#x27;s trivially worth it; for very low-value, very high-volume enquiries we&#x27;ll tell you if the arithmetic doesn&#x27;t work.</li><li>It shouldn&#x27;t commit inventory without a confirmation step. An overbooking costs more than a slower reply.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>How fast does it actually respond?</h3><p>Seconds. The agent is event-driven rather than polling on a schedule, so it replies as soon as the message lands. There&#x27;s no queue and no business-hours gate unless you deliberately set one — some businesses do want an out-of-hours message that sets expectations differently, and that&#x27;s a configuration choice.</p></div><div class="faq-item"><h3>Will it say something wrong to a customer?</h3><p>It works from a playbook you approve, and it escalates rather than guesses when a question falls outside it. Every conversation is logged in full, so if it does get something wrong you can see exactly what happened and tighten the playbook. You&#x27;re correcting a document, not debugging a black box. In practice the first two weeks after launch involve real tuning, and we plan for that rather than pretending it launches perfect.</p></div><div class="faq-item"><h3>Does it work in Arabic?</h3><p>Yes, Arabic and English, including threads that switch between the two mid-conversation — which is how a large share of UAE enquiries actually arrive. This is handled at the model layer rather than by translating an English response, which is a visible quality difference to a native reader.</p></div><div class="faq-item"><h3>What happens to leads it can&#x27;t qualify?</h3><p>They escalate to a human with the full thread attached, so your team doesn&#x27;t restart the conversation. We&#x27;d rather the agent escalate too often at first and get tuned down than have it guess confidently and lose a serious prospect.</p></div><div class="faq-item"><h3>Can it work with our existing CRM?</h3><p>Yes. We build around what you already run rather than asking you to migrate first — migration is a separate decision and usually a bad one to bundle into an automation project. If you don&#x27;t have a CRM, the dashboard covers the basics until you need more.</p></div><div class="faq-item"><h3>How long does it take to set up?</h3><p>Two to three weeks for a working first version, most of which is defining your qualification criteria and objection playbook rather than engineering. If those already exist in written form it&#x27;s faster.</p></div><div class="faq-item"><h3>What does it cost to run?</h3><p>There&#x27;s a per-conversation inference cost, which varies with how long conversations run and which models the routing selects. We&#x27;ll model it against your actual enquiry volume before you commit, and tell you if the numbers don&#x27;t justify it at your volume and deal size.</p></div><div class="faq-item"><h3>Do customers know they&#x27;re talking to AI?</h3><p>We recommend being straightforward about it. In practice it doesn&#x27;t reduce conversion — response speed matters far more to a prospect than who typed the reply — and being caught pretending is a worse outcome than disclosing.</p></div></div>
+  <div class="faq-list"><details class="faq-item"><summary>How fast does it actually respond?</summary><p>Seconds. The agent is event-driven rather than polling on a schedule, so it replies as soon as the message lands. There&#x27;s no queue and no business-hours gate unless you deliberately set one. Some businesses do want an out-of-hours message that sets expectations differently, and that&#x27;s a configuration choice.</p></details><details class="faq-item"><summary>Will it say something wrong to a customer?</summary><p>It works from a playbook you approve, and it escalates rather than guesses when a question falls outside it. Every conversation is logged in full, so if it does get something wrong you can see exactly what happened and tighten the playbook. You&#x27;re correcting a document, not debugging a black box. In practice the first two weeks after launch involve real tuning, and we plan for that rather than pretending it launches perfect.</p></details><details class="faq-item"><summary>Does it work in Arabic?</summary><p>Yes, Arabic and English, including threads that switch between the two mid-conversation, which is how a large share of UAE enquiries actually arrive. This is handled at the model layer rather than by translating an English response, which is a visible quality difference to a native reader.</p></details><details class="faq-item"><summary>What happens to leads it can&#x27;t qualify?</summary><p>They escalate to a human with the full thread attached, so your team doesn&#x27;t restart the conversation. We&#x27;d rather the agent escalate too often at first and get tuned down than have it guess confidently and lose a serious prospect.</p></details><details class="faq-item"><summary>Can it work with our existing CRM?</summary><p>Yes. We build around what you already run rather than asking you to migrate first, because migration is a separate decision and usually a bad one to bundle into an automation project. If you don&#x27;t have a CRM, the dashboard covers the basics until you need more.</p></details><details class="faq-item"><summary>How long does it take to set up?</summary><p>Two to three weeks for a working first version, most of which is defining your qualification criteria and objection playbook rather than engineering. If those already exist in written form it&#x27;s faster.</p></details><details class="faq-item"><summary>What does it cost to run?</summary><p>There&#x27;s a per-conversation inference cost, which varies with how long conversations run and which models the routing selects. We&#x27;ll model it against your actual enquiry volume before you commit, and tell you if the numbers don&#x27;t justify it at your volume and deal size.</p></details><details class="faq-item"><summary>Do customers know they&#x27;re talking to AI?</summary><p>We recommend being straightforward about it. In practice it doesn&#x27;t reduce conversion, because response speed matters far more to a prospect than who typed the reply, and being caught pretending is a worse outcome than disclosing.</p></details></div>
   <div class="founder-box"><div>
-    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
-    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-  </div></div>
-</section>
-
-<div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks.</p>
+  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you something you don&#x27;t need.</p>
+  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+</div></div>
+</section><div class="cta-band"><div class="inner">
+  <h2>See it answering, in your own words.</h2><p>The fastest way to judge this is to watch it handle a real enquiry from your business. Bring one to the call.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>
-  </div>
-  <div class="related"><a href="ai-outbound-sales.html">AI Outbound Sales →</a><a href="ai-agents-workflow-automation.html">AI Agents &amp; Workflow Automation →</a><a href="saas-platforms.html">SaaS Platforms →</a></div>
+  </div><div class="related"><a href="ai-outbound-sales.html">AI Outbound Sales &rarr;</a><a href="ai-agents-workflow-automation.html">AI Agents &amp; Workflow Automation &rarr;</a><a href="saas-platforms.html">SaaS Platforms &rarr;</a></div>
 </div></div>
-<footer>
-  <div class="foot-inner">
-    <div class="foot-cols">
-      <div>
-        <a href="../draft.html" class="wordmark" style="margin-bottom:12px">Anqor</a>
-        <address>
-          <b style="color:#fff">Anqor Studios L.L.C-FZ</b><br>
-          Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba<br>Dubai, United Arab Emirates<br>
-          <a href="mailto:hello@anqorstudios.com" style="display:inline;margin:0">hello@anqorstudios.com</a>
-        </address>
-      </div>
-      <div><div class="lbl">Services</div><a href="../services/ai-lead-qualification.html">AI Lead Qualification</a><a href="../services/ai-outbound-sales.html">AI Outbound Sales</a><a href="../services/document-compliance-automation.html">Document &amp; Compliance Automation</a><a href="../services/ai-agents-workflow-automation.html">AI Agents &amp; Workflow Automation</a><a href="../services/ai-native.html">AI-Native Product Development</a><a href="../services/ai-search-visibility.html">AI Search Visibility (GEO)</a><a href="../services/index.html"><b>All services →</b></a></div>
-      <div><div class="lbl">Industries</div><a href="../industries/real-estate.html">Real Estate</a><a href="../industries/hospitality.html">Hospitality</a><a href="../industries/fintech.html">Fintech</a><a href="../industries/saas.html">SaaS</a><a href="../industries/startups.html">Startups</a><a href="../industries/healthcare.html">Healthcare</a><a href="../industries/index.html"><b>All industries →</b></a></div>
-      <div><div class="lbl">Locations</div>
-        <a href="../locations/dubai.html">AI Automation Dubai</a>
-        <a href="../locations/abu-dhabi.html">AI Automation Abu Dhabi</a>
-        <a href="../locations/sharjah.html">AI Automation Sharjah</a>
-        <div class="lbl" style="margin-top:20px">Company</div>
-        <a href="../about.html">About</a>
-        <a href="../contact.html">Contact</a>
-        <a href="../blog/index.html">Blog</a>
-      </div>
+<footer><div class="foot-inner">
+  <div class="foot-cols">
+    <div>
+      <a href="../index.html" class="wordmark" style="margin-bottom:14px">Anqor</a>
+      <address>
+        <b style="color:#fff">Anqor Studios L.L.C-FZ</b><br>Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba<br>
+        Dubai, United Arab Emirates<br>
+        <a href="mailto:hello@anqorstudios.com" style="display:inline;margin:0">hello@anqorstudios.com</a>
+      </address>
     </div>
-    <div class="foot-bottom">
-      <span>© 2026 Anqor Studios L.L.C-FZ. All rights reserved.</span>
-      <span><a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://instagram.com/anqorstudios" target="_blank" rel="noopener">Instagram</a></span>
+    <div><div class="lbl">Services</div><a href="../services/ai-lead-qualification.html">AI Lead Qualification</a><a href="../services/ai-outbound-sales.html">AI Outbound Sales</a><a href="../services/document-compliance-automation.html">Document &amp; Compliance Automation</a><a href="../services/ai-agents-workflow-automation.html">AI Agents &amp; Workflow Automation</a><a href="../services/ai-native.html">AI-Native Product Development</a><a href="../services/ai-search-visibility.html">AI Search Visibility (GEO)</a><a href="../services/index.html"><b>All services &rarr;</b></a></div>
+    <div><div class="lbl">Industries</div><a href="../industries/real-estate.html">Real Estate</a><a href="../industries/hospitality.html">Hospitality</a><a href="../industries/fintech.html">Fintech</a><a href="../industries/saas.html">SaaS</a><a href="../industries/startups.html">Startups</a><a href="../industries/healthcare.html">Healthcare</a><a href="../industries/index.html"><b>All industries &rarr;</b></a></div>
+    <div><div class="lbl">Locations</div>
+      <a href="../locations/dubai.html">AI Automation Dubai</a>
+      <a href="../locations/abu-dhabi.html">AI Automation Abu Dhabi</a>
+      <a href="../locations/sharjah.html">AI Automation Sharjah</a>
+      <div class="lbl" style="margin-top:22px">Company</div>
+      <a href="../about.html">About</a>
+      <a href="../shows.html">Shows</a>
     </div>
   </div>
-</footer>
+  <div class="foot-bottom">
+    <span>&copy; 2026 Anqor Studios L.L.C-FZ. All rights reserved.</span>
+    <span><a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn</a> &middot;
+      <a href="https://instagram.com/anqorstudios" target="_blank" rel="noopener">Instagram</a></span>
+  </div>
+</div></footer>
 </div>
 <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 <script>
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
-    var lenis = new Lenis({ duration: 1.1, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+    var lenis = new Lenis({ duration: 1.05, smoothWheel: true,
+      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
     requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var el = document.querySelector(a.getAttribute('href'));
+        if (el) { e.preventDefault(); lenis.scrollTo(el, { offset: -80 }); }
+      });
+    });
   }
 </script>
 </body>

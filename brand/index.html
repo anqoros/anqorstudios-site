@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anqor Brand Guide — Draft</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:wght@700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0A0A0A; --white:#FFFFFF; --gray:rgba(10,10,10,0.55); --line:rgba(10,10,10,0.12); --setta:#267870; --outlia:#FA5051; --ranqr:#3FA66B; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--white); color: var(--black); font-family: 'Archivo', sans-serif; }
+  a { color: inherit; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 48px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--white); z-index: 10; }
+  .wordmark-nav { font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 800; }
+  .wordmark-nav span { color: var(--gray); font-weight: 500; font-size: 14px; margin-left: 8px; }
+
+  header { padding: 64px 48px 20px; max-width: 900px; }
+  .eyebrow { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-bottom: 16px; }
+  h1 { font-size: clamp(30px,4vw,44px); font-weight: 800; letter-spacing: -0.01em; margin: 0 0 16px; }
+  header > p { font-size: 16px; line-height: 1.65; color: var(--gray); max-width: 68ch; }
+
+  section { padding: 56px 48px; max-width: 1200px; border-top: 1px solid var(--line); }
+  section h2 { font-size: 24px; font-weight: 800; margin: 0 0 10px; }
+  section .lede { font-size: 14.5px; color: var(--gray); max-width: 68ch; line-height: 1.6; margin: 0 0 40px; }
+
+  .option-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .option { background: var(--white); padding: 48px 40px; }
+  .option.dark { background: var(--black); }
+  .option-label { font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray); margin-bottom: 24px; }
+  .option.dark .option-label { color: rgba(255,255,255,0.5); }
+  .option-note { font-size: 13px; color: var(--gray); margin-top: 20px; max-width: 40ch; }
+  .option.dark .option-note { color: rgba(255,255,255,0.55); }
+  .pick { display: inline-block; margin-top: 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 6px 12px; border-radius: 100px; }
+  .option.dark .pick { background: var(--white); color: var(--black); }
+
+  .wm-1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; letter-spacing: -0.015em; font-size: 56px; }
+  .wm-2 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: 56px; text-transform: lowercase; }
+  .wm-3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 900; letter-spacing: 0.01em; font-size: 52px; }
+  .wm-4 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; letter-spacing: -0.015em; font-size: 56px; display: flex; align-items: baseline; gap: 8px; }
+  .wm-4 .arrow { font-size: 0.4em; }
+
+  .favicon-row { display: flex; gap: 48px; align-items: flex-end; flex-wrap: wrap; }
+  .fav-set { text-align: center; }
+  .fav-set .label { font-family: ui-monospace, monospace; font-size: 11px; color: var(--gray); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .fav-tiles { display: flex; gap: 10px; align-items: flex-end; }
+  .fav { background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; border-radius: 22%; }
+  .fav.f32 { width: 32px; height: 32px; font-size: 18px; }
+  .fav.f16 { width: 16px; height: 16px; font-size: 10px; border-radius: 30%; }
+  .fav.f64 { width: 64px; height: 64px; font-size: 34px; }
+  .fav.round { border-radius: 50%; }
+
+  .ref-compare { display: flex; gap: 40px; align-items: center; margin-bottom: 40px; padding: 28px; background: #F5F4F1; border-radius: 10px; flex-wrap: wrap; }
+  .ref-compare img { width: 90px; height: 90px; border-radius: 20%; }
+  .ref-compare .ref-note { font-size: 13.5px; color: var(--gray); max-width: 46ch; line-height: 1.6; }
+  .ref-compare .ref-note b { color: var(--black); }
+  .mono-tile { display: flex; align-items: center; justify-content: center; border-radius: 20%; }
+  .mono-tile.cream { background: #F1EEE7; }
+  .mono-tile.ink { background: #0A0A0A; }
+  .mono-tile svg { width: 68%; height: 68%; }
+
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 20px; }
+  .swatch { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .swatch-fill { height: 90px; }
+  .swatch-info { padding: 14px 16px; }
+  .swatch-info b { display: block; font-size: 13.5px; margin-bottom: 3px; }
+  .swatch-info span { font-family: ui-monospace, monospace; font-size: 12px; color: var(--gray); }
+
+  .type-sample { padding: 30px 0; border-top: 1px solid var(--line); }
+  .type-sample:first-child { border-top: none; }
+  .type-sample .use { font-family: ui-monospace, monospace; font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .type-display { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -0.015em; }
+  .type-body { font-family: 'Archivo', sans-serif; font-size: 17px; line-height: 1.6; max-width: 60ch; color: var(--black); }
+  .type-mono { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+
+  .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .voice-col h3 { font-size: 14px; margin: 0 0 14px; }
+  .voice-col.good h3 { color: var(--ranqr); }
+  .voice-col.bad h3 { color: var(--outlia); }
+  .voice-col p { font-size: 14.5px; line-height: 1.6; color: var(--black); background: #F5F4F1; padding: 16px 18px; border-radius: 6px; margin: 0 0 10px; }
+
+  .asset-table { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .asset-row { display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 20px; padding: 14px 20px; border-top: 1px solid var(--line); font-size: 13.5px; align-items: center; }
+  .asset-row:first-child { border-top: none; }
+  .asset-head { background: #F5F4F1; font-weight: 700; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray); }
+  .asset-row a { font-family: ui-monospace, monospace; font-size: 12.5px; color: var(--black); border-bottom: 1px solid var(--line); word-break: break-all; }
+  .asset-row a:hover { border-color: var(--black); }
+  .asset-row span:not(:first-child) { color: var(--gray); }
+  .asset-row code { font-size: 12px; background: #F5F4F1; padding: 1px 5px; border-radius: 3px; }
+  @media (max-width: 720px) { .asset-row { grid-template-columns: 1fr; gap: 6px; } .asset-head { display: none; } }
+
+  .avatar-preview { display: flex; gap: 44px; align-items: flex-start; flex-wrap: wrap; margin-top: 34px; padding: 32px; background: #F5F4F1; border-radius: 8px; }
+  .avatar-preview > div { text-align: center; }
+  .av-circle { width: 132px; height: 132px; border-radius: 50%; overflow: hidden; }
+  .av-circle.bordered { box-shadow: 0 0 0 1px var(--line); }
+  .av-circle img { width: 100%; height: 100%; display: block; }
+  .avatar-preview span { display: block; font-size: 12px; color: var(--gray); margin-top: 12px; }
+  .av-note { flex: 1; min-width: 260px; font-size: 13.5px; line-height: 1.65; color: var(--gray); margin: 0; }
+
+  .size-test { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; padding: 30px 32px; border: 1px solid var(--line); border-radius: 8px; }
+  .size-col { text-align: center; }
+  .size-row { display: flex; gap: 16px; align-items: flex-end; }
+  .st { border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+  .st img { width: 100%; height: 100%; display: block; }
+  .size-col span { display: block; font-size: 12px; color: var(--gray); margin-top: 14px; }
+
+  .status-banner { background: #F5F4F1; padding: 18px 48px; font-size: 13.5px; color: var(--gray); }
+  .status-banner b { color: var(--black); }
+
+  @media (max-width: 800px) {
+    nav, header, section, .status-banner { padding-left: 22px; padding-right: 22px; }
+    .option-grid, .voice-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wordmark-nav">Anqor<span>Brand Guide</span></div>
+  <a href="../draft.html" style="font-size:13.5px; color:var(--gray); text-decoration:none; border-bottom:1px solid var(--line);">← Back to the site</a>
+</nav>
+
+<div class="status-banner"><b>Status: draft, decisions pending.</b> This is a working proposal for the wordmark and favicon — not final until you pick. Colors and typography below are already live on the site, codified here for reference.</div>
+
+<header>
+  <div class="eyebrow">Identity — Draft 1</div>
+  <h1>The wordmark is the logo.</h1>
+  <p>No icon standing in front of the name — "Anqor" set in its own type does the work, the way Runway's logo is just "runway" in a confident geometric sans, nothing else competing for attention. Four options below, same principle, different weight and spacing. Pick one, or tell me what's close but not quite it.</p>
+</header>
+
+<section>
+  <h2>Wordmark options</h2>
+  <p class="lede">All four are the same typeface already live on the site (Bricolage Grotesque) — this isn't a font change, it's finding the right weight and spacing for a mark that has to work standalone, not just as a nav label.</p>
+  <div class="option-grid">
+    <div class="option">
+      <div class="option-label">Option 1 — Current (baseline)</div>
+      <div class="wm-1">Anqor</div>
+      <p class="option-note">What's live today. Bold, tight tracking, sentence case. Safe, already proven at nav size — the open question is whether it has enough presence to stand alone as a mark.</p>
+    </div>
+    <div class="option dark">
+      <div class="option-label">Option 2 — Lowercase, tighter</div>
+      <div class="wm-2">anqor</div>
+      <p class="option-note">Closest to the Runway reference — all-lowercase, tracked tighter, reads more like a product/tech brand than a studio. More geometric, slightly less "designed."</p>
+    </div>
+    <div class="option">
+      <div class="option-label">Option 3 — Heavier, spaced out</div>
+      <div class="wm-3">ANQOR</div>
+      <p class="option-note">Opposite direction — all-caps, heaviest weight available, a touch of breathing room between letters. Reads more authoritative/agency, less startup.</p>
+    </div>
+    <div class="option dark">
+      <div class="option-label">Option 4 — With the arrow mark</div>
+      <div class="wm-4">Anqor<span class="arrow">↗</span></div>
+      <p class="option-note">Same as Option 1, but claims the ↗ already used on every CTA across the site ("See it live↗") as part of the mark itself — gives you one small ownable detail instead of a pure text-only logo.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Favicon &amp; icon</h2>
+  <p class="lede">Since the wordmark is the whole logo, the favicon can't just be a tiny version of it — "Anqor" is illegible at 16px. It needs a compact mark derived from the wordmark instead.</p>
+
+  <div class="ref-compare">
+    <img src="_reference/runway-icon.png" alt="Runway's actual favicon, downloaded from runway.com for reference">
+    <div class="ref-note"><b>This is Runway's real icon file</b>, pulled directly from runway.com, not a recreation from memory. It's not a bold letter from their font — it's a custom monoline "R" built from one continuous thick stroke with fully rounded caps and joins, like it's bent from a single piece of rounded tube. That construction technique is what I copied below, not the letter itself.</div>
+  </div>
+
+  <p class="lede">Built the same way for "A" — one stroked path, not a font glyph — shown at actual favicon sizes (64/32/16px) in both directions you asked for.</p>
+
+  <svg width="0" height="0" style="position:absolute;">
+    <symbol id="mark-a" viewBox="0 0 100 100">
+      <path d="M 22 82 L 50 18 L 78 82" fill="none" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M 34 58 L 66 58" fill="none" stroke-width="16" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <div class="favicon-row">
+    <div class="fav-set">
+      <div class="label">Black on cream</div>
+      <div class="fav-tiles">
+        <div class="mono-tile cream" style="width:64px;height:64px;"><svg><use href="#mark-a" stroke="#0A0A0A"/></svg></div>
+        <div class="mono-tile cream" style="width:32px;height:32px;"><svg><use href="#mark-a" stroke="#0A0A0A"/></svg></div>
+        <div class="mono-tile cream" style="width:16px;height:16px;"><svg><use href="#mark-a" stroke="#0A0A0A"/></svg></div>
+      </div>
+    </div>
+    <div class="fav-set">
+      <div class="label">White on ink black</div>
+      <div class="fav-tiles">
+        <div class="mono-tile ink" style="width:64px;height:64px;"><svg><use href="#mark-a" stroke="#FFFFFF"/></svg></div>
+        <div class="mono-tile ink" style="width:32px;height:32px;"><svg><use href="#mark-a" stroke="#FFFFFF"/></svg></div>
+        <div class="mono-tile ink" style="width:16px;height:16px;"><svg><use href="#mark-a" stroke="#FFFFFF"/></svg></div>
+      </div>
+    </div>
+  </div>
+  <p class="option-note" style="margin-top:30px;">Holds up better at 16px than the plain bold-font "A" from the first draft did — the thick uniform stroke stays one solid shape instead of thinning out into fine serifs/terminals at small sizes. Cream-background version for light contexts (browser tabs, light-mode UI), black version for dark contexts — same mark, same file, just the two colorways every favicon set needs.</p>
+</section>
+
+<section>
+  <h2>The asset files</h2>
+  <p class="lede">Real files on disk, in <code>brand/</code> next to this page. The wordmark SVGs are true vector outlines — the text was converted to paths, so they render identically on any machine whether or not Bricolage Grotesque is installed. Use SVG wherever possible; the PNGs are for tools that can't take SVG (Word, some social profile uploaders).</p>
+  <div class="asset-table">
+    <div class="asset-row asset-head"><span>File</span><span>Format</span><span>Use it for</span></div>
+
+    <div class="asset-row"><a href="logo/anqor-wordmark-black.svg">logo/anqor-wordmark-black.svg</a><span>SVG vector</span><span>Primary logo, on light backgrounds. Any size.</span></div>
+    <div class="asset-row"><a href="logo/anqor-wordmark-white.svg">logo/anqor-wordmark-white.svg</a><span>SVG vector</span><span>Primary logo, on dark backgrounds. Any size.</span></div>
+    <div class="asset-row"><a href="logo/anqor-wordmark-black-2400.png">logo/anqor-wordmark-black-2400.png</a><span>PNG, transparent</span><span>Decks, print, anywhere SVG isn't accepted.</span></div>
+    <div class="asset-row"><a href="logo/anqor-wordmark-white-2400.png">logo/anqor-wordmark-white-2400.png</a><span>PNG, transparent</span><span>Same, for dark backgrounds.</span></div>
+
+    <div class="asset-row"><a href="icon/anqor-mark-on-black.svg">icon/anqor-mark-on-black.svg</a><span>SVG vector</span><span>App icon / avatar, dark colourway.</span></div>
+    <div class="asset-row"><a href="icon/anqor-mark-on-white.svg">icon/anqor-mark-on-white.svg</a><span>SVG vector</span><span>App icon / avatar, light colourway.</span></div>
+    <div class="asset-row"><a href="icon/anqor-mark-transparent.svg">icon/anqor-mark-transparent.svg</a><span>SVG vector</span><span>Mark only, no tile — inherits <code>currentColor</code>.</span></div>
+    <div class="asset-row"><a href="icon/favicon.svg">icon/favicon.svg</a><span>SVG</span><span>Browser tab icon (primary).</span></div>
+    <div class="asset-row"><a href="icon/apple-touch-icon.png">icon/apple-touch-icon.png</a><span>PNG 180px</span><span>iOS home-screen icon.</span></div>
+    <div class="asset-row"><a href="icon/favicon-512.png">icon/favicon-512.png</a><span>PNG 512px</span><span>PWA manifest, app stores.</span></div>
+
+    <div class="asset-row"><a href="social/anqor-og-image-1200x630.png">social/anqor-og-image-1200x630.png</a><span>PNG 1200×630</span><span>Link preview card (WhatsApp, LinkedIn, X).</span></div>
+
+    <div class="asset-row"><a href="social/anqor-square-wordmark-white-on-black-1000.png">social/anqor-square-wordmark-white-on-black-1000.png</a><span>PNG 1000×1000</span><span><b>Profile photo — wordmark version.</b> Square, circle-crop safe.</span></div>
+    <div class="asset-row"><a href="social/anqor-square-wordmark-black-on-white-1000.png">social/anqor-square-wordmark-black-on-white-1000.png</a><span>PNG 1000×1000</span><span>Same, light version.</span></div>
+    <div class="asset-row"><a href="social/anqor-square-wordmark-white-on-black.svg">social/anqor-square-wordmark-white-on-black.svg</a><span>SVG vector</span><span>Source file — re-export any size.</span></div>
+    <div class="asset-row"><a href="social/anqor-square-wordmark-black-on-white.svg">social/anqor-square-wordmark-black-on-white.svg</a><span>SVG vector</span><span>Source file.</span></div>
+
+    <div class="asset-row"><a href="social/anqor-avatar-white-on-black-1000.png">social/anqor-avatar-white-on-black-1000.png</a><span>PNG 1000×1000</span><span><b>Profile photo — monogram version.</b> Stays readable smaller.</span></div>
+    <div class="asset-row"><a href="social/anqor-avatar-black-on-white-1000.png">social/anqor-avatar-black-on-white-1000.png</a><span>PNG 1000×1000</span><span>Profile photo, light version — for dark-UI platforms where a black avatar disappears into the background.</span></div>
+    <div class="asset-row"><a href="social/anqor-avatar-white-on-black-400.png">social/anqor-avatar-white-on-black-400.png</a><span>PNG 400×400</span><span>Same, smaller — if an uploader rejects the 1000px file.</span></div>
+    <div class="asset-row"><a href="social/anqor-avatar-black-on-white-400.png">social/anqor-avatar-black-on-white-400.png</a><span>PNG 400×400</span><span>Same, smaller.</span></div>
+    <div class="asset-row"><a href="social/anqor-avatar-white-on-black.svg">social/anqor-avatar-white-on-black.svg</a><span>SVG vector</span><span>Source file — re-export any size from this.</span></div>
+    <div class="asset-row"><a href="social/anqor-avatar-black-on-white.svg">social/anqor-avatar-black-on-white.svg</a><span>SVG vector</span><span>Source file.</span></div>
+  </div>
+
+  <div class="avatar-preview">
+    <div>
+      <div class="av-circle"><img src="social/anqor-square-wordmark-white-on-black-400.png" alt="Anqor square wordmark avatar, white on black, shown circle-cropped"></div>
+      <span>wordmark · white on black</span>
+    </div>
+    <div>
+      <div class="av-circle bordered"><img src="social/anqor-square-wordmark-black-on-white-400.png" alt="Anqor square wordmark avatar, black on white, shown circle-cropped"></div>
+      <span>wordmark · black on white</span>
+    </div>
+    <div>
+      <div class="av-circle"><img src="social/anqor-avatar-white-on-black-400.png" alt="Anqor monogram avatar, white on black, shown circle-cropped"></div>
+      <span>monogram · white on black</span>
+    </div>
+    <p class="av-note">Shown circle-cropped, because that's what LinkedIn, Instagram, and X actually do to a profile photo. All are square, full-bleed files on purpose — a pre-rounded tile leaves background slivers at the corners once the platform applies its own mask. Both marks sit with <b style="color:var(--black)">34% clear margin</b> inside the safe circle, so there's room to zoom or reposition in a profile uploader without clipping.</p>
+  </div>
+
+  <h3 style="font-size:15px;margin:44px 0 6px;">Wordmark or monogram — which to use where</h3>
+  <p class="lede" style="margin-bottom:22px;">Rendered at the sizes platforms actually display an avatar. Not a mockup — these are the real files scaled down.</p>
+  <div class="size-test">
+    <div class="size-col">
+      <div class="size-row">
+        <div class="st" style="width:104px;height:104px"><img src="social/anqor-square-wordmark-white-on-black-400.png" alt=""></div>
+        <div class="st" style="width:56px;height:56px"><img src="social/anqor-square-wordmark-white-on-black-400.png" alt=""></div>
+        <div class="st" style="width:32px;height:32px"><img src="social/anqor-square-wordmark-white-on-black-400.png" alt=""></div>
+      </div>
+      <span>wordmark</span>
+    </div>
+    <div class="size-col">
+      <div class="size-row">
+        <div class="st" style="width:104px;height:104px"><img src="social/anqor-avatar-white-on-black-400.png" alt=""></div>
+        <div class="st" style="width:56px;height:56px"><img src="social/anqor-avatar-white-on-black-400.png" alt=""></div>
+        <div class="st" style="width:32px;height:32px"><img src="social/anqor-avatar-white-on-black-400.png" alt=""></div>
+      </div>
+      <span>monogram</span>
+    </div>
+    <p class="av-note"><b style="color:var(--black)">The wordmark holds up at 104px and 56px</b> — a profile page header and a feed/comment avatar, which is where people actually look at it. At 32px it gets tight. The monogram stays crisp all the way down.<br><br>Practical call: <b style="color:var(--black)">use the wordmark</b> — it's the stronger brand signal and it's legible at the sizes that matter. Keep the monogram for genuinely tiny contexts (favicon, app icon), which is what it was built for.</p>
+  </div>
+  <p class="option-note" style="margin-top:26px;">Clear space: keep at least the height of the "A" free on all sides of the wordmark. Minimum size: don't set the wordmark below 90px wide — under that, use the monogram instead. Don't recolor, outline, stretch, or add effects to either mark.</p>
+</section>
+
+<section>
+  <h2>Color system</h2>
+  <p class="lede">Already live, not proposed — this is the actual token system from the site. Black/white/gray is the house palette; the three accents are reserved, one per product, never used decoratively.</p>
+  <div class="color-grid">
+    <div class="swatch"><div class="swatch-fill" style="background:var(--black);"></div><div class="swatch-info"><b>Ink Black</b><span>#0A0A0A</span></div></div>
+    <div class="swatch"><div class="swatch-fill" style="background:var(--white); border-bottom:1px solid var(--line);"></div><div class="swatch-info"><b>White</b><span>#FFFFFF</span></div></div>
+    <div class="swatch"><div class="swatch-fill" style="background:#F5F4F1;"></div><div class="swatch-info"><b>Warm Surface</b><span>#F5F4F1</span></div></div>
+    <div class="swatch"><div class="swatch-fill" style="background:var(--setta);"></div><div class="swatch-info"><b>Setta Teal</b><span>#267870 — Usetta only</span></div></div>
+    <div class="swatch"><div class="swatch-fill" style="background:var(--outlia);"></div><div class="swatch-info"><b>Outlia Coral</b><span>#FA5051 — Outlia only</span></div></div>
+    <div class="swatch"><div class="swatch-fill" style="background:var(--ranqr);"></div><div class="swatch-info"><b>Ranqr Green</b><span>#3FA66B — Ranqr only</span></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Typography</h2>
+  <p class="lede">Two typefaces, same as the wordmark decision above — display serif-weight sans for anything that needs presence, Archivo for everything that needs to be read.</p>
+  <div class="type-sample">
+    <div class="use">Display — Bricolage Grotesque 800 · headlines, wordmark</div>
+    <div class="type-display">We build the AI that runs your business.</div>
+  </div>
+  <div class="type-sample">
+    <div class="use">Body — Archivo 400/500 · paragraphs, UI</div>
+    <div class="type-body">Anqor is the AI systems, content, and web authority for Dubai's real estate, hospitality, and fintech operators — built on proprietary tools we run on our own business first.</div>
+  </div>
+  <div class="type-sample">
+    <div class="use">Label — ui-monospace · eyebrows, tags, meta</div>
+    <div class="type-mono">AI Build &amp; Content Authority</div>
+  </div>
+</section>
+
+<section>
+  <h2>Voice, briefly</h2>
+  <p class="lede">Pulled from what's already working in the live copy, not invented new. Direct, specific, proof over claims.</p>
+  <div class="voice-grid">
+    <div class="voice-col good">
+      <h3>✓ Anqor sounds like this</h3>
+      <p>"This exact site is the proof: 42 to 75."</p>
+      <p>"We don't license what we sell. We build it."</p>
+      <p>"Not a template with your logo swapped in."</p>
+    </div>
+    <div class="voice-col bad">
+      <h3>✕ Not like this</h3>
+      <p>"Leveraging cutting-edge AI to revolutionize your digital presence."</p>
+      <p>"Industry-leading solutions tailored to your needs."</p>
+      <p>"Empowering businesses to unlock their full potential."</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
