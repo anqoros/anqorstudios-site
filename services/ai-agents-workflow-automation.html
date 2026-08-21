@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Custom AI Agents &amp; Workflow Automation | Anqor Studios Dubai</title>
-<meta name="description" content="Custom AI agents that do real work inside your business — connected to your tools, your data and your approval process. Built, deployed and maintained by Anqor." />
+<title>Custom AI Agents &amp; Workflow Automation Dubai | Anqor Studios</title>
+<meta name="description" content="Custom AI agents connected to your real tools, with scoped permissions, retry handling, escalation paths and decision logging. Built to survive production, not to demo well." />
 <link rel="canonical" href="https://anqorstudios.com/services/ai-agents-workflow-automation" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Custom AI Agents &amp; Workflow Automation | Anqor Studios Dubai" />
-<meta property="og:description" content="Custom AI agents that do real work inside your business — connected to your tools, your data and your approval process. Built, deployed and maintained by Anqor." />
+<meta property="og:title" content="Custom AI Agents &amp; Workflow Automation Dubai | Anqor Studios" />
+<meta property="og:description" content="Custom AI agents connected to your real tools, with scoped permissions, retry handling, escalation paths and decision logging. Built to survive production, not to demo well." />
 <meta property="og:url" content="https://anqorstudios.com/services/ai-agents-workflow-automation" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -95,8 +95,8 @@
       "@type": "WebPage",
       "@id": "https://anqorstudios.com/services/ai-agents-workflow-automation#webpage",
       "url": "https://anqorstudios.com/services/ai-agents-workflow-automation",
-      "name": "Custom AI Agents & Workflow Automation | Anqor Studios Dubai",
-      "description": "Custom AI agents that do real work inside your business — connected to your tools, your data and your approval process. Built, deployed and maintained by Anqor.",
+      "name": "Custom AI Agents & Workflow Automation Dubai | Anqor Studios",
+      "description": "Custom AI agents connected to your real tools, with scoped permissions, retry handling, escalation paths and decision logging. Built to survive production, not to demo well.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/ai-agents-workflow-automation#service",
       "name": "AI Agents & Workflow Automation",
-      "description": "Custom AI agents that do real work inside your business — connected to your tools, your data and your approval process. Built, deployed and maintained by Anqor.",
+      "description": "Custom AI agents connected to your real tools, with scoped permissions, retry handling, escalation paths and decision logging. Built to survive production, not to demo well.",
       "serviceType": "AI Agents & Workflow Automation",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -136,6 +136,49 @@
       ]
     },
     {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/ai-agents-workflow-automation#howto",
+      "name": "How ai agents & workflow automation works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Scope the agent narrowly",
+          "text": "One job, explicit boundaries, defined inputs and outputs. Narrow agents get trusted and used; general ones get abandoned."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Connect to real systems",
+          "text": "API or MCP integration into your inbox, CRM, database, storage and messaging. An agent not connected to anything is a chat window."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Set permissions at minimum viable",
+          "text": "The narrowest access that lets it do the job. Anything irreversible sits behind explicit confirmation."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Build the failure paths",
+          "text": "Retries with backoff, timeouts, malformed-input handling, and a defined behaviour for every failure mode we can enumerate."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Define escalation",
+          "text": "When the agent is uncertain or out of scope, it routes to a named human with context — rather than guessing confidently."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Log every decision",
+          "text": "Queryable months later. If someone asks why the agent did something in March, that's answerable rather than reconstructed."
+        }
+      ]
+    },
+    {
       "@type": "FAQPage",
       "@id": "https://anqorstudios.com/services/ai-agents-workflow-automation#faq",
       "mainEntity": [
@@ -144,7 +187,7 @@
           "name": "How do you stop an agent doing something destructive?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Scope and approval gates. Agents get the narrowest permissions that let them do the job, and anything irreversible — sending, paying, deleting, filing — sits behind a human confirmation unless you explicitly decide otherwise."
+            "text": "Scope and approval gates. Agents get the narrowest permissions that let them do the job, and anything irreversible sits behind a human confirmation unless you explicitly decide otherwise in writing."
           }
         },
         {
@@ -161,6 +204,30 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Then we'll say so on the first call. A scheduled job or a well-placed integration solves a lot of what gets pitched as agent work, at a fraction of the running cost."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you handle model deprecation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We build against a provider-agnostic layer where it's practical, so swapping models is a configuration change rather than a rewrite. Complete portability isn't always achievable, and we're clear about where we've traded it away."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can agents work with our internal tools?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If it has an API, yes. If it doesn't, sometimes via browser automation, though that's more brittle and we'd tell you so before relying on it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who maintains it afterwards?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Either us on a retainer, or your team with documentation and a handover. We're not trying to make you dependent."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>AI Agents &amp; Workflow Automation, in practice.</h2>
-  <p class="lead">An agent is only useful if it&#x27;s connected to something. Ours are wired into the tools you already run: your inbox, your CRM, your database, your file storage, your messaging. The intelligence is the easy part now; the integration and the failure handling are the work.</p><p class="lead">We build agents that know their limits. Each one has an explicit scope, a defined escalation path, and logging that lets you reconstruct any decision it made. When it isn&#x27;t confident, it asks rather than acting.</p><p class="lead">We use MCP where it fits, direct API integration where it doesn&#x27;t, and we&#x27;re honest about which problems don&#x27;t need an agent at all — sometimes a scheduled script is the correct answer and costs a fraction as much to run.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>The demo always works. That was never the hard part.</h2>
+  <p class="lead">There&#x27;s a well-worn arc to agent projects. A prototype works impressively in a week. Everyone is excited. Then it meets production — a rate limit, a malformed input, an API that returns success with an empty body — and it fails in ways nobody instrumented for. Trust evaporates faster than it was built, and the project quietly dies.</p><p class="lead">The intelligence layer is genuinely the easy part now. Frontier models are capable enough that reasoning is rarely the bottleneck. The bottleneck is integration, failure handling, permissions and observability — traditional software engineering problems that don&#x27;t get attention because they&#x27;re not the interesting part.</p><p class="lead">The second failure mode is scope. A general-purpose assistant that can theoretically do anything gets trusted with nothing, because nobody can predict what it will do. Narrow agents with explicit boundaries get used.</p><p class="lead">We&#x27;re also willing to say when an agent is the wrong answer. A scheduled script or a well-placed webhook solves a lot of what gets pitched as agent work, at a fraction of the running cost and with far fewer ways to go wrong.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Scope the agent narrowly</h3><p>One job, explicit boundaries, defined inputs and outputs. Narrow agents get trusted and used; general ones get abandoned.</p></div></div><div class="step"><div class="num"></div><div><h3>Connect to real systems</h3><p>API or MCP integration into your inbox, CRM, database, storage and messaging. An agent not connected to anything is a chat window.</p></div></div><div class="step"><div class="num"></div><div><h3>Set permissions at minimum viable</h3><p>The narrowest access that lets it do the job. Anything irreversible sits behind explicit confirmation.</p></div></div><div class="step"><div class="num"></div><div><h3>Build the failure paths</h3><p>Retries with backoff, timeouts, malformed-input handling, and a defined behaviour for every failure mode we can enumerate.</p></div></div><div class="step"><div class="num"></div><div><h3>Define escalation</h3><p>When the agent is uncertain or out of scope, it routes to a named human with context — rather than guessing confidently.</p></div></div><div class="step"><div class="num"></div><div><h3>Log every decision</h3><p>Queryable months later. If someone asks why the agent did something in March, that&#x27;s answerable rather than reconstructed.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>A general-purpose assistant</h3><p>Agents that can do anything get trusted with nothing. Ours have one job and explicit limits.</p></div><div><h3>Autonomous decision-making</h3><p>Irreversible actions — sending, paying, deleting, filing — sit behind human confirmation unless you explicitly decide otherwise, in writing.</p></div><div><h3>A no-code workflow tool</h3><p>Those are good products and sometimes the right answer. We&#x27;ll tell you when one would serve you better than a custom build.</p></div><div><h3>Always the right solution</h3><p>A scheduled job or an integration solves plenty of what gets pitched as agent work, cheaper and with fewer failure modes.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Scoped agents</b> with explicit boundaries, not a general assistant nobody trusts</li><li><b>Real integrations</b> into your existing stack via API or MCP</li><li><b>Retry and error handling</b> so a transient failure doesn't become a silent one</li><li><b>Escalation paths</b> to a named human, with context attached</li><li><b>Decision logging</b> that's queryable months later</li><li><b>Honest scoping</b> — we'll tell you when a simpler automation would serve better</li></ul>
-  <div class="stackrow"><span>Claude</span><span>MCP</span><span>Python</span><span>FastAPI</span><span>Postgres</span><span>Playwright</span></div>
+  <ul class="checks"><li><b>Narrowly scoped agents</b> with explicit boundaries and defined behaviour</li><li><b>Real integrations</b> into your existing stack via API or MCP</li><li><b>Minimum-viable permissions</b> — least access that accomplishes the job</li><li><b>Retry, backoff and timeout handling</b> so transient failures don't become silent ones</li><li><b>Escalation paths</b> to named humans with full context</li><li><b>Decision logging</b>, queryable long after the fact</li><li><b>Monitoring and alerting</b> when an agent starts failing rather than after someone notices</li><li><b>Honest scoping</b> — including telling you when simpler automation is the better call</li></ul>
+  <div class="stackrow"><span>Claude</span><span>MCP</span><span>Python</span><span>FastAPI</span><span>Postgres</span><span>Playwright</span><span>Webhooks</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>We build and operate agents across our own products — inbound qualification, outbound sequencing, content pipelines and document handling — and we use MCP where it fits alongside direct API integration where it doesn&#x27;t.</p><p>The reason we&#x27;re confident about the failure-handling emphasis is that we&#x27;ve had our own agents fail in production and had to fix them. That&#x27;s a different kind of knowledge from having built one demo.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>Agents are probabilistic. They will occasionally do something unexpected, which is why irreversible actions stay behind confirmation.</li><li>They cost money per run. High-frequency, low-value tasks often don&#x27;t justify model inference, and we&#x27;ll do that arithmetic with you before building.</li><li>They need maintenance. APIs change, models get deprecated, edge cases surface. An unmaintained agent degrades.</li><li>They&#x27;re not a fix for an undefined process. If nobody can describe the current workflow precisely, automating it just makes the confusion faster.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>How do you stop an agent doing something destructive?</h3><p>Scope and approval gates. Agents get the narrowest permissions that let them do the job, and anything irreversible — sending, paying, deleting, filing — sits behind a human confirmation unless you explicitly decide otherwise.</p></div><div class="faq-item"><h3>Do we need to move our data somewhere new?</h3><p>No. We build around your existing systems. Migration is a separate decision and usually a bad one to bundle into an automation project.</p></div><div class="faq-item"><h3>What if we don&#x27;t actually need an agent?</h3><p>Then we&#x27;ll say so on the first call. A scheduled job or a well-placed integration solves a lot of what gets pitched as agent work, at a fraction of the running cost.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>How do you stop an agent doing something destructive?</h3><p>Scope and approval gates. Agents get the narrowest permissions that let them do the job, and anything irreversible sits behind a human confirmation unless you explicitly decide otherwise in writing.</p></div><div class="faq-item"><h3>Do we need to move our data somewhere new?</h3><p>No. We build around your existing systems. Migration is a separate decision and usually a bad one to bundle into an automation project.</p></div><div class="faq-item"><h3>What if we don&#x27;t actually need an agent?</h3><p>Then we&#x27;ll say so on the first call. A scheduled job or a well-placed integration solves a lot of what gets pitched as agent work, at a fraction of the running cost.</p></div><div class="faq-item"><h3>How do you handle model deprecation?</h3><p>We build against a provider-agnostic layer where it&#x27;s practical, so swapping models is a configuration change rather than a rewrite. Complete portability isn&#x27;t always achievable, and we&#x27;re clear about where we&#x27;ve traded it away.</p></div><div class="faq-item"><h3>Can agents work with our internal tools?</h3><p>If it has an API, yes. If it doesn&#x27;t, sometimes via browser automation, though that&#x27;s more brittle and we&#x27;d tell you so before relying on it.</p></div><div class="faq-item"><h3>Who maintains it afterwards?</h3><p>Either us on a retainer, or your team with documentation and a handover. We&#x27;re not trying to make you dependent.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>Describe the workflow. We&#x27;ll tell you if it needs an agent.</h2>
+  <p>Half the time the honest answer is a scheduled script. That&#x27;s a cheaper conversation to have before the build than after.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

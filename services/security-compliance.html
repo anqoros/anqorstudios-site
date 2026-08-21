@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Security &amp; Compliance Engineering UAE | Anqor Studios</title>
-<meta name="description" content="Access control, data residency, audit logging and GDPR-aligned data handling — built into the system rather than documented after the fact." />
+<meta name="description" content="Access control, tenant isolation, audit logging, encryption and data residency — designed into the architecture rather than retrofitted after a security questionnaire." />
 <link rel="canonical" href="https://anqorstudios.com/services/security-compliance" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Security &amp; Compliance Engineering UAE | Anqor Studios" />
-<meta property="og:description" content="Access control, data residency, audit logging and GDPR-aligned data handling — built into the system rather than documented after the fact." />
+<meta property="og:description" content="Access control, tenant isolation, audit logging, encryption and data residency — designed into the architecture rather than retrofitted after a security questionnaire." />
 <meta property="og:url" content="https://anqorstudios.com/services/security-compliance" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -96,7 +96,7 @@
       "@id": "https://anqorstudios.com/services/security-compliance#webpage",
       "url": "https://anqorstudios.com/services/security-compliance",
       "name": "Security & Compliance Engineering UAE | Anqor Studios",
-      "description": "Access control, data residency, audit logging and GDPR-aligned data handling — built into the system rather than documented after the fact.",
+      "description": "Access control, tenant isolation, audit logging, encryption and data residency — designed into the architecture rather than retrofitted after a security questionnaire.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/security-compliance#service",
       "name": "Security & Compliance",
-      "description": "Access control, data residency, audit logging and GDPR-aligned data handling — built into the system rather than documented after the fact.",
+      "description": "Access control, tenant isolation, audit logging, encryption and data residency — designed into the architecture rather than retrofitted after a security questionnaire.",
       "serviceType": "Security & Compliance",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -132,6 +132,49 @@
         {
           "@type": "City",
           "name": "Sharjah"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/security-compliance#howto",
+      "name": "How security & compliance works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Map where the sensitive data actually is",
+          "text": "Usually more places than expected — logs, backups, analytics, error reports and third-party tools all quietly accumulate it."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enforce isolation at the database",
+          "text": "Row-level security policies rather than application filters, so a forgotten clause isn't a breach."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Verify with authenticated requests",
+          "text": "Never with a service key, which bypasses RLS and will falsely confirm a broken policy works."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Get secrets into proper management",
+          "text": "Out of documents and repositories, with rotation possible without a code change."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Build audit logging that survives",
+          "text": "Retained long enough and structured so it's queryable when someone asks about a decision a year later."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Write down the data flow",
+          "text": "Where data sits, who can reach it, how long it's kept, how it's deleted. Written before a regulator or a customer asks."
         }
       ]
     },
@@ -160,7 +203,31 @@
           "name": "Do you do penetration testing?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No — that's a specialist discipline and we'd rather refer you to someone who does it properly than sell you a shallow version of it. What we do is build systems that stand up when someone competent tests them."
+            "text": "No. It's a specialist discipline and we'd rather refer you to someone who does it properly than sell a shallow version. What we do is build systems that stand up when someone competent tests them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the most common problem you find?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tenant isolation enforced in application code instead of the database, closely followed by RLS policies that were verified with a service key and therefore never actually tested."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you help with a customer security questionnaire?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — both answering it accurately and fixing what it exposes. Those are usually two pieces of work and we'd separate them honestly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does this take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An audit is about a week. Remediation depends entirely on what it finds, and we'd rather scope that after looking than guess now."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>Security &amp; Compliance, in practice.</h2>
-  <p class="lead">Security work has a timing problem: it&#x27;s inexpensive when it&#x27;s part of the original design and painful when it&#x27;s a response to a deal that&#x27;s stalling on a questionnaire. Most teams do it in the second order.</p><p class="lead">The specific things that come up repeatedly in our work: row-level isolation so one tenant cannot query another&#x27;s data, audit logs that survive long enough to answer a question a year later, secrets that aren&#x27;t in a shared document, and a clear written answer to where data physically sits.</p><p class="lead">We&#x27;re careful with language here. We build to align with common practice and with GDPR principles — we don&#x27;t issue certifications, and any vendor telling you a build makes you &#x27;compliant&#x27; is overselling. Final compliance depends on your policies and your auditor.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>Security work has a timing problem.</h2>
+  <p class="lead">Security is inexpensive when it&#x27;s part of the original design and painful when it&#x27;s a reaction to a deal stalling on a questionnaire. Almost everyone does it in the second order, because the first order has no forcing function.</p><p class="lead">The specific issues we find repeatedly are consistent and unglamorous. Tenant isolation enforced in application code rather than the database. Audit logs that roll over before anyone needs them. Secrets in shared documents. Service keys used where a scoped key belongs. And no written answer to where data physically sits.</p><p class="lead">There&#x27;s a testing trap worth naming because it catches careful teams: verifying row-level security using a service key. Service keys bypass RLS entirely, so the test passes, everyone relaxes, and the policy was never actually working. Verification has to use an authenticated request at the same privilege level as a real user.</p><p class="lead">We&#x27;re deliberate about language here. We build to align with common practice and with GDPR principles. We do not issue certifications, and any vendor telling you a build makes you &#x27;compliant&#x27; is overselling what engineering can do.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Map where the sensitive data actually is</h3><p>Usually more places than expected — logs, backups, analytics, error reports and third-party tools all quietly accumulate it.</p></div></div><div class="step"><div class="num"></div><div><h3>Enforce isolation at the database</h3><p>Row-level security policies rather than application filters, so a forgotten clause isn&#x27;t a breach.</p></div></div><div class="step"><div class="num"></div><div><h3>Verify with authenticated requests</h3><p>Never with a service key, which bypasses RLS and will falsely confirm a broken policy works.</p></div></div><div class="step"><div class="num"></div><div><h3>Get secrets into proper management</h3><p>Out of documents and repositories, with rotation possible without a code change.</p></div></div><div class="step"><div class="num"></div><div><h3>Build audit logging that survives</h3><p>Retained long enough and structured so it&#x27;s queryable when someone asks about a decision a year later.</p></div></div><div class="step"><div class="num"></div><div><h3>Write down the data flow</h3><p>Where data sits, who can reach it, how long it&#x27;s kept, how it&#x27;s deleted. Written before a regulator or a customer asks.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>A compliance certification</h3><p>We build to align with the practices certifications require. Obtaining one involves your policies and an auditor, not a vendor&#x27;s claim.</p></div><div><h3>Penetration testing</h3><p>A specialist discipline. We&#x27;d refer you to someone who does it properly rather than sell a shallow version.</p></div><div><h3>A policy document exercise</h3><p>Documents describing controls that aren&#x27;t implemented are worse than nothing — they create false confidence.</p></div><div><h3>Security theatre</h3><p>Controls that inconvenience staff without reducing risk get worked around, which leaves you less secure than before.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Row-level isolation</b> enforced in the database, verified with real authenticated requests</li><li><b>Audit logging</b> retained and queryable, not just written</li><li><b>Secrets management</b> out of documents and repos</li><li><b>Data residency</b> — UAE or EU, stated in writing before the build</li><li><b>Encryption</b> in transit and at rest as standard</li><li><b>Local model deployment</b> for workloads that can't leave your infrastructure</li></ul>
-  <div class="stackrow"><span>Postgres RLS</span><span>Supabase Auth</span><span>AWS</span><span>Docker</span><span>Local inference</span></div>
+  <ul class="checks"><li><b>Row-level isolation</b> enforced in the database, verified with real authenticated requests</li><li><b>Audit logging</b> retained and queryable long after the fact</li><li><b>Secrets management</b> with rotation possible without a deploy</li><li><b>Data residency</b> — UAE or EU, stated in writing before the build</li><li><b>Encryption</b> in transit and at rest as standard</li><li><b>Local model deployment</b> for workloads that can't leave your infrastructure</li><li><b>Access review</b> — who can reach what, and whether they still need to</li><li><b>Written data-flow documentation</b> you can hand to a customer or a regulator</li></ul>
+  <div class="stackrow"><span>Postgres RLS</span><span>Supabase Auth</span><span>AWS</span><span>Docker</span><span>Local inference</span><span>Secret management</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>The RLS verification point isn&#x27;t theoretical for us. On our own platform work we&#x27;ve hit the exact failure it describes — a policy that recursed and silently broke every authenticated code path, which testing with a secret key had happily confirmed as working. We now verify with authenticated anon-key requests as standard, and check for it in every audit.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>We don&#x27;t issue certifications. Compliance is determined by your policies and your auditor.</li><li>We don&#x27;t do penetration testing. It&#x27;s a specialist field and you should hire a specialist.</li><li>Security isn&#x27;t a project that finishes. Dependencies age, staff change, access accumulates. It needs review.</li><li>No system is unbreachable. What&#x27;s achievable is raising cost to an attacker and limiting blast radius — anyone promising more is selling.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>Can you make us GDPR compliant?</h3><p>We can build to align with GDPR principles — data minimisation, residency, access control, deletion, audit trails. Compliance itself is an organisational determination involving your policies and your auditor, and any engineering vendor claiming to confer it is overstating what a build can do.</p></div><div class="faq-item"><h3>Can data stay entirely inside our infrastructure?</h3><p>Yes. For sensitive workloads we run models locally so nothing is sent to an external provider. It costs more to run and it&#x27;s the right call for some regulated work.</p></div><div class="faq-item"><h3>Do you do penetration testing?</h3><p>No — that&#x27;s a specialist discipline and we&#x27;d rather refer you to someone who does it properly than sell you a shallow version of it. What we do is build systems that stand up when someone competent tests them.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>Can you make us GDPR compliant?</h3><p>We can build to align with GDPR principles — data minimisation, residency, access control, deletion, audit trails. Compliance itself is an organisational determination involving your policies and your auditor, and any engineering vendor claiming to confer it is overstating what a build can do.</p></div><div class="faq-item"><h3>Can data stay entirely inside our infrastructure?</h3><p>Yes. For sensitive workloads we run models locally so nothing is sent to an external provider. It costs more to run and it&#x27;s the right call for some regulated work.</p></div><div class="faq-item"><h3>Do you do penetration testing?</h3><p>No. It&#x27;s a specialist discipline and we&#x27;d rather refer you to someone who does it properly than sell a shallow version. What we do is build systems that stand up when someone competent tests them.</p></div><div class="faq-item"><h3>What&#x27;s the most common problem you find?</h3><p>Tenant isolation enforced in application code instead of the database, closely followed by RLS policies that were verified with a service key and therefore never actually tested.</p></div><div class="faq-item"><h3>Can you help with a customer security questionnaire?</h3><p>Yes — both answering it accurately and fixing what it exposes. Those are usually two pieces of work and we&#x27;d separate them honestly.</p></div><div class="faq-item"><h3>How long does this take?</h3><p>An audit is about a week. Remediation depends entirely on what it finds, and we&#x27;d rather scope that after looking than guess now.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>How is your tenant isolation actually enforced?</h2>
+  <p>If the answer is &#x27;in the application code&#x27;, that&#x27;s worth a conversation this week rather than after a customer&#x27;s questionnaire.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

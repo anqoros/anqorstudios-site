@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Blockchain &amp; Multi-Chain Development UAE | Anqor Studios</title>
-<meta name="description" content="Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with real key-handling discipline." />
+<meta name="description" content="Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with strict key-handling discipline." />
 <link rel="canonical" href="https://anqorstudios.com/services/blockchain-development" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Blockchain &amp; Multi-Chain Development UAE | Anqor Studios" />
-<meta property="og:description" content="Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with real key-handling discipline." />
+<meta property="og:description" content="Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with strict key-handling discipline." />
 <meta property="og:url" content="https://anqorstudios.com/services/blockchain-development" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -96,7 +96,7 @@
       "@id": "https://anqorstudios.com/services/blockchain-development#webpage",
       "url": "https://anqorstudios.com/services/blockchain-development",
       "name": "Blockchain & Multi-Chain Development UAE | Anqor Studios",
-      "description": "Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with real key-handling discipline.",
+      "description": "Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with strict key-handling discipline.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/blockchain-development#service",
       "name": "Blockchain Development",
-      "description": "Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with real key-handling discipline.",
+      "description": "Multi-chain integrations across Solana, Ethereum and EVM networks — wallet infrastructure, on-chain data pipelines and automated execution with strict key-handling discipline.",
       "serviceType": "Blockchain Development",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -132,6 +132,49 @@
         {
           "@type": "City",
           "name": "Sharjah"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/blockchain-development#howto",
+      "name": "How blockchain development works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Data layer first",
+          "text": "Market and chain data ingestion with exact numeric types throughout and a migration discipline that treats applied migrations as permanent."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Strategy and safety logic",
+          "text": "Signal handling, position rules and safety gates built and reviewable before anything can execute."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Risk and position management",
+          "text": "Limits, exposure rules and circuit breakers designed in rather than added after the first bad day."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Execution adapters per chain",
+          "text": "One chain at a time, MEV-aware where relevant, each reviewable before the next is added."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Key handling",
+          "text": "Each chain's key in its own dedicated environment variable, never combined, never logged, introduced only at the milestone that requires it."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Logging and tax reporting",
+          "text": "Every action recorded in a form that supports gain/loss computation, because that's a downstream requirement people forget until they need it."
         }
       ]
     },
@@ -161,6 +204,30 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "That depends on your licensing, and it's a question for your legal counsel before it's a question for us. What we can speak to is the engineering: exact numerics, immutable audit trails, and reviewable delivery."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which chains do you work with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Solana, Ethereum and EVM-compatible networks, plus centralised venue integration where a strategy requires it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you audit an existing system?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — particularly key handling, numeric types and audit-trail integrity, which are the three places we most often find problems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you take custody of funds?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. We build systems you operate. Custody and key control stay with you, which is both correct and something we're not licensed to change."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>Blockchain Development, in practice.</h2>
-  <p class="lead">We&#x27;ve built multi-chain systems handling live market data and automated execution across Solana, Ethereum, PulseChain and centralised venues, with integrations against Jupiter and Uniswap. The engineering discipline this demands is different from ordinary product work.</p><p class="lead">Specifics that matter: every private key gets its own dedicated environment variable, never combined and never logged. Financial values use exact numeric types, never floats. Migrations are permanent audit records once applied. These aren&#x27;t preferences — they&#x27;re the difference between a system you can trust with capital and one you can&#x27;t.</p><p class="lead">We build in reviewable milestones rather than delivering a finished black box, because in this domain you should be able to inspect what you&#x27;re trusting before it holds anything.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>In most software a bug is a ticket. Here it&#x27;s a withdrawal.</h2>
+  <p class="lead">Ordinary software engineering has a forgiving property: most bugs are recoverable. You fix, redeploy, maybe apologise. On-chain, a transaction is final. A wrong amount, a wrong address, a key in a log file — each is an immediate, irreversible loss.</p><p class="lead">That changes what good engineering looks like. Financial values use exact numeric types, never floats, because floating-point drift in a balance is a real loss rather than a rounding curiosity. Applied migrations become permanent audit records that are never edited. Every private key gets its own dedicated environment variable, never combined, never logged.</p><p class="lead">These aren&#x27;t stylistic preferences. They&#x27;re the difference between a system you can trust with capital and one you can&#x27;t, and they have to be decided before the first line rather than tightened afterwards.</p><p class="lead">We build in reviewable milestones rather than delivering a finished black box, because you should be able to inspect what you&#x27;re trusting before it holds anything. On our own trading system, keys don&#x27;t exist at all until the milestone that genuinely requires them.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Data layer first</h3><p>Market and chain data ingestion with exact numeric types throughout and a migration discipline that treats applied migrations as permanent.</p></div></div><div class="step"><div class="num"></div><div><h3>Strategy and safety logic</h3><p>Signal handling, position rules and safety gates built and reviewable before anything can execute.</p></div></div><div class="step"><div class="num"></div><div><h3>Risk and position management</h3><p>Limits, exposure rules and circuit breakers designed in rather than added after the first bad day.</p></div></div><div class="step"><div class="num"></div><div><h3>Execution adapters per chain</h3><p>One chain at a time, MEV-aware where relevant, each reviewable before the next is added.</p></div></div><div class="step"><div class="num"></div><div><h3>Key handling</h3><p>Each chain&#x27;s key in its own dedicated environment variable, never combined, never logged, introduced only at the milestone that requires it.</p></div></div><div class="step"><div class="num"></div><div><h3>Logging and tax reporting</h3><p>Every action recorded in a form that supports gain/loss computation, because that&#x27;s a downstream requirement people forget until they need it.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>Audited smart contract work</h3><p>Our depth is off-chain systems interacting with chains. For on-chain contract work you want a specialist auditor, and we&#x27;d bring one in rather than have you take our word.</p></div><div><h3>A finished black box</h3><p>Milestone delivery, reviewable at each stage. You should be able to inspect what you&#x27;re trusting.</p></div><div><h3>Financial advice</h3><p>We build systems. What to trade, at what size, under what licence, is not our call and we won&#x27;t pretend otherwise.</p></div><div><h3>Floats anywhere near a balance</h3><p>Exact numeric types throughout. This sounds pedantic until it costs you money.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Multi-chain integration</b> — Solana, Ethereum and EVM-compatible networks</li><li><b>Wallet and key handling</b> with strict isolation, never logged, never combined</li><li><b>On-chain data pipelines</b> with exact numeric types throughout</li><li><b>Automated execution</b> with MEV-aware routing where relevant</li><li><b>Immutable audit records</b> — applied migrations are never edited</li><li><b>Milestone delivery</b>, reviewable at each stage before the next begins</li></ul>
+  <ul class="checks"><li><b>Multi-chain integration</b> — Solana, Ethereum and EVM-compatible networks</li><li><b>Wallet and key handling</b> with strict isolation, never combined, never logged</li><li><b>On-chain and market data pipelines</b> with exact numeric types throughout</li><li><b>Automated execution</b> with MEV-aware routing where relevant</li><li><b>Risk controls</b> — exposure limits and circuit breakers designed in</li><li><b>Immutable audit records</b> — applied migrations are never edited</li><li><b>Tax and reporting output</b> supporting gain/loss computation</li><li><b>Milestone delivery</b>, reviewable at each stage before the next begins</li></ul>
   <div class="stackrow"><span>Solana</span><span>Ethereum</span><span>EVM</span><span>Python</span><span>Postgres</span><span>Jupiter</span><span>Uniswap</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>We&#x27;ve built multi-chain systems handling live market data and automated execution across Solana, Ethereum, PulseChain and centralised venues, with integrations against Jupiter and Uniswap. Storage is Postgres with NUMERIC and TIMESTAMPTZ throughout — never FLOAT or TEXT — because the system computes tax gain/loss off those values.</p><p>The migration runner enforces a checksum so an applied migration cannot be edited. That&#x27;s the kind of constraint that feels excessive until the first time someone tries to quietly change history in a financial system.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>We don&#x27;t write audited smart contracts. That&#x27;s specialist work and you should hire a specialist auditor.</li><li>We don&#x27;t advise on strategy, sizing or what to trade. We build the system that executes your decisions.</li><li>Licensing is a question for your counsel before it&#x27;s a question for us. VARA and ADGM positions vary by product.</li><li>We build in stages deliberately. If you want a finished system in one delivery with no review points, we&#x27;re the wrong studio.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>Do you write smart contracts?</h3><p>Our depth is in off-chain systems that interact with chains — execution, data pipelines, wallet infrastructure, market integrations. For audited on-chain contract work we&#x27;d bring in a specialist auditor rather than have you take our word for it.</p></div><div class="faq-item"><h3>How do you handle private keys?</h3><p>Each key in its own dedicated environment variable, never combined, never logged, never in the repository. On systems we&#x27;ve built, keys don&#x27;t exist at all until the milestone that genuinely requires them.</p></div><div class="faq-item"><h3>Is this suitable for a regulated financial product?</h3><p>That depends on your licensing, and it&#x27;s a question for your legal counsel before it&#x27;s a question for us. What we can speak to is the engineering: exact numerics, immutable audit trails, and reviewable delivery.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>Do you write smart contracts?</h3><p>Our depth is in off-chain systems that interact with chains — execution, data pipelines, wallet infrastructure, market integrations. For audited on-chain contract work we&#x27;d bring in a specialist auditor rather than have you take our word for it.</p></div><div class="faq-item"><h3>How do you handle private keys?</h3><p>Each key in its own dedicated environment variable, never combined, never logged, never in the repository. On systems we&#x27;ve built, keys don&#x27;t exist at all until the milestone that genuinely requires them.</p></div><div class="faq-item"><h3>Is this suitable for a regulated financial product?</h3><p>That depends on your licensing, and it&#x27;s a question for your legal counsel before it&#x27;s a question for us. What we can speak to is the engineering: exact numerics, immutable audit trails, and reviewable delivery.</p></div><div class="faq-item"><h3>Which chains do you work with?</h3><p>Solana, Ethereum and EVM-compatible networks, plus centralised venue integration where a strategy requires it.</p></div><div class="faq-item"><h3>Can you audit an existing system?</h3><p>Yes — particularly key handling, numeric types and audit-trail integrity, which are the three places we most often find problems.</p></div><div class="faq-item"><h3>Do you take custody of funds?</h3><p>No. We build systems you operate. Custody and key control stay with you, which is both correct and something we&#x27;re not licensed to change.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>Bring the system. We&#x27;ll review the key handling first.</h2>
+  <p>It&#x27;s where we find problems most often, and it&#x27;s the one that costs the most when it&#x27;s wrong.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

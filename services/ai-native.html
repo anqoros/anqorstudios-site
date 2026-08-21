@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI-Native Product Development | Anqor Studios Dubai</title>
-<meta name="description" content="Products designed around AI from the first commit — RAG pipelines, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software." />
+<title>AI-Native Product Development Dubai | Anqor Studios</title>
+<meta name="description" content="Products designed around AI from the first commit — retrieval architecture, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software." />
 <link rel="canonical" href="https://anqorstudios.com/services/ai-native" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
-<meta property="og:title" content="AI-Native Product Development | Anqor Studios Dubai" />
-<meta property="og:description" content="Products designed around AI from the first commit — RAG pipelines, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software." />
+<meta property="og:title" content="AI-Native Product Development Dubai | Anqor Studios" />
+<meta property="og:description" content="Products designed around AI from the first commit — retrieval architecture, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software." />
 <meta property="og:url" content="https://anqorstudios.com/services/ai-native" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -95,8 +95,8 @@
       "@type": "WebPage",
       "@id": "https://anqorstudios.com/services/ai-native#webpage",
       "url": "https://anqorstudios.com/services/ai-native",
-      "name": "AI-Native Product Development | Anqor Studios Dubai",
-      "description": "Products designed around AI from the first commit — RAG pipelines, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software.",
+      "name": "AI-Native Product Development Dubai | Anqor Studios",
+      "description": "Products designed around AI from the first commit — retrieval architecture, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/ai-native#service",
       "name": "AI-Native Product Development",
-      "description": "Products designed around AI from the first commit — RAG pipelines, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software.",
+      "description": "Products designed around AI from the first commit — retrieval architecture, model routing, evaluation harnesses and cost control. Not AI features bolted onto existing software.",
       "serviceType": "AI-Native Product Development",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -136,6 +136,49 @@
       ]
     },
     {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/ai-native#howto",
+      "name": "How ai-native product development works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Find where AI actually changes the product",
+          "text": "Usually two or three places, not twelve. The rest is decoration that adds cost and surface area without changing what the product is worth."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Design the data for retrieval",
+          "text": "How information is structured, chunked and indexed determines retrieval quality more than the model choice does. This is the highest-leverage decision and the one most often skipped."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Build the evaluation harness early",
+          "text": "A test set with expected outputs, so prompt and model changes are measured rather than guessed at. Without this you're flying blind on every change."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Route models by task",
+          "text": "Cheap models for classification and extraction, frontier models only where reasoning genuinely earns the cost. This is usually the single largest lever on operating margin."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Design the failure behaviour",
+          "text": "What the product does when a provider is down, rate-limits you, or returns something unusable. Graceful degradation, not a spinner."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Instrument cost from day one",
+          "text": "Per-feature, per-user token accounting, so the economics are visible before they become a problem rather than after."
+        }
+      ]
+    },
+    {
       "@type": "FAQPage",
       "@id": "https://anqorstudios.com/services/ai-native#faq",
       "mainEntity": [
@@ -152,7 +195,7 @@
           "name": "How do you keep inference costs sane?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Routing and caching, mostly. Most production workloads have a long tail of simple requests that don't need an expensive model — separating those out is usually the single biggest cost lever."
+            "text": "Routing and caching, mostly. Most production workloads have a long tail of simple requests that don't need an expensive model — separating those out is typically the single biggest cost lever, often by an order of magnitude."
           }
         },
         {
@@ -160,7 +203,31 @@
           "name": "Can you work on an existing codebase?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. It's more common than greenfield, and it's usually a question of finding the two or three places where AI genuinely changes the product rather than sprinkling it everywhere."
+            "text": "Yes, and it's more common than greenfield. The work is usually finding the two or three places where AI genuinely changes the product rather than sprinkling it everywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's a realistic timeline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two to three weeks for a working first feature with evaluation in place. Full products depend entirely on scope, and we'd rather ship one thing that works than six that half-work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do we own the model outputs and the code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The code, yes, on handover, in writing. Model output ownership depends on the provider's terms, and we'll walk you through what your chosen provider actually permits."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if the model isn't good enough for our use case?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Then we say so before building. Some problems aren't solvable at current capability, and finding that out in week one is much cheaper than in month six."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -322,7 +416,7 @@
 <div class="hero"><div class="hero-inner">
   <div class="kicker">Product engineering</div>
   <h1>Built AI-native, not AI-retrofitted.</h1>
-  <p class="lede">There&#x27;s a real architectural difference between a product with an AI feature and a product designed around models from the start. We build the second kind — and we&#x27;ve shipped several of our own.</p>
+  <p class="lede">There&#x27;s a real architectural difference between a product with an AI feature and a product designed around models from the start. We build the second kind, and we&#x27;ve shipped several of our own.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="index.html">All services</a>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>AI-Native Product Development, in practice.</h2>
-  <p class="lead">Retrofitting AI onto an existing product usually produces a chat box nobody uses. Designing for it from the start changes the data model, the interface, the failure modes and the unit economics — all four, not just the feature list.</p><p class="lead">We&#x27;ve built this way repeatedly for our own products: Usetta, Outlia, Ranqr and our clipping engine are all AI-native rather than AI-decorated. That&#x27;s the experience we bring rather than a methodology we read about.</p><p class="lead">The unglamorous parts matter most here — retrieval quality, model routing to control cost, evaluation so you know when a prompt change made things worse, and graceful degradation when a provider has an outage.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>Adding a chat box to existing software is not an AI product.</h2>
+  <p class="lead">The most common way AI enters a product is as a feature request: add a chat interface, wire it to the docs, ship it. The result is usually a box nobody opens twice, because it wasn&#x27;t designed into how the product works — it was appended to it.</p><p class="lead">Designing AI-native changes four things simultaneously. The data model changes, because retrieval quality depends on how information is structured and chunked. The interface changes, because the interaction is conversational or generative rather than form-based. The failure modes change, because the system is probabilistic. And the unit economics change, because every interaction now has a variable cost.</p><p class="lead">That last one catches teams badly. A feature that&#x27;s cheap at a thousand users can be ruinous at fifty thousand if every request routes to a frontier model. Cost architecture isn&#x27;t an optimisation you do later — it&#x27;s a design constraint from the start.</p><p class="lead">The other thing teams skip is evaluation. Without a harness measuring output quality, every prompt change ships on intuition, and nobody can tell whether last week&#x27;s tweak made things better or quietly worse.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Find where AI actually changes the product</h3><p>Usually two or three places, not twelve. The rest is decoration that adds cost and surface area without changing what the product is worth.</p></div></div><div class="step"><div class="num"></div><div><h3>Design the data for retrieval</h3><p>How information is structured, chunked and indexed determines retrieval quality more than the model choice does. This is the highest-leverage decision and the one most often skipped.</p></div></div><div class="step"><div class="num"></div><div><h3>Build the evaluation harness early</h3><p>A test set with expected outputs, so prompt and model changes are measured rather than guessed at. Without this you&#x27;re flying blind on every change.</p></div></div><div class="step"><div class="num"></div><div><h3>Route models by task</h3><p>Cheap models for classification and extraction, frontier models only where reasoning genuinely earns the cost. This is usually the single largest lever on operating margin.</p></div></div><div class="step"><div class="num"></div><div><h3>Design the failure behaviour</h3><p>What the product does when a provider is down, rate-limits you, or returns something unusable. Graceful degradation, not a spinner.</p></div></div><div class="step"><div class="num"></div><div><h3>Instrument cost from day one</h3><p>Per-feature, per-user token accounting, so the economics are visible before they become a problem rather than after.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>A chat box on your existing product</h3><p>That&#x27;s the retrofit pattern, and it&#x27;s why most &#x27;AI features&#x27; see almost no repeat usage.</p></div><div><h3>Model-maximalism</h3><p>Routing everything to the most capable model is the easiest architecture and the fastest way to destroy your margin.</p></div><div><h3>Prompt engineering as a strategy</h3><p>Prompts matter, but retrieval architecture, evaluation and routing matter more and are far more durable.</p></div><div><h3>Locked to one provider</h3><p>We design for portability where it&#x27;s practical, because the model landscape moves faster than product roadmaps.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Retrieval architecture</b> designed around your actual data, not a generic vector-store tutorial</li><li><b>Model routing</b> — cheap models for cheap work, expensive ones only where they earn it</li><li><b>Evaluation harness</b> so prompt and model changes are measured, not guessed</li><li><b>Cost controls</b> and token budgeting built in from the start</li><li><b>Graceful degradation</b> when a provider is down or rate-limits you</li><li><b>Provider portability</b> where it's practical, so you're not locked to one vendor</li></ul>
-  <div class="stackrow"><span>Claude</span><span>OpenAI</span><span>RAG</span><span>Vector search</span><span>MCP</span><span>Python</span><span>TypeScript</span></div>
+  <ul class="checks"><li><b>Retrieval architecture</b> designed around your actual data, not a generic vector-store tutorial</li><li><b>Evaluation harness</b> with a real test set, so changes are measured</li><li><b>Model routing</b> — cheap models for cheap work, expensive ones only where they earn it</li><li><b>Per-feature cost instrumentation</b> from day one</li><li><b>Graceful degradation</b> when a provider is down or rate-limiting</li><li><b>Provider portability</b> where practical, with the trade-offs stated where it isn't</li><li><b>Caching strategy</b> for repeated and near-repeated requests</li><li><b>Honest scoping</b> on which parts of the product genuinely benefit</li></ul>
+  <div class="stackrow"><span>Claude</span><span>OpenAI</span><span>RAG</span><span>Vector search</span><span>MCP</span><span>Python</span><span>TypeScript</span><span>Postgres</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>Usetta, Outlia, Ranqr and our clipping engine are all AI-native rather than AI-decorated — designed around models from the first commit. We&#x27;ve made the routing, retrieval and cost decisions on our own products with our own margin at stake.</p><p>The cost point in particular is one we learned by paying it. Our own products route AI operations through a provider-agnostic layer specifically so cheap operations don&#x27;t run on expensive models.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>Probabilistic systems don&#x27;t give identical answers to identical inputs. If your product genuinely requires determinism, some of it shouldn&#x27;t be a model at all.</li><li>Evaluation is real work. Building a decent test set takes time that feels like it isn&#x27;t shipping — and skipping it costs more later.</li><li>Costs scale with usage, unlike traditional software. Success can hurt if the economics weren&#x27;t designed.</li><li>Frontier model capability changes underneath you. Architecture that assumes today&#x27;s limits will age badly in both directions.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>Which models do you build on?</h3><p>Primarily Claude, with routing to cheaper or specialist models where the task doesn&#x27;t need frontier capability. We design for portability where it&#x27;s practical, because the model landscape moves faster than most product roadmaps.</p></div><div class="faq-item"><h3>How do you keep inference costs sane?</h3><p>Routing and caching, mostly. Most production workloads have a long tail of simple requests that don&#x27;t need an expensive model — separating those out is usually the single biggest cost lever.</p></div><div class="faq-item"><h3>Can you work on an existing codebase?</h3><p>Yes. It&#x27;s more common than greenfield, and it&#x27;s usually a question of finding the two or three places where AI genuinely changes the product rather than sprinkling it everywhere.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>Which models do you build on?</h3><p>Primarily Claude, with routing to cheaper or specialist models where the task doesn&#x27;t need frontier capability. We design for portability where it&#x27;s practical, because the model landscape moves faster than most product roadmaps.</p></div><div class="faq-item"><h3>How do you keep inference costs sane?</h3><p>Routing and caching, mostly. Most production workloads have a long tail of simple requests that don&#x27;t need an expensive model — separating those out is typically the single biggest cost lever, often by an order of magnitude.</p></div><div class="faq-item"><h3>Can you work on an existing codebase?</h3><p>Yes, and it&#x27;s more common than greenfield. The work is usually finding the two or three places where AI genuinely changes the product rather than sprinkling it everywhere.</p></div><div class="faq-item"><h3>What&#x27;s a realistic timeline?</h3><p>Two to three weeks for a working first feature with evaluation in place. Full products depend entirely on scope, and we&#x27;d rather ship one thing that works than six that half-work.</p></div><div class="faq-item"><h3>Do we own the model outputs and the code?</h3><p>The code, yes, on handover, in writing. Model output ownership depends on the provider&#x27;s terms, and we&#x27;ll walk you through what your chosen provider actually permits.</p></div><div class="faq-item"><h3>What if the model isn&#x27;t good enough for our use case?</h3><p>Then we say so before building. Some problems aren&#x27;t solvable at current capability, and finding that out in week one is much cheaper than in month six.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>Bring the use case. We&#x27;ll tell you if the models are there yet.</h2>
+  <p>Some problems aren&#x27;t solvable at current capability. Finding that out in week one costs a call. Finding out in month six costs a quarter.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

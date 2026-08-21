@@ -136,6 +136,49 @@
       ]
     },
     {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/cloud-infrastructure#howto",
+      "name": "How cloud infrastructure works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Audit what's actually running",
+          "text": "Including the environments nobody remembers creating. First audits routinely find meaningful spend on idle resources."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Size to real load",
+          "text": "Measured traffic and usage, not a projection or a reference architecture built for a different company."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Decide residency explicitly",
+          "text": "UAE region, EU region, or entirely in your own infrastructure — decided against your compliance position and written down."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Migrate with a rollback plan",
+          "text": "Off whatever is fragile now, in stages, with a tested way back. Migrations without rollback plans are how weekends disappear."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Test the backups",
+          "text": "Configured backups that have never been restored are a hypothesis. We restore one to prove it works."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Set up monitoring that pages a human",
+          "text": "Alerting on things that actually matter, tuned so alerts aren't ignored — an alert everyone mutes is worse than none."
+        }
+      ]
+    },
+    {
       "@type": "FAQPage",
       "@id": "https://anqorstudios.com/services/cloud-infrastructure#faq",
       "mainEntity": [
@@ -144,7 +187,7 @@
           "name": "Can you keep our data in the UAE?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes — UAE region deployment is available, as is EU. For the most sensitive workloads we can run models locally so data never leaves your own infrastructure."
+            "text": "Yes — UAE region deployment is available, as is EU. For the most sensitive workloads we run models locally so data never leaves your own infrastructure at all."
           }
         },
         {
@@ -152,7 +195,7 @@
           "name": "We think we're overpaying. Can you check?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Usually yes, and usually we find something. Idle environments, oversized instances and forgotten storage are the common three. We'll tell you if your setup is already sensible rather than manufacturing a problem."
+            "text": "Usually yes, and usually we find something — idle environments, oversized instances and forgotten storage are the common three. If your setup is already sensible we'll tell you that instead of inventing a problem."
           }
         },
         {
@@ -160,7 +203,31 @@
           "name": "Do you provide ongoing management?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, on a retainer. Or we can hand over with documentation if you have someone in-house — we're not trying to make you dependent."
+            "text": "Yes on a retainer, or we hand over with documentation if you have someone in-house. We're not trying to make you dependent on us."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do we need Kubernetes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Almost certainly not. Most teams at this size pay for that complexity in operational overhead for years without getting the benefit it exists to provide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if our current provider is fine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Then stay. Migration for its own sake is expensive and risky, and we'd rather not take a project that doesn't need doing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you help with disaster recovery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — backup strategy, tested restores and a documented recovery procedure. The testing is the part most setups are missing."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>Cloud Infrastructure, in practice.</h2>
-  <p class="lead">Most small and mid-size companies are running infrastructure designed either for a much bigger company or for none at all. Both are expensive: one in monthly spend, the other in the outage you haven&#x27;t had yet.</p><p class="lead">We deploy across AWS, Lightsail, Railway and Vercel depending on what the workload genuinely needs, and we&#x27;re not incentivised to push you onto the most expensive option. Our own products run on this stack, so the operating costs are ones we pay too.</p><p class="lead">Data residency is a live concern in the UAE. We can deploy to UAE or EU regions, and for sensitive workloads run inference locally so data never leaves your infrastructure at all.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>Most companies run infrastructure built for someone else&#x27;s scale.</h2>
+  <p class="lead">There are two common failure modes and they look opposite but cost the same. The first is over-provisioning: an architecture copied from a reference diagram designed for a company fifty times your size, generating monthly spend on capacity you&#x27;ll never touch. The second is under-provisioning: everything on one box with no backups, which is fine until the day it isn&#x27;t.</p><p class="lead">Cloud pricing actively encourages the first. Defaults are generous, idle resources bill silently, and nothing in the console tells you that you&#x27;re paying for three environments nobody has opened in a year.</p><p class="lead">Data residency is a live and specific concern in the UAE that generic cloud advice ignores entirely. For regulated work the question &#x27;where does our data physically sit&#x27; needs a written answer before a regulator asks, and for the most sensitive workloads the answer needs to be &#x27;inside our own infrastructure&#x27;.</p><p class="lead">We deploy across AWS, Lightsail, Railway and Vercel depending on what the workload needs. We&#x27;re not a reseller of any of them, so there&#x27;s no incentive pushing you toward the most expensive option.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Audit what&#x27;s actually running</h3><p>Including the environments nobody remembers creating. First audits routinely find meaningful spend on idle resources.</p></div></div><div class="step"><div class="num"></div><div><h3>Size to real load</h3><p>Measured traffic and usage, not a projection or a reference architecture built for a different company.</p></div></div><div class="step"><div class="num"></div><div><h3>Decide residency explicitly</h3><p>UAE region, EU region, or entirely in your own infrastructure — decided against your compliance position and written down.</p></div></div><div class="step"><div class="num"></div><div><h3>Migrate with a rollback plan</h3><p>Off whatever is fragile now, in stages, with a tested way back. Migrations without rollback plans are how weekends disappear.</p></div></div><div class="step"><div class="num"></div><div><h3>Test the backups</h3><p>Configured backups that have never been restored are a hypothesis. We restore one to prove it works.</p></div></div><div class="step"><div class="num"></div><div><h3>Set up monitoring that pages a human</h3><p>Alerting on things that actually matter, tuned so alerts aren&#x27;t ignored — an alert everyone mutes is worse than none.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>Kubernetes by default</h3><p>Most teams this size don&#x27;t need it and pay for the complexity in operational overhead for years.</p></div><div><h3>A single-vendor recommendation</h3><p>We deploy across four platforms and have no reseller relationship pushing a particular answer.</p></div><div><h3>Migration for its own sake</h3><p>If your current setup is working and appropriately sized, we&#x27;ll tell you that and not take the project.</p></div><div><h3>Configured-and-forgotten backups</h3><p>A backup you haven&#x27;t restored isn&#x27;t a backup. We test it.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Architecture</b> matched to real load, not a reference diagram</li><li><b>Migration</b> off whatever is fragile now, with a rollback plan</li><li><b>Data residency</b> — UAE or EU regions where compliance requires it</li><li><b>Cost review</b> — most first audits find meaningful spend on nothing</li><li><b>Backups and recovery</b> that have actually been tested, not just configured</li><li><b>Monitoring and alerting</b> that pages a human when it matters</li></ul>
-  <div class="stackrow"><span>AWS</span><span>Lightsail</span><span>Railway</span><span>Vercel</span><span>Docker</span><span>Postgres</span></div>
+  <ul class="checks"><li><b>Architecture matched to real measured load</b>, not a reference diagram</li><li><b>Cost audit</b> — idle environments, oversized instances, forgotten storage</li><li><b>Data residency</b> — UAE or EU regions, or fully in your own infrastructure</li><li><b>Migration with a tested rollback plan</b>, executed in stages</li><li><b>Backups that have been restored</b> at least once to prove they work</li><li><b>Monitoring and alerting</b> tuned so alerts don't get ignored</li><li><b>Infrastructure documentation</b> so it isn't knowledge in one person's head</li><li><b>Local inference deployment</b> for workloads that can't send data out</li></ul>
+  <div class="stackrow"><span>AWS</span><span>Lightsail</span><span>Railway</span><span>Vercel</span><span>Docker</span><span>Postgres</span><span>Local inference</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>Our own products run across AWS, Lightsail, Railway and Vercel — Setta on AWS Lightsail, several products on Railway, front-ends on Vercel, with Docker throughout. These are operating costs we pay ourselves every month, which is a sharper incentive to get sizing right than a client&#x27;s budget provides.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>We&#x27;re not a 24/7 managed NOC. We set up alerting and can be on a retainer, but if you need follow-the-sun on-call, that&#x27;s a different kind of provider.</li><li>Cost savings aren&#x27;t guaranteed. If your setup is already sensible we&#x27;ll say so rather than manufacture a finding.</li><li>Migrations carry risk. We stage them and test rollback, and we won&#x27;t pretend the risk is zero.</li><li>We don&#x27;t resell cloud capacity. You hold your own accounts and your own billing relationship, which is better for you and worse for our margin.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>Can you keep our data in the UAE?</h3><p>Yes — UAE region deployment is available, as is EU. For the most sensitive workloads we can run models locally so data never leaves your own infrastructure.</p></div><div class="faq-item"><h3>We think we&#x27;re overpaying. Can you check?</h3><p>Usually yes, and usually we find something. Idle environments, oversized instances and forgotten storage are the common three. We&#x27;ll tell you if your setup is already sensible rather than manufacturing a problem.</p></div><div class="faq-item"><h3>Do you provide ongoing management?</h3><p>Yes, on a retainer. Or we can hand over with documentation if you have someone in-house — we&#x27;re not trying to make you dependent.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>Can you keep our data in the UAE?</h3><p>Yes — UAE region deployment is available, as is EU. For the most sensitive workloads we run models locally so data never leaves your own infrastructure at all.</p></div><div class="faq-item"><h3>We think we&#x27;re overpaying. Can you check?</h3><p>Usually yes, and usually we find something — idle environments, oversized instances and forgotten storage are the common three. If your setup is already sensible we&#x27;ll tell you that instead of inventing a problem.</p></div><div class="faq-item"><h3>Do you provide ongoing management?</h3><p>Yes on a retainer, or we hand over with documentation if you have someone in-house. We&#x27;re not trying to make you dependent on us.</p></div><div class="faq-item"><h3>Do we need Kubernetes?</h3><p>Almost certainly not. Most teams at this size pay for that complexity in operational overhead for years without getting the benefit it exists to provide.</p></div><div class="faq-item"><h3>What if our current provider is fine?</h3><p>Then stay. Migration for its own sake is expensive and risky, and we&#x27;d rather not take a project that doesn&#x27;t need doing.</p></div><div class="faq-item"><h3>Can you help with disaster recovery?</h3><p>Yes — backup strategy, tested restores and a documented recovery procedure. The testing is the part most setups are missing.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>Send us your cloud bill.</h2>
+  <p>A first-pass cost audit takes under an hour and usually finds something. If it doesn&#x27;t, that&#x27;s a useful answer too.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Video Production &amp; Content Engine Dubai | Anqor Studios</title>
-<meta name="description" content="A real in-house video production house — strategy, scripting, shoot, edit and short-form repurposing at volume, on gear we own. Not a subcontracted crew." />
+<meta name="description" content="A real in-house video production house — strategy, scripting, shoot, edit and automated short-form repurposing at volume, on gear we own. Not a subcontracted crew." />
 <link rel="canonical" href="https://anqorstudios.com/services/video-production" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Video Production &amp; Content Engine Dubai | Anqor Studios" />
-<meta property="og:description" content="A real in-house video production house — strategy, scripting, shoot, edit and short-form repurposing at volume, on gear we own. Not a subcontracted crew." />
+<meta property="og:description" content="A real in-house video production house — strategy, scripting, shoot, edit and automated short-form repurposing at volume, on gear we own. Not a subcontracted crew." />
 <meta property="og:url" content="https://anqorstudios.com/services/video-production" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -96,7 +96,7 @@
       "@id": "https://anqorstudios.com/services/video-production#webpage",
       "url": "https://anqorstudios.com/services/video-production",
       "name": "Video Production & Content Engine Dubai | Anqor Studios",
-      "description": "A real in-house video production house — strategy, scripting, shoot, edit and short-form repurposing at volume, on gear we own. Not a subcontracted crew.",
+      "description": "A real in-house video production house — strategy, scripting, shoot, edit and automated short-form repurposing at volume, on gear we own. Not a subcontracted crew.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/video-production#service",
       "name": "Video Production & Content",
-      "description": "A real in-house video production house — strategy, scripting, shoot, edit and short-form repurposing at volume, on gear we own. Not a subcontracted crew.",
+      "description": "A real in-house video production house — strategy, scripting, shoot, edit and automated short-form repurposing at volume, on gear we own. Not a subcontracted crew.",
       "serviceType": "Video Production & Content",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -132,6 +132,49 @@
         {
           "@type": "City",
           "name": "Sharjah"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/video-production#howto",
+      "name": "How video production & content works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Strategy brief",
+          "text": "Before anyone picks up a camera. What the content is for, who it's aimed at, and what a result looks like."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Scripting and pre-production",
+          "text": "Including guest booking, location and scheduling for interview formats."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Shoot",
+          "text": "In-house crew, our own equipment. No subcontractor, no markup, no lost brief."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Edit and post",
+          "text": "Consistent grading across a series, so episode nine looks like episode one."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Automated repurposing",
+          "text": "AnqorClip transcribes, identifies high-retention segments and cuts platform-ready verticals with captions at volume."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Human review and publish",
+          "text": "Someone watches before anything goes out, and the cadence is one you can sustain after we hand over."
         }
       ]
     },
@@ -161,6 +204,30 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Yes, and it's the format we're most confident in. We run our own series in real estate and fintech, so the workflow is proven rather than proposed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many clips come out of one shoot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depends entirely on the footage, but a good hour of interview typically yields somewhere between fifteen and thirty usable short-form pieces. We'd rather publish the strong ones than all of them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you handle publishing and scheduling?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We can, or we hand over a cadence your team runs. Both work; the second is cheaper and we'll say so."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you work with footage we already have?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Existing archive footage is often the fastest route to a content library, and the clipping engine works on it the same way."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>Video Production &amp; Content, in practice.</h2>
-  <p class="lead">Most agencies subcontract video and mark it up. We run it in-house, which means the strategy, the shoot and the edit are the same conversation rather than three vendors and a lost brief.</p><p class="lead">The AI layer is where the economics change. AnqorClip ingests long-form footage, finds the highlights from transcript analysis and outputs platform-ready short clips at volume — turning one shoot into a month of content instead of one video.</p><p class="lead">We produce our own shows this way — an interview series with Dubai developers and brokers, and a fintech-founder series. Those exist because we needed the pipeline to work on us before we sold it.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>One shoot should not produce one video.</h2>
+  <p class="lead">The standard agency arrangement is to subcontract production and mark it up. The strategy conversation happens with one company, the shoot with another, the edit with a third, and the brief degrades at every handoff. Timelines stretch and nobody owns the outcome.</p><p class="lead">The second problem is arithmetic. A day of filming produces hours of usable footage, and turning that into short-form content is grinding manual work — reviewing, finding moments, cutting, captioning, reformatting for each platform. Most of it never gets made, so a shoot that could have produced a month of content produces one video.</p><p class="lead">That&#x27;s the part AI genuinely changes. Transcribing, identifying the segments likely to hold attention, and cutting platform-ready verticals is exactly the kind of high-volume, pattern-recognition work models handle well — and it&#x27;s the difference between publishing weekly and publishing quarterly.</p><p class="lead">What it doesn&#x27;t change is judgement. A human still reviews before anything publishes. The engine removes the grinding, not the taste.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Strategy brief</h3><p>Before anyone picks up a camera. What the content is for, who it&#x27;s aimed at, and what a result looks like.</p></div></div><div class="step"><div class="num"></div><div><h3>Scripting and pre-production</h3><p>Including guest booking, location and scheduling for interview formats.</p></div></div><div class="step"><div class="num"></div><div><h3>Shoot</h3><p>In-house crew, our own equipment. No subcontractor, no markup, no lost brief.</p></div></div><div class="step"><div class="num"></div><div><h3>Edit and post</h3><p>Consistent grading across a series, so episode nine looks like episode one.</p></div></div><div class="step"><div class="num"></div><div><h3>Automated repurposing</h3><p>AnqorClip transcribes, identifies high-retention segments and cuts platform-ready verticals with captions at volume.</p></div></div><div class="step"><div class="num"></div><div><h3>Human review and publish</h3><p>Someone watches before anything goes out, and the cadence is one you can sustain after we hand over.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>A subcontracted crew</h3><p>We shoot ourselves, on our own gear. That&#x27;s why the pricing and turnaround work differently.</p></div><div><h3>Fully automated content</h3><p>The engine removes the grinding work. Judgement stays human, and anything published gets watched by a person first.</p></div><div><h3>A one-off video</h3><p>The model that works is a series with a sustainable cadence. A single expensive video rarely returns anything.</p></div><div><h3>Volume for its own sake</h3><p>Fifty bad clips is worse than five good ones. The engine enables volume; it doesn&#x27;t excuse it.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Strategy brief</b> before anyone picks up a camera</li><li><b>Scripting and pre-production</b>, including guest and location work</li><li><b>Shoot</b> on gear we own, in-house crew</li><li><b>Edit and post</b> with consistent grading across a series</li><li><b>Automated short-form repurposing</b> at volume via AnqorClip</li><li><b>Publishing cadence</b> you can actually sustain after we hand over</li></ul>
-  <div class="stackrow"><span>ZANA</span><span>AnqorClip</span><span>DaVinci Resolve</span><span>Whisper</span><span>Python</span></div>
+  <ul class="checks"><li><b>Strategy brief</b> before production starts</li><li><b>Scripting and pre-production</b>, including guest and location work</li><li><b>Shoot</b> — in-house crew, our own equipment</li><li><b>Edit and post</b> with consistent grading across a series</li><li><b>Automated short-form repurposing</b> at volume via AnqorClip</li><li><b>Captions and platform formatting</b> for each destination</li><li><b>A publishing cadence</b> you can sustain after handover</li><li><b>Content strategy</b> that ties back to the search and AI-visibility work</li></ul>
+  <div class="stackrow"><span>ZANA</span><span>AnqorClip</span><span>DaVinci Resolve</span><span>Whisper</span><span>Python</span><span>Remotion</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>We produce our own shows this way. Off Plan is an interview series with Dubai developers, brokers and investors; Off Ramp covers UAE fintech founders. Both exist because we needed the pipeline to work on our own content before selling it.</p><p>AnqorClip and ZANA are our own products. The clipping engine ingests long-form footage, uses transcript analysis to find highlights, and outputs platform-ready short clips — which is what makes a weekly cadence economically possible for a small team.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>We&#x27;re a studio, not a broadcast production company. Large-crew commercial shoots with big talent budgets aren&#x27;t our shape.</li><li>The engine finds candidate moments. If the underlying footage isn&#x27;t interesting, no clipping tool rescues it.</li><li>Content is a cadence, not a campaign. A single shoot with no follow-through generally returns nothing.</li><li>We don&#x27;t buy media. Production and organic distribution, yes; paid amplification is someone else&#x27;s specialism.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>Do you actually shoot, or do you subcontract?</h3><p>We shoot. In-house crew, our own equipment. That&#x27;s the whole reason the pricing and turnaround work differently from an agency reselling a production company.</p></div><div class="faq-item"><h3>What is the clipping engine actually doing?</h3><p>It transcribes long-form footage, identifies the segments most likely to hold attention, and cuts platform-ready verticals with captions. A human still reviews before anything publishes — it removes the grinding part, not the judgement.</p></div><div class="faq-item"><h3>Can you produce a branded show for us?</h3><p>Yes, and it&#x27;s the format we&#x27;re most confident in. We run our own series in real estate and fintech, so the workflow is proven rather than proposed.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>Do you actually shoot, or do you subcontract?</h3><p>We shoot. In-house crew, our own equipment. That&#x27;s the whole reason the pricing and turnaround work differently from an agency reselling a production company.</p></div><div class="faq-item"><h3>What is the clipping engine actually doing?</h3><p>It transcribes long-form footage, identifies the segments most likely to hold attention, and cuts platform-ready verticals with captions. A human still reviews before anything publishes — it removes the grinding part, not the judgement.</p></div><div class="faq-item"><h3>Can you produce a branded show for us?</h3><p>Yes, and it&#x27;s the format we&#x27;re most confident in. We run our own series in real estate and fintech, so the workflow is proven rather than proposed.</p></div><div class="faq-item"><h3>How many clips come out of one shoot?</h3><p>Depends entirely on the footage, but a good hour of interview typically yields somewhere between fifteen and thirty usable short-form pieces. We&#x27;d rather publish the strong ones than all of them.</p></div><div class="faq-item"><h3>Do you handle publishing and scheduling?</h3><p>We can, or we hand over a cadence your team runs. Both work; the second is cheaper and we&#x27;ll say so.</p></div><div class="faq-item"><h3>Can you work with footage we already have?</h3><p>Yes. Existing archive footage is often the fastest route to a content library, and the clipping engine works on it the same way.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>Send us an hour of footage you never used.</h2>
+  <p>The fastest way to see what the engine does is to run it on something already sitting on a drive.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DevOps Engineering Services UAE | Anqor Studios</title>
-<meta name="description" content="CI/CD pipelines, containerisation, environment separation and deployment automation — so shipping stops being an event that requires everyone to be awake." />
+<meta name="description" content="CI/CD pipelines, containerisation, environment separation and tested rollback — so shipping stops being an event that requires everyone to be awake." />
 <link rel="canonical" href="https://anqorstudios.com/services/devops-engineering" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
 <meta property="og:title" content="DevOps Engineering Services UAE | Anqor Studios" />
-<meta property="og:description" content="CI/CD pipelines, containerisation, environment separation and deployment automation — so shipping stops being an event that requires everyone to be awake." />
+<meta property="og:description" content="CI/CD pipelines, containerisation, environment separation and tested rollback — so shipping stops being an event that requires everyone to be awake." />
 <meta property="og:url" content="https://anqorstudios.com/services/devops-engineering" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -96,7 +96,7 @@
       "@id": "https://anqorstudios.com/services/devops-engineering#webpage",
       "url": "https://anqorstudios.com/services/devops-engineering",
       "name": "DevOps Engineering Services UAE | Anqor Studios",
-      "description": "CI/CD pipelines, containerisation, environment separation and deployment automation — so shipping stops being an event that requires everyone to be awake.",
+      "description": "CI/CD pipelines, containerisation, environment separation and tested rollback — so shipping stops being an event that requires everyone to be awake.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/devops-engineering#service",
       "name": "DevOps Engineering",
-      "description": "CI/CD pipelines, containerisation, environment separation and deployment automation — so shipping stops being an event that requires everyone to be awake.",
+      "description": "CI/CD pipelines, containerisation, environment separation and tested rollback — so shipping stops being an event that requires everyone to be awake.",
       "serviceType": "DevOps Engineering",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -136,6 +136,49 @@
       ]
     },
     {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/devops-engineering#howto",
+      "name": "How devops engineering works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Containerise",
+          "text": "So the thing running in production is the thing that was tested, and environments stop drifting apart in ways nobody notices until they matter."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Automate the checks",
+          "text": "Tests, linting and build verification running on every change, before anything reaches production."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Separate environments genuinely",
+          "text": "Dev, staging and production that actually differ in data and access, not three names pointing at similar things."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Make rollback one action",
+          "text": "And then perform it at least once, deliberately, so you know it works before you need it at 2am."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Move secrets out of documents",
+          "text": "Into proper secret management, with rotation possible without a code change."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Document the pipeline",
+          "text": "So it isn't knowledge locked in one person's head — which is the failure mode that outlasts every other one on this list."
+        }
+      ]
+    },
+    {
       "@type": "FAQPage",
       "@id": "https://anqorstudios.com/services/devops-engineering#faq",
       "mainEntity": [
@@ -144,7 +187,7 @@
           "name": "We're a small team. Is this overkill?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Usually the opposite. Small teams feel a bad deployment process hardest because there's no one to absorb it. The setup can be proportionate — you don't need Kubernetes to get reliable, reversible deploys."
+            "text": "Usually the opposite. Small teams feel a bad deployment process hardest because there's nobody to absorb it. The setup can be proportionate — you don't need Kubernetes to get reliable, reversible deploys."
           }
         },
         {
@@ -152,7 +195,7 @@
           "name": "Can you work with our existing pipeline?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Fixing what exists is often faster and less disruptive than replacing it, and we'll say which one your situation calls for after looking rather than before."
+            "text": "Yes. Fixing what exists is often faster and less disruptive than replacing it, and we'll say which your situation calls for after looking rather than before."
           }
         },
         {
@@ -161,6 +204,30 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "That's what rollback and alerting are for. We set up both, and we test the rollback — an untested recovery path is a guess, not a plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do we need to change hosting?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not usually. We work with what you're on unless there's a specific reason it can't support what you need."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does this take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One to three weeks for a typical setup, depending on how many services and environments are involved."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if we have no tests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We can still containerise, separate environments and build the pipeline. It'll run whatever checks exist. Writing a test suite is separate work and we'd scope it honestly rather than bundling it invisibly."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>DevOps Engineering, in practice.</h2>
-  <p class="lead">If deploying requires a specific person, a specific laptop, or a quiet Friday, that&#x27;s a business risk rather than a technical preference. It slows every other decision down because shipping is expensive.</p><p class="lead">We containerise, build pipelines that run tests before anything reaches production, separate environments properly, and make rollback a single action rather than an improvised recovery.</p><p class="lead">This isn&#x27;t theoretical for us. Our own products deploy this way across Railway, AWS and Vercel, and the pipelines are the reason we can ship small changes often instead of batching risk.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>If deploying is scary, everything else slows down around it.</h2>
+  <p class="lead">A bad deployment process doesn&#x27;t just cost you the deployment. It changes every decision upstream. Changes get batched because shipping is expensive, batches get larger, larger batches are riskier, riskier deploys make everyone more cautious, and caution produces bigger batches. It&#x27;s a loop that tightens.</p><p class="lead">The symptoms are recognisable. Deploys happen on a particular day. One person has to be available. There&#x27;s a document nobody has updated. Rollback is theoretical — something people believe is possible but nobody has done.</p><p class="lead">The fix is unglamorous and well understood: containerise so environments stop drifting, run checks automatically before anything reaches production, separate environments genuinely, and make rollback a single tested action rather than an improvised recovery under pressure.</p><p class="lead">None of this requires Kubernetes or a platform team. Proportionate setups get you reliable, reversible deploys without taking on years of operational complexity, and that&#x27;s what most teams at this size actually need.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Containerise</h3><p>So the thing running in production is the thing that was tested, and environments stop drifting apart in ways nobody notices until they matter.</p></div></div><div class="step"><div class="num"></div><div><h3>Automate the checks</h3><p>Tests, linting and build verification running on every change, before anything reaches production.</p></div></div><div class="step"><div class="num"></div><div><h3>Separate environments genuinely</h3><p>Dev, staging and production that actually differ in data and access, not three names pointing at similar things.</p></div></div><div class="step"><div class="num"></div><div><h3>Make rollback one action</h3><p>And then perform it at least once, deliberately, so you know it works before you need it at 2am.</p></div></div><div class="step"><div class="num"></div><div><h3>Move secrets out of documents</h3><p>Into proper secret management, with rotation possible without a code change.</p></div></div><div class="step"><div class="num"></div><div><h3>Document the pipeline</h3><p>So it isn&#x27;t knowledge locked in one person&#x27;s head — which is the failure mode that outlasts every other one on this list.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>Kubernetes for everyone</h3><p>Most teams this size don&#x27;t need it. Proportionate setups get reliable deploys without years of operational overhead.</p></div><div><h3>A platform team</h3><p>We build something a small team can operate, not something that requires dedicated headcount to keep running.</p></div><div><h3>Replacing what works</h3><p>If your pipeline is fine and just needs fixing in two places, that&#x27;s what we&#x27;ll do and what we&#x27;ll charge for.</p></div><div><h3>Untested rollback</h3><p>A rollback path nobody has exercised is a guess. We run it before signing off.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Containerisation</b> so environments stop drifting apart</li><li><b>CI/CD pipelines</b> that run tests and checks before production</li><li><b>Environment separation</b> — dev, staging and production that genuinely differ</li><li><b>One-action rollback</b>, tested rather than assumed</li><li><b>Secrets management</b> that isn't a shared document</li><li><b>Documentation</b> so the pipeline isn't knowledge locked in one head</li></ul>
+  <ul class="checks"><li><b>Containerisation</b> so environments stop drifting apart</li><li><b>CI/CD pipeline</b> running tests and checks before production</li><li><b>Genuine environment separation</b> — dev, staging, production</li><li><b>One-action rollback</b>, tested at least once before handover</li><li><b>Secrets management</b> out of shared documents and repositories</li><li><b>Build caching</b> so the pipeline is fast enough that people use it</li><li><b>Deployment documentation</b> so the process survives one person leaving</li><li><b>Monitoring on deploys</b> — alerting when a release degrades something</li></ul>
   <div class="stackrow"><span>Docker</span><span>GitHub Actions</span><span>Railway</span><span>AWS</span><span>Vercel</span><span>Postgres</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>Our own products deploy this way across Railway, AWS and Vercel with Docker throughout. The pipelines are the reason we can ship small changes frequently instead of batching risk — and that&#x27;s a capability we notice immediately when working in a codebase that lacks it.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>We won&#x27;t build something that needs a platform team to operate. If the setup is more complex than your team can maintain, it fails after we leave.</li><li>This doesn&#x27;t fix a codebase with no tests. We can automate running whatever exists — writing the test suite is separate work.</li><li>Some legacy systems genuinely resist containerisation, and we&#x27;d rather say that early than bill for discovering it slowly.</li><li>Faster deploys don&#x27;t fix an unclear release process. If nobody knows who decides what ships, that&#x27;s an organisational question first.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>We&#x27;re a small team. Is this overkill?</h3><p>Usually the opposite. Small teams feel a bad deployment process hardest because there&#x27;s no one to absorb it. The setup can be proportionate — you don&#x27;t need Kubernetes to get reliable, reversible deploys.</p></div><div class="faq-item"><h3>Can you work with our existing pipeline?</h3><p>Yes. Fixing what exists is often faster and less disruptive than replacing it, and we&#x27;ll say which one your situation calls for after looking rather than before.</p></div><div class="faq-item"><h3>What happens if a deploy goes wrong at 2am?</h3><p>That&#x27;s what rollback and alerting are for. We set up both, and we test the rollback — an untested recovery path is a guess, not a plan.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>We&#x27;re a small team. Is this overkill?</h3><p>Usually the opposite. Small teams feel a bad deployment process hardest because there&#x27;s nobody to absorb it. The setup can be proportionate — you don&#x27;t need Kubernetes to get reliable, reversible deploys.</p></div><div class="faq-item"><h3>Can you work with our existing pipeline?</h3><p>Yes. Fixing what exists is often faster and less disruptive than replacing it, and we&#x27;ll say which your situation calls for after looking rather than before.</p></div><div class="faq-item"><h3>What happens if a deploy goes wrong at 2am?</h3><p>That&#x27;s what rollback and alerting are for. We set up both, and we test the rollback — an untested recovery path is a guess, not a plan.</p></div><div class="faq-item"><h3>Do we need to change hosting?</h3><p>Not usually. We work with what you&#x27;re on unless there&#x27;s a specific reason it can&#x27;t support what you need.</p></div><div class="faq-item"><h3>How long does this take?</h3><p>One to three weeks for a typical setup, depending on how many services and environments are involved.</p></div><div class="faq-item"><h3>What if we have no tests?</h3><p>We can still containerise, separate environments and build the pipeline. It&#x27;ll run whatever checks exist. Writing a test suite is separate work and we&#x27;d scope it honestly rather than bundling it invisibly.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>How long does your deploy take, and who can do it?</h2>
+  <p>If the answer is &#x27;a while&#x27; and &#x27;one person&#x27;, that&#x27;s a fixable problem and usually a fast one.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>

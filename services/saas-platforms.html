@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SaaS Platform Development Dubai | Anqor Studios</title>
-<meta name="description" content="Multi-tenant SaaS products built end to end — auth, billing, tenant isolation, admin tooling and deployment. We run our own SaaS products in production." />
+<meta name="description" content="Multi-tenant SaaS built end to end — tenant isolation at the database, auth, billing, admin tooling and deployment. From a studio that operates its own SaaS products." />
 <link rel="canonical" href="https://anqorstudios.com/services/saas-platforms" />
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website" />
 <meta property="og:title" content="SaaS Platform Development Dubai | Anqor Studios" />
-<meta property="og:description" content="Multi-tenant SaaS products built end to end — auth, billing, tenant isolation, admin tooling and deployment. We run our own SaaS products in production." />
+<meta property="og:description" content="Multi-tenant SaaS built end to end — tenant isolation at the database, auth, billing, admin tooling and deployment. From a studio that operates its own SaaS products." />
 <meta property="og:url" content="https://anqorstudios.com/services/saas-platforms" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -96,7 +96,7 @@
       "@id": "https://anqorstudios.com/services/saas-platforms#webpage",
       "url": "https://anqorstudios.com/services/saas-platforms",
       "name": "SaaS Platform Development Dubai | Anqor Studios",
-      "description": "Multi-tenant SaaS products built end to end — auth, billing, tenant isolation, admin tooling and deployment. We run our own SaaS products in production.",
+      "description": "Multi-tenant SaaS built end to end — tenant isolation at the database, auth, billing, admin tooling and deployment. From a studio that operates its own SaaS products.",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
@@ -111,7 +111,7 @@
       "@type": "Service",
       "@id": "https://anqorstudios.com/services/saas-platforms#service",
       "name": "SaaS Platforms",
-      "description": "Multi-tenant SaaS products built end to end — auth, billing, tenant isolation, admin tooling and deployment. We run our own SaaS products in production.",
+      "description": "Multi-tenant SaaS built end to end — tenant isolation at the database, auth, billing, admin tooling and deployment. From a studio that operates its own SaaS products.",
       "serviceType": "SaaS Platforms",
       "provider": {
         "@id": "https://anqorstudios.com/#organization"
@@ -136,6 +136,49 @@
       ]
     },
     {
+      "@type": "HowTo",
+      "@id": "https://anqorstudios.com/services/saas-platforms#howto",
+      "name": "How saas platforms works",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Decide the tenancy model honestly",
+          "text": "Multi-tenant or per-client deployment, based on who your buyers are. Regulated and enterprise customers often want their own instance, and that's a legitimate architecture, not a downgrade."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enforce isolation at the database",
+          "text": "Row-level security policies, verified with real authenticated requests — not with a service key that bypasses them, which is how teams convince themselves it works when it doesn't."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Build auth and roles properly",
+          "text": "A real permission model rather than an is_admin boolean, because the boolean always becomes three booleans and then a mess."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Integrate billing early",
+          "text": "Subscriptions, usage, proration and failed-payment handling. Retrofitting billing into a live product is materially harder than building it in."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Build admin tooling",
+          "text": "So support questions get answered without production SQL access. This is what lets you scale support past the founders."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Set up environments and deployment",
+          "text": "Genuine dev, staging and production separation, with a pipeline that runs checks before anything ships."
+        }
+      ]
+    },
+    {
       "@type": "FAQPage",
       "@id": "https://anqorstudios.com/services/saas-platforms#faq",
       "mainEntity": [
@@ -144,7 +187,7 @@
           "name": "Multi-tenant or one deployment per customer?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Depends on your buyers. Regulated or enterprise customers often want their own instance, and per-client deployment is simpler to reason about security-wise. Multi-tenant is cheaper to operate at volume. We'll walk through the trade-off with your actual sales motion in mind."
+            "text": "Depends on your buyers. Regulated or enterprise customers often want their own instance, and per-client deployment is simpler to reason about security-wise. Multi-tenant is cheaper to operate at volume. We'll walk the trade-off with your actual sales motion in mind rather than defaulting."
           }
         },
         {
@@ -152,7 +195,7 @@
           "name": "How do you handle tenant data isolation?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Row-level security at the database, so a query from one tenant physically cannot return another's rows. Application-layer filtering alone is one forgotten WHERE clause away from a breach."
+            "text": "Row-level security at the database, so a query from one tenant physically cannot return another's rows. Application-layer filtering alone is one forgotten clause away from a breach. And we verify with authenticated requests, because a service key bypasses RLS and will falsely confirm a broken policy."
           }
         },
         {
@@ -160,7 +203,31 @@
           "name": "Can you take over an existing SaaS codebase?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, and it's common. The first piece of work is usually an honest audit of what's there before anyone promises a timeline."
+            "text": "Yes, and it's common. The first work is an honest audit before anyone promises a timeline or proposes a rewrite."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What about billing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Stripe, typically, with subscriptions, usage-based components, proration and dunning. It's consistently underestimated and we scope it as real work rather than a week at the end."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you do ongoing maintenance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On a retainer, or we hand over with documentation. Both are genuinely available — we're not trying to build dependency."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fast can you ship a v1?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A focused first version in four to eight weeks depending on scope. We'd rather launch one workflow properly than five half-built."
           }
         }
       ]
@@ -306,6 +373,33 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .steps { counter-reset:step; margin-top:42px; }
+  .step { display:grid; grid-template-columns:64px 1fr; gap:26px; padding:26px 0;
+          border-top:1px solid var(--line-light); align-items:start; }
+  .step:last-child { border-bottom:1px solid var(--line-light); }
+  .step .num { counter-increment:step; font-family:ui-monospace,monospace; font-size:13px;
+               color:var(--gray-on-white); padding-top:3px; }
+  .step .num::before { content:"0" counter(step); }
+  .step h3 { font-size:17px; margin:0 0 9px; }
+  .step p { font-size:15px; line-height:1.7; color:var(--gray-on-white); margin:0; max-width:70ch; }
+
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light);
+             border:1px solid var(--line-light); margin-top:42px; }
+  .compare > div { background:var(--white); padding:26px 24px; }
+  .compare h3 { font-size:15.5px; margin:0 0 10px; }
+  .compare h3::before { content:"✕ "; color:#C0392B; font-weight:700; }
+  .compare p { font-size:14.5px; line-height:1.66; color:var(--gray-on-white); margin:0; }
+
+  .limits { background:var(--black); color:var(--white); }
+  .limits .band-inner { padding-top:72px; padding-bottom:72px; }
+  .limits h2 { color:var(--white); }
+  .limits ul { list-style:none; padding:0; margin:30px 0 0; max-width:78ch; }
+  .limits li { font-size:15.5px; line-height:1.68; color:var(--gray); padding:15px 0 15px 26px;
+               border-bottom:1px solid var(--line-dark); position:relative; }
+  .limits li::before { content:"—"; position:absolute; left:0; color:var(--white); }
+
+  .proof p { font-size:16px; line-height:1.75; color:var(--gray-on-white); max-width:72ch; margin:0 0 18px; }
 </style>
 </head>
 <body>
@@ -322,7 +416,7 @@
 <div class="hero"><div class="hero-inner">
   <div class="kicker">Product engineering</div>
   <h1>Multi-tenant SaaS, built by people who run their own.</h1>
-  <p class="lede">Auth, tenant isolation, billing, admin tooling, deployment and the operational work after launch. We&#x27;ve built this stack for our own products, which is a different kind of knowledge from having built it once for a client.</p>
+  <p class="lede">Auth, tenant isolation, billing, admin tooling, deployment and the operational work after launch. We&#x27;ve built this stack for our own products, which is different knowledge from having built it once for a client.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="index.html">All services</a>
@@ -330,30 +424,56 @@
 </div></div>
 
 <section>
-  <div class="eyebrow">What this is</div>
-  <h2>SaaS Platforms, in practice.</h2>
-  <p class="lead">Multi-tenancy is where most SaaS builds go wrong, and the mistakes are expensive to unwind later. Tenant isolation has to be enforced at the database level, not in application code where one missing filter leaks another customer&#x27;s data.</p><p class="lead">We run Outlia and Setta as genuine multi-tenant products in production. Row-level security, per-tenant configuration, admin tooling, billing — we&#x27;ve made these decisions with our own money and our own customers on the line.</p><p class="lead">We&#x27;re also willing to tell you when multi-tenant is the wrong architecture. For some products a per-client deployment is simpler, safer and easier to sell — that&#x27;s a real trade-off, not a lesser option.</p>
+  <div class="eyebrow">The problem</div>
+  <h2>Tenant isolation is where SaaS builds go quietly wrong.</h2>
+  <p class="lead">The single most consequential decision in a multi-tenant build is where isolation is enforced, and the most common answer is the wrong one. If a tenant filter lives in application code, you are one forgotten WHERE clause from returning one customer&#x27;s data to another — and that&#x27;s a breach, a disclosure obligation and usually a company-ending event for a small SaaS.</p><p class="lead">The correct answer is enforcement at the database, via row-level security, so a query from one tenant physically cannot return another&#x27;s rows regardless of what the application layer forgot.</p><p class="lead">The second thing that goes wrong is billing, which is always harder than it looks — proration, plan changes mid-cycle, failed payments, dunning, usage overages. Teams routinely underestimate it by a factor of three.</p><p class="lead">The third is that nobody builds admin tooling until support becomes impossible, at which point engineers are running SQL against production to answer customer questions. That&#x27;s both a security problem and a scaling ceiling.</p>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">How it works</div>
+  <h2>How it works, step by step.</h2>
+  <div class="steps"><div class="step"><div class="num"></div><div><h3>Decide the tenancy model honestly</h3><p>Multi-tenant or per-client deployment, based on who your buyers are. Regulated and enterprise customers often want their own instance, and that&#x27;s a legitimate architecture, not a downgrade.</p></div></div><div class="step"><div class="num"></div><div><h3>Enforce isolation at the database</h3><p>Row-level security policies, verified with real authenticated requests — not with a service key that bypasses them, which is how teams convince themselves it works when it doesn&#x27;t.</p></div></div><div class="step"><div class="num"></div><div><h3>Build auth and roles properly</h3><p>A real permission model rather than an is_admin boolean, because the boolean always becomes three booleans and then a mess.</p></div></div><div class="step"><div class="num"></div><div><h3>Integrate billing early</h3><p>Subscriptions, usage, proration and failed-payment handling. Retrofitting billing into a live product is materially harder than building it in.</p></div></div><div class="step"><div class="num"></div><div><h3>Build admin tooling</h3><p>So support questions get answered without production SQL access. This is what lets you scale support past the founders.</p></div></div><div class="step"><div class="num"></div><div><h3>Set up environments and deployment</h3><p>Genuine dev, staging and production separation, with a pipeline that runs checks before anything ships.</p></div></div></div>
+</div></div>
+
+<section>
+  <div class="eyebrow">What it isn't</div>
+  <h2>Four things people assume this is.</h2>
+  <div class="compare"><div><h3>Isolation in application code</h3><p>One missing filter from a breach. It belongs in the database, enforced by policy.</p></div><div><h3>Multi-tenant by default</h3><p>If your buyers are regulated or enterprise, per-client deployment is often easier to sell and to reason about. We&#x27;ll ask about your sales motion before assuming.</p></div><div><h3>Billing as a later phase</h3><p>It always takes three times longer than estimated and is much harder to add to a live product.</p></div><div><h3>A rewrite as the default answer</h3><p>If you have an existing codebase, the first work is an honest audit. Rewrites are usually the expensive answer to a diagnosable problem.</p></div></div>
 </section>
 
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Tenant isolation enforced at the database</b> via row-level security, not application filters</li><li><b>Auth and roles</b> — real permission models, not an admin flag</li><li><b>Billing integration</b> with subscription and usage handling</li><li><b>Admin tooling</b> so you can support customers without SQL access</li><li><b>Deployment pipeline</b> and environment separation</li><li><b>Architecture honesty</b> — including telling you when single-tenant is the better call</li></ul>
-  <div class="stackrow"><span>FastAPI</span><span>React</span><span>Postgres</span><span>Supabase</span><span>Stripe</span><span>Docker</span><span>Railway</span></div>
+  <ul class="checks"><li><b>Tenant isolation at the database</b> via row-level security, verified with authenticated requests</li><li><b>Auth and a real permission model</b>, not an admin flag that grows into a mess</li><li><b>Billing integration</b> — subscriptions, usage, proration, failed payments, dunning</li><li><b>Admin tooling</b> so support doesn't need production database access</li><li><b>Environment separation</b> and a deployment pipeline with checks</li><li><b>Onboarding flow</b> that gets a new tenant to value without a human walking them through it</li><li><b>Usage instrumentation</b>, so you can see what's actually being used</li><li><b>Architecture honesty</b> — including when single-tenant is the better call</li></ul>
+  <div class="stackrow"><span>FastAPI</span><span>React</span><span>Postgres</span><span>Supabase</span><span>Stripe</span><span>Docker</span><span>Railway</span><span>AWS</span></div>
+</div></div>
+
+<section class="proof">
+  <div class="eyebrow">Why we can say this</div>
+  <h2>Why we can say this.</h2>
+  <p>Outlia and Setta are our own multi-tenant SaaS products, running in production with real customers. Row-level security, per-tenant configuration, admin tooling and billing are decisions we&#x27;ve made with our own money at stake.</p><p>One thing we learned the hard way and now check everywhere: verify RLS with an authenticated anon-key request, never with a service key. A service key bypasses row-level security entirely, so testing with one will happily confirm that a broken policy works.</p>
+</section>
+
+<div class="band limits"><div class="band-inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,0.5)">Honest limits</div>
+  <h2>What this won't do.</h2>
+  <ul><li>We&#x27;re not an enterprise consultancy. If you need a twenty-person delivery team, we&#x27;re the wrong shape and will say so.</li><li>We won&#x27;t rebuild from scratch by default. An audit of what exists comes first, and often the answer is repair.</li><li>Compliance certifications are yours to obtain. We build to align with the practices they require; we don&#x27;t confer them.</li><li>Multi-tenant is not always right, and we&#x27;d rather lose a bigger build than sell you the wrong architecture.</li></ul>
 </div></div>
 
 <section>
   <div class="eyebrow">Questions</div>
   <h2>Straight answers.</h2>
-  <div class="faq-list"><div class="faq-item"><h3>Multi-tenant or one deployment per customer?</h3><p>Depends on your buyers. Regulated or enterprise customers often want their own instance, and per-client deployment is simpler to reason about security-wise. Multi-tenant is cheaper to operate at volume. We&#x27;ll walk through the trade-off with your actual sales motion in mind.</p></div><div class="faq-item"><h3>How do you handle tenant data isolation?</h3><p>Row-level security at the database, so a query from one tenant physically cannot return another&#x27;s rows. Application-layer filtering alone is one forgotten WHERE clause away from a breach.</p></div><div class="faq-item"><h3>Can you take over an existing SaaS codebase?</h3><p>Yes, and it&#x27;s common. The first piece of work is usually an honest audit of what&#x27;s there before anyone promises a timeline.</p></div></div>
+  <div class="faq-list"><div class="faq-item"><h3>Multi-tenant or one deployment per customer?</h3><p>Depends on your buyers. Regulated or enterprise customers often want their own instance, and per-client deployment is simpler to reason about security-wise. Multi-tenant is cheaper to operate at volume. We&#x27;ll walk the trade-off with your actual sales motion in mind rather than defaulting.</p></div><div class="faq-item"><h3>How do you handle tenant data isolation?</h3><p>Row-level security at the database, so a query from one tenant physically cannot return another&#x27;s rows. Application-layer filtering alone is one forgotten clause away from a breach. And we verify with authenticated requests, because a service key bypasses RLS and will falsely confirm a broken policy.</p></div><div class="faq-item"><h3>Can you take over an existing SaaS codebase?</h3><p>Yes, and it&#x27;s common. The first work is an honest audit before anyone promises a timeline or proposes a rewrite.</p></div><div class="faq-item"><h3>What about billing?</h3><p>Stripe, typically, with subscriptions, usage-based components, proration and dunning. It&#x27;s consistently underestimated and we scope it as real work rather than a week at the end.</p></div><div class="faq-item"><h3>Do you do ongoing maintenance?</h3><p>On a retainer, or we hand over with documentation. Both are genuinely available — we&#x27;re not trying to build dependency.</p></div><div class="faq-item"><h3>How fast can you ship a v1?</h3><p>A focused first version in four to eight weeks depending on scope. We&#x27;d rather launch one workflow properly than five half-built.</p></div></div>
   <div class="founder-box"><div>
-  <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
-  <p>Anqor is a small studio, so you deal with the person who builds it. If this isn&#x27;t the right fit for your business, I&#x27;d rather say so on the first call than sell you a system you don&#x27;t need.</p>
-  <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
-</div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Start with one system that earns.</h2>
-  <p>A scoped first build, live in your business in two to three weeks. Not a pilot, not a deck.</p>
+    <b>Ubong Udoessien</b><div class="role">Founder, Anqor Studios</div>
+    <p>Anqor is a small studio, so you deal with the person who builds it. If your enquiry volume or deal size doesn't justify this, I'd rather run the numbers with you on the first call than sell you a system that won't pay for itself.</p>
+    <a href="https://linkedin.com/in/uudoessien" target="_blank" rel="noopener">LinkedIn →</a>
+  </div></div>
+</section>
+
+<div class="cta-band"><div class="inner">
+  <h2>Bring your architecture. We&#x27;ll audit it honestly.</h2>
+  <p>If it&#x27;s sound we&#x27;ll tell you. If isolation is enforced in the wrong layer, you want to know now rather than after a disclosure.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>
