@@ -4,6 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Anqor · Draft v3</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Anqor — We build the AI that runs your leads, your content, and your presence.">
+<meta property="og:description" content="Anqor is the AI systems, content, and web authority for Dubai's real estate, hospitality, and fintech operators, built on proprietary tools we run on our own business first.">
+<meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:wght@700;800;900&display=swap" rel="stylesheet">
@@ -17,10 +26,19 @@
     --line-light: rgba(10,10,10,0.12);
     --setta: #267870;
     --outlia: #FA5051;
+    --ranqr: #3FA66B;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--white); color: var(--black); font-family: 'Archivo', sans-serif; }
   a { color: inherit; }
+
+  /* ===== PAGE CONTAINER — content caps at 1600px and centers, matching the
+     reference site's container. Without this, every block stretches edge-to-edge
+     on wide monitors (2464px at 2560, etc). ===== */
+  nav, .card-wrap, .capabilities, .flagship, .products-section, .note,
+  .footer-cols, .footer-bottom, .legal-row {
+    max-width: 1600px; margin-left: auto; margin-right: auto;
+  }
 
   /* ===== NAV (white page, not part of any dark card) ===== */
   nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; position: relative; }
@@ -104,6 +122,7 @@
   .research-name { display: block; font-size: 19px; font-weight: 700; color: var(--white); text-decoration: none; margin-bottom: 10px; }
   .research-item.setta .research-name { color: var(--setta); }
   .research-item.outlia .research-name { color: var(--outlia); }
+  .research-item.ranqr .research-name { color: var(--ranqr); }
   .research-item p { font-size: 14px; line-height: 1.6; color: var(--gray); margin: 0; }
   .research-item .maps-to { color: var(--gray); opacity: 0.7; }
 
@@ -152,6 +171,9 @@
 
     .flagship-body { padding: 26px 24px 30px; }
     .flagship-tag { margin-left: 24px; }
+
+    .cap-ctas { flex-wrap: nowrap; gap: 6px; }
+    .cap-btn { padding: 8px 9px; font-size: 10.5px; white-space: nowrap; }
 
     .footer-cols { grid-template-columns: 1fr 1fr; gap: 36px 24px; padding-top: 60px; }
     .legal-row { flex-direction: column; align-items: flex-start; }
@@ -402,6 +424,14 @@
 </footer>
 
 <script src="https://app.usetta.com/static/widget/setta-widget.js" data-workspace-id="1d1e6e2a-a8d2-463f-9f16-cf65ffe3aef2" data-api-url="https://app.usetta.com" data-greeting="Hi! How can I help you today?" data-theme="#1a1a2e"></script>
+
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
+    var lenis = new Lenis({ duration: 1.1, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+    requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
+  }
+</script>
 
 <div class="cookie-banner" id="cookieBanner">
   <p>We use cookies to improve your experience and understand how this site is used. See our <a href="privacy.html" style="color:white;">Privacy Policy</a>.</p>
