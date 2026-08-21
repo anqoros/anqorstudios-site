@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anqor · Draft v3</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Anqor — We build the AI that runs your leads, your content, and your presence.">
+<meta property="og:description" content="Anqor is the AI systems, content, and web authority for Dubai's real estate, hospitality, and fintech operators, built on proprietary tools we run on our own business first.">
+<meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --white: #FFFFFF;
+    --gray: rgba(255,255,255,0.58);
+    --gray-on-white: rgba(10,10,10,0.55);
+    --line-dark: rgba(255,255,255,0.14);
+    --line-light: rgba(10,10,10,0.12);
+    --setta: #267870;
+    --outlia: #FA5051;
+    --ranqr: #3FA66B;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--white); color: var(--black); font-family: 'Archivo', sans-serif; }
+  a { color: inherit; }
+
+  /* ===== PAGE CONTAINER — content caps at 1600px and centers, matching the
+     reference site's container. Without this, every block stretches edge-to-edge
+     on wide monitors (2464px at 2560, etc). ===== */
+  nav, .card-wrap, .capabilities, .flagship, .products-section, .note,
+  .footer-cols, .footer-bottom, .legal-row {
+    max-width: 1600px; margin-left: auto; margin-right: auto;
+  }
+
+  /* ===== NAV (white page, not part of any dark card) ===== */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; position: relative; }
+  .wordmark { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.015em; color: var(--black); }
+  .navlinks { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; align-items: center; }
+  .navlinks li { font-size: 13.5px; color: var(--gray-on-white); }
+  .navlinks li.book { color: var(--white); background: var(--black); padding: 11px 22px; border-radius: 4px; font-weight: 700; }
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); margin: 5px 0; }
+
+  /* ===== DARK CARD (inset rectangle, doesn't touch page edges) ===== */
+  .card-wrap { padding: 0 24px 24px; }
+  .dark-card { background: var(--black); color: var(--white); border-radius: 20px; overflow: hidden; }
+
+  .hero { padding: 110px 48px 90px; max-width: 1000px; }
+  .eyebrow { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 26px; }
+  h1 { font-size: clamp(40px, 6vw, 76px); line-height: 1.03; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 30px; text-wrap: balance; }
+  .sub { font-size: 19px; line-height: 1.6; color: var(--gray); max-width: 56ch; margin: 0 0 40px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .btn-primary { background: var(--white); color: var(--black); padding: 15px 26px; border-radius: 4px; font-weight: 700; font-size: 15px; text-decoration: none; white-space: nowrap; }
+  .btn-secondary { color: var(--white); padding: 15px 4px; font-weight: 600; font-size: 15px; text-decoration: none; border-bottom: 1px solid var(--gray); white-space: nowrap; }
+
+  /* ===== CAPABILITIES (white) ===== */
+  .capabilities { padding: 110px 48px; }
+  .section-eyebrow { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-on-white); margin-bottom: 18px; }
+  .section-head { font-size: clamp(30px, 3.6vw, 46px); font-weight: 800; max-width: 18ch; margin: 0 0 70px; letter-spacing: -0.01em; text-wrap: balance; }
+  .thesis-statement { font-size: clamp(26px, 3.2vw, 40px); font-weight: 500; text-align: center; max-width: 21ch; margin: 0 auto 80px; letter-spacing: -0.01em; line-height: 1.3; text-wrap: balance; color: var(--black); }
+  .maps-to { font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+  .tools-bridge { font-size: 16px; color: var(--gray); max-width: 56ch; margin: -40px 0 70px; }
+
+  /* Runway-style capability cards: image-topped, side by side */
+  .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 28px; }
+  .cap-card { display: flex; flex-direction: column; }
+  .cap-label { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .cap-visual { aspect-ratio: 6/5; border-radius: 10px; background: var(--black); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; overflow: hidden; }
+  .cap-visual svg { width: 15%; height: 32%; stroke: var(--white); fill: none; stroke-width: 1.4; }
+  .cap-visual.has-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .cap-card h3 { font-size: 22px; font-weight: 700; line-height: 1.3; margin: 0 0 10px; letter-spacing: -0.005em; }
+  .cap-card p { font-size: 15px; line-height: 1.6; color: var(--gray-on-white); margin: 0 0 20px; flex-grow: 1; }
+  .cap-ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .cap-btn { font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 5px; text-decoration: none; }
+  .cap-btn.primary { background: var(--black); color: var(--white); }
+  .cap-btn.secondary { border: 1px solid var(--line-light); color: var(--black); }
+  .cap-powered { font-family: ui-monospace, monospace; font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-on-white); }
+  .cap-powered a { color: var(--black); }
+
+  @media (max-width: 900px) { .cap-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .cap-grid { grid-template-columns: 1fr; } }
+
+  /* Real Estate flagship section */
+  .flagship { background: #F5F4F1; padding: 110px 48px; }
+  .flagship-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 20px; }
+  .flagship-card.concept .flagship-photo { display: flex; align-items: center; justify-content: center; background: var(--black); color: var(--gray); font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .products-section { padding: 110px 48px; }
+  .product-card { background: var(--white); border: 1px solid var(--line-light); border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; }
+  .product-card .product-photo { width: 100%; height: 100%; object-fit: cover; min-height: 320px; }
+  .product-card .product-body { padding: 44px; display: flex; flex-direction: column; justify-content: center; }
+  .product-index { font-family: ui-monospace, monospace; font-size: 12px; color: var(--gray-on-white); margin-bottom: 16px; }
+  .product-card h3 { font-size: 28px; font-weight: 800; margin: 0 0 14px; letter-spacing: -0.01em; }
+  .product-card p { font-size: 15px; line-height: 1.65; color: var(--gray-on-white); margin: 0 0 24px; }
+  @media (max-width: 800px) { .product-card { grid-template-columns: 1fr; } .product-card .product-photo { min-height: 220px; } }
+  .flagship-card { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--line-light); }
+  .flagship-photo { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+  .flagship-body { padding: 32px 40px 40px; }
+  .flagship-tag { display: inline-block; font-family: ui-monospace, monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 5px 11px; border-radius: 100px; margin: 24px 0 0 40px; }
+  .flagship-card h3 { font-size: 24px; font-weight: 800; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .flagship-card p { font-size: 15px; line-height: 1.6; color: var(--gray-on-white); margin: 0 0 22px; }
+  .flagship-meta { font-size: 13px; color: var(--gray-on-white); border-top: 1px solid var(--line-light); padding-top: 16px; }
+  @media (max-width: 700px) { .flagship-grid { grid-template-columns: 1fr; } }
+
+  /* ===== TECHNOLOGY (Runway-Research style, inside dark card) ===== */
+  .tools-section { padding: 90px 48px; }
+  .tools-section .section-eyebrow { color: var(--gray); }
+  .tools-section .section-head { color: var(--white); max-width: 26ch; }
+  .tools-bridge { max-width: 62ch; }
+  .tools-learn-more { display: inline-block; font-size: 14px; font-weight: 600; color: var(--white); text-decoration: none; border-bottom: 1px solid var(--gray); padding-bottom: 3px; margin: 4px 0 60px; }
+
+  .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; border-top: 1px solid var(--line-dark); padding-top: 44px; }
+  .research-item { text-decoration: none; color: inherit; }
+  .research-name { display: block; font-size: 19px; font-weight: 700; color: var(--white); text-decoration: none; margin-bottom: 10px; }
+  .research-item.setta .research-name { color: var(--setta); }
+  .research-item.outlia .research-name { color: var(--outlia); }
+  .research-item.ranqr .research-name { color: var(--ranqr); }
+  .research-item p { font-size: 14px; line-height: 1.6; color: var(--gray); margin: 0; }
+  .research-item .maps-to { color: var(--gray); opacity: 0.7; }
+
+  @media (max-width: 780px) { .research-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .research-grid { grid-template-columns: 1fr; } }
+
+  .note { padding: 40px 48px; font-size: 12px; color: var(--gray-on-white); border-top: 1px solid var(--line-light); }
+  .arrow { display: inline-block; font-size: 0.6em; opacity: 0.6; vertical-align: 0.15em; margin-left: 0.15em; }
+
+  /* ===== FOOTER ===== */
+  footer { background: var(--black); color: var(--white); }
+  .footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding: 90px 48px 60px; }
+  .footer-col-label { font-size: 13px; color: var(--gray); margin-bottom: 22px; }
+  .footer-col a, .footer-col div.disabled { display: block; font-size: 15px; color: var(--white); text-decoration: none; margin-bottom: 14px; }
+  .footer-col div.disabled { color: var(--gray); cursor: default; }
+  .footer-bottom { border-top: 1px solid var(--line-dark); padding: 50px 48px; display: grid; grid-template-columns: 1.3fr 1fr 1.3fr; gap: 40px; }
+  .footer-bottom .wordmark { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif; font-size: 19px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  .footer-bottom p { font-size: 13.5px; line-height: 1.6; color: var(--gray); margin: 0 0 16px; }
+  .footer-bottom .socials { display: flex; gap: 16px; font-size: 13px; }
+  .footer-bottom .socials a { color: var(--gray); text-decoration: none; }
+  .footer-heading { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); margin-bottom: 10px; }
+  .footer-bottom address { font-style: normal; font-size: 13.5px; line-height: 1.6; color: var(--gray); }
+  .legal-row { border-top: 1px solid var(--line-dark); padding: 24px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12.5px; color: var(--gray); }
+  .legal-row a { color: var(--gray); margin-left: 20px; text-decoration: none; }
+
+  @media (max-width: 900px) { .footer-cols { grid-template-columns: 1fr 1fr; } .footer-bottom { grid-template-columns: 1fr; } }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 780px) {
+    nav { padding: 20px 22px; }
+    .hamburger { display: block; }
+    .navlinks { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--black); padding: 6px 22px 22px; z-index: 20; }
+    .navlinks.open { display: flex; }
+    .navlinks li { padding: 14px 0; border-top: 1px solid var(--line-dark); font-size: 15px; }
+    .navlinks li.book { margin-top: 16px; text-align: center; border-top: none; }
+
+    .capabilities, .flagship, .footer-cols, .footer-bottom, .legal-row, .note { padding-left: 22px; padding-right: 22px; }
+    .hero, .tools-section { padding-left: 22px; padding-right: 22px; }
+    .card-wrap { padding: 0 11px 11px; }
+    .dark-card { border-radius: 14px; }
+    .hero { padding-top: 84px; padding-bottom: 50px; }
+    .capabilities, .tools-section, .flagship { padding-top: 64px; padding-bottom: 64px; }
+    .section-head { margin-bottom: 40px; }
+
+    .cap-visual { aspect-ratio: 16/9; }
+
+    .flagship-body { padding: 26px 24px 30px; }
+    .flagship-tag { margin-left: 24px; }
+
+    .cap-ctas { flex-wrap: nowrap; gap: 6px; }
+    .cap-btn { padding: 8px 9px; font-size: 10.5px; white-space: nowrap; }
+
+    .footer-cols { grid-template-columns: 1fr 1fr; gap: 36px 24px; padding-top: 60px; }
+    .legal-row { flex-direction: column; align-items: flex-start; }
+    .legal-row a { margin-left: 0; margin-right: 18px; }
+  }
+
+  .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--black); color: var(--white); padding: 18px 24px; display: none; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .cookie-banner p { margin: 0; font-size: 13.5px; color: rgba(255,255,255,0.75); max-width: 60ch; }
+  .cookie-banner .actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .cookie-banner button { font-size: 13px; font-weight: 600; padding: 9px 16px; border-radius: 5px; border: none; cursor: pointer; }
+  .cookie-banner .accept { background: var(--white); color: var(--black); }
+  .cookie-banner .decline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+
+  /* ===== MOTION — restrained: fade-up on scroll, subtle hover lift ===== */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .cap-card, .flagship-card, .product-card, .research-item { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .cap-card:hover, .flagship-card:hover, .product-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px -16px rgba(0,0,0,0.25); }
+  .research-item:hover { transform: translateX(2px); }
+  .btn-primary, .cap-btn.primary, .navlinks li.book a { transition: opacity 0.2s ease; }
+  .btn-primary:hover, .cap-btn.primary:hover, .navlinks li.book a:hover { opacity: 0.85; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .cap-card, .flagship-card, .product-card, .research-item { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wordmark">Anqor</div>
+  <ul class="navlinks">
+    <li>Systems</li>
+    <li>Content</li>
+    <li>Web</li>
+    <li>Visibility</li>
+    <li>Work</li>
+    <li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">Book a Call</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.navlinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="card-wrap">
+  <div class="dark-card">
+    <div class="hero">
+      <h1>We build the AI that runs your leads, your content, and your presence.</h1>
+      <p class="sub">Anqor is the AI systems, content, and web authority for Dubai's real estate, hospitality, and fintech operators, built on proprietary tools we run on our own business first.</p>
+      <div class="ctas">
+        <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
+        <a class="btn-secondary" href="#tools">See the tools we've built</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="capabilities">
+  <p class="thesis-statement">Three capabilities, built on the same AI system.</p>
+
+  <div class="cap-grid">
+    <div class="cap-card reveal">
+      <div class="cap-label">Systems</div>
+      <div class="cap-visual has-photo"><img src="images/draft/systems.jpg" alt="A phone glowing with a soft teal light, alone on a desk in a dark room at night" loading="lazy"></div>
+      <h3>AI that qualifies, sells, and never sleeps.</h3>
+      <p>We build and run the AI systems that answer your inbound leads, qualify them on the spot, and go find new ones, live in your business 24/7, not a pilot program.</p>
+      <div class="cap-ctas">
+        <a class="cap-btn primary" href="https://usetta.com" target="_blank" rel="noopener">See it live<span class="arrow">↗</span></a>
+        <a class="cap-btn secondary" href="#tools">Learn more</a>
+        <a class="cap-btn secondary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Contact Sales</a>
+      </div>
+      <div class="cap-powered">Powered by <a href="#tools">Usetta &amp; Outlia</a></div>
+    </div>
+
+    <div class="cap-card reveal">
+      <div class="cap-label">Content</div>
+      <div class="cap-visual"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M10 8 L16 12 L10 16 Z" stroke-linejoin="round"/></svg></div>
+      <h3>A full production house, powered by AI.</h3>
+      <p>Strategy brief, scripting, shoot, edit, and short-form repurposing, all in-house, on gear we own. A real video production house, not a subcontracted crew.</p>
+      <div class="cap-ctas">
+        <a class="cap-btn primary" href="https://zana.co" target="_blank" rel="noopener">See our work<span class="arrow">↗</span></a>
+        <a class="cap-btn secondary" href="#tools">Learn more</a>
+        <a class="cap-btn secondary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Contact Sales</a>
+      </div>
+      <div class="cap-powered">Powered by <a href="#tools">ZANA &amp; AnqorClip</a></div>
+    </div>
+
+    <div class="cap-card reveal">
+      <div class="cap-label">Presence</div>
+      <div class="cap-visual has-photo"><img src="images/draft/presence.jpg" alt="Fanned color swatch cards on a sunlit desk, with a blurred colorful abstract website glowing on a monitor behind them" loading="lazy"></div>
+      <h3>Built custom, and built to be found.</h3>
+      <p>Every site is custom-designed and on-brand from day one, with SEO and AI-search readiness built in, not bolted on. This exact site is the proof: 42 to 75.</p>
+      <div class="cap-ctas">
+        <a class="cap-btn primary" href="real-estate-toolkit.html">See our work<span class="arrow">↗</span></a>
+        <a class="cap-btn secondary" href="#tools">Learn more</a>
+        <a class="cap-btn secondary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Contact Sales</a>
+      </div>
+      <div class="cap-powered">Design built in-house, visibility powered by <a href="#tools">Ranqr</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="card-wrap">
+  <div class="dark-card">
+    <div class="tools-section" id="tools">
+      <div class="section-eyebrow">Anqor Technology</div>
+      <h2 class="section-head">We don't license what we sell. We build it.</h2>
+      <p class="tools-bridge">Every capability on this page runs on a system built in-house and proven on our own business first. That's the proof, not a claim. Five tools, live today.</p>
+      <a class="tools-learn-more" href="#">Learn more<span class="arrow">↗</span></a>
+
+      <div class="research-grid">
+        <a class="research-item setta reveal" href="https://usetta.com" target="_blank" rel="noopener">
+          <span class="research-name">Usetta<span class="arrow">↗</span></span>
+          <div class="maps-to">Powers 01 · Systems</div>
+          <p>AI inbound setter. Qualifies leads and books calls over WhatsApp and email, live 24/7.</p>
+        </a>
+        <a class="research-item outlia reveal" href="https://outlia.ai" target="_blank" rel="noopener">
+          <span class="research-name">Outlia<span class="arrow">↗</span></span>
+          <div class="maps-to">Powers 01 · Systems</div>
+          <p>Outbound sales engine. Finds prospects, writes outreach, escalates hot replies to a human.</p>
+        </a>
+        <a class="research-item reveal" href="https://ranqr.co" target="_blank" rel="noopener">
+          <span class="research-name">Ranqr<span class="arrow">↗</span></span>
+          <div class="maps-to">Powers 03 · Presence</div>
+          <p>SEO + AI-search optimization. Took this exact site from 42 to 75 GEO-readiness.</p>
+        </a>
+        <a class="research-item reveal" href="https://zana.co" target="_blank" rel="noopener">
+          <span class="research-name">ZANA<span class="arrow">↗</span></span>
+          <div class="maps-to">Powers 02 · Content</div>
+          <p>Content engine: strategy brief through scripting to a finished, shot video.</p>
+        </a>
+        <a class="research-item reveal" href="#">
+          <span class="research-name">AnqorClip<span class="arrow">↗</span></span>
+          <div class="maps-to">Powers 02 · Content</div>
+          <p>Automated long-form-to-shorts clipping. The Opus Clip alternative, built in-house.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flagship">
+  <div class="section-eyebrow">Original series</div>
+  <h2 class="section-head">Three verticals. Three shows. All produced in-house.</h2>
+
+  <div class="flagship-grid">
+    <div class="flagship-card reveal">
+      <img class="flagship-photo" src="images/draft/off-plan-bts.jpg" alt="Behind the scenes of the Off Plan interview series shoot">
+      <div class="flagship-tag">In development</div>
+      <div class="flagship-body">
+      <h3><a href="off-plan.html" style="text-decoration:none;">Off Plan<span class="arrow">↗</span></a></h3>
+      <p><strong>Real estate.</strong> Interviewing the developers, brokers, and investors shaping Dubai's skyline, on camera, on the record.</p>
+      <div class="flagship-meta">9 episodes scoped. Guests being booked.</div>
+      </div>
+    </div>
+    <div class="flagship-card reveal">
+      <img class="flagship-photo" src="images/draft/off-ramp-bts.jpg" alt="Behind the scenes of the Off Ramp interview series shoot">
+      <div class="flagship-tag">In development</div>
+      <div class="flagship-body">
+      <h3><a href="off-ramp.html" style="text-decoration:none;">Off Ramp<span class="arrow">↗</span></a></h3>
+      <p><strong>Fintech.</strong> Founders navigating the UAE's money maze: licensing, banking, compliance, capital.</p>
+      <div class="flagship-meta">9 episodes scoped. Guests being booked.</div>
+      </div>
+    </div>
+    <div class="flagship-card concept">
+      <div class="flagship-photo">Concept stage</div>
+      <div class="flagship-tag">Concept stage</div>
+      <div class="flagship-body">
+      <h3><a href="off-hours.html" style="text-decoration:none;">Off Hours<span class="arrow">↗</span></a></h3>
+      <p><strong>Hospitality.</strong> The people running Dubai's hotels, restaurants, and experiences after everyone else clocks out.</p>
+      <div class="flagship-meta">Name and vertical set. Episodes not scoped yet.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="products-section">
+  <div class="section-eyebrow">Products</div>
+  <h2 class="section-head">The first vertical toolkit. More to come.</h2>
+
+  <div class="product-card reveal">
+    <img class="product-photo" src="images/draft/toolkit-hero.jpg" alt="Real estate intelligence dashboard overlooking the Dubai skyline">
+    <div class="product-body">
+      <div class="product-index">01 · Real Estate</div>
+      <h3><a href="real-estate-toolkit.html" style="text-decoration:none; color:inherit;">The Real Estate Intelligence Toolkit<span class="arrow">↗</span></a></h3>
+      <p><strong>Anqor for Real Estate</strong>, in one complete, installable toolkit: your website, Usetta as your AI receptionist, and a live market-intelligence feed: pricing and comps by area, off-plan launch tracking, rental yield, buyer-demand signals. One bundled system, installed for your brokerage, not five separate vendors.</p>
+      <div class="flagship-meta">In development: full architecture scoped, build not started. Fintech and hospitality toolkits are a natural next step, not yet planned.</div>
+    </div>
+  </div>
+</div>
+
+<div class="note">DRAFT v3: pure black/white, no house accent color. Tool panels carry each product's own real brand color (Usetta teal, Outlia coral). All CTAs now go somewhere real: tool buttons link to usetta.com / outlia.ai / zana.co / ranqr.co, "Learn more" jumps to the Technology section, "Contact Sales"/"Book a Call" go to the real Calendly link already in use on the live site. AnqorClip still has no confirmed domain, so its links stay placeholder until you send one.</div>
+
+<footer>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <div class="footer-col-label">Capabilities</div>
+      <a href="#">Systems</a>
+      <a href="#">Content</a>
+      <a href="#">Web</a>
+      <a href="#">Visibility</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Technology</div>
+      <a href="https://usetta.com" target="_blank" rel="noopener">Usetta<span class="arrow">↗</span></a>
+      <a href="https://outlia.ai" target="_blank" rel="noopener">Outlia<span class="arrow">↗</span></a>
+      <a href="https://zana.co" target="_blank" rel="noopener">ZANA<span class="arrow">↗</span></a>
+      <a href="https://ranqr.co" target="_blank" rel="noopener">Ranqr<span class="arrow">↗</span></a>
+      <div class="disabled">AnqorClip</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Real Estate</div>
+      <a href="off-plan.html">Off Plan</a>
+      <a href="real-estate-toolkit.html">Intelligence Toolkit</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-label">Company</div>
+      <a href="#">About</a>
+      <a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
+      <a href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>
+      <div class="wordmark">Anqor</div>
+      <p>AI systems for operator-led businesses.<br>Built in Dubai. Deployed worldwide.</p>
+      <div class="socials">
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Registered Office</div>
+      <address>Anqor Studios L.L.C-FZ<br>Meydan Grandstand, 6th Floor<br>Meydan Road, Nad Al Sheba<br>Dubai, United Arab Emirates</address>
+    </div>
+    <div>
+      <div class="footer-heading">Data &amp; Compliance</div>
+      <p>All AI API calls are governed by commercial Data Processing Agreements (DPA). Client data is never used to train AI models. Local deployment available for regulated industries (healthcare, finance, government).</p>
+    </div>
+  </div>
+
+  <div class="legal-row">
+    <div>© 2026 Anqor Studios L.L.C-FZ. All rights reserved.</div>
+    <div>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://app.usetta.com/static/widget/setta-widget.js" data-workspace-id="1d1e6e2a-a8d2-463f-9f16-cf65ffe3aef2" data-api-url="https://app.usetta.com" data-greeting="Hi! How can I help you today?" data-theme="#1a1a2e"></script>
+
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
+    var lenis = new Lenis({ duration: 1.1, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+    requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
+  }
+</script>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use cookies to improve your experience and understand how this site is used. See our <a href="privacy.html" style="color:white;">Privacy Policy</a>.</p>
+  <div class="actions">
+    <button class="decline" onclick="cookieChoice(false)">Decline</button>
+    <button class="accept" onclick="cookieChoice(true)">Accept</button>
+  </div>
+</div>
+<script>
+  if (!localStorage.getItem('cookieConsent')) document.getElementById('cookieBanner').style.display = 'flex';
+  function cookieChoice(accepted) {
+    localStorage.setItem('cookieConsent', accepted ? 'accepted' : 'declined');
+    document.getElementById('cookieBanner').style.display = 'none';
+  }
+
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function(el, i) {
+    el.style.transitionDelay = (i % 4) * 60 + 'ms';
+    revealObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>

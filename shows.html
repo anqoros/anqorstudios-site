@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Industries We Build For | Anqor Studios Dubai</title>
-<meta name="description" content="AI systems and engineering for real estate, hospitality, fintech, SaaS, startups, healthcare, education and retail across the UAE." />
-<link rel="canonical" href="https://anqorstudios.com/industries" />
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<title>Original Programming &amp; Branded Shows | Anqor Studios</title>
+<meta name="description" content="Anqor Studios produces three in-house interview series across Dubai real estate, UAE fintech and hospitality — and builds branded shows for clients on the same pipeline." />
+<link rel="canonical" href="https://anqorstudios.com/shows" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Industries We Build For | Anqor Studios Dubai" />
-<meta property="og:description" content="AI systems and engineering for real estate, hospitality, fintech, SaaS, startups, healthcare, education and retail across the UAE." />
-<meta property="og:url" content="https://anqorstudios.com/industries" />
+<meta property="og:title" content="Original Programming &amp; Branded Shows | Anqor Studios" />
+<meta property="og:description" content="Anqor Studios produces three in-house interview series across Dubai real estate, UAE fintech and hospitality — and builds branded shows for clients on the same pipeline." />
+<meta property="og:url" content="https://anqorstudios.com/shows" />
 <meta property="og:image" content="https://anqorstudios.com/anqor_og_image.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,7 +70,7 @@
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://anqorstudios.com/industries#breadcrumb",
+      "@id": "https://anqorstudios.com/shows#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -81,63 +81,21 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Industries"
+          "name": "Shows"
         }
       ]
     },
     {
       "@type": "CollectionPage",
-      "@id": "https://anqorstudios.com/industries#webpage",
-      "url": "https://anqorstudios.com/industries",
-      "name": "Industries | Anqor Studios",
+      "@id": "https://anqorstudios.com/shows#webpage",
+      "url": "https://anqorstudios.com/shows",
+      "name": "Original Programming | Anqor Studios",
       "isPartOf": {
         "@id": "https://anqorstudios.com/#website"
       },
       "breadcrumb": {
-        "@id": "https://anqorstudios.com/industries#breadcrumb"
-      },
-      "hasPart": [
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/real-estate",
-          "name": "AI for Real Estate Brokerages Dubai | Anqor Studios"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/hospitality",
-          "name": "AI Automation for Hospitality Dubai | Anqor Studios"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/fintech",
-          "name": "AI & Engineering for UAE Fintech | Anqor Studios"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/saas",
-          "name": "Engineering for SaaS Companies | Anqor Studios Dubai"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/startups",
-          "name": "AI Product Development for Startups UAE | Anqor Studios"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/healthcare",
-          "name": "AI Automation for Healthcare UAE | Anqor Studios"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/education",
-          "name": "AI Tools for Education & EdTech UAE | Anqor Studios"
-        },
-        {
-          "@type": "WebPage",
-          "url": "https://anqorstudios.com/industries/ecommerce-retail",
-          "name": "AI Automation for E-commerce & Retail UAE | Anqor Studios"
-        }
-      ]
+        "@id": "https://anqorstudios.com/shows#breadcrumb"
+      }
     }
   ]
 }
@@ -280,76 +238,133 @@
     .hero-inner { padding-top:62px; padding-bottom:58px; }
     section { padding-top:58px; padding-bottom:58px; }
   }
+
+  .feat { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-light);
+          border:1px solid var(--line-light); margin-top:44px; }
+  .feat a { background:var(--white); padding:32px 28px; text-decoration:none; display:block;
+            transition:background .18s ease; }
+  .feat a:hover { background:var(--surface); }
+  .feat .tag { font-family:ui-monospace,monospace; font-size:11px; letter-spacing:.1em;
+               text-transform:uppercase; color:var(--gray-on-white); margin-bottom:14px; }
+  .feat h3 { font-family:'Bricolage Grotesque',sans-serif; font-size:20px; font-weight:800;
+             line-height:1.2; margin:0 0 12px; }
+  .feat p { font-size:14.5px; line-height:1.65; color:var(--gray-on-white); margin:0 0 14px; }
+  .feat .go { font-size:12.5px; font-weight:700; }
+
+  .why { display:grid; grid-template-columns:repeat(2,1fr); gap:34px; margin-top:44px; }
+  .why > div { border-top:2px solid var(--white); padding-top:20px; }
+  .why h3 { font-size:17.5px; margin:0 0 10px; color:var(--white); }
+  .why p { font-size:15px; line-height:1.7; color:var(--gray); margin:0; }
+
+  .prod { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--line-light);
+          border:1px solid var(--line-light); margin-top:44px; }
+  .prod > div { background:var(--white); padding:26px 22px; }
+  .prod .dot { width:11px; height:11px; border-radius:50%; margin-bottom:16px; }
+  .prod h3 { font-size:17px; margin:0 0 3px; }
+  .prod .kind { font-size:11.5px; letter-spacing:.06em; text-transform:uppercase;
+                color:var(--gray-on-white); margin-bottom:12px; }
+  .prod p { font-size:13.5px; line-height:1.6; color:var(--gray-on-white); margin:0 0 14px; }
+  .prod a { font-size:12.5px; font-weight:700; text-decoration:none; display:block; margin-bottom:5px; }
+
+  .locrow { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:42px; }
+  .locrow a { border:1px solid var(--line-light); border-radius:10px; padding:28px 26px;
+              text-decoration:none; display:block; transition:border-color .18s ease; }
+  .locrow a:hover { border-color:var(--black); }
+  .locrow h3 { font-family:'Bricolage Grotesque',sans-serif; font-size:22px; font-weight:800; margin:0 0 8px; }
+  .locrow p { font-size:14px; line-height:1.6; color:var(--gray-on-white); margin:0 0 14px; }
+  .locrow .go { font-size:12.5px; font-weight:700; }
+
+  .showrow { display:grid; grid-template-columns:repeat(3,1fr); gap:26px; margin-top:40px; }
+  .showcard { border-top:2px solid var(--black); padding-top:19px; }
+  .showcard .tag { font-family:ui-monospace,monospace; font-size:11px; letter-spacing:.09em;
+                   text-transform:uppercase; color:var(--gray-on-white); margin-bottom:9px; }
+  .showcard h3 { font-size:19px; margin:0 0 10px; }
+  .showcard p { font-size:14.5px; line-height:1.65; color:var(--gray-on-white); margin:0 0 12px; }
+  .showcard a { font-size:12.5px; font-weight:700; text-decoration:none; }
+
+  .metric { display:flex; gap:56px; flex-wrap:wrap; margin-top:40px; padding-top:32px;
+            border-top:1px solid var(--line-dark); }
+  .metric div b { display:block; font-family:'Bricolage Grotesque',sans-serif; font-size:34px;
+                  font-weight:800; color:var(--white); line-height:1; }
+  .metric div span { font-size:12.5px; color:var(--gray); }
+
+  @media (max-width:1000px) { .prod { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:900px) { .feat, .why, .locrow, .showrow { grid-template-columns:1fr; }
+                             .prod { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 
 <div class="navbar-wrap"><nav>
-  <a href="../draft.html" class="wordmark">Anqor</a>
+  <a href="draft.html" class="wordmark">Anqor</a>
   <ul class="navlinks" id="navlinks">
-    <li><a href="../services/index.html">Services</a></li><li><a href="../industries/index.html">Industries</a></li><li><a href="../locations/index.html">Locations</a></li><li><a href="../blog/index.html">Blog</a></li><li><a href="../about.html">About</a></li>
+    <li><a href="services/index.html">Services</a></li><li><a href="industries/index.html">Industries</a></li><li><a href="locations/index.html">Locations</a></li><li><a href="blog/index.html">Blog</a></li><li><a href="about.html">About</a></li>
     <li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li>
   </ul>
   <button class="hamburger" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')"><span></span><span></span><span></span></button>
 </nav></div>
-<div class="crumbs"><a href="../draft.html">Home</a><i>/</i>Industries</div>
+<div class="crumbs"><a href="draft.html">Home</a><i>/</i>Shows</div>
 <div class="hero"><div class="hero-inner">
-  <div class="kicker">Industries</div>
-  <h1>Sectors we've actually shipped into.</h1>
-  <p class="lede">Eight industries where we've built something real, not a list of every market we'd accept a cheque from.</p>
+  <div class="kicker">Original programming</div>
+  <h1>We produce our own shows.</h1>
+  <p class="lede">Three interview series across real estate, fintech and hospitality — produced in-house on our own gear, because we needed the production pipeline to work on us before we sold it to anybody else.</p>
+  <div class="cta-row">
+    <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
+    <a class="btn-ghost" href="services/video-production.html">Video production</a>
+  </div>
 </div></div>
 
 <section>
-  <div class="eyebrow">Where we work</div>
-  <h2>Depth in a few sectors beats a logo wall.</h2>
-  <p class="lead">Real estate is the deepest — it has its own product. The rest are sectors where we've built and shipped, and the pages say honestly what that work was.</p>
-  <div class="tiles"><a class="tile" href="real-estate.html">
-      <h3>Real Estate</h3><p>Enquiries arrive on WhatsApp at 10pm and go to whoever answers first. We build the system that answers first, qualifies against li…</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="hospitality.html">
-      <h3>Hospitality</h3><p>Booking questions, group enquiries and event requests land outside operating hours and outside the reservations team&#x27;s bandwidth. …</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="fintech.html">
-      <h3>Fintech</h3><p>Compliance automation, secure multi-tenant platforms and multi-chain integration — built with the logging, isolation and data-resi…</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="saas.html">
-      <h3>SaaS</h3><p>Multi-tenant architecture, AI features that survive production, deployment pipelines and inference cost control — decisions we&#x27;ve …</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="startups.html">
-      <h3>Startups</h3><p>An MVP that tests the real assumption, built in weeks, on architecture that won&#x27;t have to be thrown away if it works. And an hones…</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="healthcare.html">
-      <h3>Healthcare</h3><p>Patient enquiry handling, appointment workflows and document automation — built with strict access control, local model deployment…</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="education.html">
-      <h3>Education</h3><p>Curriculum-aligned content generation, enrolment enquiry handling and multilingual learning tools — built from products we&#x27;ve ship…</p>
-      <span class="go">Learn more →</span></a><a class="tile" href="ecommerce-retail.html">
-      <h3>E-commerce &amp; Retail</h3><p>Customer service, order enquiries and product content — automated where the customers actually are, which in this market is overwh…</p>
-      <span class="go">Learn more →</span></a><div class="tile tile-filler"></div></div>
-</section><div class="cta-band"><div class="inner">
-  <h2>Not listed?</h2>
-  <p>The patterns transfer further than the sector labels suggest. Worth a conversation either way.</p>
+  <div class="eyebrow">Why we make them</div>
+  <h2>The pipeline had to work on us first.</h2>
+  <p class="lead">It's easy to sell video production. It's harder to sustain a weekly cadence with a small team, which is the thing clients actually need and the thing most agencies quietly can't do. So we built the pipeline — strategy, shoot, edit, and automated short-form repurposing through AnqorClip — and pointed it at our own shows before pointing it at anyone else's brand.</p>
+  <p class="lead">Each series targets a specific set of questions the audience already has and nobody answers publicly: handover risk in off-plan property, licensing and banking reality for fintech founders, and the operational truth of running hospitality in Dubai.</p>
+  <div class="showrow"><div class="showcard"><div class="tag">Real estate</div><h3>Off Plan</h3>
+        <p>An interview series with the developers, brokers and investors shaping Dubai&#x27;s skyline — on camera, on the record. Season one is scoped at eight episodes, each targeting a specific fear a real buyer already has.</p><a href="off-plan.html">About the series →</a></div><div class="showcard"><div class="tag">Fintech</div><h3>Off Ramp</h3>
+        <p>UAE fintech founders on licensing, banking, compliance and capital — from people who have actually navigated mainland, DIFC, ADGM and VARA rather than commented on them.</p><a href="off-ramp.html">About the series →</a></div><div class="showcard"><div class="tag">Hospitality</div><h3>Off Hours</h3>
+        <p>The third vertical in the series, for the people running Dubai&#x27;s hotels, restaurants and experiences after everyone else has clocked out. Name and vertical confirmed; episodes not yet scoped.</p><a href="off-hours.html">About the series →</a></div></div>
+</section>
+
+<div class="band"><div class="band-inner">
+  <div class="eyebrow">The same pipeline, for you</div>
+  <h2>A branded show is the format we're most confident in.</h2>
+  <p class="lead">Because we run three of our own, the workflow is proven rather than proposed — including the unglamorous parts: guest booking, consistent grading across a series, and a publishing cadence that survives after handover.</p>
+  <div class="related" style="margin-top:26px">
+    <a href="services/video-production.html">Video production &amp; content →</a>
+    <a href="industries/real-estate.html">Real estate →</a>
+    <a href="industries/fintech.html">Fintech →</a>
+  </div>
+</div></div>
+
+<div class="cta-band"><div class="inner">
+  <h2>Want a show of your own?</h2>
+  <p>Bring an hour of footage you never used. The fastest way to see what the pipeline does is to run it on something already sitting on a drive.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="mailto:hello@anqorstudios.com">hello@anqorstudios.com</a>
   </div>
-  
 </div></div>
 <footer>
   <div class="foot-inner">
     <div class="foot-cols">
       <div>
-        <a href="../draft.html" class="wordmark" style="margin-bottom:12px">Anqor</a>
+        <a href="draft.html" class="wordmark" style="margin-bottom:12px">Anqor</a>
         <address>
           <b style="color:#fff">Anqor Studios L.L.C-FZ</b><br>
           Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba<br>Dubai, United Arab Emirates<br>
           <a href="mailto:hello@anqorstudios.com" style="display:inline;margin:0">hello@anqorstudios.com</a>
         </address>
       </div>
-      <div><div class="lbl">Services</div><a href="../services/ai-lead-qualification.html">AI Lead Qualification</a><a href="../services/ai-outbound-sales.html">AI Outbound Sales</a><a href="../services/document-compliance-automation.html">Document &amp; Compliance Automation</a><a href="../services/ai-agents-workflow-automation.html">AI Agents &amp; Workflow Automation</a><a href="../services/ai-native.html">AI-Native Product Development</a><a href="../services/ai-search-visibility.html">AI Search Visibility (GEO)</a><a href="../services/index.html"><b>All services →</b></a></div>
-      <div><div class="lbl">Industries</div><a href="../industries/real-estate.html">Real Estate</a><a href="../industries/hospitality.html">Hospitality</a><a href="../industries/fintech.html">Fintech</a><a href="../industries/saas.html">SaaS</a><a href="../industries/startups.html">Startups</a><a href="../industries/healthcare.html">Healthcare</a><a href="../industries/index.html"><b>All industries →</b></a></div>
+      <div><div class="lbl">Services</div><a href="services/ai-lead-qualification.html">AI Lead Qualification</a><a href="services/ai-outbound-sales.html">AI Outbound Sales</a><a href="services/document-compliance-automation.html">Document &amp; Compliance Automation</a><a href="services/ai-agents-workflow-automation.html">AI Agents &amp; Workflow Automation</a><a href="services/ai-native.html">AI-Native Product Development</a><a href="services/ai-search-visibility.html">AI Search Visibility (GEO)</a><a href="services/index.html"><b>All services →</b></a></div>
+      <div><div class="lbl">Industries</div><a href="industries/real-estate.html">Real Estate</a><a href="industries/hospitality.html">Hospitality</a><a href="industries/fintech.html">Fintech</a><a href="industries/saas.html">SaaS</a><a href="industries/startups.html">Startups</a><a href="industries/healthcare.html">Healthcare</a><a href="industries/index.html"><b>All industries →</b></a></div>
       <div><div class="lbl">Locations</div>
-        <a href="../locations/dubai.html">AI Automation Dubai</a>
-        <a href="../locations/abu-dhabi.html">AI Automation Abu Dhabi</a>
-        <a href="../locations/sharjah.html">AI Automation Sharjah</a>
+        <a href="locations/dubai.html">AI Automation Dubai</a>
+        <a href="locations/abu-dhabi.html">AI Automation Abu Dhabi</a>
+        <a href="locations/sharjah.html">AI Automation Sharjah</a>
         <div class="lbl" style="margin-top:20px">Company</div>
-        <a href="../about.html">About</a>
-        <a href="../contact.html">Contact</a>
-        <a href="../blog/index.html">Blog</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="blog/index.html">Blog</a>
       </div>
     </div>
     <div class="foot-bottom">
