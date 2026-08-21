@@ -1,5 +1,12 @@
 {
   "version": 2,
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/services/document-compliance-automation",
+      "destination": "/services/security-compliance",
+      "permanent": true
+    }
+  ]
 }
