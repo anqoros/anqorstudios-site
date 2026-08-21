@@ -1,9 +1,79 @@
+# Anqor Studios L.L.C-FZ — https://anqorstudios.com
+
 User-agent: *
 Allow: /
 
-# Block admin and internal tools
+# Internal tools, not for indexing
 Disallow: /admin.html
 Disallow: /brief-uploader.html
 Disallow: /admin/
+Disallow: /backstage.html
+Disallow: /command-center.html
+Disallow: /quote-generator.html
+Disallow: /clients.html
+Disallow: /brand/
+
+# ---------------------------------------------------------------------------
+# AI assistants and answer engines are explicitly welcome.
+# Named individually so there is no ambiguity, and so a CDN's managed bot
+# rules cannot silently block them without this file contradicting it.
+# ---------------------------------------------------------------------------
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
 
 Sitemap: https://anqorstudios.com/sitemap.xml

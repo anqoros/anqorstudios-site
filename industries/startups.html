@@ -193,15 +193,15 @@
   .navbar-wrap { position: sticky; top: 0; z-index: 95; background: rgba(8, 8, 9, 0.82);
                  backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
   nav { display: flex; justify-content: space-between; align-items: center;
-        padding: 18px 48px; max-width: 1600px; margin: 0 auto; }
+        padding: 18px 0; width: min(1240px, 100% - 44px); margin: 0 auto; }
   .wordmark { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif; font-size: 28px;
               font-weight: 800; letter-spacing: -0.018em; text-decoration: none; color: var(--ink); }
-  .navlinks { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0;
-              align-items: center; font-size: 13.5px; color: var(--muted); }
+  .navlinks { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;
+              align-items: center; font-size: 14px; font-weight: 600; color: var(--muted); }
   .navlinks a { color: inherit; text-decoration: none; transition: color 0.18s; }
   .navlinks a:hover { color: var(--ink); }
-  .navlinks li.book a { color: #06110F; background: var(--teal); padding: 10px 20px;
-                        border-radius: 100px; font-weight: 700; }
+  .navlinks li.book a { color: #06110F; background: var(--teal); padding: 12px 24px;
+                        border-radius: 100px; font-weight: 700; font-size: 14px; }
   .navlinks li.book a:hover { filter: brightness(1.1); }
   /* mobile menu trigger: circular outlined button, becomes an X when open */
   .hamburger { display: none; position: relative; width: 40px; height: 40px; padding: 0;
@@ -251,8 +251,39 @@
                           font-family: 'Archivo', sans-serif; }
   }
 
-  .crumbs { padding: 16px 48px; font-size: 12.5px; color: var(--faint);
-            max-width: 1600px; margin: 0 auto; }
+  /* hover megamenu */
+  .navlinks li.has-menu { position: static; }
+  .navlinks li.has-menu > a::after { content: ""; display: inline-block; width: 6px; height: 6px;
+    margin-left: 7px; vertical-align: 2px; border-right: 1.6px solid currentColor;
+    border-bottom: 1.6px solid currentColor; transform: rotate(45deg) translateY(-1px);
+    transition: transform 0.22s; }
+  .navlinks li.has-menu:hover > a::after { transform: rotate(-135deg) translateY(-3px); }
+  .megamenu { position: absolute; left: 0; right: 0; top: 100%; background: #0B0B0B;
+              border-bottom: 1px solid var(--line); opacity: 0; visibility: hidden;
+              transform: translateY(-6px); pointer-events: none;
+              transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.16,1,0.3,1),
+                          visibility 0.22s; z-index: 90; }
+  .navlinks li.has-menu:hover .megamenu,
+  .navlinks li.has-menu:focus-within .megamenu {
+    opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+  .mm-inner { width: min(1240px, 100% - 44px); margin: 0 auto; padding: 34px 0 44px; }
+  .mm-head { display: flex; justify-content: space-between; align-items: baseline;
+             padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
+  .mm-head span { font-family: ui-monospace, monospace; font-size: 11.5px; letter-spacing: 0.16em;
+                  text-transform: uppercase; color: var(--faint); }
+  .mm-head a { font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: none; }
+  .mm-head a:hover { color: var(--teal); }
+  .mm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 44px; }
+  .mm-grid a { text-decoration: none; display: block; }
+  .mm-grid b { display: block; font-size: 15px; font-weight: 700; color: var(--ink);
+               margin-bottom: 6px; letter-spacing: -0.01em; }
+  .mm-grid a:hover b { color: var(--teal); }
+  .mm-grid p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0; }
+  @media (max-width: 960px) { .megamenu { display: none; }
+                              .navlinks li.has-menu > a::after { display: none; } }
+
+  .crumbs { padding: 16px 0; font-size: 12.5px; color: var(--faint);
+            width: min(1240px, 100% - 44px); margin: 0 auto; }
   .crumbs a { text-decoration: none; }
   .crumbs a:hover { color: var(--ink); }
   .crumbs i { font-style: normal; opacity: 0.35; margin: 0 9px; }
@@ -273,7 +304,8 @@
     50%      { opacity: 0.6;  background-size: 23.5px 23.5px; }
   }
   @media (max-width: 900px) { .hero::after { display: none; } }
-  .hero-inner { position: relative; max-width: 1390px; margin: 0 auto; padding: 118px 48px 104px; }
+  .hero-inner { position: relative; width: min(1240px, 100% - 44px); margin: 0 auto;
+                padding: 118px 0 104px; }
   .hero-tags { font-size: 17px; }
 
   .kicker { display: inline-flex; align-items: center; gap: 9px;
@@ -288,7 +320,7 @@
 
   h1 { font-family: 'Bricolage Grotesque', 'Archivo', sans-serif;
        font-size: clamp(40px, 6.7vw, 96px); font-weight: 800; line-height: 1.02;
-       letter-spacing: -0.025em; margin: 0 0 34px; max-width: 1294px; }
+       letter-spacing: -0.025em; margin: 0 0 34px; max-width: 1240px; }
   h1 em { font-style: normal; color: var(--teal); }
   .hero .lede { font-size: 20px; line-height: 1.62; color: var(--muted);
                 max-width: 640px; margin: 0 0 38px; }
@@ -312,7 +344,7 @@
   .metric b.acc { color: var(--teal); }
   .metric span { font-size: 12.5px; color: var(--faint); }
 
-  section { padding: 92px 48px; max-width: 1600px; margin: 0 auto; position: relative; }
+  section { padding: 92px 0; width: min(1240px, 100% - 44px); margin: 0 auto; position: relative; }
   .eyebrow { font-family: ui-monospace, monospace; font-size: 11.5px; letter-spacing: 0.16em;
              text-transform: uppercase; color: var(--faint); margin-bottom: 18px;
              display: flex; align-items: center; gap: 14px; }
@@ -327,7 +359,7 @@
 
   .band { background: var(--bg-2); border-top: 1px solid var(--line);
           border-bottom: 1px solid var(--line); }
-  .band-inner { max-width: 1600px; margin: 0 auto; padding: 88px 48px; }
+  .band-inner { width: min(1240px, 100% - 44px); margin: 0 auto; padding: 88px 0; }
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 46px; }
   .cards.c4 { grid-template-columns: repeat(4, 1fr); }
@@ -443,7 +475,8 @@
   .cta-band::before { content: ""; position: absolute; bottom: -50%; left: 50%;
     transform: translateX(-50%); width: 1000px; height: 700px; pointer-events: none;
     background: radial-gradient(ellipse at center, rgba(47,212,196,0.14), transparent 65%); }
-  .cta-band .inner { position: relative; max-width: 1600px; margin: 0 auto; padding: 96px 48px; }
+  .cta-band .inner { position: relative; width: min(1240px, 100% - 44px); margin: 0 auto;
+                     padding: 96px 0; }
   .cta-band p { color: var(--muted); font-size: 17px; line-height: 1.68;
                 max-width: 56ch; margin: 0 0 30px; }
 
@@ -454,7 +487,7 @@
   .related a:hover { border-color: var(--teal); color: var(--ink); }
 
   footer { border-top: 1px solid var(--line); background: var(--bg-2); }
-  .foot-inner { max-width: 1600px; margin: 0 auto; padding: 70px 48px 32px; }
+  .foot-inner { width: min(1240px, 100% - 44px); margin: 0 auto; padding: 70px 0 32px; }
   .foot-cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 38px;
                padding-bottom: 36px; border-bottom: 1px solid var(--line); }
   .foot-cols .lbl { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -479,8 +512,6 @@
     .metric div { border-right: none; padding-right: 0; margin-right: 0; }
   }
   @media (max-width: 640px) {
-    .crumbs, section, .hero-inner, .band-inner, .cta-band .inner, .foot-inner {
-      padding-left: 22px; padding-right: 22px; }
     .hero-inner { padding-top: 64px; padding-bottom: 60px; }
     section { padding-top: 64px; padding-bottom: 64px; }
     .metric { gap: 22px; }
@@ -499,7 +530,7 @@
 <body>
 <div class="grid-bg"></div>
 <div class="page">
-<div class="navbar-wrap"><nav><a href="../index.html" class="wordmark">Anqor</a><ul class="navlinks" id="navlinks"><li><a href="../services/index.html">Services</a></li><li><a href="../industries/index.html">Industries</a></li><li><a href="../locations/index.html">Locations</a></li><li><a href="../shows.html">Shows</a></li><li><a href="../about.html">About</a></li><li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li></ul><button class="hamburger" aria-label="Menu" aria-expanded="false" onclick="anqorMenu(this)"><span></span><span></span><span></span></button></nav></div>
+<div class="navbar-wrap"><nav><a href="../index.html" class="wordmark">Anqor</a><ul class="navlinks" id="navlinks"><li class="has-menu"><a href="../services/index.html">Services</a><div class="megamenu"><div class="mm-inner"><div class="mm-head"><span>Services</span><a href="../services/index.html">All services &rarr;</a></div><div class="mm-grid"><a href="../services/ai-lead-qualification.html"><b>AI Lead Qualification</b><p>Most inbound leads are lost to response time, not to price.</p></a><a href="../services/ai-outbound-sales.html"><b>AI Outbound Sales</b><p>Prospect discovery, personalised sequencing, reply monitoring and hot-lead handoff, runn…</p></a><a href="../services/document-compliance-automation.html"><b>Document &amp; Compliance Automation</b><p>Invoices, contracts, certificates and filings parsed on arrival, turned into compliant o…</p></a><a href="../services/ai-agents-workflow-automation.html"><b>AI Agents &amp; Workflow Automation</b><p>Most agent projects die between the prototype and production.</p></a><a href="../services/ai-native.html"><b>AI-Native Product Development</b><p>There&#x27;s a real architectural difference between a product with an AI feature and a produ…</p></a><a href="../services/ai-search-visibility.html"><b>AI Search Visibility (GEO)</b><p>People increasingly ask an assistant instead of searching.</p></a><a href="../services/web-development.html"><b>Web Development</b><p>Custom design and build, with search and AI visibility handled at the structure level fr…</p></a><a href="../services/saas-platforms.html"><b>SaaS Platforms</b><p>Auth, tenant isolation, billing, admin tooling, deployment and the operational work afte…</p></a><a href="../services/cloud-infrastructure.html"><b>Cloud Infrastructure</b><p>Architecture, migration and ongoing cost control, without the over-provisioned enterpris…</p></a></div></div></div></li><li class="has-menu"><a href="../industries/index.html">Industries</a><div class="megamenu"><div class="mm-inner"><div class="mm-head"><span>Industries</span><a href="../industries/index.html">All industries &rarr;</a></div><div class="mm-grid"><a href="../industries/real-estate.html"><b>Real Estate</b><p>Enquiries arrive on WhatsApp at 10pm and go to whoever answers first.</p></a><a href="../industries/hospitality.html"><b>Hospitality</b><p>Booking questions, group enquiries and event requests land outside operating hours and o…</p></a><a href="../industries/fintech.html"><b>Fintech</b><p>Compliance automation, secure multi-tenant platforms and multi-chain integration, built…</p></a><a href="../industries/saas.html"><b>SaaS</b><p>Multi-tenant architecture, AI features that survive production, deployment pipelines and…</p></a><a href="../industries/startups.html"><b>Startups</b><p>An MVP that tests the real assumption, built in weeks, on architecture that won&#x27;t have t…</p></a><a href="../industries/healthcare.html"><b>Healthcare</b><p>Patient enquiry handling, appointment workflows and document automation, built with stri…</p></a><a href="../industries/education.html"><b>Education</b><p>Curriculum-aligned content generation, enrolment enquiry handling and multilingual learn…</p></a><a href="../industries/ecommerce-retail.html"><b>E-commerce &amp; Retail</b><p>Customer service, order enquiries and product content, automated where the customers act…</p></a></div></div></div></li><li><a href="../shows.html">Shows</a></li><li><a href="../about.html">About</a></li><li class="book"><a href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a></li></ul><button class="hamburger" aria-label="Open menu" aria-expanded="false" onclick="anqorMenu(this)"><span></span><span></span><span></span></button></nav></div>
 <div class="crumbs"><a href="../index.html">Home</a><i>/</i><a href="index.html">Industries</a><i>/</i>Startups</div>
 <div class="hero"><div class="hero-inner">
   <div class="kicker">Pre-seed to Series A</div>
