@@ -171,7 +171,14 @@
     --teal:#2FD4C4; --coral:#FA5051; --green:#3FA66B; --amber:#D8A24A; --violet:#8B7BF0;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  /* No CSS scroll-behavior: smooth here. Lenis owns scrolling and writes the
+     scroll position every animation frame; if the CSS property is also set,
+     the browser treats each of those writes as its own native smooth-scroll
+     request, so dozens of competing animations queue up per second and the
+     page visually freezes for a few hundred ms before jumping to catch up.
+     Lenis already smooths anchor jumps itself (lenis.scrollTo in MENU_JS/LENIS
+     below), and reduced-motion users, who never get Lenis, correctly get an
+     instant jump instead of forced smoothing. */
   body { margin: 0; background: var(--bg); color: var(--ink);
          font-family: 'Archivo', sans-serif; -webkit-font-smoothing: antialiased;
          overflow-x: hidden; }
@@ -670,5 +677,6 @@ building something for.</p>
     });
   }
 </script>
+
 </body>
 </html>
