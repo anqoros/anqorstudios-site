@@ -149,30 +149,36 @@
         {
           "@type": "HowToStep",
           "position": 2,
+          "name": "Harden the application layer",
+          "text": "Every query parameterised, every input validated, every output escaped, auth enforced server-side rather than trusted from the client, dependencies scanned on every build rather than at launch."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
           "name": "Enforce isolation at the database",
           "text": "Row-level security policies rather than application filters, so a forgotten clause isn't a breach."
         },
         {
           "@type": "HowToStep",
-          "position": 3,
+          "position": 4,
           "name": "Verify with authenticated requests",
           "text": "Never with a service key, which bypasses RLS and will falsely confirm a broken policy works."
         },
         {
           "@type": "HowToStep",
-          "position": 4,
+          "position": 5,
           "name": "Get secrets into proper management",
           "text": "Out of documents and repositories, with rotation possible without a code change."
         },
         {
           "@type": "HowToStep",
-          "position": 5,
+          "position": 6,
           "name": "Build audit logging that survives",
           "text": "Retained long enough and structured so it's queryable when someone asks about a decision a year later."
         },
         {
           "@type": "HowToStep",
-          "position": 6,
+          "position": 7,
           "name": "Write down the data flow",
           "text": "Where data sits, who can reach it, how long it's kept, how it's deleted. Written before a regulator or a customer asks."
         }
@@ -619,7 +625,7 @@
 <div class="hero"><div class="hero-inner">
   <div class="kicker">Engineering</div>
   <h1>Security built in, not documented afterwards.</h1>
-  <p class="lede">Access control, tenant isolation, audit logging, encryption and data residency, designed into the architecture, where they&#x27;re cheap, rather than retrofitted after a customer&#x27;s security questionnaire, where they aren&#x27;t.</p>
+  <p class="lede">The same standard on every product we build, ours included: access control, tenant isolation, audit logging, encryption and data residency, designed into the architecture where they&#x27;re cheap, not retrofitted after a customer&#x27;s security questionnaire where they aren&#x27;t.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
     <a class="btn-ghost" href="/services">All services</a>
@@ -636,7 +642,7 @@
 <div class="band"><div class="band-inner">
   <div class="eyebrow">How it works</div>
   <h2>How it works, step by step.</h2>
-  <div class="steps"><div class="step"><div class="num">01</div><div><h3>Map where the sensitive data actually is</h3><p>Usually more places than expected, logs, backups, analytics, error reports and third-party tools all quietly accumulate it.</p></div></div><div class="step"><div class="num">02</div><div><h3>Enforce isolation at the database</h3><p>Row-level security policies rather than application filters, so a forgotten clause isn&#x27;t a breach.</p></div></div><div class="step"><div class="num">03</div><div><h3>Verify with authenticated requests</h3><p>Never with a service key, which bypasses RLS and will falsely confirm a broken policy works.</p></div></div><div class="step"><div class="num">04</div><div><h3>Get secrets into proper management</h3><p>Out of documents and repositories, with rotation possible without a code change.</p></div></div><div class="step"><div class="num">05</div><div><h3>Build audit logging that survives</h3><p>Retained long enough and structured so it&#x27;s queryable when someone asks about a decision a year later.</p></div></div><div class="step"><div class="num">06</div><div><h3>Write down the data flow</h3><p>Where data sits, who can reach it, how long it&#x27;s kept, how it&#x27;s deleted. Written before a regulator or a customer asks.</p></div></div></div>
+  <div class="steps"><div class="step"><div class="num">01</div><div><h3>Map where the sensitive data actually is</h3><p>Usually more places than expected, logs, backups, analytics, error reports and third-party tools all quietly accumulate it.</p></div></div><div class="step"><div class="num">02</div><div><h3>Harden the application layer</h3><p>Every query parameterised, every input validated, every output escaped, auth enforced server-side rather than trusted from the client, dependencies scanned on every build rather than at launch.</p></div></div><div class="step"><div class="num">03</div><div><h3>Enforce isolation at the database</h3><p>Row-level security policies rather than application filters, so a forgotten clause isn&#x27;t a breach.</p></div></div><div class="step"><div class="num">04</div><div><h3>Verify with authenticated requests</h3><p>Never with a service key, which bypasses RLS and will falsely confirm a broken policy works.</p></div></div><div class="step"><div class="num">05</div><div><h3>Get secrets into proper management</h3><p>Out of documents and repositories, with rotation possible without a code change.</p></div></div><div class="step"><div class="num">06</div><div><h3>Build audit logging that survives</h3><p>Retained long enough and structured so it&#x27;s queryable when someone asks about a decision a year later.</p></div></div><div class="step"><div class="num">07</div><div><h3>Write down the data flow</h3><p>Where data sits, who can reach it, how long it&#x27;s kept, how it&#x27;s deleted. Written before a regulator or a customer asks.</p></div></div></div>
 </div></div>
 
 <section>
@@ -648,14 +654,14 @@
 <div class="band"><div class="band-inner">
   <div class="eyebrow">What you get</div>
   <h2>Concretely, what's delivered.</h2>
-  <ul class="checks"><li><b>Row-level isolation</b> enforced in the database, verified with real authenticated requests</li><li><b>Audit logging</b> retained and queryable long after the fact</li><li><b>Secrets management</b> with rotation possible without a deploy</li><li><b>Data residency</b>. UAE or EU, stated in writing before the build</li><li><b>Encryption</b> in transit and at rest as standard</li><li><b>Local model deployment</b> for workloads that can't leave your infrastructure</li><li><b>Access review</b>, who can reach what, and whether they still need to</li><li><b>Written data-flow documentation</b> you can hand to a customer or a regulator</li><li><b>Document and filing automation</b>, invoices, contracts and certificates parsed and validated against your records, with a human approval gate before anything is submitted</li><li><b>UAE e-invoicing readiness</b>, structured output ready for the PEPPOL-based mandate as it reaches your entity</li></ul>
+  <ul class="checks"><li><b>Secrets out of the codebase</b>, out of git history, and scanned for on every commit</li><li><b>No privileged key ever ships to a client or a browser</b>, every credential scoped to what it actually needs</li><li><b>Row-level isolation</b> enforced in the database, verified with real authenticated requests, never a service key</li><li><b>Authentication and authorization enforced server-side</b>, never trusted from the client</li><li><b>Every query parameterised</b>, no string-built SQL, the injection class closed by construction</li><li><b>All input validated and all output escaped</b> before it touches a query or a page</li><li><b>File uploads restricted</b> by type and size, and scanned before they're stored</li><li><b>Sessions and passwords handled correctly by default</b>, hashed, HttpOnly, never rolled by hand</li><li><b>Rate limiting and bot protection</b> on anything that accepts a login or a form</li><li><b>Security headers and forced HTTPS</b> on every deploy, not added after launch</li><li><b>Dependencies scanned on every build</b>, not just checked once at launch</li><li><b>Audit logging</b> retained and queryable long after the fact</li><li><b>Encryption</b> in transit and at rest as standard</li><li><b>Data residency</b>. UAE or EU, stated in writing before the build</li><li><b>Local model deployment</b> for workloads that can't leave your infrastructure</li><li><b>Written data-flow documentation</b> you can hand to a customer or a regulator</li></ul>
   <div class="stackrow"><span>Postgres RLS</span><span>Supabase Auth</span><span>AWS</span><span>Docker</span><span>Local inference</span><span>Secret management</span><span>Document OCR</span></div>
 </div></div>
 
 <section class="proof">
   <div class="eyebrow">Why we can say this</div>
   <h2>Why we can say this.</h2>
-  <p>The RLS verification point isn&#x27;t theoretical for us. On our own platform work we&#x27;ve hit the exact failure it describes, a policy that recursed and silently broke every authenticated code path, which testing with a secret key had happily confirmed as working. We now verify with authenticated anon-key requests as standard, and check for it in every audit.</p><p>Usetta, our own multi-tenant product, runs on the same discipline. It carries real customer data across tenants, so isolation is enforced at the database rather than trusted to application code, access is scoped and audit-logged, and secrets sit outside the codebase with rotation that doesn&#x27;t need a deploy, before it went anywhere near a client.</p>
+  <p>The RLS verification point isn&#x27;t theoretical for us. On our own platform work we&#x27;ve hit the exact failure it describes, a policy that recursed and silently broke every authenticated code path, which testing with a secret key had happily confirmed as working. We now verify with authenticated anon-key requests as standard, and check for it in every audit. This is the same checklist we run against our own products before they ship, not a different, lighter standard reserved for client work.</p>
 </section>
 
 <div class="band limits"><div class="band-inner">
