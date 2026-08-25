@@ -87,10 +87,10 @@ function buildPostPage(post, related) {
     noindex: post.status === 'draft',
   });
 
-  const crumbs = `<div class="crumbs"><a href="../index.html">Home</a><i>/</i><a href="index.html">Blog</a><i>/</i>${escAttr(post.cat)}</div>`;
+  const crumbs = `<div class="crumbs"><a href="/">Home</a><i>/</i><a href="/blog">Blog</a><i>/</i>${escAttr(post.cat)}</div>`;
 
   const relatedHtml = (related || [])
-    .map((r) => `<a href="${r.slug}.html">${escAttr(r.title)}</a>`)
+    .map((r) => `<a href="/blog/${r.slug}">${escAttr(r.title)}</a>`)
     .join('');
 
   const faqHtml = faqBlockHtml(post.faq_items);
@@ -117,7 +117,7 @@ function buildPostPage(post, related) {
 than a build, we will say so.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
-    <a class="btn-ghost" href="../contact.html">Contact us</a>
+    <a class="btn-ghost" href="/contact">Contact us</a>
   </div>
 </div></div>
 ${FOOTER_AND_SCRIPTS}`;
@@ -171,7 +171,7 @@ function buildIndexPage(posts) {
 
   const items = published
     .map(
-      (p) => `<a class="bl-item" href="${p.slug}.html">
+      (p) => `<a class="bl-item" href="/blog/${p.slug}">
     <div class="bl-meta"><span class="cat">${escAttr(p.cat)}</span>
     <span>${escAttr(p.date)}</span><span>${escAttr(p.read)} read</span></div>
     <h2>${escAttr(p.title)}</h2><p>${escAttr(p.dek)}</p>
@@ -179,7 +179,7 @@ function buildIndexPage(posts) {
     )
     .join('');
 
-  const body = `<div class="crumbs"><a href="../index.html">Home</a><i>/</i>Blog</div>
+  const body = `<div class="crumbs"><a href="/">Home</a><i>/</i>Blog</div>
 <div class="hero"><div class="hero-inner">
   <div class="eyebrow">Blog</div>
   <h1>Notes from building the things we sell.</h1>
@@ -199,7 +199,7 @@ and what we would do differently, on subjects we have actually shipped.</p>
 building something for.</p>
   <div class="cta-row">
     <a class="btn-primary" href="https://calendar.app.google/97YReFJgPs6gNFLt7" target="_blank" rel="noopener">Book a Call</a>
-    <a class="btn-ghost" href="../contact.html">Contact us</a>
+    <a class="btn-ghost" href="/contact">Contact us</a>
   </div>
 </div></div>
 ${FOOTER_AND_SCRIPTS}`;

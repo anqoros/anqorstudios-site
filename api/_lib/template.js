@@ -207,7 +207,7 @@ const CSS_BLOCK = `
 
   .bl-list { margin-top:8px; }
   .bl-item { display:block; border-top:1px solid var(--line); padding:34px 0;
-             transition:opacity .2s ease; }
+             transition:opacity .2s ease; text-decoration:none; }
   .bl-item:last-child { border-bottom:1px solid var(--line); }
   .bl-item:hover { opacity:.72; }
   .bl-meta { display:flex; gap:14px; align-items:center; flex-wrap:wrap;
@@ -230,6 +230,7 @@ const CSS_BLOCK = `
   .post-body h3 { font-size:clamp(19px,2.1vw,24px); letter-spacing:-.01em;
                   margin:38px 0 14px; line-height:1.25; color:var(--ink); }
   .post-body p { color:#c9c9cc; font-size:17px; line-height:1.78; margin:0 0 20px; }
+  .post-body a { color:var(--teal); text-decoration:underline; text-underline-offset:2px; }
   .post-body ul { margin:0 0 24px; padding:0; list-style:none; }
   .post-body ul li { position:relative; padding-left:26px; margin-bottom:12px;
                      color:#c9c9cc; font-size:16.5px; line-height:1.7; }
@@ -242,7 +243,7 @@ const CSS_BLOCK = `
   .post-more .lbl { font-size:11px; letter-spacing:.14em; text-transform:uppercase;
                     color:var(--muted); font-weight:700; margin-bottom:18px; }
   .post-more a { display:block; padding:14px 0; border-bottom:1px solid var(--line);
-                 font-size:17px; font-weight:600; color:#fff; }
+                 font-size:17px; font-weight:600; color:#fff; text-decoration:none; }
   .post-more a:hover { color:var(--teal); }
 
   .faq-list { margin-top:42px; border-top:1px solid var(--line); }
