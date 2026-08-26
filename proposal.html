@@ -64,8 +64,11 @@ td { padding: 6px 8px; border-bottom: 1px solid #f2f2f2; font-size: 12px; vertic
 /* Keep totals + payment + bank together */
 .bottom-block { break-inside: avoid; }
 
-/* T&C — 2 columns */
+/* T&C — 2 columns, always starts on its own page when printed */
 .tc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-top: 6px; }
+@media print {
+  .tc-card { break-before: page; page-break-before: always; }
+}
 .tc-item { margin-top: 12px; }
 .tc-item h4 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
 .tc-item p { font-size: 10px; line-height: 1.6; color: #666; }
@@ -232,7 +235,7 @@ function render(p) {
       </div>
     </div>
 
-    <div class="card">
+    <div class="card tc-card">
       <div class="section-label" style="margin-top:0">Terms &amp; Conditions</div>
       <div class="tc-grid">
         <div class="tc-item"><h4>1. Acceptance</h4><p>This quote is valid for 14 days from the date above. Acceptance is confirmed by written approval or payment of the deposit, whichever comes first.</p></div>
