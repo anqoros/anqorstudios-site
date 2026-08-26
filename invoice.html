@@ -59,9 +59,20 @@ td { padding: 10px; border-bottom: 1px solid #f2f2f2; font-size: 12px; }
 #error   { text-align: center; padding: 80px; font-size: 14px; color: #c00; }
 
 @media print {
+  @page { size: A4; margin: 12mm; }
   .topbar { display: none; }
   body { background: #fff; }
-  .card { box-shadow: none; border: 1px solid #e8e8e8; }
+  .page { padding: 0; max-width: none; }
+  .card { box-shadow: none; border: 1px solid #e8e8e8; padding: 24px 28px; }
+
+  /* Nothing below should ever be sliced mid-box by a page break -- if a
+     section doesn't fit on the current page, the whole section moves to
+     the next one intact, rather than the browser picking an arbitrary
+     cut point partway through a box's border. */
+  .header, table, tr, .totals, .pay-box, .bank-box, .notes-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }
 </style>
 </head>
@@ -176,7 +187,7 @@ async function load() {
         <div style="font-size:10px;color:#aaa;margin-top:10px">Please reference your invoice number on the transfer.</div>
       </div>
 
-      ${inv.notes ? `<div class="section-label" style="margin-top:20px">Notes</div><p style="font-size:12px;color:#555;line-height:1.7">${esc(inv.notes)}</p>` : ''}
+      ${inv.notes ? `<div class="notes-block"><div class="section-label" style="margin-top:20px">Notes</div><p style="font-size:12px;color:#555;line-height:1.7">${esc(inv.notes)}</p></div>` : ''}
     </div>
   `;
 
