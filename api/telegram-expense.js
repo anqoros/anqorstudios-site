@@ -91,7 +91,10 @@ Return ONLY valid JSON, no other text: {"vendor":"<string>","date":"<YYYY-MM-DD>
     }),
   });
   const data = await res.json();
-  const text = data.content && data.content[0] && data.content[0].text;
+  // content[0] isn't reliably the text block — a "thinking" block can come
+  // first, so find the text block by type instead of assuming position.
+  const textBlock = (data.content || []).find(b => b.type === 'text');
+  const text = textBlock && textBlock.text;
   if (!text) throw new Error('vision extraction returned no text: ' + JSON.stringify(data).slice(0, 300));
   const match = text.match(/\{[\s\S]*\}/);
   return JSON.parse(match ? match[0] : text);
