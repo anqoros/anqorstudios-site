@@ -1388,10 +1388,27 @@ async function loadExpensesPage() {
   document.getElementById('expensesSub').textContent = `Business overhead, separate from project costs · ${fmt(monthTotal)} this month`;
 
   document.getElementById('expensesCard').innerHTML = data?.length ? data.map(e => `
-    <div class="row"><div><div class="row-title">${e.description}${e.recurring ? ' <span class="badge badge-viewed">Recurring</span>' : ''}</div>
-    <div class="row-meta">${EXPENSE_CATEGORIES[e.category] || 'Other'} · ${fmtDate(e.date)}</div></div>
-    <div style="display:flex;gap:12px;align-items:center"><span class="row-amount">${fmt(e.amount_aed)}</span>
+    <div class="row"><div>
+    <div class="row-title">${e.description}${e.recurring ? ' <span class="badge badge-viewed">Recurring</span>' : ''}${e.needs_review ? ' <span class="badge badge-lost">Needs Review</span>' : ''}${e.telegram_message_id ? ' <span class="badge badge-viewed">Telegram</span>' : ''}</div>
+    <div class="row-meta">${EXPENSE_CATEGORIES[e.category] || 'Other'} · ${fmtDate(e.date)}${e.vendor ? ' · ' + e.vendor : ''}${e.needs_review && e.review_reason ? ' · ' + e.review_reason : ''}</div></div>
+    <div style="display:flex;gap:12px;align-items:center">
+    ${e.receipt_image_base64 ? `<a href="#" onclick="viewReceipt('${e.id}');return false" style="font-size:11px;color:#4a9f6f;text-decoration:none">Receipt</a>` : ''}
+    <span class="row-amount">${fmt(e.amount_aed)}</span>
+    ${e.needs_review ? `<button onclick="approveExpense('${e.id}')" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Approve</button>` : ''}
     <button onclick="deleteExpense('${e.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`).join('') : '<div class="empty">No expenses logged yet.</div>';
+  window._expensesCache = data || [];
+}
+function viewReceipt(id) {
+  const e = (window._expensesCache || []).find(x => x.id === id);
+  if (!e || !e.receipt_image_base64) return;
+  const win = window.open('', '_blank');
+  win.document.write(`<img src="data:${e.receipt_image_mime||'image/jpeg'};base64,${e.receipt_image_base64}" style="max-width:100%">`);
+  win.document.close();
+}
+async function approveExpense(id) {
+  const { error } = await sb.from('expenses').update({ needs_review: false, review_reason: null }).eq('id', id);
+  if (error) { alert('Could not save: ' + error.message); return; }
+  loadExpensesPage();
 }
 function showNewExpenseModal() {
   document.getElementById('exDesc').value = '';

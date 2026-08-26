@@ -190,3 +190,11 @@ create table if not exists shoots (
 -- invoices, which were created before that default existed).
 alter table expenses disable row level security;
 alter table shoots disable row level security;
+
+-- 2026-08-26 — Telegram receipt-photo capture (photo -> Claude vision -> expense row)
+alter table expenses add column if not exists needs_review boolean default false;
+alter table expenses add column if not exists review_reason text;
+alter table expenses add column if not exists vendor text;
+alter table expenses add column if not exists receipt_image_base64 text;
+alter table expenses add column if not exists receipt_image_mime text;
+alter table expenses add column if not exists telegram_message_id text unique;
