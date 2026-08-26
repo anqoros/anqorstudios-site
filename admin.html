@@ -34,7 +34,7 @@
   .content { padding: 32px 36px; max-width: 1280px; margin: 0 auto; }
 
   /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
   .stat-card { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px 24px; }
   .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #666666; margin-bottom: 10px; }
   .stat-value { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: #000000; }
@@ -167,6 +167,7 @@
         <div class="stat-card"><div class="stat-label">Open Pipeline</div><div class="stat-value" id="statPipeline">—</div><div class="stat-sub" id="statPipelineSub">awaiting a decision</div></div>
         <div class="stat-card amber"><div class="stat-label">Outstanding Receivables</div><div class="stat-value" id="statUnpaid">—</div><div class="stat-sub" id="statUnpaidAmt"></div></div>
         <div class="stat-card green"><div class="stat-label">Win Rate</div><div class="stat-value" id="statWinRate">—</div><div class="stat-sub" id="statWinRateSub">no closed proposals yet</div></div>
+        <div class="stat-card" id="statProfitCard"><div class="stat-label">Net Profit (all time)</div><div class="stat-value" id="statProfit">—</div><div class="stat-sub" id="statProfitSub"></div></div>
       </div>
 
       <div class="two-col">
@@ -222,6 +223,7 @@
             <button onclick="deleteCurrentClient()" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:7px 14px;border-radius:7px;font-size:12px;cursor:pointer">Delete</button>
           </div>
         </div>
+        <div id="cdLtv" style="display:flex;gap:24px;margin-bottom:20px;padding:14px 18px;background:#ffffff;border:1px solid #e5e5e5;border-radius:10px"></div>
         <div style="display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid #e5e5e5;padding-bottom:0">
           <div class="tab-btn active" onclick="switchClientTab('briefs',this)">Briefs</div>
           <div class="tab-btn" onclick="switchClientTab('proposals',this)">Proposals</div>
@@ -275,6 +277,11 @@
         <button onclick="calShiftMonth(1)" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer">→</button>
       </div>
       <div id="calGrid" class="card"><div class="loading">Loading…</div></div>
+
+      <div id="calNeedsInvoiceSection" style="display:none;margin-top:20px">
+        <div class="section-title">Needs Invoice</div>
+        <div id="calNeedsInvoice" class="card"></div>
+      </div>
     </div>
   </div>
 
@@ -577,10 +584,11 @@ function showTool(url, title, navEl) {
 async function loadDashboard() {
   document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-  const [clients, proposals, invoices] = await Promise.all([
+  const [clients, proposals, invoices, expenses] = await Promise.all([
     sb.from('clients').select('id', {count:'exact'}),
     sb.from('proposals').select('slug, client_name, created_at, viewed_at, accepted_at, closed_at, closed_reason, data'),
     sb.from('invoices').select('slug, client_name, created_at, paid_at, data'),
+    sb.from('expenses').select('amount_aed'),
   ]);
 
   document.getElementById('statClients').textContent = clients.count ?? 0;
@@ -602,6 +610,18 @@ async function loadDashboard() {
   const outstandingTotal = invoicesWithBalance.reduce((s,x) => s + x.net, 0);
   document.getElementById('statUnpaid').textContent = invoicesWithBalance.length;
   document.getElementById('statUnpaidAmt').textContent = outstandingTotal ? fmt(outstandingTotal) + ' across ' + invoicesWithBalance.length + ' invoice' + (invoicesWithBalance.length===1?'':'s') : 'nothing outstanding';
+
+  // Net profit: real cash collected minus Anqor's own overhead. Third-party
+  // project costs are excluded on purpose -- they're pass-through, already
+  // covered dollar-for-dollar by what the client pays, so they don't touch
+  // profit either way. Only `expenses` (software/equipment/insurance/rent)
+  // is Anqor's own money going out.
+  const totalReceived = (invoices.data || []).reduce((s,i) => s + (i.data?.payments_received || []).reduce((s2,p) => s2 + Number(p.aed_equivalent || 0), 0), 0);
+  const totalOverhead = (expenses.data || []).reduce((s,e) => s + Number(e.amount_aed || 0), 0);
+  const netProfit = totalReceived - totalOverhead;
+  document.getElementById('statProfit').textContent = fmt(netProfit);
+  document.getElementById('statProfitCard').className = 'stat-card' + (netProfit >= 0 ? ' green' : ' amber');
+  document.getElementById('statProfitSub').textContent = `${fmt(totalReceived)} collected − ${fmt(totalOverhead)} overhead`;
 
   // Recent proposals
   const recentProps = (proposals.data || []).sort((a,b) => new Date(b.created_at)-new Date(a.created_at)).slice(0,5);
@@ -652,6 +672,21 @@ async function openClientDetail(id) {
   document.getElementById('cdName').textContent = currentClient.name;
   document.getElementById('cdSub').textContent = [currentClient.email,currentClient.phone,currentClient.company].filter(Boolean).join(' · ') || 'No contact info';
   switchClientTab('briefs', document.querySelector('.tab-btn'));
+  loadCdLtv();
+}
+
+async function loadCdLtv() {
+  const { data } = await sb.from('invoices').select('data').eq('client_id', currentClient.id);
+  const invs = data || [];
+  const totalInvoiced = invs.reduce((s,i) => s + Number(i.data?.total_aed || 0), 0);
+  const totalOutstanding = invs.reduce((s,i) => s + Math.max(0, invoiceNetBalance(i)), 0);
+  const totalPaid = totalInvoiced - totalOutstanding;
+  document.getElementById('cdLtv').innerHTML = `
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666666;margin-bottom:4px">Total Invoiced</div><div style="font-size:18px;font-weight:800">${fmt(totalInvoiced)}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666666;margin-bottom:4px">Total Paid</div><div style="font-size:18px;font-weight:800;color:#4a9f6f">${fmt(totalPaid)}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666666;margin-bottom:4px">Outstanding</div><div style="font-size:18px;font-weight:800;${totalOutstanding>0?'color:#a8711f':''}">${fmt(totalOutstanding)}</div></div>
+    <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666666;margin-bottom:4px">Invoices</div><div style="font-size:18px;font-weight:800">${invs.length}</div></div>
+  `;
 }
 
 function closeClientDetail() {
@@ -1452,9 +1487,25 @@ function calShiftMonth(delta) {
   renderCalendar();
 }
 async function loadCalendarPage() {
-  const { data } = await sb.from('shoots').select('*').order('date',{ascending:true});
-  calShoots = data || [];
+  const [shoots, invoices] = await Promise.all([
+    sb.from('shoots').select('*').order('date',{ascending:true}),
+    sb.from('invoices').select('client_id'),
+  ]);
+  calShoots = shoots.data || [];
   renderCalendar();
+  renderNeedsInvoice(invoices.data || []);
+}
+
+function renderNeedsInvoice(invoices) {
+  const invoicedClientIds = new Set((invoices || []).map(i => i.client_id).filter(Boolean));
+  const todayStr = new Date().toISOString().split('T')[0];
+  const flagged = calShoots.filter(s => s.date < todayStr && s.client_id && !invoicedClientIds.has(s.client_id));
+  const section = document.getElementById('calNeedsInvoiceSection');
+  if (!flagged.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  document.getElementById('calNeedsInvoice').innerHTML = flagged.map(s => `
+    <div class="row"><div><div class="row-title">${s.title}</div><div class="row-meta">${s.client_name || 'Client'} · Shot ${fmtDate(s.date)} · no invoice on file for this client</div></div>
+    <a href="quote-generator.html" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">Create invoice →</a></div>`).join('');
 }
 function renderCalendar() {
   const year = calViewDate.getFullYear(), month = calViewDate.getMonth();
