@@ -7,88 +7,88 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', system-ui, sans-serif; background: #080808; color: #e5e5e5; min-height: 100vh; display: flex; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #ffffff; color: #000000; min-height: 100vh; display: flex; }
 
   /* Sidebar */
-  .sidebar { width: 220px; min-height: 100vh; background: #0d0d0d; border-right: 1px solid #1a1a1a; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; }
-  .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid #1a1a1a; }
+  .sidebar { width: 220px; min-height: 100vh; background: #ffffff; border-right: 1px solid #e5e5e5; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; }
+  .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid #e5e5e5; }
   .sidebar-logo .wordmark { font-size: 13px; font-weight: 800; color: #4a9f6f; letter-spacing: 0.05em; }
-  .sidebar-logo .tagline { font-size: 10px; color: #444; margin-top: 2px; }
+  .sidebar-logo .tagline { font-size: 10px; color: #999999; margin-top: 2px; }
   .sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
-  .nav-section { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #333; padding: 14px 20px 6px; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; font-size: 13px; color: #666; cursor: pointer; transition: all 0.1s; text-decoration: none; }
-  .nav-item:hover { color: #e5e5e5; background: #111; }
-  .nav-item.active { color: #4a9f6f; background: #0d1f15; border-right: 2px solid #4a9f6f; }
+  .nav-section { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999999; padding: 14px 20px 6px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; font-size: 13px; color: #666666; cursor: pointer; transition: all 0.1s; text-decoration: none; }
+  .nav-item:hover { color: #000000; background: #f5f5f5; }
+  .nav-item.active { color: #4a9f6f; background: #e7f5ed; border-right: 2px solid #4a9f6f; }
   .nav-item .icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .nav-item .icon svg { width: 18px; height: 18px; stroke-width: 1.75; }
-  .sidebar-bottom { padding: 16px 20px; border-top: 1px solid #1a1a1a; }
-  .sidebar-bottom a { font-size: 12px; color: #444; text-decoration: none; display: block; margin-bottom: 8px; }
-  .sidebar-bottom a:hover { color: #888; }
+  .sidebar-bottom { padding: 16px 20px; border-top: 1px solid #e5e5e5; }
+  .sidebar-bottom a { font-size: 12px; color: #999999; text-decoration: none; display: block; margin-bottom: 8px; }
+  .sidebar-bottom a:hover { color: #888888; }
 
   /* Main */
   .main { margin-left: 220px; flex: 1; min-height: 100vh; }
-  .topbar { padding: 20px 36px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; background: #080808; position: sticky; top: 0; z-index: 10; }
+  .topbar { padding: 20px 36px; max-width: 960px; box-sizing: content-box; border-bottom: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; background: #ffffff; position: sticky; top: 0; z-index: 10; }
   .page-title { font-size: 18px; font-weight: 700; }
-  .page-sub { font-size: 12px; color: #555; margin-top: 2px; }
-  .content { padding: 32px 36px; }
+  .page-sub { font-size: 12px; color: #666666; margin-top: 2px; }
+  .content { padding: 32px 36px; max-width: 960px; }
 
   /* Stats */
   .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-  .stat-card { background: #111; border: 1px solid #1e1e1e; border-radius: 10px; padding: 20px 24px; }
-  .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 10px; }
-  .stat-value { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: #e5e5e5; }
-  .stat-sub { font-size: 11px; color: #555; margin-top: 4px; }
+  .stat-card { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px 24px; }
+  .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #666666; margin-bottom: 10px; }
+  .stat-value { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: #000000; }
+  .stat-sub { font-size: 11px; color: #666666; margin-top: 4px; }
   .stat-card.green .stat-value { color: #4a9f6f; }
-  .stat-card.amber .stat-value { color: #c8882a; }
+  .stat-card.amber .stat-value { color: #a8711f; }
 
   /* Section */
-  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 14px; }
-  .card { background: #111; border: 1px solid #1e1e1e; border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; }
+  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #666666; margin-bottom: 14px; }
+  .card { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; }
 
   /* Recent rows */
-  .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #161616; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eeeeee; }
   .row:last-child { border-bottom: none; }
   .row-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-  .row-meta { font-size: 11px; color: #555; }
+  .row-meta { font-size: 11px; color: #666666; }
   .row-right { text-align: right; }
   .row-amount { font-size: 13px; font-weight: 700; color: #4a9f6f; }
-  .row-date { font-size: 11px; color: #555; margin-top: 2px; }
+  .row-date { font-size: 11px; color: #666666; margin-top: 2px; }
 
   /* Badge */
   .badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .badge-pending { background: #1a1200; color: #c8882a; border: 1px solid #2a2000; }
-  .badge-paid    { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
-  .badge-viewed  { background: #0a0a1a; color: #6a6aaf; border: 1px solid #1a1a3a; }
-  .badge-accepted{ background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
-  .badge-lost    { background: #2a1010; color: #e05555; border: 1px solid #4a1a1a; }
-  .badge-followup{ background: #1a1200; color: #c8882a; border: 1px solid #2a2000; }
+  .badge-pending { background: #fdf3df; color: #a8711f; border: 1px solid #f3dfae; }
+  .badge-paid    { background: #e7f5ed; color: #4a9f6f; border: 1px solid #bfe3cd; }
+  .badge-viewed  { background: #eef0fb; color: #5c5ca0; border: 1px solid #d2d7f5; }
+  .badge-accepted{ background: #e7f5ed; color: #4a9f6f; border: 1px solid #bfe3cd; }
+  .badge-lost    { background: #fbeaea; color: #c23c3c; border: 1px solid #f0c6c6; }
+  .badge-followup{ background: #fdf3df; color: #a8711f; border: 1px solid #f3dfae; }
 
   /* Tools grid */
   .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .tool-card { background: #111; border: 1px solid #1e1e1e; border-radius: 10px; padding: 20px; text-decoration: none; color: inherit; transition: border-color 0.15s, background 0.15s; display: block; }
-  .tool-card:hover { border-color: #4a9f6f; background: #0d1a12; }
+  .tool-card { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px; text-decoration: none; color: inherit; transition: border-color 0.15s, background 0.15s; display: block; }
+  .tool-card:hover { border-color: #4a9f6f; background: #f0faf4; }
   .tool-icon { width: 26px; height: 26px; margin-bottom: 12px; color: #4a9f6f; }
   .tool-icon svg { width: 26px; height: 26px; stroke-width: 1.75; }
   .tool-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .tool-desc { font-size: 12px; color: #555; line-height: 1.5; }
+  .tool-desc { font-size: 12px; color: #666666; line-height: 1.5; }
 
   /* Grid layout for detail sections */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-  .empty { text-align: center; padding: 32px; font-size: 13px; color: #444; }
+  .empty { text-align: center; padding: 32px; font-size: 13px; color: #999999; }
 
   /* Auth gate */
-  #authGate { position: fixed; inset: 0; background: #080808; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+  #authGate { position: fixed; inset: 0; background: #ffffff; z-index: 9999; display: flex; align-items: center; justify-content: center; }
   #authGate .lock-box { width: 100%; max-width: 340px; padding: 0 20px; }
   #authGate .lock-logo { font-size: 12px; font-weight: 800; color: #4a9f6f; letter-spacing: 0.06em; margin-bottom: 32px; }
   #authGate h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
-  #authGate p { font-size: 13px; color: #555; margin-bottom: 24px; }
-  #authGate input { width: 100%; background: #111; border: 1px solid #2a2a2a; color: #e5e5e5; border-radius: 8px; padding: 11px 14px; font-size: 14px; margin-bottom: 10px; outline: none; }
+  #authGate p { font-size: 13px; color: #666666; margin-bottom: 24px; }
+  #authGate input { width: 100%; background: #ffffff; border: 1px solid #e5e5e5; color: #000000; border-radius: 8px; padding: 11px 14px; font-size: 14px; margin-bottom: 10px; outline: none; }
   #authGate input:focus { border-color: #4a9f6f; }
-  #authGate button { width: 100%; background: #1a3a27; color: #4a9f6f; border: 1px solid #2a5a3a; padding: 11px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
-  #authGate button:hover { background: #204a32; }
-  #authGate .err { font-size: 12px; color: #e05555; margin-top: 8px; display: none; }
-  .loading { text-align: center; padding: 24px; font-size: 12px; color: #444; }
+  #authGate button { width: 100%; background: #e7f5ed; color: #4a9f6f; border: 1px solid #bfe3cd; padding: 11px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  #authGate button:hover { background: #dcefe3; }
+  #authGate .err { font-size: 12px; color: #c23c3c; margin-top: 8px; display: none; }
+  .loading { text-align: center; padding: 24px; font-size: 12px; color: #999999; }
 
   /* Pages */
   .page { display: none; }
@@ -101,8 +101,8 @@
     .tools-grid { grid-template-columns: 1fr 1fr; }
     .two-col { grid-template-columns: 1fr; }
   }
-  .tag-own { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap }
-  .tag-pt  { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;background:#1a1200;color:#c8882a;border:1px solid #3a2800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap }
+  .tag-own { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap }
+  .tag-pt  { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;cursor:pointer;background:#fdf3df;color:#a8711f;border:1px solid #f0dcae;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap }
 </style>
 </head>
 <body>
@@ -148,7 +148,7 @@
   <div class="sidebar-bottom">
     <a href="index.html" target="_blank">← View website</a>
     <a href="command-center.html">Command Center</a>
-    <a href="#" onclick="logout();return false;" style="color:#e05555">Log out</a>
+    <a href="#" onclick="logout();return false;" style="color:#c23c3c">Log out</a>
   </div>
 </div>
 
@@ -204,28 +204,28 @@
   <div class="page" id="page-clients">
     <div class="topbar">
       <div><div class="page-title">Clients</div><div class="page-sub">All clients and their history</div></div>
-      <button onclick="showNewClientModal()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ New Client</button>
+      <button onclick="showNewClientModal()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ New Client</button>
     </div>
     <div class="content">
       <input id="clientSearch" placeholder="Search clients…" oninput="filterClients(this.value)"
-        style="width:100%;max-width:340px;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:8px;padding:9px 14px;font-size:13px;margin-bottom:20px;display:block">
+        style="width:100%;max-width:340px;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:8px;padding:9px 14px;font-size:13px;margin-bottom:20px;display:block">
       <div class="card" id="clientsCard"><div class="loading">Loading…</div></div>
 
       <!-- Client detail (shown inline) -->
       <div id="clientDetail" style="display:none">
-        <div onclick="closeClientDetail()" style="font-size:13px;color:#555;cursor:pointer;margin-bottom:20px">← Back to clients</div>
+        <div onclick="closeClientDetail()" style="font-size:13px;color:#666666;cursor:pointer;margin-bottom:20px">← Back to clients</div>
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
-          <div><div style="font-size:22px;font-weight:800" id="cdName"></div><div style="font-size:13px;color:#555;margin-top:4px" id="cdSub"></div></div>
+          <div><div style="font-size:22px;font-weight:800" id="cdName"></div><div style="font-size:13px;color:#666666;margin-top:4px" id="cdSub"></div></div>
           <div style="display:flex;gap:8px">
-            <button onclick="editCurrentClient()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:7px 14px;border-radius:7px;font-size:12px;cursor:pointer">Edit</button>
-            <button onclick="deleteCurrentClient()" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:7px 14px;border-radius:7px;font-size:12px;cursor:pointer">Delete</button>
+            <button onclick="editCurrentClient()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:7px 14px;border-radius:7px;font-size:12px;cursor:pointer">Edit</button>
+            <button onclick="deleteCurrentClient()" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:7px 14px;border-radius:7px;font-size:12px;cursor:pointer">Delete</button>
           </div>
         </div>
-        <div style="display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid #1a1a1a;padding-bottom:0">
+        <div style="display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid #e5e5e5;padding-bottom:0">
           <div class="tab-btn active" onclick="switchClientTab('briefs',this)">Briefs</div>
           <div class="tab-btn" onclick="switchClientTab('proposals',this)">Proposals</div>
           <div class="tab-btn" onclick="switchClientTab('invoices',this)">Invoices</div>
-          <button onclick="uploadBriefForClient()" style="margin-left:auto;background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:5px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Upload Brief</button>
+          <button onclick="uploadBriefForClient()" style="margin-left:auto;background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:5px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Upload Brief</button>
         </div>
         <div id="cdBriefs" class="card"></div>
         <div id="cdProposals" class="card" style="display:none"></div>
@@ -256,7 +256,7 @@
   <div class="page" id="page-expenses">
     <div class="topbar">
       <div><div class="page-title">Expenses</div><div class="page-sub" id="expensesSub">Business overhead, separate from project costs</div></div>
-      <button onclick="showNewExpenseModal()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ Add Expense</button>
+      <button onclick="showNewExpenseModal()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ Add Expense</button>
     </div>
     <div class="content"><div class="card" id="expensesCard"><div class="loading">Loading…</div></div></div>
   </div>
@@ -265,13 +265,13 @@
   <div class="page" id="page-calendar">
     <div class="topbar">
       <div><div class="page-title">Calendar</div><div class="page-sub">Shoot bookings</div></div>
-      <button onclick="showNewShootModal()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ Add Shoot</button>
+      <button onclick="showNewShootModal()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ Add Shoot</button>
     </div>
     <div class="content">
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
-        <button onclick="calShiftMonth(-1)" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer">←</button>
+        <button onclick="calShiftMonth(-1)" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer">←</button>
         <div id="calMonthLabel" style="font-size:14px;font-weight:700;min-width:160px;text-align:center"></div>
-        <button onclick="calShiftMonth(1)" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer">→</button>
+        <button onclick="calShiftMonth(1)" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer">→</button>
       </div>
       <div id="calGrid" class="card"><div class="loading">Loading…</div></div>
     </div>
@@ -289,47 +289,47 @@
 
 <!-- Brief Viewer Modal -->
 <div id="briefModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:620px;max-height:85vh;overflow-y:auto">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:620px;max-height:85vh;overflow-y:auto">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
       <div style="font-size:15px;font-weight:700" id="bmTitle"></div>
-      <button onclick="document.getElementById('briefModal').style.display='none'" style="background:transparent;color:#555;border:none;font-size:18px;cursor:pointer">✕</button>
+      <button onclick="document.getElementById('briefModal').style.display='none'" style="background:transparent;color:#666666;border:none;font-size:18px;cursor:pointer">✕</button>
     </div>
-    <div style="margin-bottom:12px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:4px">Overview</div><div style="font-size:13px;line-height:1.7;color:#ccc" id="bmOverview"></div></div>
-    <div style="margin-bottom:12px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:4px">Timeline</div><div style="font-size:13px;color:#ccc" id="bmTimeline"></div></div>
-    <div style="margin-bottom:16px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:4px">Notes</div><div style="font-size:13px;line-height:1.7;color:#ccc" id="bmNotes"></div></div>
+    <div style="margin-bottom:12px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;margin-bottom:4px">Overview</div><div style="font-size:13px;line-height:1.7;color:#333333" id="bmOverview"></div></div>
+    <div style="margin-bottom:12px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;margin-bottom:4px">Timeline</div><div style="font-size:13px;color:#333333" id="bmTimeline"></div></div>
+    <div style="margin-bottom:16px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;margin-bottom:4px">Notes</div><div style="font-size:13px;line-height:1.7;color:#333333" id="bmNotes"></div></div>
     <details style="margin-top:8px">
-      <summary style="font-size:11px;color:#555;cursor:pointer;margin-bottom:8px">Show raw transcript / brief text</summary>
-      <pre id="bmRaw" style="font-size:11px;color:#888;white-space:pre-wrap;line-height:1.6;background:#0a0a0a;padding:14px;border-radius:6px;max-height:240px;overflow-y:auto"></pre>
+      <summary style="font-size:11px;color:#666666;cursor:pointer;margin-bottom:8px">Show raw transcript / brief text</summary>
+      <pre id="bmRaw" style="font-size:11px;color:#888888;white-space:pre-wrap;line-height:1.6;background:#f5f5f5;padding:14px;border-radius:6px;max-height:240px;overflow-y:auto"></pre>
     </details>
   </div>
 </div>
 
 <!-- New Client Modal -->
 <div id="newClientModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:none;align-items:center;justify-content:center">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:480px;margin:20px">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:480px;margin:20px">
     <div style="font-size:15px;font-weight:700;margin-bottom:20px">New Client</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Name *</label><input id="ncName" type="text" placeholder="Client name" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Email</label><input id="ncEmail" type="email" placeholder="email@example.com" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Phone</label><input id="ncPhone" type="text" placeholder="+971 50 000 0000" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Company</label><input id="ncCompany" type="text" placeholder="Company name" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Name *</label><input id="ncName" type="text" placeholder="Client name" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Email</label><input id="ncEmail" type="email" placeholder="email@example.com" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Phone</label><input id="ncPhone" type="text" placeholder="+971 50 000 0000" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Company</label><input id="ncCompany" type="text" placeholder="Company name" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
     </div>
-    <div style="margin-bottom:16px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Notes</label><textarea id="ncNotes" placeholder="Any notes…" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px;min-height:70px;resize:vertical;font-family:inherit"></textarea></div>
+    <div style="margin-bottom:16px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Notes</label><textarea id="ncNotes" placeholder="Any notes…" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px;min-height:70px;resize:vertical;font-family:inherit"></textarea></div>
     <div style="display:flex;gap:10px">
-      <button onclick="createClient()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Save Client</button>
-      <button onclick="hideNewClientModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+      <button onclick="createClient()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Save Client</button>
+      <button onclick="hideNewClientModal()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- New Expense -->
 <div id="newExpenseModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:420px;margin:20px">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:420px;margin:20px">
     <div style="font-size:15px;font-weight:700;margin-bottom:20px">Add Expense</div>
-    <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Description *</label><input id="exDesc" type="text" placeholder="e.g. Adobe Creative Cloud" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+    <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Description *</label><input id="exDesc" type="text" placeholder="e.g. Adobe Creative Cloud" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Category</label>
-        <select id="exCategory" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px">
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Category</label>
+        <select id="exCategory" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px">
           <option value="software">Software</option>
           <option value="equipment">Equipment</option>
           <option value="insurance">Insurance</option>
@@ -337,33 +337,33 @@
           <option value="other">Other</option>
         </select>
       </div>
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Amount (AED) *</label><input id="exAmount" type="number" placeholder="0.00" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Amount (AED) *</label><input id="exAmount" type="number" placeholder="0.00" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;align-items:end">
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Date</label><input id="exDate" type="date" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
-      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#999;padding-bottom:8px"><input id="exRecurring" type="checkbox" style="width:14px;height:14px"> Recurring monthly</label>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Date</label><input id="exDate" type="date" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#777777;padding-bottom:8px"><input id="exRecurring" type="checkbox" style="width:14px;height:14px"> Recurring monthly</label>
     </div>
     <div style="display:flex;gap:10px">
-      <button onclick="createExpense()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Save Expense</button>
-      <button onclick="hideNewExpenseModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+      <button onclick="createExpense()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Save Expense</button>
+      <button onclick="hideNewExpenseModal()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- New Shoot -->
 <div id="newShootModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:420px;margin:20px">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:420px;margin:20px">
     <div style="font-size:15px;font-weight:700;margin-bottom:20px">Add Shoot</div>
-    <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Title *</label><input id="shTitle" type="text" placeholder="e.g. Yenaé product shoot" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+    <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Title *</label><input id="shTitle" type="text" placeholder="e.g. Yenaé product shoot" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Date *</label><input id="shDate" type="date" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
-      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Client</label><input id="shClientName" type="text" placeholder="Client name (optional)" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Date *</label><input id="shDate" type="date" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+      <div><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Client</label><input id="shClientName" type="text" placeholder="Client name (optional)" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
     </div>
-    <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Location</label><input id="shLocation" type="text" placeholder="e.g. Studio, Dubai Marina" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px"></div>
-    <div style="margin-bottom:16px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;display:block;margin-bottom:4px">Notes</label><textarea id="shNotes" placeholder="Any notes…" style="width:100%;background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:8px 10px;font-size:13px;min-height:60px;resize:vertical;font-family:inherit"></textarea></div>
+    <div style="margin-bottom:12px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Location</label><input id="shLocation" type="text" placeholder="e.g. Studio, Dubai Marina" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px"></div>
+    <div style="margin-bottom:16px"><label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;display:block;margin-bottom:4px">Notes</label><textarea id="shNotes" placeholder="Any notes…" style="width:100%;background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:8px 10px;font-size:13px;min-height:60px;resize:vertical;font-family:inherit"></textarea></div>
     <div style="display:flex;gap:10px">
-      <button onclick="createShoot()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Save Shoot</button>
-      <button onclick="hideNewShootModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+      <button onclick="createShoot()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Save Shoot</button>
+      <button onclick="hideNewShootModal()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
@@ -371,11 +371,11 @@
 <!-- Supplemental / final invoice modal -->
 <!-- Mark proposal lost -->
 <div id="closeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:420px;margin:20px">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:420px;margin:20px">
     <div style="font-size:15px;font-weight:700;margin-bottom:4px">Mark Proposal Lost</div>
-    <div id="closeOrigLine" style="font-size:12px;color:#777;margin-bottom:20px"></div>
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:8px">Reason</div>
-    <select id="closeReason" style="width:100%;background:#1a1a1a;border:1px solid #2a2a2a;color:#e5e5e5;padding:9px 12px;border-radius:8px;font-size:13px;margin-bottom:20px">
+    <div id="closeOrigLine" style="font-size:12px;color:#767676;margin-bottom:20px"></div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;margin-bottom:8px">Reason</div>
+    <select id="closeReason" style="width:100%;background:#e5e5e5;border:1px solid #e5e5e5;color:#000000;padding:9px 12px;border-radius:8px;font-size:13px;margin-bottom:20px">
       <option value="price">Price</option>
       <option value="timing">Timing</option>
       <option value="went_elsewhere">Went elsewhere</option>
@@ -383,99 +383,99 @@
       <option value="other">Other</option>
     </select>
     <div style="display:flex;gap:10px">
-      <button onclick="confirmCloseProposal()" style="background:#3a1a1a;color:#e05555;border:1px solid #5a2a2a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Mark Lost</button>
-      <button onclick="hideCloseModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+      <button onclick="confirmCloseProposal()" style="background:#fbeaea;color:#c23c3c;border:1px solid #f0c6c6;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Mark Lost</button>
+      <button onclick="hideCloseModal()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
 
 <div id="supModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:560px;margin:20px;max-height:88vh;overflow-y:auto">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:560px;margin:20px;max-height:88vh;overflow-y:auto">
     <div style="font-size:15px;font-weight:700;margin-bottom:4px">Final Invoice</div>
-    <div id="supOrigLine" style="font-size:12px;color:#777;margin-bottom:20px"></div>
+    <div id="supOrigLine" style="font-size:12px;color:#767676;margin-bottom:20px"></div>
 
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:8px">Extra charges</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666;margin-bottom:8px">Extra charges</div>
     <div id="supLines"></div>
-    <button onclick="addSupLine()" style="background:transparent;color:#4a9f6f;border:1px dashed #2a5a3a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;margin-top:4px">+ Add line</button>
+    <button onclick="addSupLine()" style="background:transparent;color:#4a9f6f;border:1px dashed #bfe3cd;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;margin-top:4px">+ Add line</button>
 
-    <div style="border-top:1px solid #2a2a2a;margin-top:20px;padding-top:16px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Subtotal</span><span id="supSubtotal">AED 0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>VAT (5%)</span><span id="supVat">AED 0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#e5e5e5"><span>Total due</span><span id="supTotal">AED 0</span></div>
+    <div style="border-top:1px solid #e5e5e5;margin-top:20px;padding-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#777777;margin-bottom:6px"><span>Subtotal</span><span id="supSubtotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#777777;margin-bottom:6px"><span>VAT (5%)</span><span id="supVat">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#000000"><span>Total due</span><span id="supTotal">AED 0</span></div>
     </div>
 
-    <div id="supResult" style="display:none;margin-top:16px;padding:12px;background:#0d1f15;border:1px solid #1e4a2d;border-radius:8px;font-size:12.5px;word-break:break-all"></div>
+    <div id="supResult" style="display:none;margin-top:16px;padding:12px;background:#e7f5ed;border:1px solid #bfe3cd;border-radius:8px;font-size:12.5px;word-break:break-all"></div>
 
     <div style="display:flex;gap:10px;margin-top:20px">
-      <button id="supGenBtn" onclick="generateFinalInvoice()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Generate Final Invoice</button>
-      <button onclick="hideSupModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+      <button id="supGenBtn" onclick="generateFinalInvoice()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Generate Final Invoice</button>
+      <button onclick="hideSupModal()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
 
 <!-- Payments & charges ledger -->
 <div id="payModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:620px;margin:20px;max-height:88vh;overflow-y:auto">
+  <div style="background:#ffffff;border:1px solid #e5e5e5;border-radius:12px;padding:28px;width:100%;max-width:620px;margin:20px;max-height:88vh;overflow-y:auto">
     <div style="font-size:15px;font-weight:700;margin-bottom:4px">Payments &amp; Charges</div>
-    <div id="payOrigLine" style="font-size:12px;color:#777;margin-bottom:20px"></div>
+    <div id="payOrigLine" style="font-size:12px;color:#767676;margin-bottom:20px"></div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555">Money received</div>
-      <button onclick="showPayForm('payment')" style="background:transparent;color:#4a9f6f;border:1px dashed #2a5a3a;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer">+ Add payment</button>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666">Money received</div>
+      <button onclick="showPayForm('payment')" style="background:transparent;color:#4a9f6f;border:1px dashed #bfe3cd;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer">+ Add payment</button>
     </div>
     <div id="payPaymentsList" style="margin-bottom:20px"></div>
 
-    <div id="payPaymentForm" style="display:none;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:8px;padding:14px;margin-bottom:20px">
+    <div id="payPaymentForm" style="display:none;background:#f5f5f5;border:1px solid #e5e5e5;border-radius:8px;padding:14px;margin-bottom:20px">
       <div style="display:grid;grid-template-columns:1fr 90px 1fr;gap:8px;margin-bottom:8px">
-        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Amount</label><input id="payAmount" type="number" min="0" step="0.01" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
-        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Currency</label><select id="payCurrency" onchange="onPayCurrencyChange()" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 5px;font-size:12.5px"><option value="AED">AED</option><option value="USD">USD</option></select></div>
-        <div id="payAedEquivWrap" style="display:none"><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">AED equivalent</label><input id="payAedEquiv" type="number" min="0" step="0.01" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Amount</label><input id="payAmount" type="number" min="0" step="0.01" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Currency</label><select id="payCurrency" onchange="onPayCurrencyChange()" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 5px;font-size:12.5px"><option value="AED">AED</option><option value="USD">USD</option></select></div>
+        <div id="payAedEquivWrap" style="display:none"><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">AED equivalent</label><input id="payAedEquiv" type="number" min="0" step="0.01" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Date</label><input id="payDate" type="date" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
-        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Note (optional)</label><input id="payNote" type="text" placeholder="e.g. Bank transfer, advance" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Date</label><input id="payDate" type="date" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Note (optional)</label><input id="payNote" type="text" placeholder="e.g. Bank transfer, advance" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
       </div>
       <div style="display:flex;gap:8px">
-        <button onclick="savePayment()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Save</button>
-        <button onclick="hidePayForm('payment')" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer">Cancel</button>
+        <button onclick="savePayment()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Save</button>
+        <button onclick="hidePayForm('payment')" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer">Cancel</button>
       </div>
     </div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555">Additional charges incurred</div>
-      <button onclick="showPayForm('charge')" style="background:transparent;color:#e0a555;border:1px dashed #5a4a2a;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer">+ Add charge</button>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#666666">Additional charges incurred</div>
+      <button onclick="showPayForm('charge')" style="background:transparent;color:#c98f3a;border:1px dashed #e0c98a;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer">+ Add charge</button>
     </div>
     <div id="payChargesList" style="margin-bottom:20px"></div>
 
-    <div id="payChargeForm" style="display:none;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:8px;padding:14px;margin-bottom:20px">
+    <div id="payChargeForm" style="display:none;background:#f5f5f5;border:1px solid #e5e5e5;border-radius:8px;padding:14px;margin-bottom:20px">
       <div style="display:grid;grid-template-columns:1fr 110px;gap:8px;margin-bottom:8px">
-        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Description</label><input id="chargeDesc" type="text" placeholder="e.g. Extra hour, models" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
-        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Amount (AED)</label><input id="chargeAmount" type="number" min="0" step="0.01" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Description</label><input id="chargeDesc" type="text" placeholder="e.g. Extra hour, models" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Amount (AED)</label><input id="chargeAmount" type="number" min="0" step="0.01" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
       </div>
-      <div style="margin-bottom:10px"><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Date</label><input id="chargeDate" type="date" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+      <div style="margin-bottom:10px"><label style="font-size:10px;color:#666666;display:block;margin-bottom:4px">Date</label><input id="chargeDate" type="date" style="width:100%;background:#ffffff;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
       <div style="display:flex;gap:8px">
-        <button onclick="saveCharge()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Save</button>
-        <button onclick="hidePayForm('charge')" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer">Cancel</button>
+        <button onclick="saveCharge()" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Save</button>
+        <button onclick="hidePayForm('charge')" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer">Cancel</button>
       </div>
     </div>
 
-    <div style="border-top:1px solid #2a2a2a;padding-top:16px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Invoice total</span><span id="payInvTotal">AED 0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Received (AED equivalent)</span><span id="payReceivedTotal">AED 0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Additional charges</span><span id="payChargesTotal">AED 0</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#e5e5e5;border-top:1px solid #2a2a2a;padding-top:8px;margin-top:4px"><span>Net balance owed</span><span id="payNetBalance">AED 0</span></div>
+    <div style="border-top:1px solid #e5e5e5;padding-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#777777;margin-bottom:6px"><span>Invoice total</span><span id="payInvTotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#777777;margin-bottom:6px"><span>Received (AED equivalent)</span><span id="payReceivedTotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#777777;margin-bottom:6px"><span>Additional charges</span><span id="payChargesTotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#000000;border-top:1px solid #e5e5e5;padding-top:8px;margin-top:4px"><span>Net balance owed</span><span id="payNetBalance">AED 0</span></div>
     </div>
 
     <div style="display:flex;gap:10px;margin-top:20px">
-      <button onclick="hidePayModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Close</button>
+      <button onclick="hidePayModal()" style="background:transparent;color:#888888;border:1px solid #e5e5e5;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Close</button>
     </div>
   </div>
 </div>
 
 <style>
-.tab-btn { padding:8px 14px;font-size:13px;font-weight:600;color:#555;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px; }
+.tab-btn { padding:8px 14px;font-size:13px;font-weight:600;color:#666666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px; }
 .tab-btn.active { color:#4a9f6f;border-bottom-color:#4a9f6f; }
-.tab-btn:hover { color:#e5e5e5; }
+.tab-btn:hover { color:#000000; }
 </style>
 
 <script>
@@ -703,18 +703,18 @@ async function loadCdBriefs() {
   });
 
   document.getElementById('cdBriefs').innerHTML = data.map(b => `
-    <div style="border:1px solid #1e1e1e;border-radius:10px;margin-bottom:12px;overflow:hidden">
-      <div onclick="expandBrief('${b.id}')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;background:#111;">
+    <div style="border:1px solid #e5e5e5;border-radius:10px;margin-bottom:12px;overflow:hidden">
+      <div onclick="expandBrief('${b.id}')" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;background:#ffffff;">
         <div>
           <div class="row-title">${b.project_title||'Untitled brief'}</div>
           <div class="row-meta">${fmtDate(b.created_at)} · ${(b.line_items||[]).length} line items</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
-          <span id="bchev-${b.id}" style="color:#555;font-size:14px">▼</span>
-          <button onclick="event.stopPropagation();deleteRec('briefs','${b.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+          <span id="bchev-${b.id}" style="color:#666666;font-size:14px">▼</span>
+          <button onclick="event.stopPropagation();deleteRec('briefs','${b.id}',this)" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
         </div>
       </div>
-      <div id="bpanel-${b.id}" style="display:none;padding:16px;background:#0d0d0d;border-top:1px solid #1e1e1e"></div>
+      <div id="bpanel-${b.id}" style="display:none;padding:16px;background:#ffffff;border-top:1px solid #e5e5e5"></div>
     </div>`).join('');
 }
 
@@ -732,21 +732,21 @@ function _renderBriefPanel(id) {
   const ex = brief.extracted || {};
   const rows = items.map((li, i) => {
     const dayToggle = (li.half_day_price && li.full_day_price)
-      ? `<button onclick="_aToggleDay('${id}',${i})" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid ${li.fullDay ? '#2a5a3a' : '#2a2000'};background:${li.fullDay ? '#0d1f15' : '#1a1200'};color:${li.fullDay ? '#4a9f6f' : '#c8882a'};white-space:nowrap">${li.fullDay ? 'Full Day' : 'Half Day'}</button>`
+      ? `<button onclick="_aToggleDay('${id}',${i})" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;cursor:pointer;border:1px solid ${li.fullDay ? '#bfe3cd' : '#f3dfae'};background:${li.fullDay ? '#e7f5ed' : '#fdf3df'};color:${li.fullDay ? '#4a9f6f' : '#a8711f'};white-space:nowrap">${li.fullDay ? 'Full Day' : 'Half Day'}</button>`
       : '';
     return `<tr>
       <td style="padding:6px 8px"><div style="display:flex;align-items:center;gap:6px">
         <span class="${li.section==='own'?'tag-own':'tag-pt'}" onclick="_aToggleSection('${id}',${i})" title="Click to toggle Anqor / Pass-thru">${li.section==='own'?'Anqor':'Pass-thru'}</span>
-        ${dayToggle}<input type="text" value="${li.description.replace(/"/g,'&quot;')}" oninput="_aUpdateLI('${id}',${i},'description',this.value)" style="flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 8px;font-size:12px;min-width:0">
+        ${dayToggle}<input type="text" value="${li.description.replace(/"/g,'&quot;')}" oninput="_aUpdateLI('${id}',${i},'description',this.value)" style="flex:1;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:5px;color:#000000;padding:4px 8px;font-size:12px;min-width:0">
       </div></td>
       <td style="padding:6px 8px"><input type="number" value="${li.qty}" min="1" step="1"
         oninput="_aUpdateLI('${id}',${i},'qty',this.value)"
-        style="width:52px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:center"></td>
+        style="width:52px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:5px;color:#000000;padding:4px 6px;font-size:12px;text-align:center"></td>
       <td style="padding:6px 8px"><input type="number" value="${li.unit_price}" min="0" step="100"
         oninput="_aUpdateLI('${id}',${i},'unit_price',this.value)"
-        style="width:90px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#e5e5e5;padding:4px 6px;font-size:12px;text-align:right"></td>
-      <td id="ali-total-${id}-${i}" style="padding:6px 8px;font-size:12px;color:#aaa;text-align:right">${_fmtAED(li.qty*li.unit_price)}</td>
-      <td style="padding:6px 8px"><button onclick="_aDeleteLI('${id}',${i})" style="background:transparent;color:#e05555;border:none;font-size:14px;cursor:pointer;padding:2px 6px">✕</button></td>
+        style="width:90px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:5px;color:#000000;padding:4px 6px;font-size:12px;text-align:right"></td>
+      <td id="ali-total-${id}-${i}" style="padding:6px 8px;font-size:12px;color:#999999;text-align:right">${_fmtAED(li.qty*li.unit_price)}</td>
+      <td style="padding:6px 8px"><button onclick="_aDeleteLI('${id}',${i})" style="background:transparent;color:#c23c3c;border:none;font-size:14px;cursor:pointer;padding:2px 6px">✕</button></td>
     </tr>`;
   }).join('');
 
@@ -756,38 +756,38 @@ function _renderBriefPanel(id) {
 
   document.getElementById('bpanel-' + id).innerHTML = `
     <div style="max-width:680px;margin:0 auto">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:6px">Project Summary</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666666;margin-bottom:6px">Project Summary</div>
     <textarea rows="3" placeholder="Describe the project scope, goals, or any notes for the quote…"
       oninput="_aUpdateSummary('${id}',this.value)"
-      style="width:100%;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:7px;color:#e5e5e5;padding:8px 10px;font-size:12px;line-height:1.6;resize:vertical;margin-bottom:14px;font-family:inherit"
+      style="width:100%;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:7px;color:#000000;padding:8px 10px;font-size:12px;line-height:1.6;resize:vertical;margin-bottom:14px;font-family:inherit"
     >${(ex.overview||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
-    <div style="font-size:11px;color:#555;margin-bottom:10px">Edit quantities and prices below, then generate.</div>
+    <div style="font-size:11px;color:#666666;margin-bottom:10px">Edit quantities and prices below, then generate.</div>
     <table style="width:100%;border-collapse:collapse;margin-bottom:12px">
-      <thead><tr style="border-bottom:1px solid #1e1e1e">
-        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:left">Service</th>
-        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:center">Qty</th>
-        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:right">Unit Price</th>
-        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:right">Total</th>
+      <thead><tr style="border-bottom:1px solid #e5e5e5">
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#666666;text-align:left">Service</th>
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#666666;text-align:center">Qty</th>
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#666666;text-align:right">Unit Price</th>
+        <th style="padding:6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#666666;text-align:right">Total</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <div style="text-align:right;font-size:12px;color:#888;margin-bottom:4px">Subtotal: <span id="asub-${id}">${_fmtAED(sub)}</span></div>
-    <div style="text-align:right;font-size:12px;color:#888;margin-bottom:4px">VAT (5%): <span id="avat-${id}">${_fmtAED(vat)}</span></div>
-    <div style="text-align:right;font-size:14px;font-weight:700;color:#e5e5e5;margin-bottom:16px">Total: <span id="atot-${id}">${_fmtAED(tot)}</span></div>
+    <div style="text-align:right;font-size:12px;color:#888888;margin-bottom:4px">Subtotal: <span id="asub-${id}">${_fmtAED(sub)}</span></div>
+    <div style="text-align:right;font-size:12px;color:#888888;margin-bottom:4px">VAT (5%): <span id="avat-${id}">${_fmtAED(vat)}</span></div>
+    <div style="text-align:right;font-size:14px;font-weight:700;color:#000000;margin-bottom:16px">Total: <span id="atot-${id}">${_fmtAED(tot)}</span></div>
     <div style="display:flex;gap:8px;margin-bottom:16px">
-      <button onclick="_aAddLI('${id}')" style="flex:1;background:transparent;color:#4a9f6f;border:1px solid #1e4a2d;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Add Line Item</button>
-      <button onclick="_aSaveBrief('${id}')" id="aSaveBtn-${id}" style="flex:1;background:#1a1a1a;color:#e5e5e5;border:1px solid #2a2a2a;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">Save Changes</button>
+      <button onclick="_aAddLI('${id}')" style="flex:1;background:transparent;color:#4a9f6f;border:1px solid #bfe3cd;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Add Line Item</button>
+      <button onclick="_aSaveBrief('${id}')" id="aSaveBtn-${id}" style="flex:1;background:#e5e5e5;color:#000000;border:1px solid #e5e5e5;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">Save Changes</button>
     </div>
     <div id="aSaveMsg-${id}" style="display:none;font-size:11px;text-align:center;margin-bottom:10px"></div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-      <span style="font-size:11px;color:#555">Pass-through markup:</span>
+      <span style="font-size:11px;color:#666666">Pass-through markup:</span>
       <button id="aMarkupBtn-${id}" onclick="_aToggleMarkup('${id}')"
-        style="font-size:11px;font-weight:700;padding:4px 14px;border-radius:5px;cursor:pointer;border:1px solid #2a5a3a;background:#0d1f15;color:#4a9f6f">
+        style="font-size:11px;font-weight:700;padding:4px 14px;border-radius:5px;cursor:pointer;border:1px solid #bfe3cd;background:#e7f5ed;color:#4a9f6f">
         ${_abrief[id].markup}%
       </button>
-      <span style="font-size:10px;color:#444">(applied to third-party vendor costs)</span>
+      <span style="font-size:10px;color:#999999">(applied to third-party vendor costs)</span>
     </div>
-    <div id="agenOut-${id}" style="display:none;background:#0a1f12;border:1px solid #1e4a2d;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:#4a9f6f;line-height:1.8"></div>
+    <div id="agenOut-${id}" style="display:none;background:#f0faf4;border:1px solid #bfe3cd;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:#4a9f6f;line-height:1.8"></div>
     <button onclick="generateFromAdmin('${id}')" id="agenBtn-${id}"
       style="background:#4a9f6f;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%">
       Generate Quote + Invoice
@@ -860,7 +860,7 @@ async function _aSaveBrief(id) {
   btn.disabled = false; btn.textContent = 'Save Changes';
   msg.style.display = 'block';
   if (error) {
-    msg.style.color = '#e05555'; msg.textContent = 'Save failed: ' + error.message;
+    msg.style.color = '#c23c3c'; msg.textContent = 'Save failed: ' + error.message;
   } else {
     msg.style.color = '#4a9f6f'; msg.textContent = 'Saved ✓';
     setTimeout(() => { msg.style.display = 'none'; }, 3000);
@@ -932,7 +932,7 @@ async function generateFromAdmin(id) {
     const out = document.getElementById('agenOut-' + id);
     out.innerHTML = `Proposal: <a href="${AQ_APP_ADMIN}/proposal?slug=${pSlug}" target="_blank" style="color:#4a9f6f">${AQ_APP_ADMIN}/proposal?slug=${pSlug}</a><br>Invoice: <a href="${AQ_APP_ADMIN}/invoice?slug=${iSlug}" target="_blank" style="color:#4a9f6f">${AQ_APP_ADMIN}/invoice?slug=${iSlug}</a>`;
     out.style.display = 'block';
-    btn.textContent = 'Generated ✓'; btn.style.background = '#1e4a2d';
+    btn.textContent = 'Generated ✓'; btn.style.background = '#bfe3cd';
   } catch(e) {
     alert('Error: ' + (e.message||e));
     btn.disabled = false; btn.textContent = 'Generate Quote + Invoice';
@@ -955,9 +955,9 @@ async function loadCdProposals() {
     return `<div class="row"><div><div class="row-title">${p.data?.title||p.client_name}</div><div class="row-meta">${fmtDate(p.created_at)}</div></div>
     <div style="display:flex;gap:10px;align-items:center">${proposalStatusBadge(p)} ${proposalFollowUpFlag(p)}${p.data?.total_incl_vat?`<span class="row-amount">${fmt(p.data.total_incl_vat)}</span>`:''}
     <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
-    ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','cd')" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
-    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','cd')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Reopen</button>` : ''}
-    <button onclick="deleteRec('proposals','${p.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
+    ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','cd')" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
+    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','cd')" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Reopen</button>` : ''}
+    <button onclick="deleteRec('proposals','${p.id}',this)" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No proposals.</div>';
 }
 async function loadCdInvoices() {
@@ -967,10 +967,10 @@ async function loadCdInvoices() {
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'}</div><div class="row-meta">${fmtDate(i.created_at)}</div></div>
     <div style="display:flex;gap:10px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
-    <button onclick="openPayModal('${i.id}','cd')" style="background:transparent;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Payments</button>
-    <button onclick="openSupModal('${i.id}','cd')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Final invoice</button>
-    ${!i.paid_at?`<button onclick="markPaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
-    <button onclick="deleteRec('invoices','${i.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
+    <button onclick="openPayModal('${i.id}','cd')" style="background:transparent;color:#4a9f6f;border:1px solid #bfe3cd;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Payments</button>
+    <button onclick="openSupModal('${i.id}','cd')" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Final invoice</button>
+    ${!i.paid_at?`<button onclick="markPaid('${i.id}',this)" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
+    <button onclick="deleteRec('invoices','${i.id}',this)" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No invoices.</div>';
 }
 
@@ -1042,8 +1042,8 @@ async function loadProposalsPage() {
     return `<div class="row"><div><div class="row-title">${p.data?.title||p.client_name}</div><div class="row-meta">${p.client_name} · ${fmtDate(p.created_at)}${p.viewed_at?' · Viewed '+fmtDate(p.viewed_at):''}${p.accepted_at?' · Accepted '+fmtDate(p.accepted_at):''}${p.closed_at?' · Lost '+fmtDate(p.closed_at):''}</div></div>
     <div style="display:flex;gap:12px;align-items:center">${proposalStatusBadge(p)} ${proposalFollowUpFlag(p)}${p.data?.total_incl_vat?`<span class="row-amount">${fmt(p.data.total_incl_vat)}</span>`:''}
     <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
-    ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','all')" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
-    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','all')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Reopen</button>` : ''}</div></div>`;
+    ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','all')" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
+    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','all')" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Reopen</button>` : ''}</div></div>`;
   }).join('') : '<div class="empty">No proposals yet.</div>';
 }
 
@@ -1077,9 +1077,9 @@ async function loadInvoicesPage() {
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'} — ${i.client_name}</div><div class="row-meta">${fmtDate(i.created_at)}${i.paid_at?' · Paid '+fmtDate(i.paid_at):''}</div></div>
     <div style="display:flex;gap:12px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
-    <button onclick="openPayModal('${i.id}','all')" style="background:transparent;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Payments</button>
-    <button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>
-    ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}</div></div>`;
+    <button onclick="openPayModal('${i.id}','all')" style="background:transparent;color:#4a9f6f;border:1px solid #bfe3cd;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Payments</button>
+    <button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>
+    ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}</div></div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
 }
 
@@ -1124,10 +1124,10 @@ function renderSupLines() {
   const box = document.getElementById('supLines');
   box.innerHTML = supLines.map((l, idx) => `
     <div style="display:grid;grid-template-columns:1fr 60px 100px 28px;gap:8px;margin-bottom:8px;align-items:center">
-      <input value="${l.description.replace(/"/g,'&quot;')}" placeholder="e.g. Extra hour, models" oninput="updateSupLine(${idx},'description',this.value)" style="background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px">
-      <input type="number" min="1" value="${l.quantity}" oninput="updateSupLine(${idx},'quantity',this.value)" style="background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px">
-      <input type="number" min="0" step="0.01" value="${l.unit_price_aed}" placeholder="AED" oninput="updateSupLine(${idx},'unit_price_aed',this.value)" style="background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px">
-      <button onclick="removeSupLine(${idx})" style="background:transparent;color:#e05555;border:1px solid #2a1010;border-radius:6px;font-size:13px;cursor:pointer;padding:6px 0">×</button>
+      <input value="${l.description.replace(/"/g,'&quot;')}" placeholder="e.g. Extra hour, models" oninput="updateSupLine(${idx},'description',this.value)" style="background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px">
+      <input type="number" min="1" value="${l.quantity}" oninput="updateSupLine(${idx},'quantity',this.value)" style="background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px">
+      <input type="number" min="0" step="0.01" value="${l.unit_price_aed}" placeholder="AED" oninput="updateSupLine(${idx},'unit_price_aed',this.value)" style="background:#f5f5f5;border:1px solid #e5e5e5;color:#000000;border-radius:6px;padding:7px 9px;font-size:12.5px">
+      <button onclick="removeSupLine(${idx})" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;border-radius:6px;font-size:13px;cursor:pointer;padding:6px 0">×</button>
     </div>`).join('');
 
   const finalLines = _supComputedLines();
@@ -1348,16 +1348,16 @@ function renderPayLists() {
     <div class="row"><div><div class="row-title">${p.currency === 'USD' ? '$' + fmtNum(p.amount) + ' USD (' + fmt(p.aed_equivalent) + ')' : fmt(p.amount)}</div>
     <div class="row-meta">${fmtDate(p.date)}${p.note ? ' · ' + p.note : ''}</div></div>
     <div style="display:flex;gap:8px">
-      <button onclick="editPayment('${p.id}')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
-      <button onclick="deletePayment('${p.id}')" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+      <button onclick="editPayment('${p.id}')" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
+      <button onclick="deletePayment('${p.id}')" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
     </div></div>`).join('') : '<div class="empty">No payments recorded yet.</div>';
 
   document.getElementById('payChargesList').innerHTML = charges.length ? charges.map(c => `
     <div class="row"><div><div class="row-title">${c.description}</div><div class="row-meta">${fmtDate(c.date)}</div></div>
     <div style="display:flex;gap:8px;align-items:center">
       <span class="row-amount">${fmt(c.amount_aed)}</span>
-      <button onclick="editCharge('${c.id}')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
-      <button onclick="deleteCharge('${c.id}')" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+      <button onclick="editCharge('${c.id}')" style="background:transparent;color:#777777;border:1px solid #e5e5e5;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
+      <button onclick="deleteCharge('${c.id}')" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
     </div></div>`).join('') : '<div class="empty">No additional charges yet.</div>';
 
   const invTotal = Number(payInvoice.data?.total_aed || 0);
@@ -1394,8 +1394,8 @@ async function loadExpensesPage() {
     <div style="display:flex;gap:12px;align-items:center">
     ${e.receipt_image_base64 ? `<a href="#" onclick="viewReceipt('${e.id}');return false" style="font-size:11px;color:#4a9f6f;text-decoration:none">Receipt</a>` : ''}
     <span class="row-amount">${fmt(e.amount_aed)}</span>
-    ${e.needs_review ? `<button onclick="approveExpense('${e.id}')" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Approve</button>` : ''}
-    <button onclick="deleteExpense('${e.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`).join('') : '<div class="empty">No expenses logged yet.</div>';
+    ${e.needs_review ? `<button onclick="approveExpense('${e.id}')" style="background:#e7f5ed;color:#4a9f6f;border:1px solid #bfe3cd;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Approve</button>` : ''}
+    <button onclick="deleteExpense('${e.id}',this)" style="background:transparent;color:#c23c3c;border:1px solid #fbeaea;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`).join('') : '<div class="empty">No expenses logged yet.</div>';
   window._expensesCache = data || [];
 }
 function viewReceipt(id) {
@@ -1467,16 +1467,16 @@ function renderCalendar() {
   calShoots.forEach(s => { (shootsByDay[s.date] = shootsByDay[s.date] || []).push(s); });
 
   const dowLabels = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let html = `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#1e1e1e;border:1px solid #1e1e1e;border-radius:8px;overflow:hidden">`;
-  dowLabels.forEach(d => html += `<div style="background:#161616;padding:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;text-align:center">${d}</div>`);
-  for (let i = 0; i < firstDow; i++) html += `<div style="background:#0d0d0d;min-height:90px"></div>`;
+  let html = `<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden">`;
+  dowLabels.forEach(d => html += `<div style="background:#eeeeee;padding:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666666;text-align:center">${d}</div>`);
+  for (let i = 0; i < firstDow; i++) html += `<div style="background:#ffffff;min-height:90px"></div>`;
   for (let day = 1; day <= daysInMonth; day++) {
     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     const dayShoots = shootsByDay[dateStr] || [];
     const isToday = dateStr === todayStr;
-    html += `<div style="background:#111;min-height:90px;padding:6px;vertical-align:top">
-      <div style="font-size:11px;color:${isToday ? '#4a9f6f' : '#666'};font-weight:${isToday ? '700' : '400'};margin-bottom:4px">${day}</div>
-      ${dayShoots.map(s => `<div onclick="viewShoot('${s.id}')" style="background:#0d1f15;border:1px solid #1e4a2d;color:#4a9f6f;font-size:10px;padding:2px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>`).join('')}
+    html += `<div style="background:#ffffff;min-height:90px;padding:6px;vertical-align:top">
+      <div style="font-size:11px;color:${isToday ? '#4a9f6f' : '#666666'};font-weight:${isToday ? '700' : '400'};margin-bottom:4px">${day}</div>
+      ${dayShoots.map(s => `<div onclick="viewShoot('${s.id}')" style="background:#e7f5ed;border:1px solid #bfe3cd;color:#4a9f6f;font-size:10px;padding:2px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>`).join('')}
     </div>`;
   }
   document.getElementById('calGrid').innerHTML = html;
