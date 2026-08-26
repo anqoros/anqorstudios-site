@@ -288,6 +288,36 @@
   </div>
 </div>
 
+<!-- Supplemental / final invoice modal -->
+<div id="supModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:560px;margin:20px;max-height:88vh;overflow-y:auto">
+    <div style="font-size:15px;font-weight:700;margin-bottom:4px">Final Invoice</div>
+    <div id="supOrigLine" style="font-size:12px;color:#777;margin-bottom:20px"></div>
+
+    <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#ccc;margin-bottom:16px;cursor:pointer">
+      <input id="supCarryBalance" type="checkbox" checked onchange="renderSupLines()" style="accent-color:#4a9f6f">
+      Carry the remaining balance from the original invoice into this one
+    </label>
+
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:8px">Extra charges</div>
+    <div id="supLines"></div>
+    <button onclick="addSupLine()" style="background:transparent;color:#4a9f6f;border:1px dashed #2a5a3a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;margin-top:4px">+ Add line</button>
+
+    <div style="border-top:1px solid #2a2a2a;margin-top:20px;padding-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Subtotal</span><span id="supSubtotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>VAT (5%)</span><span id="supVat">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#e5e5e5"><span>Total due</span><span id="supTotal">AED 0</span></div>
+    </div>
+
+    <div id="supResult" style="display:none;margin-top:16px;padding:12px;background:#0d1f15;border:1px solid #1e4a2d;border-radius:8px;font-size:12.5px;word-break:break-all"></div>
+
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button id="supGenBtn" onclick="generateFinalInvoice()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Generate Final Invoice</button>
+      <button onclick="hideSupModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <style>
 .tab-btn { padding:8px 14px;font-size:13px;font-weight:600;color:#555;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px; }
 .tab-btn.active { color:#4a9f6f;border-bottom-color:#4a9f6f; }
@@ -752,6 +782,7 @@ async function loadCdInvoices() {
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'}</div><div class="row-meta">${fmtDate(i.created_at)}</div></div>
     <div style="display:flex;gap:10px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
+    <button onclick="openSupModal('${i.id}','cd')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Final invoice</button>
     ${!i.paid_at?`<button onclick="markPaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
     <button onclick="deleteRec('invoices','${i.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No invoices.</div>';
@@ -837,6 +868,7 @@ async function loadInvoicesPage() {
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'} — ${i.client_name}</div><div class="row-meta">${fmtDate(i.created_at)}${i.paid_at?' · Paid '+fmtDate(i.paid_at):''}</div></div>
     <div style="display:flex;gap:12px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
+    <button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>
     ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}</div></div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
 }
@@ -845,6 +877,125 @@ async function markInvoicePaid(id, btn) {
   btn.disabled = true;
   await sb.from('invoices').update({ paid_at: new Date().toISOString() }).eq('id', id);
   loadInvoicesPage();
+}
+
+// ── Final / supplemental invoice ────────────────────────────────────────────
+// Creates a brand-new invoice row (the data model has no "edit an existing
+// invoice" concept anywhere — every path only ever inserts) whose line items
+// are auto-composed from the original invoice's still-outstanding balance
+// plus whatever new charges came up. Reuses the original's client_id and
+// proposal_id so it still groups under the same client/engagement.
+let supOriginal = null;
+let supLines = [];
+let supFromPage = null; // 'cd' (client detail) or 'all' (global invoices list), so we know what to refresh after
+
+async function openSupModal(invoiceId, fromPage) {
+  supFromPage = fromPage;
+  const { data, error } = await sb.from('invoices').select('*').eq('id', invoiceId).single();
+  if (error || !data) { alert('Could not load that invoice: ' + (error?.message || 'not found')); return; }
+  supOriginal = data;
+  supLines = [{ description: '', quantity: 1, unit_price_aed: 0 }];
+  const bal = Number(data.data?.balance_aed || 0);
+  document.getElementById('supOrigLine').textContent =
+    `Based on ${data.data?.invoice_number || 'Invoice'} — ${data.client_name} · remaining balance ${fmt(bal)}`;
+  document.getElementById('supCarryBalance').checked = bal > 0;
+  document.getElementById('supResult').style.display = 'none';
+  document.getElementById('supGenBtn').disabled = false;
+  document.getElementById('supGenBtn').textContent = 'Generate Final Invoice';
+  renderSupLines();
+  document.getElementById('supModal').style.display = 'flex';
+}
+
+function hideSupModal() { document.getElementById('supModal').style.display = 'none'; }
+
+function _supComputedLines() {
+  const lines = [];
+  const bal = Number(supOriginal?.data?.balance_aed || 0);
+  if (document.getElementById('supCarryBalance').checked && bal > 0) {
+    lines.push({ description: `Balance carried over from ${supOriginal.data?.invoice_number || 'previous invoice'}`, quantity: 1, unit_price_aed: bal });
+  }
+  supLines.forEach(l => {
+    if (l.description.trim() && Number(l.unit_price_aed) > 0) lines.push(l);
+  });
+  return lines;
+}
+
+function renderSupLines() {
+  const box = document.getElementById('supLines');
+  box.innerHTML = supLines.map((l, idx) => `
+    <div style="display:grid;grid-template-columns:1fr 60px 100px 28px;gap:8px;margin-bottom:8px;align-items:center">
+      <input value="${l.description.replace(/"/g,'&quot;')}" placeholder="e.g. Extra hour, models" oninput="updateSupLine(${idx},'description',this.value)" style="background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px">
+      <input type="number" min="1" value="${l.quantity}" oninput="updateSupLine(${idx},'quantity',this.value)" style="background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px">
+      <input type="number" min="0" step="0.01" value="${l.unit_price_aed}" placeholder="AED" oninput="updateSupLine(${idx},'unit_price_aed',this.value)" style="background:#0a0a0a;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px">
+      <button onclick="removeSupLine(${idx})" style="background:transparent;color:#e05555;border:1px solid #2a1010;border-radius:6px;font-size:13px;cursor:pointer;padding:6px 0">×</button>
+    </div>`).join('');
+
+  const finalLines = _supComputedLines();
+  const subtotal = finalLines.reduce((s, l) => s + Number(l.quantity) * Number(l.unit_price_aed), 0);
+  const vat = subtotal * 0.05;
+  document.getElementById('supSubtotal').textContent = fmt(subtotal);
+  document.getElementById('supVat').textContent = fmt(vat);
+  document.getElementById('supTotal').textContent = fmt(subtotal + vat);
+}
+
+function addSupLine() { supLines.push({ description: '', quantity: 1, unit_price_aed: 0 }); renderSupLines(); }
+function removeSupLine(idx) { supLines.splice(idx, 1); renderSupLines(); }
+function updateSupLine(idx, field, value) {
+  supLines[idx][field] = (field === 'description') ? value : Number(value) || 0;
+  renderSupLines();
+}
+
+async function generateFinalInvoice() {
+  const finalLines = _supComputedLines();
+  if (!finalLines.length) { alert('Add at least one charge (or keep "carry the balance" checked) before generating.'); return; }
+
+  const btn = document.getElementById('supGenBtn');
+  btn.disabled = true; btn.textContent = 'Generating…';
+
+  const items = finalLines.map(l => ({
+    description: l.description, quantity: Number(l.quantity), unit_price_aed: Number(l.unit_price_aed),
+    total_aed: Math.round(Number(l.quantity) * Number(l.unit_price_aed) * 100) / 100,
+  }));
+  const subtotal_aed = items.reduce((s, i) => s + i.total_aed, 0);
+  const vat_aed = Math.round(subtotal_aed * 0.05 * 100) / 100;
+  const total_aed = subtotal_aed + vat_aed;
+
+  const clientName = supOriginal.client_name;
+  const today = new Date();
+  const due = new Date(today); due.setDate(due.getDate() + 14);
+  const pSlug = clientName.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/,'') + '-' + Date.now().toString(36);
+  const iSlug = 'inv-final-' + pSlug;
+  const invNo = 'ANQ-' + today.getFullYear() + '-' + String(Math.floor(Math.random()*900)+100);
+
+  const invoiceData = {
+    invoice_number: invNo, client_name: clientName, client_email: supOriginal.data?.client_email || null,
+    date: today.toISOString().split('T')[0], due_date: due.toISOString().split('T')[0],
+    items, subtotal_aed, vat_rate: 5, vat_aed, total_aed,
+    advance_aed: 0, balance_aed: total_aed, // final invoice: nothing paid up front, full amount due
+    payment_instructions: supOriginal.data?.payment_instructions || 'Bank transfer to Anqor Studios L.L.C-FZ. Account Number: 3003731440000001.',
+    third_party_note: supOriginal.data?.third_party_note || null,
+    supplemental_of: { slug: supOriginal.slug, invoice_number: supOriginal.data?.invoice_number || null },
+  };
+
+  const { error } = await sb.from('invoices').insert({
+    slug: iSlug, proposal_id: supOriginal.proposal_id || null, client_id: supOriginal.client_id || null,
+    client_name: clientName, data: invoiceData,
+  });
+
+  if (error) {
+    alert('Error creating final invoice: ' + error.message);
+    btn.disabled = false; btn.textContent = 'Generate Final Invoice';
+    return;
+  }
+
+  const link = `${AQ_APP}/invoice?slug=${iSlug}`;
+  const out = document.getElementById('supResult');
+  out.innerHTML = `Final invoice created: <a href="${link}" target="_blank" style="color:#4a9f6f">${link}</a>`;
+  out.style.display = 'block';
+  btn.textContent = 'Generated ✓';
+
+  if (supFromPage === 'cd') loadCdInvoices();
+  if (supFromPage === 'all') loadInvoicesPage();
 }
 
 // ── Briefs page ───────────────────────────────────────────────────────────────
