@@ -153,3 +153,40 @@ select
 from clients c
 left join projects p on p.client_id = c.id
 group by c.id, c.name, c.company, c.email;
+
+-- ─────────────────────────────────────────────────────────────
+-- 2026-08-26 — Proposal outcome tracking, expenses, shoot calendar
+-- (live schema has drifted from the sections above — clients/proposals/
+-- invoices no longer match exactly what's here. These statements are
+-- additive and don't depend on anything above.)
+-- ─────────────────────────────────────────────────────────────
+
+alter table proposals add column if not exists closed_at timestamptz;
+alter table proposals add column if not exists closed_reason text; -- 'price' | 'timing' | 'went_elsewhere' | 'went_quiet' | 'other'
+
+create table if not exists expenses (
+  id uuid primary key default gen_random_uuid(),
+  description text not null,
+  category text, -- 'software' | 'equipment' | 'insurance' | 'rent' | 'other'
+  amount_aed numeric(10,2) not null,
+  date date not null default current_date,
+  recurring boolean default false,
+  created_at timestamptz default now()
+);
+
+create table if not exists shoots (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  client_id uuid references clients(id) on delete set null,
+  client_name text,
+  date date not null,
+  location text,
+  notes text,
+  created_at timestamptz default now()
+);
+
+-- This project auto-enables RLS with no policies on new tables, which blocks
+-- the anon-key writes this admin panel relies on (same as clients/proposals/
+-- invoices, which were created before that default existed).
+alter table expenses disable row level security;
+alter table shoots disable row level security;
