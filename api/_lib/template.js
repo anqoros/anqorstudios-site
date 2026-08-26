@@ -383,7 +383,14 @@ function orgSchemaNodes() {
 }
 
 function headBlock({ title, metaDescription, canonicalUrl, schemaGraph, noindex = false }) {
-  const schema = JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph }, null, 2);
+  // Escape '<' so a literal "</script>" inside any field feeding this graph
+  // (FAQ text, article title/description — all Ranqr-controlled, published
+  // with no human review) can never close this tag early. JSON.stringify
+  // guarantees valid JSON syntax, not valid HTML syntax; the HTML parser
+  // reads "</script>" as the end of the tag regardless of JSON string
+  // context. < is a legal JSON escape for '<' and round-trips fine.
+  const schema = JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph }, null, 2)
+    .replace(/</g, '\\u003c');
   return `<!doctype html>
 <html lang="en">
 <head>

@@ -12,6 +12,7 @@ function stripEmDashes(text) {
   if (typeof text !== 'string') return text;
   let out = text.split(EM_DASH).join(', ');
   out = out.replace(/,\s*,/g, ',');
+  out = out.replace(/\s+,/g, ',');
   out = out.replace(/[ \t]{2,}/g, ' ');
   out = out.replace(/,\s*([.!?])/g, '$1');
   return out.trim();
