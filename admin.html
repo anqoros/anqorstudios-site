@@ -294,11 +294,6 @@
     <div style="font-size:15px;font-weight:700;margin-bottom:4px">Final Invoice</div>
     <div id="supOrigLine" style="font-size:12px;color:#777;margin-bottom:20px"></div>
 
-    <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#ccc;margin-bottom:16px;cursor:pointer">
-      <input id="supCarryBalance" type="checkbox" checked onchange="renderSupLines()" style="accent-color:#4a9f6f">
-      Carry the remaining balance from the original invoice into this one
-    </label>
-
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;margin-bottom:8px">Extra charges</div>
     <div id="supLines"></div>
     <button onclick="addSupLine()" style="background:transparent;color:#4a9f6f;border:1px dashed #2a5a3a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;margin-top:4px">+ Add line</button>
@@ -314,6 +309,65 @@
     <div style="display:flex;gap:10px;margin-top:20px">
       <button id="supGenBtn" onclick="generateFinalInvoice()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Generate Final Invoice</button>
       <button onclick="hideSupModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Payments & charges ledger -->
+<div id="payModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:28px;width:100%;max-width:620px;margin:20px;max-height:88vh;overflow-y:auto">
+    <div style="font-size:15px;font-weight:700;margin-bottom:4px">Payments &amp; Charges</div>
+    <div id="payOrigLine" style="font-size:12px;color:#777;margin-bottom:20px"></div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555">Money received</div>
+      <button onclick="showPayForm('payment')" style="background:transparent;color:#4a9f6f;border:1px dashed #2a5a3a;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer">+ Add payment</button>
+    </div>
+    <div id="payPaymentsList" style="margin-bottom:20px"></div>
+
+    <div id="payPaymentForm" style="display:none;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:8px;padding:14px;margin-bottom:20px">
+      <div style="display:grid;grid-template-columns:1fr 90px 1fr;gap:8px;margin-bottom:8px">
+        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Amount</label><input id="payAmount" type="number" min="0" step="0.01" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Currency</label><select id="payCurrency" onchange="onPayCurrencyChange()" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 5px;font-size:12.5px"><option value="AED">AED</option><option value="USD">USD</option></select></div>
+        <div id="payAedEquivWrap" style="display:none"><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">AED equivalent</label><input id="payAedEquiv" type="number" min="0" step="0.01" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Date</label><input id="payDate" type="date" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Note (optional)</label><input id="payNote" type="text" placeholder="e.g. Bank transfer, advance" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button onclick="savePayment()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Save</button>
+        <button onclick="hidePayForm('payment')" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555">Additional charges incurred</div>
+      <button onclick="showPayForm('charge')" style="background:transparent;color:#e0a555;border:1px dashed #5a4a2a;padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer">+ Add charge</button>
+    </div>
+    <div id="payChargesList" style="margin-bottom:20px"></div>
+
+    <div id="payChargeForm" style="display:none;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:8px;padding:14px;margin-bottom:20px">
+      <div style="display:grid;grid-template-columns:1fr 110px;gap:8px;margin-bottom:8px">
+        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Description</label><input id="chargeDesc" type="text" placeholder="e.g. Extra hour, models" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+        <div><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Amount (AED)</label><input id="chargeAmount" type="number" min="0" step="0.01" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+      </div>
+      <div style="margin-bottom:10px"><label style="font-size:10px;color:#555;display:block;margin-bottom:4px">Date</label><input id="chargeDate" type="date" style="width:100%;background:#111;border:1px solid #2a2a2a;color:#e5e5e5;border-radius:6px;padding:7px 9px;font-size:12.5px"></div>
+      <div style="display:flex;gap:8px">
+        <button onclick="saveCharge()" style="background:#1a3a27;color:#4a9f6f;border:1px solid #2a5a3a;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Save</button>
+        <button onclick="hidePayForm('charge')" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid #2a2a2a;padding-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Invoice total</span><span id="payInvTotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Received (AED equivalent)</span><span id="payReceivedTotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:#999;margin-bottom:6px"><span>Additional charges</span><span id="payChargesTotal">AED 0</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#e5e5e5;border-top:1px solid #2a2a2a;padding-top:8px;margin-top:4px"><span>Net balance owed</span><span id="payNetBalance">AED 0</span></div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button onclick="hidePayModal()" style="background:transparent;color:#888;border:1px solid #2a2a2a;padding:9px 16px;border-radius:8px;font-size:13px;cursor:pointer">Close</button>
     </div>
   </div>
 </div>
@@ -782,6 +836,7 @@ async function loadCdInvoices() {
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'}</div><div class="row-meta">${fmtDate(i.created_at)}</div></div>
     <div style="display:flex;gap:10px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View</a>
+    <button onclick="openPayModal('${i.id}','cd')" style="background:transparent;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Payments</button>
     <button onclick="openSupModal('${i.id}','cd')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Final invoice</button>
     ${!i.paid_at?`<button onclick="markPaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
     <button onclick="deleteRec('invoices','${i.id}',this)" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
@@ -868,6 +923,7 @@ async function loadInvoicesPage() {
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'} — ${i.client_name}</div><div class="row-meta">${fmtDate(i.created_at)}${i.paid_at?' · Paid '+fmtDate(i.paid_at):''}</div></div>
     <div style="display:flex;gap:12px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:#4a9f6f;text-decoration:none">View →</a>
+    <button onclick="openPayModal('${i.id}','all')" style="background:transparent;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Payments</button>
     <button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>
     ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:#0d1f15;color:#4a9f6f;border:1px solid #1e4a2d;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}</div></div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
@@ -895,10 +951,8 @@ async function openSupModal(invoiceId, fromPage) {
   if (error || !data) { alert('Could not load that invoice: ' + (error?.message || 'not found')); return; }
   supOriginal = data;
   supLines = [{ description: '', quantity: 1, unit_price_aed: 0 }];
-  const bal = Number(data.data?.balance_aed || 0);
   document.getElementById('supOrigLine').textContent =
-    `Based on ${data.data?.invoice_number || 'Invoice'} — ${data.client_name} · remaining balance ${fmt(bal)}`;
-  document.getElementById('supCarryBalance').checked = bal > 0;
+    `Based on ${data.data?.invoice_number || 'Invoice'} — ${data.client_name}. Enter the new charges below; this does not assume anything about what has already been paid.`;
   document.getElementById('supResult').style.display = 'none';
   document.getElementById('supGenBtn').disabled = false;
   document.getElementById('supGenBtn').textContent = 'Generate Final Invoice';
@@ -909,15 +963,7 @@ async function openSupModal(invoiceId, fromPage) {
 function hideSupModal() { document.getElementById('supModal').style.display = 'none'; }
 
 function _supComputedLines() {
-  const lines = [];
-  const bal = Number(supOriginal?.data?.balance_aed || 0);
-  if (document.getElementById('supCarryBalance').checked && bal > 0) {
-    lines.push({ description: `Balance carried over from ${supOriginal.data?.invoice_number || 'previous invoice'}`, quantity: 1, unit_price_aed: bal });
-  }
-  supLines.forEach(l => {
-    if (l.description.trim() && Number(l.unit_price_aed) > 0) lines.push(l);
-  });
-  return lines;
+  return supLines.filter(l => l.description.trim() && Number(l.unit_price_aed) > 0);
 }
 
 function renderSupLines() {
@@ -947,7 +993,7 @@ function updateSupLine(idx, field, value) {
 
 async function generateFinalInvoice() {
   const finalLines = _supComputedLines();
-  if (!finalLines.length) { alert('Add at least one charge (or keep "carry the balance" checked) before generating.'); return; }
+  if (!finalLines.length) { alert('Add at least one charge before generating.'); return; }
 
   const btn = document.getElementById('supGenBtn');
   btn.disabled = true; btn.textContent = 'Generating…';
@@ -996,6 +1042,178 @@ async function generateFinalInvoice() {
 
   if (supFromPage === 'cd') loadCdInvoices();
   if (supFromPage === 'all') loadInvoicesPage();
+}
+
+// ── Payments & charges ledger ───────────────────────────────────────────────
+// Persisted directly in the invoice's own data.payments_received /
+// data.additional_charges arrays, no schema change needed. "Net balance owed"
+// is computed live from the invoice total minus AED-equivalent received plus
+// additional charges, rather than trusting the static advance_aed/balance_aed
+// captured when the invoice was first created, which don't reflect what has
+// actually been paid since then.
+let payInvoice = null;
+let payFromPage = null;
+let payEditingPaymentId = null;
+let payEditingChargeId = null;
+
+function fmtNum(n) { return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+async function openPayModal(invoiceId, fromPage) {
+  payFromPage = fromPage;
+  const { data, error } = await sb.from('invoices').select('*').eq('id', invoiceId).single();
+  if (error || !data) { alert('Could not load that invoice: ' + (error?.message || 'not found')); return; }
+  payInvoice = data;
+  document.getElementById('payOrigLine').textContent = `${data.data?.invoice_number || 'Invoice'} — ${data.client_name}`;
+  hidePayForm('payment'); hidePayForm('charge');
+  renderPayLists();
+  document.getElementById('payModal').style.display = 'flex';
+}
+
+function hidePayModal() { document.getElementById('payModal').style.display = 'none'; }
+
+function showPayForm(type) {
+  if (type === 'payment') {
+    payEditingPaymentId = null;
+    document.getElementById('payAmount').value = '';
+    document.getElementById('payCurrency').value = 'AED';
+    document.getElementById('payAedEquiv').value = '';
+    document.getElementById('payDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('payNote').value = '';
+    onPayCurrencyChange();
+    document.getElementById('payPaymentForm').style.display = 'block';
+  } else {
+    payEditingChargeId = null;
+    document.getElementById('chargeDesc').value = '';
+    document.getElementById('chargeAmount').value = '';
+    document.getElementById('chargeDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('payChargeForm').style.display = 'block';
+  }
+}
+function hidePayForm(type) {
+  document.getElementById(type === 'payment' ? 'payPaymentForm' : 'payChargeForm').style.display = 'none';
+}
+
+function onPayCurrencyChange() {
+  const isUsd = document.getElementById('payCurrency').value === 'USD';
+  document.getElementById('payAedEquivWrap').style.display = isUsd ? 'block' : 'none';
+  if (!isUsd) document.getElementById('payAedEquiv').value = document.getElementById('payAmount').value;
+}
+
+async function persistPayData(patch) {
+  const newData = { ...payInvoice.data, ...patch };
+  const { error } = await sb.from('invoices').update({ data: newData }).eq('id', payInvoice.id);
+  if (error) { alert('Could not save: ' + error.message); return false; }
+  payInvoice = { ...payInvoice, data: newData };
+  return true;
+}
+
+async function savePayment() {
+  const amount = Number(document.getElementById('payAmount').value);
+  const currency = document.getElementById('payCurrency').value;
+  const aed_equivalent = currency === 'AED' ? amount : Number(document.getElementById('payAedEquiv').value);
+  const date = document.getElementById('payDate').value;
+  const note = document.getElementById('payNote').value.trim();
+  if (!amount || amount <= 0) { alert('Enter an amount.'); return; }
+  if (currency === 'USD' && (!aed_equivalent || aed_equivalent <= 0)) { alert('Enter the AED equivalent for this USD payment.'); return; }
+  if (!date) { alert('Pick a date.'); return; }
+
+  const payments = [...(payInvoice.data?.payments_received || [])];
+  if (payEditingPaymentId) {
+    const idx = payments.findIndex(p => p.id === payEditingPaymentId);
+    if (idx >= 0) payments[idx] = { ...payments[idx], amount, currency, aed_equivalent, date, note };
+  } else {
+    payments.push({ id: 'pay-' + Date.now().toString(36), amount, currency, aed_equivalent, date, note });
+  }
+  if (!(await persistPayData({ payments_received: payments }))) return;
+  hidePayForm('payment');
+  renderPayLists();
+}
+
+async function saveCharge() {
+  const description = document.getElementById('chargeDesc').value.trim();
+  const amount_aed = Number(document.getElementById('chargeAmount').value);
+  const date = document.getElementById('chargeDate').value;
+  if (!description) { alert('Enter a description.'); return; }
+  if (!amount_aed || amount_aed <= 0) { alert('Enter an amount.'); return; }
+  if (!date) { alert('Pick a date.'); return; }
+
+  const charges = [...(payInvoice.data?.additional_charges || [])];
+  if (payEditingChargeId) {
+    const idx = charges.findIndex(c => c.id === payEditingChargeId);
+    if (idx >= 0) charges[idx] = { ...charges[idx], description, amount_aed, date };
+  } else {
+    charges.push({ id: 'chg-' + Date.now().toString(36), description, amount_aed, date });
+  }
+  if (!(await persistPayData({ additional_charges: charges }))) return;
+  hidePayForm('charge');
+  renderPayLists();
+}
+
+function editPayment(id) {
+  const p = (payInvoice.data?.payments_received || []).find(x => x.id === id);
+  if (!p) return;
+  payEditingPaymentId = id;
+  document.getElementById('payAmount').value = p.amount;
+  document.getElementById('payCurrency').value = p.currency;
+  document.getElementById('payAedEquiv').value = p.aed_equivalent;
+  document.getElementById('payDate').value = p.date;
+  document.getElementById('payNote').value = p.note || '';
+  onPayCurrencyChange();
+  document.getElementById('payPaymentForm').style.display = 'block';
+}
+
+async function deletePayment(id) {
+  if (!confirm('Delete this payment record?')) return;
+  const payments = (payInvoice.data?.payments_received || []).filter(p => p.id !== id);
+  if (!(await persistPayData({ payments_received: payments }))) return;
+  renderPayLists();
+}
+
+function editCharge(id) {
+  const c = (payInvoice.data?.additional_charges || []).find(x => x.id === id);
+  if (!c) return;
+  payEditingChargeId = id;
+  document.getElementById('chargeDesc').value = c.description;
+  document.getElementById('chargeAmount').value = c.amount_aed;
+  document.getElementById('chargeDate').value = c.date;
+  document.getElementById('payChargeForm').style.display = 'block';
+}
+
+async function deleteCharge(id) {
+  if (!confirm('Delete this charge?')) return;
+  const charges = (payInvoice.data?.additional_charges || []).filter(c => c.id !== id);
+  if (!(await persistPayData({ additional_charges: charges }))) return;
+  renderPayLists();
+}
+
+function renderPayLists() {
+  const payments = payInvoice.data?.payments_received || [];
+  const charges = payInvoice.data?.additional_charges || [];
+
+  document.getElementById('payPaymentsList').innerHTML = payments.length ? payments.map(p => `
+    <div class="row"><div><div class="row-title">${p.currency === 'USD' ? '$' + fmtNum(p.amount) + ' USD (' + fmt(p.aed_equivalent) + ')' : fmt(p.amount)}</div>
+    <div class="row-meta">${fmtDate(p.date)}${p.note ? ' · ' + p.note : ''}</div></div>
+    <div style="display:flex;gap:8px">
+      <button onclick="editPayment('${p.id}')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
+      <button onclick="deletePayment('${p.id}')" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+    </div></div>`).join('') : '<div class="empty">No payments recorded yet.</div>';
+
+  document.getElementById('payChargesList').innerHTML = charges.length ? charges.map(c => `
+    <div class="row"><div><div class="row-title">${c.description}</div><div class="row-meta">${fmtDate(c.date)}</div></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="row-amount">${fmt(c.amount_aed)}</span>
+      <button onclick="editCharge('${c.id}')" style="background:transparent;color:#999;border:1px solid #2a2a2a;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Edit</button>
+      <button onclick="deleteCharge('${c.id}')" style="background:transparent;color:#e05555;border:1px solid #2a1010;padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button>
+    </div></div>`).join('') : '<div class="empty">No additional charges yet.</div>';
+
+  const invTotal = Number(payInvoice.data?.total_aed || 0);
+  const receivedTotal = payments.reduce((s, p) => s + Number(p.aed_equivalent || 0), 0);
+  const chargesTotal = charges.reduce((s, c) => s + Number(c.amount_aed || 0), 0);
+  const net = invTotal - receivedTotal + chargesTotal;
+  document.getElementById('payInvTotal').textContent = fmt(invTotal);
+  document.getElementById('payReceivedTotal').textContent = fmt(receivedTotal);
+  document.getElementById('payChargesTotal').textContent = fmt(chargesTotal);
+  document.getElementById('payNetBalance').textContent = fmt(net);
 }
 
 // ── Briefs page ───────────────────────────────────────────────────────────────
