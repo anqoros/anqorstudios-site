@@ -156,7 +156,7 @@
   </div>
 
   <div class="logo" id="pageLogo">Anqor Studios</div>
-  <h1>Brief Uploader</h1>
+  <h1 id="pageTitle">Brief Uploader</h1>
   <p class="subtitle">Upload or paste a client brief. AI extracts the project scope and pre-fills the quote generator.</p>
 
   <!-- Brief History -->
@@ -340,6 +340,7 @@ if (window.self !== window.top) {
   document.getElementById('dashboardSep').style.display = 'none';
   document.getElementById('pageLogo').style.display = 'none';
   document.getElementById('themeToggleBtn').style.display = 'none';
+  document.getElementById('pageTitle').style.display = 'none';
 }
 
 const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';

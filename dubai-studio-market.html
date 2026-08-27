@@ -140,7 +140,7 @@
   <div style="display:flex;justify-content:space-between;align-items:flex-start">
     <div>
       <div class="logo" id="pageLogo">Anqor Studios — Internal</div>
-      <h1>Dubai Studio Market Research</h1>
+      <h1 id="pageTitle">Dubai Studio Market Research</h1>
     </div>
     <div style="display:flex;gap:8px" id="pageChrome">
       <a href="admin.html" id="dashboardLink" style="font-size:12px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:20px">← Dashboard</a>
@@ -877,6 +877,7 @@ if (window.self !== window.top) {
   document.getElementById('pageLogo').style.display = 'none';
   document.getElementById('dashboardLink').style.display = 'none';
   document.getElementById('themeToggleBtn').style.display = 'none';
+  document.getElementById('pageTitle').style.display = 'none';
 }
 
 function filterStudios(type, btn) {

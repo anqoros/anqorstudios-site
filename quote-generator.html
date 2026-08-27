@@ -112,10 +112,6 @@
   .sum-row .val { color: var(--text); }
   .sum-row.big .val { color: var(--green); }
 
-  /* Config */
-  .config-toggle { font-size: 12px; color: var(--text-faint); cursor: pointer; text-decoration: underline; margin-bottom: 20px; display: inline-block; }
-  .config-panel { display: none; }
-  .config-panel.open { display: block; }
 
   /* Output */
   .output { background: var(--green-tint-bg); border: 1px solid var(--green-tint-border); border-radius: 12px; padding: 24px; display: none; margin-bottom: 40px; }
@@ -145,7 +141,6 @@
   .sum-row { font-size: 16px !important; }
   .sum-row.big { font-size: 21px !important; }
   .btn { font-size: 15px !important; }
-  .config-toggle { font-size: 14px !important; }
   .logo { font-size: 14px !important; }
   h1 { font-size: 32px !important; }
   .url-label { font-size: 13px !important; }
@@ -160,30 +155,14 @@
 })();
 </script>
 <div class="container">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px" id="pageChrome">
     <div style="display:flex;align-items:center;gap:12px;font-size:12px">
       <a href="admin.html" id="dashboardLink" style="color:var(--text-faint);text-decoration:none">← Dashboard</a>
     </div>
     <button onclick="toggleTheme()" id="themeToggleBtn" style="background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:4px 12px;border-radius:14px;font-size:11px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
   </div>
   <div class="logo" id="pageLogo">Anqor Studios</div>
-  <h1>Quote Generator</h1>
-
-  <span class="config-toggle" onclick="toggleConfig()">⚙ Supabase Config</span>
-  <div class="config-panel" id="configPanel">
-    <div class="card">
-      <div class="card-title green">Supabase Credentials</div>
-      <div class="grid2">
-        <div class="field full"><label>SUPABASE URL</label><input type="text" id="supabaseUrl" placeholder="https://xxxx.supabase.co" /></div>
-        <div class="field full"><label>ANON KEY</label><input type="text" id="supabaseKey" placeholder="eyJ..." /></div>
-        <div class="field full"><label>APP URL</label><input type="text" id="appUrl" placeholder="https://www.anqorstudios.com" /></div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-ghost" onclick="saveConfig()">Save</button>
-        <span id="configSaved" style="font-size:12px;color:var(--green);display:none">Saved</span>
-      </div>
-    </div>
-  </div>
+  <h1 id="pageTitle">Quote Generator</h1>
 
   <!-- Client -->
   <div class="card">
@@ -424,9 +403,9 @@ applyThemeUI();
 // copies are just redundant duplicate chrome that makes it look like a
 // disconnected page instead of part of the app.
 if (window.self !== window.top) {
-  document.getElementById('dashboardLink').style.display = 'none';
+  document.getElementById('pageChrome').style.display = 'none';
   document.getElementById('pageLogo').style.display = 'none';
-  document.getElementById('themeToggleBtn').style.display = 'none';
+  document.getElementById('pageTitle').style.display = 'none';
 }
 
 const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
@@ -437,22 +416,6 @@ const AQ_APP = 'https://www.anqorstudios.com';
 let ownItems = [];   // Anqor services
 let ptItems  = [];   // Third-party pass-throughs
 let uid = 0;
-
-// ── Config ───────────────────────────────────────────────────────────────────
-function loadConfig() {
-  document.getElementById('supabaseUrl').value = localStorage.getItem('aq_url') || AQ_URL;
-  document.getElementById('supabaseKey').value = localStorage.getItem('aq_key') || AQ_KEY;
-  document.getElementById('appUrl').value = localStorage.getItem('aq_app') || 'https://www.anqorstudios.com';
-}
-function saveConfig() {
-  localStorage.setItem('aq_url', document.getElementById('supabaseUrl').value.trim());
-  localStorage.setItem('aq_key', document.getElementById('supabaseKey').value.trim());
-  localStorage.setItem('aq_app', document.getElementById('appUrl').value.trim());
-  const el = document.getElementById('configSaved');
-  el.style.display = 'inline';
-  setTimeout(() => el.style.display = 'none', 2000);
-}
-function toggleConfig() { document.getElementById('configPanel').classList.toggle('open'); }
 
 // ── Own Items ────────────────────────────────────────────────────────────────
 // halfPrice / fullPrice / halfDesc / fullDesc are optional — set when a preset has both rates
@@ -594,9 +557,9 @@ function renderSummary() {
 
 // ── Generate ─────────────────────────────────────────────────────────────────
 async function generate() {
-  const url = localStorage.getItem('aq_url') || AQ_URL;
-  const key = localStorage.getItem('aq_key') || AQ_KEY;
-  const appUrl = (localStorage.getItem('aq_app') || AQ_APP).replace(/\/$/,'');
+  const url = AQ_URL;
+  const key = AQ_KEY;
+  const appUrl = AQ_APP.replace(/\/$/,'');
   if (!url || !key) { showError('Add Supabase credentials first.'); return; }
   const clientName = document.getElementById('clientName').value.trim();
   if (!clientName) { showError('Client name is required.'); return; }
@@ -697,13 +660,10 @@ function showError(m) { const e=document.getElementById('errorMsg'); e.textConte
 function clearError() { document.getElementById('errorMsg').style.display='none'; }
 function copyEl(id) { navigator.clipboard.writeText(document.getElementById(id).textContent); }
 
-loadConfig();
 renderSummary();
 
 async function upsertClient(name, email) {
-  const url = localStorage.getItem('aq_url') || AQ_URL;
-  const key = localStorage.getItem('aq_key') || AQ_KEY;
-  const sb = supabase.createClient(url, key);
+  const sb = supabase.createClient(AQ_URL, AQ_KEY);
   if (email) {
     const { data } = await sb.from('clients').select('id').eq('email', email).maybeSingle();
     if (data) return data.id;

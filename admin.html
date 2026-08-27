@@ -124,6 +124,13 @@
   .data-table .cell-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
   .data-table .cell-actions { display: flex; gap: 8px; justify-content: flex-end; white-space: nowrap; }
 
+  /* Grid-based table (used where <table> column widths don't render reliably) */
+  .dt-grid-head, .dt-grid-row { display: grid; align-items: center; gap: 8px; }
+  .dt-grid-head { padding: 0 12px 10px; border-bottom: 1px solid var(--border); }
+  .dt-grid-head > div { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); white-space: nowrap; }
+  .dt-grid-row { padding: 12px; border-bottom: 1px solid var(--border-soft); font-size: 13px; }
+  .dt-grid-row:last-child { border-bottom: none; }
+
   /* Badge */
   .badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
   .badge-pending { background: var(--amber-tint-bg); color: var(--amber); border: 1px solid var(--amber-tint-border); }
@@ -290,9 +297,17 @@
       <button onclick="showNewClientModal()" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ New Client</button>
     </div></div>
     <div class="content">
-      <input id="clientSearch" placeholder="Search clients…" oninput="filterClients(this.value)"
-        style="width:100%;max-width:340px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 14px;font-size:13px;margin-bottom:20px;display:block">
-      <div class="card" id="clientsCard"><div class="loading">Loading…</div></div>
+      <div class="filter-bar">
+        <input id="clientSearch" placeholder="Search clients…" oninput="filterClients(this.value)"
+          style="width:100%;max-width:340px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 14px;font-size:13px">
+        <span class="filter-count" id="clientFilterCount"></span>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <div style="min-width:600px">
+          <div class="dt-grid-head" style="grid-template-columns:22% 30% 22% 16% 10%"><div>Name</div><div>Contact</div><div>Company</div><div>Added</div><div></div></div>
+          <div id="clientsCard"><div class="loading">Loading…</div></div>
+        </div>
+      </div>
 
       <!-- Client detail (shown inline) -->
       <div id="clientDetail" style="display:none">
@@ -321,7 +336,24 @@
   <!-- Proposals -->
   <div class="page" id="page-proposals">
     <div class="topbar"><div class="topbar-inner"><div><div class="page-title">Proposals</div><div class="page-sub">All proposals sent to clients</div></div></div></div>
-    <div class="content"><div class="card" id="proposalsCard"><div class="loading">Loading…</div></div></div>
+    <div class="content">
+      <div class="filter-bar">
+        <select id="propStatusFilter" onchange="renderProposalsTable()">
+          <option value="all">All statuses</option>
+          <option value="sent">Sent</option>
+          <option value="viewed">Viewed</option>
+          <option value="accepted">Accepted</option>
+          <option value="lost">Lost</option>
+        </select>
+        <span class="filter-count" id="propFilterCount"></span>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>Title</th><th>Client</th><th>Date</th><th>Status</th><th class="num">Amount</th><th></th></tr></thead>
+          <tbody id="proposalsCard"><tr><td colspan="6" class="loading">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- Invoices -->
@@ -807,10 +839,14 @@ async function loadClientsPage() {
 }
 
 function renderClients(clients) {
+  document.getElementById('clientFilterCount').textContent = `${clients.length} of ${allClients.length}`;
   document.getElementById('clientsCard').innerHTML = clients.length ? clients.map(c => `
-    <div class="row" style="cursor:pointer" onclick="openClientDetail('${c.id}')">
-      <div><div class="row-title">${c.name}</div><div class="row-meta">${[c.email,c.phone,c.company].filter(Boolean).join(' · ') || 'No contact info'} · Added ${fmtDate(c.created_at)}</div></div>
-      <div style="font-size:12px;color:var(--green)">View →</div>
+    <div class="dt-grid-row" style="grid-template-columns:22% 30% 22% 16% 10%;cursor:pointer" onclick="openClientDetail('${c.id}')">
+      <div class="cell-title">${c.name}</div>
+      <div>${[c.email,c.phone].filter(Boolean).join(' · ') || '—'}</div>
+      <div>${c.company || '—'}</div>
+      <div>${fmtDate(c.created_at)}</div>
+      <div class="cell-actions"><span style="font-size:12px;color:var(--green)">View →</span></div>
     </div>`).join('') : '<div class="empty">No clients yet.</div>';
 }
 
@@ -1231,16 +1267,38 @@ async function createClient() {
 }
 
 // ── Proposals page ────────────────────────────────────────────────────────────
+let allProposals = [];
 async function loadProposalsPage() {
   const { data } = await sb.from('proposals').select('*').order('created_at',{ascending:false});
-  document.getElementById('proposalsCard').innerHTML = data?.length ? data.map(p => {
-    return `<div class="row"><div><div class="row-title">${p.data?.title||p.client_name}</div><div class="row-meta">${p.client_name} · ${fmtDate(p.created_at)}${p.viewed_at?' · Viewed '+fmtDate(p.viewed_at):''}${p.accepted_at?' · Accepted '+fmtDate(p.accepted_at):''}${p.closed_at?' · Lost '+fmtDate(p.closed_at):''}</div></div>
-    <div style="display:flex;gap:12px;align-items:center">${proposalStatusBadge(p)} ${proposalFollowUpFlag(p)}${p.data?.total_incl_vat?`<span class="row-amount">${fmt(p.data.total_incl_vat)}</span>`:''}
-    <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:var(--green);text-decoration:none">View →</a>
-    ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','all')" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-bg);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
-    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Reopen</button>` : ''}
-    <button onclick="deleteRec('proposals','${p.id}',this).then(loadProposalsPage)" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
-  }).join('') : '<div class="empty">No proposals yet.</div>';
+  allProposals = data || [];
+  renderProposalsTable();
+}
+function proposalStatusKey(p) {
+  if (p.accepted_at) return 'accepted';
+  if (p.closed_at) return 'lost';
+  if (p.viewed_at) return 'viewed';
+  return 'sent';
+}
+function renderProposalsTable() {
+  const filter = document.getElementById('propStatusFilter').value;
+  const filtered = allProposals.filter(p => filter === 'all' || proposalStatusKey(p) === filter);
+  document.getElementById('propFilterCount').textContent = `${filtered.length} of ${allProposals.length}`;
+
+  document.getElementById('proposalsCard').innerHTML = filtered.length ? filtered.map(p => {
+    return `<tr>
+      <td><div class="cell-title">${p.data?.title||p.client_name}</div></td>
+      <td>${p.client_name}</td>
+      <td><div>${fmtDate(p.created_at)}</div>${p.viewed_at?`<div class="cell-meta">Viewed ${fmtDate(p.viewed_at)}</div>`:''}${p.accepted_at?`<div class="cell-meta">Accepted ${fmtDate(p.accepted_at)}</div>`:''}${p.closed_at?`<div class="cell-meta">Lost ${fmtDate(p.closed_at)}</div>`:''}</td>
+      <td>${proposalStatusBadge(p)} ${proposalFollowUpFlag(p)}</td>
+      <td class="num">${p.data?.total_incl_vat?fmt(p.data.total_incl_vat):'—'}</td>
+      <td><div class="cell-actions">
+        <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:var(--green);text-decoration:none">View →</a>
+        ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','all')" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-bg);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
+        ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Reopen</button>` : ''}
+        <button onclick="deleteRec('proposals','${p.id}',this).then(loadProposalsPage)" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button>
+      </div></td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="6" class="empty">No proposals match this filter.</td></tr>';
 }
 
 let closeProposalId = null;
