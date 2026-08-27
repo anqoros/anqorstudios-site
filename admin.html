@@ -634,6 +634,20 @@ function invoiceNetBalance(i) {
   const charges = (i.data?.additional_charges || []).reduce((s,c) => s + Number(c.amount_aed || 0), 0);
   return total - received + charges;
 }
+function invoiceReceived(i) {
+  return (i.data?.payments_received || []).reduce((s,p) => s + Number(p.aed_equivalent || 0), 0);
+}
+// A superseded invoice's remaining balance has been folded into whatever
+// Final Invoice replaced it -- it's not owed twice. The successor invoice
+// (not superseded) still counts its own balance in full.
+function invoiceCountedOutstanding(i) {
+  if (i.data?.superseded_by) return 0;
+  return Math.max(0, invoiceNetBalance(i));
+}
+function invoiceStatusBadge(i) {
+  if (i.data?.superseded_by) return `<span class="badge badge-viewed">Superseded by ${i.data.superseded_by.invoice_number || 'final invoice'}</span>`;
+  return i.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
+}
 
 // ── Page routing ──────────────────────────────────────────────────────────────
 function showPage(name, navEl) {
@@ -694,7 +708,7 @@ async function loadDashboard() {
     document.getElementById('statWinRateSub').textContent = `${wonProps.length} won · ${lostProps.length} lost`;
   }
 
-  const invoicesWithBalance = (invoices.data || []).map(i => ({ i, net: invoiceNetBalance(i) })).filter(x => x.net > 0.005);
+  const invoicesWithBalance = (invoices.data || []).map(i => ({ i, net: invoiceCountedOutstanding(i) })).filter(x => x.net > 0.005);
   const outstandingTotal = invoicesWithBalance.reduce((s,x) => s + x.net, 0);
   document.getElementById('statUnpaid').textContent = invoicesWithBalance.length;
   document.getElementById('statUnpaidAmt').textContent = outstandingTotal ? fmt(outstandingTotal) + ' across ' + invoicesWithBalance.length + ' invoice' + (invoicesWithBalance.length===1?'':'s') : 'nothing outstanding';
@@ -723,10 +737,9 @@ async function loadDashboard() {
   // Recent invoices
   const recentInvs = (invoices.data || []).sort((a,b) => new Date(b.created_at)-new Date(a.created_at)).slice(0,5);
   document.getElementById('dashInvoices').innerHTML = recentInvs.length ? recentInvs.map(i => {
-    const status = i.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
     return `<div class="row">
       <div><div class="row-title">${i.data?.invoice_number || 'Invoice'}</div><div class="row-meta">${i.client_name} · ${fmtDate(i.created_at)}</div></div>
-      <div class="row-right">${status}<div class="row-amount" style="margin-top:4px">${i.data?.total_aed ? fmt(i.data.total_aed) : ''}</div></div>
+      <div class="row-right">${invoiceStatusBadge(i)}<div class="row-amount" style="margin-top:4px">${i.data?.total_aed ? fmt(i.data.total_aed) : ''}</div></div>
     </div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
 }
@@ -766,8 +779,12 @@ async function openClientDetail(id) {
 async function loadCdLtv() {
   const { data } = await sb.from('invoices').select('data').eq('client_id', currentClient.id);
   const invs = data || [];
-  const totalInvoiced = invs.reduce((s,i) => s + Number(i.data?.total_aed || 0), 0);
-  const totalOutstanding = invs.reduce((s,i) => s + Math.max(0, invoiceNetBalance(i)), 0);
+  // A superseded invoice's own total isn't counted directly -- its unpaid
+  // remainder was folded into the invoice that replaced it, so counting
+  // both totals would double the client's real lifetime spend. What it DID
+  // collect before being superseded still counts.
+  const totalOutstanding = invs.reduce((s,i) => s + invoiceCountedOutstanding(i), 0);
+  const totalInvoiced = invs.reduce((s,i) => s + invoiceReceived(i), 0) + totalOutstanding;
   const totalPaid = totalInvoiced - totalOutstanding;
   document.getElementById('cdLtv').innerHTML = `
     <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:4px">Total Invoiced</div><div style="font-size:18px;font-weight:800">${fmt(totalInvoiced)}</div></div>
@@ -1087,13 +1104,13 @@ async function loadCdProposals() {
 async function loadCdInvoices() {
   const { data } = await sb.from('invoices').select('*').eq('client_id', currentClient.id).order('created_at',{ascending:false});
   document.getElementById('cdInvoices').innerHTML = data?.length ? data.map(i => {
-    const status = i.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
+    const superseded = !!i.data?.superseded_by;
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'}</div><div class="row-meta">${fmtDate(i.created_at)}</div></div>
-    <div style="display:flex;gap:10px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
+    <div style="display:flex;gap:10px;align-items:center">${invoiceStatusBadge(i)}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:var(--green);text-decoration:none">View</a>
-    <button onclick="openPayModal('${i.id}','cd')" style="background:transparent;color:var(--green);border:1px solid var(--green-tint-border);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Payments</button>
-    <button onclick="openSupModal('${i.id}','cd')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Final invoice</button>
-    ${!i.paid_at?`<button onclick="markPaid('${i.id}',this)" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
+    ${!superseded?`<button onclick="openPayModal('${i.id}','cd')" style="background:transparent;color:var(--green);border:1px solid var(--green-tint-border);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Payments</button>`:''}
+    ${!superseded?`<button onclick="openSupModal('${i.id}','cd')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Final invoice</button>`:''}
+    ${!i.paid_at && !superseded?`<button onclick="markPaid('${i.id}',this)" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
     <button onclick="deleteRec('invoices','${i.id}',this)" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-bg);padding:3px 9px;border-radius:5px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No invoices.</div>';
 }
@@ -1197,13 +1214,13 @@ async function reopenProposal(id, fromPage) {
 async function loadInvoicesPage() {
   const { data } = await sb.from('invoices').select('*').order('created_at',{ascending:false});
   document.getElementById('invoicesCard').innerHTML = data?.length ? data.map(i => {
-    const status = i.paid_at ? `<span class="badge badge-paid">Paid</span>` : `<span class="badge badge-pending">Unpaid</span>`;
+    const superseded = !!i.data?.superseded_by;
     return `<div class="row"><div><div class="row-title">${i.data?.invoice_number||'Invoice'} — ${i.client_name}</div><div class="row-meta">${fmtDate(i.created_at)}${i.paid_at?' · Paid '+fmtDate(i.paid_at):''}</div></div>
-    <div style="display:flex;gap:12px;align-items:center">${status}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
+    <div style="display:flex;gap:12px;align-items:center">${invoiceStatusBadge(i)}${i.data?.total_aed?`<span class="row-amount">${fmt(i.data.total_aed)}</span>`:''}
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:var(--green);text-decoration:none">View →</a>
-    <button onclick="openPayModal('${i.id}','all')" style="background:transparent;color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Payments</button>
-    <button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>
-    ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
+    ${!superseded?`<button onclick="openPayModal('${i.id}','all')" style="background:transparent;color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Payments</button>`:''}
+    ${!superseded?`<button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>`:''}
+    ${!i.paid_at && !superseded?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
     <button onclick="deleteRec('invoices','${i.id}',this).then(loadInvoicesPage)" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
 }
@@ -1312,6 +1329,15 @@ async function generateFinalInvoice() {
     btn.disabled = false; btn.textContent = 'Generate Final Invoice';
     return;
   }
+
+  // Mark the original as superseded so its remaining balance stops being
+  // counted as separately outstanding -- that debt now lives on the final
+  // invoice instead. Best-effort: the final invoice already exists even if
+  // this update fails, so we don't block on it, just surface the mismatch.
+  const { error: supError } = await sb.from('invoices')
+    .update({ data: { ...supOriginal.data, superseded_by: { slug: iSlug, invoice_number: invNo } } })
+    .eq('id', supOriginal.id);
+  if (supError) alert('Final invoice created, but could not mark the original as superseded: ' + supError.message);
 
   const link = `${AQ_APP}/invoice?slug=${iSlug}`;
   const out = document.getElementById('supResult');
