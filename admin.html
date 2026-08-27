@@ -1203,7 +1203,8 @@ async function loadInvoicesPage() {
     <a href="${AQ_APP}/invoice?slug=${i.slug}" target="_blank" style="font-size:12px;color:var(--green);text-decoration:none">View →</a>
     <button onclick="openPayModal('${i.id}','all')" style="background:transparent;color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Payments</button>
     <button onclick="openSupModal('${i.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Final invoice</button>
-    ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}</div></div>`;
+    ${!i.paid_at?`<button onclick="markInvoicePaid('${i.id}',this)" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark paid</button>`:''}
+    <button onclick="deleteRec('invoices','${i.id}',this).then(loadInvoicesPage)" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No invoices yet.</div>';
 }
 
