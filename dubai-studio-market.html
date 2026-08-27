@@ -139,12 +139,12 @@
 
   <div style="display:flex;justify-content:space-between;align-items:flex-start">
     <div>
-      <div class="logo">Anqor Studios — Internal</div>
+      <div class="logo" id="pageLogo">Anqor Studios — Internal</div>
       <h1>Dubai Studio Market Research</h1>
     </div>
-    <div style="display:flex;gap:8px">
-      <a href="admin.html" style="font-size:12px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:20px">← Dashboard</a>
-      <button onclick="toggleTheme()" style="padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:12px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
+    <div style="display:flex;gap:8px" id="pageChrome">
+      <a href="admin.html" id="dashboardLink" style="font-size:12px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:20px">← Dashboard</a>
+      <button onclick="toggleTheme()" id="themeToggleBtn" style="padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:12px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
     </div>
   </div>
   <p class="subtitle">Competitive rate intelligence across Dubai's top photography, video & podcast studios. Last updated June 2026.</p>
@@ -868,6 +868,16 @@ function toggleTheme() {
   applyThemeUI();
 }
 applyThemeUI();
+
+// Embedded inside admin.html's own iframe (Tools > Studio Market) -- admin's
+// sidebar already has its own logo, its own theme toggle, and a real
+// Dashboard link, so this page's copies are just redundant duplicate chrome
+// that makes it look like a disconnected page instead of part of the app.
+if (window.self !== window.top) {
+  document.getElementById('pageLogo').style.display = 'none';
+  document.getElementById('dashboardLink').style.display = 'none';
+  document.getElementById('themeToggleBtn').style.display = 'none';
+}
 
 function filterStudios(type, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));

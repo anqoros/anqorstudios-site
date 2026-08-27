@@ -164,9 +164,9 @@
     <div style="display:flex;align-items:center;gap:12px;font-size:12px">
       <a href="admin.html" id="dashboardLink" style="color:var(--text-faint);text-decoration:none">← Dashboard</a>
     </div>
-    <button onclick="toggleTheme()" style="background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:4px 12px;border-radius:14px;font-size:11px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
+    <button onclick="toggleTheme()" id="themeToggleBtn" style="background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:4px 12px;border-radius:14px;font-size:11px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
   </div>
-  <div class="logo">Anqor Studios</div>
+  <div class="logo" id="pageLogo">Anqor Studios</div>
   <h1>Quote Generator</h1>
 
   <span class="config-toggle" onclick="toggleConfig()">⚙ Supabase Config</span>
@@ -419,8 +419,14 @@ function toggleTheme() {
 }
 applyThemeUI();
 
+// Embedded inside admin.html's own iframe -- admin's sidebar already has its
+// own logo, its own theme toggle, and a real Dashboard link, so this page's
+// copies are just redundant duplicate chrome that makes it look like a
+// disconnected page instead of part of the app.
 if (window.self !== window.top) {
   document.getElementById('dashboardLink').style.display = 'none';
+  document.getElementById('pageLogo').style.display = 'none';
+  document.getElementById('themeToggleBtn').style.display = 'none';
 }
 
 const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';

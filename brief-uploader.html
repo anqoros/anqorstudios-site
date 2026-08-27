@@ -152,10 +152,10 @@
     <span class="nav-sep" id="dashboardSep">/</span>
     <a href="quote-generator.html">Quote Generator</a>
     <span style="margin-left:auto"></span>
-    <button onclick="toggleTheme()" style="background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:4px 12px;border-radius:14px;font-size:11px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
+    <button onclick="toggleTheme()" id="themeToggleBtn" style="background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:4px 12px;border-radius:14px;font-size:11px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
   </div>
 
-  <div class="logo">Anqor Studios</div>
+  <div class="logo" id="pageLogo">Anqor Studios</div>
   <h1>Brief Uploader</h1>
   <p class="subtitle">Upload or paste a client brief. AI extracts the project scope and pre-fills the quote generator.</p>
 
@@ -332,11 +332,14 @@ function toggleTheme() {
 applyThemeUI();
 
 // Embedded inside admin.html's own iframe (Tools > Brief Uploader) -- admin's
-// sidebar already provides navigation, so a "Dashboard" link here would just
-// load admin.html a second time nested inside the small iframe box.
+// sidebar already has its own logo, its own theme toggle, and a real
+// Dashboard link, so this page's copies are just redundant duplicate chrome
+// that makes it look like a disconnected page instead of part of the app.
 if (window.self !== window.top) {
   document.getElementById('dashboardLink').style.display = 'none';
   document.getElementById('dashboardSep').style.display = 'none';
+  document.getElementById('pageLogo').style.display = 'none';
+  document.getElementById('themeToggleBtn').style.display = 'none';
 }
 
 const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
