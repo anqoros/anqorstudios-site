@@ -66,7 +66,7 @@
 
   /* Sidebar */
   .sidebar { width: 220px; min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; }
-  .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { height: 76px; box-sizing: border-box; padding: 0 20px; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid var(--border); }
   .sidebar-logo .wordmark { font-size: 13px; font-weight: 800; color: var(--green); letter-spacing: 0.05em; }
   .sidebar-logo .tagline { font-size: 10px; color: var(--text-faint); margin-top: 2px; }
   .sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
@@ -82,8 +82,9 @@
 
   /* Main */
   .main { margin-left: 220px; flex: 1; min-height: 100vh; }
-  .topbar { border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 10; }
-  .topbar-inner { max-width: 1280px; margin: 0 auto; padding: 20px 36px; display: flex; justify-content: space-between; align-items: center; }
+  .topbar { height: 76px; box-sizing: border-box; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 10; }
+  .topbar.no-border { border-bottom-color: transparent; }
+  .topbar-inner { height: 100%; padding: 0 36px; display: flex; justify-content: space-between; align-items: center; }
   .page-title { font-size: 18px; font-weight: 700; }
   .page-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
   .content { padding: 32px 36px; max-width: 1280px; margin: 0 auto; }
@@ -225,8 +226,8 @@
 
   <!-- Dashboard -->
   <div class="page active" id="page-dashboard">
-    <div class="topbar"><div class="topbar-inner">
-      <div><div class="page-title">Dashboard</div><div class="page-sub" id="dashDate"></div></div>
+    <div class="topbar no-border"><div class="topbar-inner">
+      <div><div class="page-title" id="dashGreeting">Welcome back</div><div class="page-sub" id="dashDate"></div></div>
     </div></div>
     <div class="content">
       <div class="stats-grid">
@@ -683,6 +684,9 @@ function showTool(url, title, navEl) {
 
 // ── Dashboard ─────────────────────────────────────────────────────────────────
 async function loadDashboard() {
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('dashGreeting').textContent = `${greeting}, Ubong`;
   document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
   const [clients, proposals, invoices, expenses] = await Promise.all([
