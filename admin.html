@@ -1184,7 +1184,8 @@ async function loadProposalsPage() {
     <div style="display:flex;gap:12px;align-items:center">${proposalStatusBadge(p)} ${proposalFollowUpFlag(p)}${p.data?.total_incl_vat?`<span class="row-amount">${fmt(p.data.total_incl_vat)}</span>`:''}
     <a href="${AQ_APP}/proposal?slug=${p.slug}" target="_blank" style="font-size:12px;color:var(--green);text-decoration:none">View →</a>
     ${!p.accepted_at && !p.closed_at ? `<button onclick="openCloseModal('${p.id}','all')" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-bg);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Mark lost</button>` : ''}
-    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Reopen</button>` : ''}</div></div>`;
+    ${p.closed_at ? `<button onclick="reopenProposal('${p.id}','all')" style="background:transparent;color:var(--text-faint);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Reopen</button>` : ''}
+    <button onclick="deleteRec('proposals','${p.id}',this).then(loadProposalsPage)" style="background:transparent;color:var(--red);border:1px solid var(--red-tint-border);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer">Delete</button></div></div>`;
   }).join('') : '<div class="empty">No proposals yet.</div>';
 }
 
