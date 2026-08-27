@@ -9,103 +9,150 @@
 <script src="service-catalog.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; min-height: 100vh; padding: 40px 20px; }
+
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f5f5f5;
+    --border: #e5e5e5;
+    --border-soft: #eeeeee;
+    --text: #000000;
+    --text-muted: #666666;
+    --text-faint: #aaaaaa;
+    --green: #4a9f6f;
+    --green-tint-bg: #e7f5ed;
+    --green-tint-border: #bfe3cd;
+    --amber: #a8711f;
+    --amber-tint-bg: #fdf3df;
+    --amber-tint-border: #f3dfae;
+    --red: #c23c3c;
+    --red-tint-bg: #fbeaea;
+    --red-tint-border: #f0c6c6;
+  }
+  [data-theme="dark"] {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-2: #1a1a1a;
+    --border: #2a2a2a;
+    --border-soft: #1e1e1e;
+    --text: #e5e5e5;
+    --text-muted: #999999;
+    --text-faint: #555555;
+    --green-tint-bg: #0d1f15;
+    --green-tint-border: #1e4a2d;
+    --amber: #c8882a;
+    --amber-tint-bg: #1a1000;
+    --amber-tint-border: #3a2010;
+    --red: #e05555;
+    --red-tint-bg: #1a0a0a;
+    --red-tint-border: #3a1010;
+  }
+
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 20px; }
   .container { max-width: 860px; margin: 0 auto; }
   .nav { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
-  .nav a { font-size: 12px; color: #444; text-decoration: none; }
-  .nav a:hover { color: #aaa; }
-  .nav-sep { color: #2a2a2a; }
-  .logo { font-size: 11px; letter-spacing: 0.15em; color: #4a9f6f; text-transform: uppercase; margin-bottom: 8px; }
-  h1 { font-size: 26px; font-weight: 600; color: #fff; margin-bottom: 6px; }
-  .subtitle { font-size: 13px; color: #555; margin-bottom: 32px; }
+  .nav a { font-size: 12px; color: var(--text-faint); text-decoration: none; }
+  .nav a:hover { color: var(--text-muted); }
+  .nav-sep { color: var(--border); }
+  .logo { font-size: 11px; letter-spacing: 0.15em; color: var(--green); text-transform: uppercase; margin-bottom: 8px; }
+  h1 { font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
 
-  .card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 28px; margin-bottom: 22px; }
-  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4a9f6f; margin-bottom: 18px; }
-  .card-title.amber { color: #c8882a; }
+  .card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; padding: 28px; margin-bottom: 22px; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 18px; }
+  .card-title.amber { color: var(--amber); }
 
   /* API config */
-  .config-toggle { font-size: 12px; color: #333; cursor: pointer; text-decoration: underline; margin-bottom: 20px; display: inline-block; }
-  .config-toggle:hover { color: #555; }
+  .config-toggle { font-size: 12px; color: var(--text-faint); cursor: pointer; text-decoration: underline; margin-bottom: 20px; display: inline-block; }
+  .config-toggle:hover { color: var(--text-muted); }
   .config-panel { display: none; margin-bottom: 20px; }
   .config-panel.open { display: block; }
   .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-  label { font-size: 11px; color: #555; letter-spacing: 0.05em; text-transform: uppercase; }
+  label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
   input, select, textarea {
-    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px;
-    color: #e5e5e5; padding: 10px 14px; font-size: 13px; width: 100%; outline: none;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); padding: 10px 14px; font-size: 13px; width: 100%; outline: none;
     transition: border-color 0.15s;
   }
-  input:focus, select:focus, textarea:focus { border-color: #4a9f6f; }
+  input:focus, select:focus, textarea:focus { border-color: var(--green); }
   textarea { resize: vertical; min-height: 180px; font-family: inherit; line-height: 1.6; }
 
   /* Drop zone */
   .drop-zone {
-    border: 2px dashed #2a2a2a; border-radius: 10px; padding: 32px;
+    border: 2px dashed var(--border); border-radius: 10px; padding: 32px;
     text-align: center; cursor: pointer; transition: all 0.15s; margin-bottom: 18px;
   }
-  .drop-zone:hover, .drop-zone.dragover { border-color: #4a9f6f; background: #0d1f15; }
+  .drop-zone:hover, .drop-zone.dragover { border-color: var(--green); background: var(--green-tint-bg); }
   .drop-icon { font-size: 32px; margin-bottom: 10px; }
-  .drop-text { font-size: 13px; color: #666; }
-  .drop-sub { font-size: 11px; color: #333; margin-top: 4px; }
+  .drop-text { font-size: 13px; color: var(--text-muted); }
+  .drop-sub { font-size: 11px; color: var(--text-faint); margin-top: 4px; }
   .drop-zone input[type="file"] { display: none; }
 
   /* or divider */
   .or-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-  .or-divider span { font-size: 11px; color: #333; white-space: nowrap; }
-  .or-divider::before, .or-divider::after { content: ''; flex: 1; border-top: 1px solid #1e1e1e; }
+  .or-divider span { font-size: 11px; color: var(--text-faint); white-space: nowrap; }
+  .or-divider::before, .or-divider::after { content: ''; flex: 1; border-top: 1px solid var(--border-soft); }
 
   /* Buttons */
   .btn { padding: 11px 22px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
   .btn:hover { opacity: 0.85; }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-primary { background: #4a9f6f; color: #fff; }
-  .btn-ghost { background: #1e1e1e; color: #aaa; border: 1px solid #2a2a2a; }
-  .btn-amber { background: #c8882a; color: #fff; }
+  .btn-primary { background: var(--green); color: var(--text); }
+  .btn-ghost { background: var(--border-soft); color: var(--text-muted); border: 1px solid var(--border); }
+  .btn-amber { background: var(--amber); color: var(--text); }
   .btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
   /* Spinner */
-  .spinner { display: none; width: 18px; height: 18px; border: 2px solid #4a9f6f33; border-top-color: #4a9f6f; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  .spinner { display: none; width: 18px; height: 18px; border: 2px solid #4a9f6f33; border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .status-text { font-size: 12px; color: #555; }
+  .status-text { font-size: 12px; color: var(--text-muted); }
 
   /* Results */
   #resultSection { display: none; }
   .result-field { margin-bottom: 18px; }
-  .result-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-  .result-value { font-size: 14px; color: #e5e5e5; background: #111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 10px 14px; line-height: 1.5; }
-  .result-value.editable { background: #1a1a1a; border-color: #2a2a2a; cursor: text; }
-  .result-value.editable:focus { border-color: #4a9f6f; outline: none; }
+  .result-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .result-value { font-size: 14px; color: var(--text); background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 10px 14px; line-height: 1.5; }
+  .result-value.editable { background: var(--surface-2); border-color: var(--border); cursor: text; }
+  .result-value.editable:focus { border-color: var(--green); outline: none; }
 
   /* Line items review */
   .line-items-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
-  .line-items-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #444; padding: 8px 8px; text-align: left; border-bottom: 1px solid #1e1e1e; }
-  .line-items-table td { padding: 6px 6px; font-size: 13px; border-bottom: 1px solid #141414; vertical-align: middle; }
+  .line-items-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); padding: 8px 8px; text-align: left; border-bottom: 1px solid var(--border-soft); }
+  .line-items-table td { padding: 6px 6px; font-size: 13px; border-bottom: 1px solid var(--surface); vertical-align: middle; }
   .line-items-table tr:last-child td { border-bottom: none; }
   .line-items-table input { padding: 6px 8px; font-size: 12px; }
   .li-section { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-  .li-own { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
-  .li-pt { background: #1a0d00; color: #c8882a; border: 1px solid #3a2010; }
-  .li-total { font-weight: 700; color: #4a9f6f; text-align: right; }
-  .btn-del-li { background: transparent; color: #e05555; border: 1px solid #2a1010; font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; }
+  .li-own { background: var(--green-tint-bg); color: var(--green); border: 1px solid var(--green-tint-border); }
+  .li-pt { background: var(--amber-tint-bg); color: var(--amber); border: 1px solid var(--amber-tint-border); }
+  .li-total { font-weight: 700; color: var(--green); text-align: right; }
+  .btn-del-li { background: transparent; color: var(--red); border: 1px solid var(--red-tint-bg); font-size: 10px; padding: 4px 8px; border-radius: 5px; cursor: pointer; }
 
   /* Confidence badge */
   .confidence { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
-  .conf-high { background: #0d1f15; color: #4a9f6f; border: 1px solid #1e4a2d; }
-  .conf-med { background: #1a1000; color: #c8882a; border: 1px solid #3a2010; }
-  .conf-low { background: #1a0a0a; color: #e05555; border: 1px solid #3a1010; }
+  .conf-high { background: var(--green-tint-bg); color: var(--green); border: 1px solid var(--green-tint-border); }
+  .conf-med { background: var(--amber-tint-bg); color: var(--amber); border: 1px solid var(--amber-tint-border); }
+  .conf-low { background: var(--red-tint-bg); color: var(--red); border: 1px solid var(--red-tint-border); }
 
   /* Warning */
-  .warn-box { background: #1a1000; border: 1px solid #3a2010; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #c8882a; margin-bottom: 16px; line-height: 1.5; }
-  .error-box { background: #1a0a0a; border: 1px solid #3a1010; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #e05555; margin-bottom: 16px; }
+  .warn-box { background: var(--amber-tint-bg); border: 1px solid var(--amber-tint-border); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--amber); margin-bottom: 16px; line-height: 1.5; }
+  .error-box { background: var(--red-tint-bg); border: 1px solid var(--red-tint-border); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--red); margin-bottom: 16px; }
 </style>
 </head>
 <body>
+<script>
+(function() {
+  const saved = localStorage.getItem('aq_theme');
+  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+})();
+</script>
 <div class="container">
 
   <div class="nav">
-    <a href="admin.html">← Dashboard</a>
-    <span class="nav-sep">/</span>
+    <a href="admin.html" id="dashboardLink">← Dashboard</a>
+    <span class="nav-sep" id="dashboardSep">/</span>
     <a href="quote-generator.html">Quote Generator</a>
+    <span style="margin-left:auto"></span>
+    <button onclick="toggleTheme()" style="background:transparent;border:1px solid var(--border);color:var(--text-faint);padding:4px 12px;border-radius:14px;font-size:11px;cursor:pointer"><span id="themeLabel">Light mode</span></button>
   </div>
 
   <div class="logo">Anqor Studios</div>
@@ -142,10 +189,10 @@
       </div>
       <div class="btn-row">
         <button class="btn btn-ghost" onclick="saveConfig()">Save</button>
-        <span style="font-size:12px;color:#555">Stored locally in your browser. Never sent anywhere except the API endpoint above.</span>
+        <span style="font-size:12px;color:var(--text-muted)">Stored locally in your browser. Never sent anywhere except the API endpoint above.</span>
       </div>
-      <div style="font-size:11px;color:#333;margin-top:14px;line-height:1.5">
-        Default: DeepSeek (<code style="color:#555">api.deepseek.com</code>, model <code style="color:#555">deepseek-chat</code>).
+      <div style="font-size:11px;color:var(--text-faint);margin-top:14px;line-height:1.5">
+        Default: DeepSeek (<code style="color:var(--text-muted)">api.deepseek.com</code>, model <code style="color:var(--text-muted)">deepseek-chat</code>).
         Works with any OpenAI-compatible endpoint — OpenAI, Groq, Together, Ollama, etc.
       </div>
     </div>
@@ -187,15 +234,15 @@
       <!-- Conversation summary — shown only for transcripts -->
       <div class="result-field" id="summaryField" style="display:none">
         <div class="result-label">Conversation Summary</div>
-        <div class="result-value" id="rConversationSummary" style="min-height:60px;line-height:1.7;color:#aaa"></div>
+        <div class="result-value" id="rConversationSummary" style="min-height:60px;line-height:1.7;color:var(--text-muted)"></div>
       </div>
 
       <div class="result-field" style="position:relative">
         <div class="result-label">Client Name</div>
         <input type="text" id="rClientName" autocomplete="off" placeholder="Type to search or add new client…"
-          style="width:100%;font-size:14px;color:#e5e5e5;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:10px 14px;outline:none;box-sizing:border-box;"
+          style="width:100%;font-size:14px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;outline:none;box-sizing:border-box;"
           oninput="clientNameTyped(this.value)" onfocus="clientNameTyped(this.value)">
-        <div id="clientDropdown" style="display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#1e1e1e;border:1px solid #333;border-radius:8px;z-index:100;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
+        <div id="clientDropdown" style="display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--border-soft);border:1px solid var(--text-faint);border-radius:8px;z-index:100;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,0.5)"></div>
       </div>
       <div class="result-field">
         <div class="result-label">Client Email</div>
@@ -221,7 +268,7 @@
 
     <div class="card">
       <div class="card-title">Recommended Line Items</div>
-      <p style="font-size:12px;color:#555;margin-bottom:16px">Review and edit before sending to the quote generator. Click × to remove any line you don't need.</p>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Review and edit before sending to the quote generator. Click × to remove any line you don't need.</p>
 
       <table class="line-items-table" id="lineItemsTable">
         <thead>
@@ -239,15 +286,15 @@
 
       <button class="btn btn-ghost" onclick="addLineItem()" style="margin-bottom:18px">+ Add Line</button>
 
-      <div style="background:#111;border:1px solid #1e1e1e;border-radius:8px;padding:16px;margin-bottom:18px">
-        <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #1a1a1a">
-          <span style="color:#666">Anqor Services subtotal</span><span id="ownSubtotal" style="color:#4a9f6f;font-weight:600">AED 0</span>
+      <div style="background:var(--surface);border:1px solid var(--border-soft);border-radius:8px;padding:16px;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--surface-2)">
+          <span style="color:var(--text-muted)">Anqor Services subtotal</span><span id="ownSubtotal" style="color:var(--green);font-weight:600">AED 0</span>
         </div>
-        <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid #1a1a1a">
-          <span style="color:#666">Third-party subtotal (before markup)</span><span id="ptSubtotal" style="color:#c8882a;font-weight:600">AED 0</span>
+        <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--surface-2)">
+          <span style="color:var(--text-muted)">Third-party subtotal (before markup)</span><span id="ptSubtotal" style="color:var(--amber);font-weight:600">AED 0</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding:10px 0 0">
-          <span style="color:#888">Estimated Total (excl. VAT)</span><span id="grandTotal" style="color:#4a9f6f">AED 0</span>
+          <span style="color:var(--text-muted)">Estimated Total (excl. VAT)</span><span id="grandTotal" style="color:var(--green)">AED 0</span>
         </div>
       </div>
 
@@ -257,14 +304,14 @@
         <button class="btn btn-ghost" onclick="clearAll()">Start Over</button>
       </div>
       <div id="saveStatus" style="display:none;font-size:13px;font-weight:600;margin-top:10px"></div>
-      <div id="proposalSpinner" style="display:none;font-size:13px;color:#888;margin-top:12px">Saving quote…</div>
-      <div id="proposalOutput" style="display:none;margin-top:20px;background:#0d1f15;border:1px solid #1e4a2d;border-radius:10px;padding:20px">
-        <div style="font-size:13px;color:#4a9f6f;font-weight:600;margin-bottom:12px">Quote generated</div>
-        <div style="font-size:12px;color:#888;margin-bottom:6px">Quote link</div>
-        <div id="poProposalUrl" style="font-size:13px;color:#e5e5e5;background:#111;border-radius:6px;padding:8px 12px;margin-bottom:8px;word-break:break-all"></div>
-        <div style="font-size:12px;color:#888;margin-bottom:6px">Invoice link</div>
-        <div id="poInvoiceUrl" style="font-size:13px;color:#e5e5e5;background:#111;border-radius:6px;padding:8px 12px;margin-bottom:12px;word-break:break-all"></div>
-        <button class="btn btn-primary" onclick="downloadBriefPDF()" style="background:#1a3a27;border:1px solid #4a9f6f;font-size:13px">⬇ Download Quote PDF</button>
+      <div id="proposalSpinner" style="display:none;font-size:13px;color:var(--text-muted);margin-top:12px">Saving quote…</div>
+      <div id="proposalOutput" style="display:none;margin-top:20px;background:var(--green-tint-bg);border:1px solid var(--green-tint-border);border-radius:10px;padding:20px">
+        <div style="font-size:13px;color:var(--green);font-weight:600;margin-bottom:12px">Quote generated</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Quote link</div>
+        <div id="poProposalUrl" style="font-size:13px;color:var(--text);background:var(--surface);border-radius:6px;padding:8px 12px;margin-bottom:8px;word-break:break-all"></div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Invoice link</div>
+        <div id="poInvoiceUrl" style="font-size:13px;color:var(--text);background:var(--surface);border-radius:6px;padding:8px 12px;margin-bottom:12px;word-break:break-all"></div>
+        <button class="btn btn-primary" onclick="downloadBriefPDF()" style="background:var(--green-tint-bg);border:1px solid var(--green);font-size:13px">⬇ Download Quote PDF</button>
       </div>
     </div>
   </div>
@@ -272,6 +319,26 @@
 </div>
 
 <script>
+function applyThemeUI() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.getElementById('themeLabel').textContent = isDark ? 'Dark mode' : 'Light mode';
+}
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('aq_theme', 'light'); }
+  else { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('aq_theme', 'dark'); }
+  applyThemeUI();
+}
+applyThemeUI();
+
+// Embedded inside admin.html's own iframe (Tools > Brief Uploader) -- admin's
+// sidebar already provides navigation, so a "Dashboard" link here would just
+// load admin.html a second time nested inside the small iframe box.
+if (window.self !== window.top) {
+  document.getElementById('dashboardLink').style.display = 'none';
+  document.getElementById('dashboardSep').style.display = 'none';
+}
+
 const AQ_URL = 'https://hmsaysnufuenadohfhpl.supabase.co';
 const AQ_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2F5c251ZnVlbmFkb2hmaHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjM1MTUsImV4cCI6MjA5Mzc5OTUxNX0.OlEQgmohTXgnZ9nadizbhhBRO5FhiDTYy-AjGY-WL4w';
 const AQ_APP = 'https://www.anqorstudios.com';
