@@ -26,6 +26,7 @@ const { markdownToHtml } = require('./_lib/markdown');
 const { sanitizeArticle } = require('./_lib/sanitize');
 const { slugify, uniqueSlug, buildPostPage, buildIndexPage, readTimeFor } = require('./_lib/blog-builder');
 const { commitFiles, readFile } = require('./_lib/github');
+const { regenerateSitemap } = require('./_lib/sitemap');
 
 function checkAuth(req) {
   const header = req.headers.authorization || '';
@@ -119,14 +120,21 @@ module.exports = async (req, res) => {
         ? `https://anqorstudios.com/blog/${slug}`
         : `https://anqorstudios.com/blog/${slug}.html?preview=1`;
 
-    await commitFiles(
-      [
-        { path: `blog/${slug}.html`, content: postHtml },
-        { path: 'blog/index.html', content: indexHtml },
-        { path: 'blog/posts.json', content: JSON.stringify(updatedPosts, null, 2) },
-      ],
-      `Ranqr: publish "${newPost.title}" (${status})`
-    );
+    const files = [
+      { path: `blog/${slug}.html`, content: postHtml },
+      { path: 'blog/index.html', content: indexHtml },
+      { path: 'blog/posts.json', content: JSON.stringify(updatedPosts, null, 2) },
+    ];
+
+    // Keep sitemap.xml in sync in the same atomic commit -- it was a static
+    // file that silently stopped tracking new posts after 2026-08-21, which
+    // is why recent posts never got indexed despite being live and linked.
+    const currentSitemap = await readFile('sitemap.xml');
+    if (currentSitemap) {
+      files.push({ path: 'sitemap.xml', content: regenerateSitemap(currentSitemap, updatedPosts) });
+    }
+
+    await commitFiles(files, `Ranqr: publish "${newPost.title}" (${status})`);
 
     return res.status(201).json({
       published_url: publishedUrl,

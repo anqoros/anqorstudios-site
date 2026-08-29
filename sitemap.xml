@@ -170,9 +170,33 @@
   </url>
   <url>
     <loc>https://anqorstudios.com/blog</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+    <url>
+    <loc>https://anqorstudios.com/blog/sharjah-sme-guide-to-ai-business-automation-what-to-buy-what-to-build-and-what-t</loc>
+    <lastmod>2026-08-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://anqorstudios.com/blog/how-to-get-your-dubai-business-cited-by-chatgpt-perplexity-and-gemini</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://anqorstudios.com/blog/build-versus-subscribe-per-seat-pricing</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://anqorstudios.com/blog/cited-by-ai-assistants-not-just-ranked</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://anqorstudios.com/blog/uae-e-invoicing-mandate-what-changes</loc>
@@ -186,19 +210,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://anqorstudios.com/blog/cited-by-ai-assistants-not-just-ranked</loc>
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://anqorstudios.com/blog/build-versus-subscribe-per-seat-pricing</loc>
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
+<url>
     <loc>https://anqorstudios.com/about</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
