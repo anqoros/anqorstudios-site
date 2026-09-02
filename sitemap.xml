@@ -170,11 +170,17 @@
   </url>
   <url>
     <loc>https://anqorstudios.com/blog</loc>
-    <lastmod>2026-09-01</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-          <url>
+            <url>
+    <loc>https://anqorstudios.com/blog/we-moved-our-own-ai-search-score-from-42-to-75-these-are-the-exact-changes-we-ma</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://anqorstudios.com/blog/why-your-dubai-business-doesn-t-appear-when-someone-ask-chatgpt-for-a-recommenda</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
