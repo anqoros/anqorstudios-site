@@ -170,11 +170,17 @@
   </url>
   <url>
     <loc>https://anqorstudios.com/blog</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-                  <url>
+                    <url>
+    <loc>https://anqorstudios.com/blog/how-ai-handles-high-volume-inbound-enquiries-in-dubai-hospitality-without-extra</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://anqorstudios.com/blog/what-is-generative-engine-optimization-and-why-dubai-companies-should-care-now</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
