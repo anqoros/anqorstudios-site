@@ -332,6 +332,7 @@ const FOOTER_AND_SCRIPTS = `<footer><div class="foot-inner">
     });
   }
 </script>
+<style>@media (max-width: 480px) { #setta-teaser { display: none !important; } }</style>
 <script src="https://setta.anqorstudios.com/static/widget/setta-widget.js"
         data-workspace-id="1d1e6e2a-a8d2-463f-9f16-cf65ffe3aef2"
         data-api-url="https://setta.anqorstudios.com"
