@@ -170,11 +170,17 @@
   </url>
   <url>
     <loc>https://anqorstudios.com/blog</loc>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-                      <url>
+                        <url>
+    <loc>https://anqorstudios.com/blog/custom-ai-agents-vs-off-the-shelf-chatbots-a-practical-comparison-for-uae-smes</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://anqorstudios.com/blog/ai-search-vs-traditional-seo-what-dubai-operators-actually-need-to-optimise-for</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
