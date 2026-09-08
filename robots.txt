@@ -13,6 +13,11 @@ Disallow: /quote-generator.html
 Disallow: /clients.html
 Disallow: /brand/
 
+# Anqor Originals — quietly linked, not ready to be public yet
+Disallow: /off-plan.html
+Disallow: /off-ramp.html
+Disallow: /off-hours.html
+
 # ---------------------------------------------------------------------------
 # AI assistants and answer engines are explicitly welcome.
 # Named individually so there is no ambiguity, and so a CDN's managed bot
