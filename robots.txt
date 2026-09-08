@@ -12,6 +12,10 @@ Disallow: /command-center.html
 Disallow: /quote-generator.html
 Disallow: /clients.html
 Disallow: /brand/
+Disallow: /invoice.html
+Disallow: /proposal.html
+Disallow: /dubai-studio-market.html
+Disallow: /real-estate-toolkit.html
 
 # Anqor Originals — quietly linked, not ready to be public yet
 Disallow: /off-plan.html
