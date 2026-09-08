@@ -281,6 +281,7 @@ const FOOTER_AND_SCRIPTS = `<footer><div class="foot-inner">
       <a href="/locations/dubai">AI Automation Dubai</a>
       <a href="/locations/abu-dhabi">AI Automation Abu Dhabi</a>
       <a href="/locations/sharjah">AI Automation Sharjah</a>
+      <a href="/locations"><b>All locations &rarr;</b></a>
       <div class="lbl" style="margin-top:22px">Company</div>
       <a href="/about">About Us</a>
       <a href="/projects">Our Projects</a>
