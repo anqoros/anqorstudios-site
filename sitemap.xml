@@ -170,11 +170,17 @@
   </url>
   <url>
     <loc>https://anqorstudios.com/blog</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-09-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-                                    <url>
+                                      <url>
+    <loc>https://anqorstudios.com/blog/document-compliance-automation-in-the-uae-the-business-case-for-replacing-manual</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://anqorstudios.com/blog/ai-video-production-in-dubai-how-studios-are-cutting-costs-and-multiplying-outpu</loc>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
