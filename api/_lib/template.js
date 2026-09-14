@@ -286,7 +286,6 @@ const FOOTER_AND_SCRIPTS = `<footer><div class="foot-inner">
       <a href="/about">About Us</a>
       <a href="/projects">Our Projects</a>
       <a href="/blog">Blog</a>
-      <a href="/shows">Shows</a>
       <a href="/contact">Contact Us</a>
     </div>
   </div>
