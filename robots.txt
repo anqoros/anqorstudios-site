@@ -21,6 +21,7 @@ Disallow: /real-estate-toolkit.html
 Disallow: /off-plan.html
 Disallow: /off-ramp.html
 Disallow: /off-hours.html
+Disallow: /shows.html
 
 # ---------------------------------------------------------------------------
 # AI assistants and answer engines are explicitly welcome.
