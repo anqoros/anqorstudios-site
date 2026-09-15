@@ -913,7 +913,7 @@ async function upsertClient(name, email) {
   return created?.id || null;
 }
 
-function downloadPDF() {
+async function downloadPDF() {
   const clientName   = document.getElementById('clientName').value.trim() || 'Client';
   const clientEmail  = document.getElementById('clientEmail').value.trim();
   const projectTitle = document.getElementById('projectTitle').value.trim() || clientName + ' — Project Proposal';
@@ -921,20 +921,44 @@ function downloadPDF() {
   const timeline     = document.getElementById('timeline').value.trim();
   const notes        = document.getElementById('notes').value.trim();
   const mkup = markup();
-  const ownSub  = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
-  const ptSub   = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
-  const subtotal = ownSub + ptSub;
+  const ownSub    = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
+  const ptSub     = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
+  const rentalSub = rentalItems.reduce((s,i) => s + i.days * i.dayRate, 0);
+  const subtotal = ownSub + ptSub + rentalSub;
   const vat      = subtotal * 0.05;
   const total    = subtotal + vat;
   const advPct   = parseInt(document.getElementById('advancePct').value) || 50;
   const balPct   = 100 - advPct;
   const ownDueNow = ownSub * 1.05 * advPct / 100;
   const ptDueNow  = ptSub  * 1.05;
-  const dueOnSigning  = ownDueNow + ptDueNow;
+  const rentalDueNow = rentalSub * 1.05;
+  const dueOnSigning  = ownDueNow + ptDueNow + rentalDueNow;
   const dueOnDelivery = ownSub * 1.05 * balPct / 100;
   const today = new Date();
 
-  const logoUrl = window.location.origin + (window.location.pathname.replace(/\/[^/]*$/, '/')) + 'anqor_logo.png';
+  // Embed the logo as a data URL instead of an <img src="..."> network reference.
+  // The print window's own onload fires window.print() immediately, and a
+  // same-origin image request racing that print call is exactly the kind of
+  // timing gap that makes a logo silently vanish from the printed/PDF output
+  // (the onerror handler below hides it rather than showing a broken icon,
+  // so the failure is invisible). Falls back to the plain URL if the fetch
+  // itself fails for some reason.
+  const logoFallbackUrl = window.location.origin + (window.location.pathname.replace(/\/[^/]*$/, '/')) + 'anqor_logo.png';
+  let logoUrl = logoFallbackUrl;
+  try {
+    const logoBytes = await (await fetch(logoFallbackUrl)).arrayBuffer();
+    // anqor_logo.png is actually JPEG data saved with a .png extension, so
+    // it's served as Content-Type: image/png even though the bytes are a
+    // JPEG (starts with FF D8 FF). Force the correct type here rather than
+    // trusting the mismatched file metadata.
+    const logoBlob = new Blob([logoBytes], { type: 'image/jpeg' });
+    logoUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(logoBlob);
+    });
+  } catch (e) { /* keep logoFallbackUrl */ }
 
   const ownRows = ownItems.map(i => `
     <tr>
@@ -950,6 +974,14 @@ function downloadPDF() {
       <td class="num">${i.qty}</td>
       <td class="num">AED ${fmt(itemClientPrice(i))}</td>
       <td class="num">AED ${fmt(i.qty * clientPrice(i.vendorCost))}</td>
+    </tr>`).join('');
+
+  const rentalRows = rentalItems.map(i => `
+    <tr>
+      <td>${i.desc} <span style="color:#999;font-size:10px">(rental, per day)</span></td>
+      <td class="num">${i.days}</td>
+      <td class="num">AED ${fmt(i.dayRate)}</td>
+      <td class="num">AED ${fmt(i.days * i.dayRate)}</td>
     </tr>`).join('');
 
   const html = `<!DOCTYPE html>
@@ -1078,6 +1110,7 @@ function downloadPDF() {
     <tbody>
       ${ownRows}
       ${ptRows}
+      ${rentalRows}
     </tbody>
   </table>
 
@@ -1085,6 +1118,7 @@ function downloadPDF() {
   <div class="totals">
     <div class="tot-row sub"><span>Anqor Services</span><span>AED ${fmt(ownSub)}</span></div>
     ${ptSub > 0 ? `<div class="tot-row sub"><span>Third-Party Costs</span><span>AED ${fmt(ptSub)}</span></div>` : ''}
+    ${rentalSub > 0 ? `<div class="tot-row sub"><span>Equipment Rental</span><span>AED ${fmt(rentalSub)}</span></div>` : ''}
     <div class="tot-row vat"><span>Subtotal</span><span>AED ${fmt(subtotal)}</span></div>
     <div class="tot-row vat"><span>VAT (5%)</span><span>AED ${fmt(vat)}</span></div>
     <div class="tot-row total"><span>Total</span><span>AED ${fmt(total)}</span></div>
@@ -1104,6 +1138,10 @@ function downloadPDF() {
     ${ptSub > 0 ? `<div class="pay-row" style="font-size:9px;color:#888;padding-left:12px">
       <span>Third-party costs — 100% upfront (incl. VAT)</span>
       <span>AED ${fmt(ptDueNow)}</span>
+    </div>` : ''}
+    ${rentalSub > 0 ? `<div class="pay-row" style="font-size:9px;color:#888;padding-left:12px">
+      <span>Equipment rental — 100% upfront (incl. VAT)</span>
+      <span>AED ${fmt(rentalDueNow)}</span>
     </div>` : ''}
     <div class="pay-row highlight">
       <span class="pay-label">Balance on delivery (${balPct}% of Anqor fee incl. VAT)</span>
