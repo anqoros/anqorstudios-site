@@ -297,15 +297,17 @@
       <button onclick="showNewClientModal()" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">+ New Client</button>
     </div></div>
     <div class="content">
-      <div class="filter-bar">
-        <input id="clientSearch" placeholder="Search clients…" oninput="filterClients(this.value)"
-          style="width:100%;max-width:340px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 14px;font-size:13px">
-        <span class="filter-count" id="clientFilterCount"></span>
-      </div>
-      <div class="card" style="overflow-x:auto">
-        <div style="min-width:600px">
-          <div class="dt-grid-head" style="grid-template-columns:22% 30% 22% 16% 10%"><div>Name</div><div>Contact</div><div>Company</div><div>Added</div><div></div></div>
-          <div id="clientsCard"><div class="loading">Loading…</div></div>
+      <div id="clientsListView">
+        <div class="filter-bar">
+          <input id="clientSearch" placeholder="Search clients…" oninput="filterClients(this.value)"
+            style="width:100%;max-width:340px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 14px;font-size:13px">
+          <span class="filter-count" id="clientFilterCount"></span>
+        </div>
+        <div class="card" style="overflow-x:auto">
+          <div style="min-width:600px">
+            <div class="dt-grid-head" style="grid-template-columns:22% 30% 22% 16% 10%"><div>Name</div><div>Contact</div><div>Company</div><div>Added</div><div></div></div>
+            <div id="clientsCard"><div class="loading">Loading…</div></div>
+          </div>
         </div>
       </div>
 
@@ -324,7 +326,8 @@
           <div class="tab-btn active" onclick="switchClientTab('briefs',this)">Briefs</div>
           <div class="tab-btn" onclick="switchClientTab('proposals',this)">Proposals</div>
           <div class="tab-btn" onclick="switchClientTab('invoices',this)">Invoices</div>
-          <button onclick="uploadBriefForClient()" style="margin-left:auto;background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:5px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Upload Brief</button>
+          <button onclick="newQuoteForClient()" style="margin-left:auto;background:var(--surface-2);color:var(--text);border:1px solid var(--border);padding:5px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ New Quote</button>
+          <button onclick="uploadBriefForClient()" style="background:var(--green-tint-bg);color:var(--green);border:1px solid var(--green-tint-border);padding:5px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer">+ Upload Brief</button>
         </div>
         <div id="cdBriefs" class="card"></div>
         <div id="cdProposals" class="card" style="display:none"></div>
@@ -756,6 +759,15 @@ function uploadBriefForClient() {
   showTool('brief-uploader.html', 'Brief Uploader', null);
 }
 
+function newQuoteForClient() {
+  localStorage.setItem('aq_prefill', JSON.stringify({
+    clientId:    currentClient.id,
+    clientName:  currentClient.name,
+    clientEmail: currentClient.email || '',
+  }));
+  showTool('quote-generator.html', 'Quote Generator', null);
+}
+
 function showTool(url, title, navEl) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-tool').classList.add('active');
@@ -857,8 +869,7 @@ function filterClients(q) {
 async function openClientDetail(id) {
   currentClient = allClients.find(c => c.id === id);
   if (!currentClient) return;
-  document.getElementById('clientsCard').style.display = 'none';
-  document.getElementById('clientSearch').style.display = 'none';
+  document.getElementById('clientsListView').style.display = 'none';
   document.getElementById('clientDetail').style.display = 'block';
   document.getElementById('cdName').textContent = currentClient.name;
   document.getElementById('cdSub').textContent = [currentClient.email,currentClient.phone,currentClient.company].filter(Boolean).join(' · ') || 'No contact info';
@@ -886,9 +897,7 @@ async function loadCdLtv() {
 
 function closeClientDetail() {
   document.getElementById('clientDetail').style.display = 'none';
-  const card = document.getElementById('clientsCard');
-  card.style.display = 'block';
-  document.getElementById('clientSearch').style.display = 'block';
+  document.getElementById('clientsListView').style.display = 'block';
   currentClient = null;
 }
 

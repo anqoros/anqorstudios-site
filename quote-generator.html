@@ -167,8 +167,9 @@
   <!-- Client -->
   <div class="card">
     <div class="card-title green">Client Information</div>
+    <div class="field full" style="margin-bottom:16px"><label>EXISTING CLIENT</label><select id="clientSelect" onchange="onClientSelectChange(this.value)"><option value="">— Select an existing client, or type a new one below —</option></select></div>
     <div class="grid2">
-      <div class="field"><label>CLIENT NAME</label><input type="text" id="clientName" placeholder="e.g. The Auroria Collection" /></div>
+      <div class="field"><label>CLIENT NAME</label><input type="text" id="clientName" placeholder="e.g. The Auroria Collection" oninput="document.getElementById('clientSelect').value=''" /></div>
       <div class="field"><label>CLIENT EMAIL (optional)</label><input type="email" id="clientEmail" placeholder="client@email.com" /></div>
       <div class="field full"><label>PROJECT TITLE</label><input type="text" id="projectTitle" placeholder="e.g. Jewellery Campaign — Auroria Collection" /></div>
       <div class="field full"><label>PROJECT OVERVIEW</label><textarea id="projectOverview" placeholder="What Anqor Studios will deliver..."></textarea></div>
@@ -341,6 +342,191 @@
     </div>
   </div>
 
+  <!-- SECTION: Equipment Rental -->
+  <div class="card">
+    <div class="card-title" style="color:#2f8fd4">Equipment Rental</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Anqor's own gear, rented out directly. Rate shown is per day — set "Days" to the actual rental length. Damage or loss is billed at replacement cost (not calculated here).</p>
+
+    <div class="preset-label">CAMERA</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Sony FX3 Full-Frame Cinema Camera (Body Only)&quot;,350)">Sony FX3 Full-Frame Cinema Camera (Body Only) &middot; 350</button>
+      <button class="preset" onclick="addRental(&quot;Sony A7R V Full-frame Mirrorless Camera (Body Only)&quot;,350)">Sony A7R V Full-frame Mirrorless Camera (Bo… &middot; 350</button>
+      <button class="preset" onclick="addRental(&quot;Sony FX30 Digial Cinema Camera (Body Only)&quot;,300)">Sony FX30 Digial Cinema Camera (Body Only) &middot; 300</button>
+    </div>
+
+    <div class="preset-label">LENS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Sony FE 70-200mm F/2.8 GM II&quot;,240)">Sony FE 70-200mm F/2.8 GM II &middot; 240</button>
+      <button class="preset" onclick="addRental(&quot;Sony FE 16-35mm F/2.8 GM II&quot;,200)">Sony FE 16-35mm F/2.8 GM II &middot; 200</button>
+      <button class="preset" onclick="addRental(&quot;Sony FE 24-70mm F/2.8 GM II&quot;,200)">Sony FE 24-70mm F/2.8 GM II &middot; 200</button>
+      <button class="preset" onclick="addRental(&quot;Sony FE 50mm F/1.4 GM&quot;,150)">Sony FE 50mm F/1.4 GM &middot; 150</button>
+      <button class="preset" onclick="addRental(&quot;Sony FE 35mm F/1.4 GM&quot;,150)">Sony FE 35mm F/1.4 GM &middot; 150</button>
+      <button class="preset" onclick="addRental(&quot;Sony FE 24mm F/1.4 GM&quot;,150)">Sony FE 24mm F/1.4 GM &middot; 150</button>
+      <button class="preset" onclick="addRental(&quot;Sony FE 85mm F/1.4 GM&quot;,150)">Sony FE 85mm F/1.4 GM &middot; 150</button>
+      <button class="preset" onclick="addRental(&quot;Sony E 11mm F/1.8 APSC Prime Lens SEL11F189&quot;,70)">Sony E 11mm F/1.8 APSC Prime Lens SEL11F189 &middot; 70</button>
+      <button class="preset" onclick="addRental(&quot;Sigma E 30mm F/1.4&quot;,35)">Sigma E 30mm F/1.4 &middot; 35</button>
+      <button class="preset" onclick="addRental(&quot;Sigma E 56mm F/1.4&quot;,50)">Sigma E 56mm F/1.4 &middot; 50</button>
+    </div>
+
+    <div class="preset-label">VIDEO MONITORS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Atomos Sumo 19\&quot; SE HDR Monitor, Recorder, and Switcher&quot;,550)">Atomos Sumo 19&quot; SE HDR Monitor, Recorder, a… &middot; 550</button>
+      <button class="preset" onclick="addRental(&quot;Atomos Sumo Master Caddy II \u2013 500GB SSD&quot;,100)">Atomos Sumo Master Caddy II – 500GB SSD &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Atomos AtomX CAST Switcher Module for Ninja V/Ninja V+&quot;,100)">Atomos AtomX CAST Switcher Module for Ninja… &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Atomos ZATO CONNECT 5.2\&quot; Network-Connected Video Monitor/ Recorder&quot;,350)">Atomos ZATO CONNECT 5.2&quot; Network-Connected … &middot; 350</button>
+      <button class="preset" onclick="addRental(&quot;Atomos Ninja V 5\&quot; HDMI Recording Monitor + 500GB SSD&quot;,200)">Atomos Ninja V 5&quot; HDMI Recording Monitor + … &middot; 200</button>
+    </div>
+
+    <div class="preset-label">WIRELESS VIDEO MONITORING</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Hollyland Mars 4K Wireless Video Transmission Systems (2)&quot;,800)">Hollyland Mars 4K Wireless Video Transmissi… &middot; 800</button>
+      <button class="preset" onclick="addRental(&quot;Tilta Nucleus-Nano II Wirelesss Lens Control System&quot;,250)">Tilta Nucleus-Nano II Wirelesss Lens Contro… &middot; 250</button>
+    </div>
+
+    <div class="preset-label">LIGHTS &amp; STROBES</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Nanlite Forza 500B II BI-COLOR LED&quot;,400)">Nanlite Forza 500B II BI-COLOR LED &middot; 400</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite FS 300C LED&quot;,350)">Nanlite FS 300C LED &middot; 350</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite PavoSlim 120C RGB LED Panel&quot;,200)">Nanlite PavoSlim 120C RGB LED Panel &middot; 200</button>
+      <button class="preset" onclick="addRental(&quot;Aputure Amaran P60c RGB LED Panel&quot;,70)">Aputure Amaran P60c RGB LED Panel &middot; 70</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite Pavotube II 30XR RGBWW LED Tube light&quot;,130)">Nanlite Pavotube II 30XR RGBWW LED Tube light &middot; 130</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite Pavotube II 30C RGB LED Tube light&quot;,100)">Nanlite Pavotube II 30C RGB LED Tube light &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite Pavotube II 6C RGB LED Tube light&quot;,30)">Nanlite Pavotube II 6C RGB LED Tube light &middot; 30</button>
+      <button class="preset" onclick="addRental(&quot;Godox SL60W Daylight LED Monolight&quot;,40)">Godox SL60W Daylight LED Monolight &middot; 40</button>
+      <button class="preset" onclick="addRental(&quot;Godox AD600Pro Witstro All-in-One Outdoor Flash&quot;,100)">Godox AD600Pro Witstro All-in-One Outdoor F… &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Godox AD400Pro Witstro All-in-One Outdoor Flash&quot;,80)">Godox AD400Pro Witstro All-in-One Outdoor F… &middot; 80</button>
+      <button class="preset" onclick="addRental(&quot;Godox Ving V860III TTL Li-Ion Flash Kit for Sony Cameras&quot;,40)">Godox Ving V860III TTL Li-Ion Flash Kit for… &middot; 40</button>
+      <button class="preset" onclick="addRental(&quot;Godox X3 TTL Wireless Flash touchscreen Trigger&quot;,30)">Godox X3 TTL Wireless Flash touchscreen Tri… &middot; 30</button>
+      <button class="preset" onclick="addRental(&quot;Godox XProS TTL Wireless Flash Trigger for (Sony)&quot;,50)">Godox XProS TTL Wireless Flash Trigger for … &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite Projection Attachment for Bowens Mount with 19\u00b0/36\u00b0 Lens&quot;,250)">Nanlite Projection Attachment for Bowens Mo… &middot; 250</button>
+      <button class="preset" onclick="addRental(&quot;Sekonic Light Meter&quot;,35)">Sekonic Light Meter &middot; 35</button>
+    </div>
+
+    <div class="preset-label">ND FILTERS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;NiSi 82mm True Color Vario ND 1 - 9 stops&quot;,100)">NiSi 82mm True Color Vario ND 1 - 9 stops &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;NiSi 82mm True Color Vario ND 1 - 5 stops&quot;,80)">NiSi 82mm True Color Vario ND 1 - 5 stops &middot; 80</button>
+      <button class="preset" onclick="addRental(&quot;K&amp;F Concept 82mm Variable ND Lens Filter ND2-ND400&quot;,50)">K&amp;F Concept 82mm Variable ND Lens Filter ND… &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;K&amp;F Concept 77mm Variable ND Filter Adjustable&quot;,40)">K&amp;F Concept 77mm Variable ND Filter Adjustable &middot; 40</button>
+      <button class="preset" onclick="addRental(&quot;K&amp;F Concept 55MM ND Filter ND1000&quot;,20)">K&amp;F Concept 55MM ND Filter ND1000 &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;K&amp;F Concept 52MM ND Filter ND1000&quot;,20)">K&amp;F Concept 52MM ND Filter ND1000 &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;Tilta Mirage VND Kit&quot;,65)">Tilta Mirage VND Kit &middot; 65</button>
+    </div>
+
+    <div class="preset-label">MEMORY/ STORAGE</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Lexar Professional 160GB CFexpress Type A Gold Series Memory Card&quot;,80)">Lexar Professional 160GB CFexpress Type A G… &middot; 80</button>
+      <button class="preset" onclick="addRental(&quot;ProGrade Digital SDXC UHS-II V90 300R Memory Card (128GB)&quot;,60)">ProGrade Digital SDXC UHS-II V90 300R Memor… &middot; 60</button>
+      <button class="preset" onclick="addRental(&quot;SanDisk 128 GB Extreme Pro SDXC card&quot;,30)">SanDisk 128 GB Extreme Pro SDXC card &middot; 30</button>
+      <button class="preset" onclick="addRental(&quot;SanDisk 64GB Extreme Pro SDXC card&quot;,20)">SanDisk 64GB Extreme Pro SDXC card &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;SanDisk 64GB Extreme Plus SDXC card&quot;,20)">SanDisk 64GB Extreme Plus SDXC card &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;SanDisk 16GB Ultra SDHC card&quot;,15)">SanDisk 16GB Ultra SDHC card &middot; 15</button>
+      <button class="preset" onclick="addRental(&quot;CF Express A Card Reader&quot;,20)">CF Express A Card Reader &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;Lexar CFexpress Type A/SD Card Reader&quot;,20)">Lexar CFexpress Type A/SD Card Reader &middot; 20</button>
+    </div>
+
+    <div class="preset-label">AUDIO &amp; RECORDER</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Zoom F8n Pro Multitrack Field Recorder&quot;,250)">Zoom F8n Pro Multitrack Field Recorder &middot; 250</button>
+      <button class="preset" onclick="addRental(&quot;Zoom H6 Audio Recorder&quot;,100)">Zoom H6 Audio Recorder &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Rode NTG4+ Supercardioid Condenser Shotgun Mic&quot;,50)">Rode NTG4+ Supercardioid Condenser Shotgun Mic &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Shure SM7B Dynamic Microphone&quot;,70)">Shure SM7B Dynamic Microphone &middot; 70</button>
+      <button class="preset" onclick="addRental(&quot;Sennheiser EW-G4 Wireless Lavalier Microphone&quot;,120)">Sennheiser EW-G4 Wireless Lavalier Microphone &middot; 120</button>
+      <button class="preset" onclick="addRental(&quot;Hollyland LARK MAX 2&quot;,100)">Hollyland LARK MAX 2 &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Focusrite scarlett 2i2&quot;,50)">Focusrite scarlett 2i2 &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Deity Microphones TC-1 Wireless Timecode Generator Box 2Pack Kit&quot;,200)">Deity Microphones TC-1 Wireless Timecode Ge… &middot; 200</button>
+      <button class="preset" onclick="addRental(&quot;UltraStudio Recorder 3G&quot;,50)">UltraStudio Recorder 3G &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Alctron MA-2 Mic Preamplifer&quot;,30)">Alctron MA-2 Mic Preamplifer &middot; 30</button>
+      <button class="preset" onclick="addRental(&quot;Hollyland Solidcom C1-4S Wireless Intercom System with 4 Headsets&quot;,250)">Hollyland Solidcom C1-4S Wireless Intercom … &middot; 250</button>
+      <button class="preset" onclick="addRental(&quot;Neewer Boompole for Rode NTG1, NTG2 and Video Mic (10.6&#x27;)&quot;,25)">Neewer Boompole for Rode NTG1, NTG2 and Vid… &middot; 25</button>
+      <button class="preset" onclick="addRental(&quot;XLR Cables (Male to Female)&quot;,10)">XLR Cables (Male to Female) &middot; 10</button>
+      <button class="preset" onclick="addRental(&quot;Mini XLR (TA3) M-to-F)&quot;,50)">Mini XLR (TA3) M-to-F) &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Studio Boom/Arm&quot;,50)">Studio Boom/Arm &middot; 50</button>
+    </div>
+
+    <div class="preset-label">BATTERY &amp; CHARGERS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Sony NP-FZ100 Battery&quot;,10)">Sony NP-FZ100 Battery &middot; 10</button>
+      <button class="preset" onclick="addRental(&quot;Neewer NW-F970 Battery&quot;,35)">Neewer NW-F970 Battery &middot; 35</button>
+      <button class="preset" onclick="addRental(&quot;Comer D&amp;O Lighting 95Wh V-Mount Battery (BP-C95A/S) E&quot;,60)">Comer D&amp;O Lighting 95Wh V-Mount Battery (BP… &middot; 60</button>
+      <button class="preset" onclick="addRental(&quot;Sony NP-FZ100 Battery Charger&quot;,10)">Sony NP-FZ100 Battery Charger &middot; 10</button>
+      <button class="preset" onclick="addRental(&quot;Neewer NP-F970 Dual Battery Charger&quot;,20)">Neewer NP-F970 Dual Battery Charger &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;Engon NP-FZ100 Dual Battery Charger&quot;,20)">Engon NP-FZ100 Dual Battery Charger &middot; 20</button>
+    </div>
+
+    <div class="preset-label">STABILIZERS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Easyrig Minimax Stabil Light Gimbal/Camera Support&quot;,350)">Easyrig Minimax Stabil Light Gimbal/Camera … &middot; 350</button>
+      <button class="preset" onclick="addRental(&quot;DJI RS 3 Pro Gimbal Stabilizer&quot;,160)">DJI RS 3 Pro Gimbal Stabilizer &middot; 160</button>
+      <button class="preset" onclick="addRental(&quot;FeiyuTech Scorp C&quot;,100)">FeiyuTech Scorp C &middot; 100</button>
+      <button class="preset" onclick="addRental(&quot;Tilta Cage for FX 3/30&quot;,50)">Tilta Cage for FX 3/30 &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Tilta Advanced Ring Grip for DJI Ronin RS 3 Pro/RS 2&quot;,130)">Tilta Advanced Ring Grip for DJI Ronin RS 3… &middot; 130</button>
+    </div>
+
+    <div class="preset-label">TELEPROMPTER</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;NEEWER Teleprompter X14 with RT-110 Remote&quot;,100)">NEEWER Teleprompter X14 with RT-110 Remote &middot; 100</button>
+    </div>
+
+    <div class="preset-label">TRIPODS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;SmallRig Heavy-Duty Fluid Head tripod AD-01&quot;,40)">SmallRig Heavy-Duty Fluid Head tripod AD-01 &middot; 40</button>
+      <button class="preset" onclick="addRental(&quot;Neewer 72.4-Inch Aluminum Camera Tripod Monopod&quot;,60)">Neewer 72.4-Inch Aluminum Camera Tripod Mon… &middot; 60</button>
+    </div>
+
+    <div class="preset-label">SOFTBOXES/REFLECTORS</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Aputure Light Dome III&quot;,40)">Aputure Light Dome III &middot; 40</button>
+      <button class="preset" onclick="addRental(&quot;Selens 51 Inch/130cm Umbrella Diffuser Lighting Umbrella&quot;,50)">Selens 51 Inch/130cm Umbrella Diffuser Ligh… &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Godox Parabolic Umbrella, Silver, 130 cm&quot;,50)">Godox Parabolic Umbrella, Silver, 130 cm &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Godox P90 Parabolic Softbox 35.4\&quot;&quot;,50)">Godox P90 Parabolic Softbox 35.4&quot; &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Phottix Raja Quickfolding Softbox 105cm&quot;,50)">Phottix Raja Quickfolding Softbox 105cm &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;SMALLRIG Strip Softbox RA-R30120 30 x 120cm&quot;,30)">SMALLRIG Strip Softbox RA-R30120 30 x 120cm &middot; 30</button>
+      <button class="preset" onclick="addRental(&quot;eWINNER Photography Studio Reflective Lighting Umbrella&quot;,15)">eWINNER Photography Studio Reflective Light… &middot; 15</button>
+      <button class="preset" onclick="addRental(&quot;41cm/16in Video Standard Reflector Beauty Dish&quot;,30)">41cm/16in Video Standard Reflector Beauty Dish &middot; 30</button>
+    </div>
+
+    <div class="preset-label">LIGHTING SUPPORT</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;C-stand 12.5&#x27;&quot;,35)">C-stand 12.5&#x27; &middot; 35</button>
+      <button class="preset" onclick="addRental(&quot;C-stand 10.5&#x27;&quot;,25)">C-stand 10.5&#x27; &middot; 25</button>
+      <button class="preset" onclick="addRental(&quot;Boom Arm&quot;,50)">Boom Arm &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Regular Light stand&quot;,10)">Regular Light stand &middot; 10</button>
+      <button class="preset" onclick="addRental(&quot;Black Background&quot;,50)">Black Background &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;Nanlite T12 holder for 1 tube Ball Head Yoke with Swivel Pin&quot;,10)">Nanlite T12 holder for 1 tube Ball Head Yok… &middot; 10</button>
+      <button class="preset" onclick="addRental(&quot;Height-Adjustable Tripod Speaker Stand&quot;,20)">Height-Adjustable Tripod Speaker Stand &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;Backdrop Stand&quot;,60)">Backdrop Stand &middot; 60</button>
+    </div>
+
+    <div class="preset-label">Collapsive Reflectors</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Godox Collapsible Reflector Disc 7 in 1 150x200cm&quot;,50)">Godox Collapsible Reflector Disc 7 in 1 150… &middot; 50</button>
+      <button class="preset" onclick="addRental(&quot;U-Shape Reflector 60x180cm&quot;,20)">U-Shape Reflector 60x180cm &middot; 20</button>
+      <button class="preset" onclick="addRental(&quot;Godox Collapsible Reflector Disc 5 in 1 110cm&quot;,15)">Godox Collapsible Reflector Disc 5 in 1 110cm &middot; 15</button>
+    </div>
+
+    <div class="preset-label">FOG MACHINE</div>
+    <div class="presets">
+      <button class="preset" onclick="addRental(&quot;Anfari Z-1200II 1000W Fog Machine&quot;,180)">Anfari Z-1200II 1000W Fog Machine &middot; 180</button>
+    </div>
+
+    <table id="rentalTable">
+      <thead>
+        <tr>
+          <th class="col-desc">Item</th>
+          <th class="col-qty">Days</th>
+          <th class="col-price">Rate / Day (AED)</th>
+          <th class="col-total">Line Total (AED)</th>
+          <th class="col-del"></th>
+        </tr>
+      </thead>
+      <tbody id="rentalBody"></tbody>
+    </table>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="addRental()">+ Add Line</button>
+    </div>
+  </div>
+
   <!-- Summary -->
   <div class="card">
     <div class="card-title green">Quote Summary</div>
@@ -413,8 +599,9 @@ const AQ_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 const AQ_APP = 'https://www.anqorstudios.com';
 
 // ── State ────────────────────────────────────────────────────────────────────
-let ownItems = [];   // Anqor services
-let ptItems  = [];   // Third-party pass-throughs
+let ownItems = [];    // Anqor services
+let ptItems  = [];    // Third-party pass-throughs
+let rentalItems = []; // Anqor's own equipment, rented out directly
 let uid = 0;
 
 // ── Own Items ────────────────────────────────────────────────────────────────
@@ -484,6 +671,30 @@ function renderOwn() {
   renderSummary();
 }
 
+// ── Equipment Rental ─────────────────────────────────────────────────────────
+function addRental(desc='', dayRate=0) {
+  rentalItems.push({ id: ++uid, desc, days: 1, dayRate });
+  renderRental();
+}
+function removeRental(id) { rentalItems = rentalItems.filter(i => i.id !== id); renderRental(); }
+function updateRental(id, field, value) {
+  const item = rentalItems.find(i => i.id === id);
+  if (!item) return;
+  item[field] = field === 'desc' ? value : parseFloat(value) || 0;
+  renderRental();
+}
+function renderRental() {
+  document.getElementById('rentalBody').innerHTML = rentalItems.map(item => `
+    <tr>
+      <td class="col-desc"><input type="text" value="${esc(item.desc)}" placeholder="Item" oninput="updateRental(${item.id},'desc',this.value)" /></td>
+      <td class="col-qty"><input type="number" min="1" value="${item.days}" oninput="updateRental(${item.id},'days',this.value)" /></td>
+      <td class="col-price"><input type="number" min="0" step="5" value="${item.dayRate}" oninput="updateRental(${item.id},'dayRate',this.value)" /></td>
+      <td class="col-total"><div class="total-cell" style="color:#2f8fd4">${fmt(item.days * item.dayRate)}</div></td>
+      <td class="col-del"><button class="btn-del" onclick="removeRental(${item.id})">✕</button></td>
+    </tr>`).join('');
+  renderSummary();
+}
+
 // ── Pass-Through Items ────────────────────────────────────────────────────────
 function markup() { return parseFloat(document.getElementById('globalMarkup').value) || 20; }
 function clientPrice(vendorCost) { return Math.round(vendorCost * (1 + markup() / 100)); }
@@ -527,9 +738,10 @@ function renderPT() {
 // ── Summary ──────────────────────────────────────────────────────────────────
 function renderSummary() {
   const mkup = markup();
-  const ownSub = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
-  const ptSub  = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
-  const subtotal = ownSub + ptSub;
+  const ownSub    = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
+  const ptSub     = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
+  const rentalSub = rentalItems.reduce((s,i) => s + i.days * i.dayRate, 0);
+  const subtotal = ownSub + ptSub + rentalSub;
   const vat = subtotal * 0.05;
   const total = subtotal + vat;
   const advPct = parseInt(document.getElementById('advancePct').value) || 50;
@@ -538,19 +750,23 @@ function renderSummary() {
 
   const ownVat = ownSub * 0.05;
   const ptVat  = ptSub  * 0.05;
+  const rentalVat = rentalSub * 0.05;
   const ownAdv = (ownSub + ownVat) * advPct / 100;
   const ownBal = (ownSub + ownVat) * balPct / 100;
   const ptDue  = ptSub + ptVat; // always 100% upfront
+  const rentalDue = rentalSub + rentalVat; // always 100% upfront — equipment leaves the building
 
   document.getElementById('summaryRows').innerHTML = `
     <div class="sum-row"><span class="lbl">Anqor Services</span><span class="val">AED ${fmt(ownSub)}</span></div>
     <div class="sum-row"><span class="lbl">Third-Party Costs (incl. ${mkup}% handling)</span><span class="val" style="color:#c8882a">AED ${fmt(ptSub)}</span></div>
+    <div class="sum-row"><span class="lbl">Equipment Rental</span><span class="val" style="color:#2f8fd4">AED ${fmt(rentalSub)}</span></div>
     <div class="sum-row"><span class="lbl">Subtotal</span><span class="val">AED ${fmt(subtotal)}</span></div>
     <div class="sum-row"><span class="lbl">VAT (5%)</span><span class="val">AED ${fmt(vat)}</span></div>
     <div class="sum-row big"><span class="lbl">Total</span><span class="val">AED ${fmt(total)}</span></div>
-    <div class="sum-row" style="border-bottom:none;margin-top:8px;color:#4a9f6f"><span class="lbl">Due on signing</span><span class="val" style="color:#4a9f6f">AED ${fmt(ownAdv + ptDue)}</span></div>
+    <div class="sum-row" style="border-bottom:none;margin-top:8px;color:#4a9f6f"><span class="lbl">Due on signing</span><span class="val" style="color:#4a9f6f">AED ${fmt(ownAdv + ptDue + rentalDue)}</span></div>
     <div class="sum-row" style="border-bottom:none;font-size:11px;color:#888"><span class="lbl">&nbsp;&nbsp;↳ Anqor deposit (${advPct}%)</span><span class="val">AED ${fmt(ownAdv)}</span></div>
     ${ptDue > 0 ? `<div class="sum-row" style="border-bottom:none;font-size:11px;color:#888"><span class="lbl">&nbsp;&nbsp;↳ Third-party costs (100% upfront)</span><span class="val">AED ${fmt(ptDue)}</span></div>` : ''}
+    ${rentalDue > 0 ? `<div class="sum-row" style="border-bottom:none;font-size:11px;color:#888"><span class="lbl">&nbsp;&nbsp;↳ Equipment rental (100% upfront)</span><span class="val">AED ${fmt(rentalDue)}</span></div>` : ''}
     <div class="sum-row" style="border-bottom:none"><span class="lbl">Balance on delivery (${balPct}%)</span><span class="val" style="color:#888">AED ${fmt(ownBal)}</span></div>
   `;
 }
@@ -563,13 +779,14 @@ async function generate() {
   if (!url || !key) { showError('Add Supabase credentials first.'); return; }
   const clientName = document.getElementById('clientName').value.trim();
   if (!clientName) { showError('Client name is required.'); return; }
-  if (ownItems.length + ptItems.length === 0) { showError('Add at least one line item.'); return; }
+  if (ownItems.length + ptItems.length + rentalItems.length === 0) { showError('Add at least one line item.'); return; }
 
   setLoading(true);
   const mkup = markup();
-  const ownSub = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
-  const ptSub  = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
-  const subtotal = ownSub + ptSub;
+  const ownSub    = ownItems.reduce((s,i) => s + i.qty * i.price, 0);
+  const ptSub     = ptItems.reduce((s,i) => s + i.qty * itemClientPrice(i), 0);
+  const rentalSub = rentalItems.reduce((s,i) => s + i.days * i.dayRate, 0);
+  const subtotal = ownSub + ptSub + rentalSub;
   const vat = subtotal * 0.05;
   const total = subtotal + vat;
   const advPct = parseInt(document.getElementById('advancePct').value) || 50;
@@ -585,6 +802,7 @@ async function generate() {
       ...(i.halfPrice != null ? { half_day_price_aed: i.halfPrice, full_day_price_aed: i.fullPrice, half_day_desc: i.halfDesc, full_day_desc: i.fullDesc } : {}),
     })),
     ...ptItems.map(i => ({ description: i.desc, quantity: i.qty, vendor_cost_aed: i.vendorCost, markup_pct: i.noMarkup ? 0 : mkup, unit_price_aed: itemClientPrice(i), total_aed: i.qty*itemClientPrice(i), type: 'pass_through' })),
+    ...rentalItems.map(i => ({ description: i.desc, quantity: i.days, unit_price_aed: i.dayRate, total_aed: i.days*i.dayRate, type: 'rental' })),
   ];
 
   const proposalData = {
@@ -594,6 +812,7 @@ async function generate() {
     line_items: allLines,
     own_services_subtotal: ownSub,
     third_party_subtotal: ptSub,
+    equipment_rental_subtotal: rentalSub,
     subtotal_aed: subtotal,
     vat_aed: vat,
     total_incl_vat: total,
@@ -602,7 +821,8 @@ async function generate() {
       anqor_advance_pct: advPct,
       anqor_balance_pct: 100-advPct,
       third_party: '100% upfront',
-      due_on_signing_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05),
+      equipment_rental: '100% upfront',
+      due_on_signing_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05) + (rentalSub * 1.05),
       balance_on_delivery_aed: ownSub * 1.05 * (100-advPct) / 100,
     },
     notes: document.getElementById('notes').value.trim() || null,
@@ -621,9 +841,9 @@ async function generate() {
     vat_rate: 5,
     vat_aed: vat,
     total_aed: total,
-    advance_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05),
+    advance_aed: (ownSub * 1.05 * advPct / 100) + (ptSub * 1.05) + (rentalSub * 1.05),
     balance_aed: ownSub * 1.05 * (100-advPct) / 100,
-    third_party_note: 'Third-party costs are collected 100% upfront on signing.',
+    third_party_note: 'Third-party costs and equipment rental are collected 100% upfront on signing.',
     payment_instructions: 'Bank transfer to Anqor Studios L.L.C-FZ. Account Number: 3003731440000001. Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, UAE. Please reference the invoice number on your transfer.',
     notes: document.getElementById('notes').value.trim() || null,
   };
@@ -661,6 +881,25 @@ function clearError() { document.getElementById('errorMsg').style.display='none'
 function copyEl(id) { navigator.clipboard.writeText(document.getElementById(id).textContent); }
 
 renderSummary();
+
+// ── Existing Clients ─────────────────────────────────────────────────────────
+let existingClients = []; // [{id, name, email}] loaded once on page load
+async function loadExistingClients() {
+  const sb = supabase.createClient(AQ_URL, AQ_KEY);
+  const { data, error } = await sb.from('clients').select('id,name,email').order('name');
+  if (error || !data) return;
+  existingClients = data;
+  const sel = document.getElementById('clientSelect');
+  sel.innerHTML = '<option value="">— Select an existing client, or type a new one below —</option>' +
+    data.map(c => `<option value="${c.id}">${esc(c.name)}${c.email ? ' — ' + esc(c.email) : ''}</option>`).join('');
+}
+function onClientSelectChange(id) {
+  if (!id) return; // "type a new one" placeholder re-selected — leave fields as-is
+  const match = existingClients.find(c => String(c.id) === String(id));
+  if (!match) return;
+  document.getElementById('clientName').value = match.name;
+  document.getElementById('clientEmail').value = match.email || '';
+}
 
 async function upsertClient(name, email) {
   const sb = supabase.createClient(AQ_URL, AQ_KEY);
@@ -973,10 +1212,13 @@ function loadPrefill() {
     if (p.clientEmail)  document.getElementById('clientEmail').value   = p.clientEmail;
     if (p.projectTitle) document.getElementById('projectTitle').value  = p.projectTitle;
     if (p.overview)     document.getElementById('projectOverview').value = p.overview;
+    if (p.clientId)     document.getElementById('clientSelect').value  = p.clientId;
     localStorage.removeItem('aq_prefill');
   } catch(e) {}
 }
-loadPrefill();
+// existing clients must be loaded (so clientSelect has options) before a
+// clientId prefill can select one
+(async () => { await loadExistingClients(); loadPrefill(); })();
 </script>
 </body>
 </html>
