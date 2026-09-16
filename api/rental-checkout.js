@@ -102,7 +102,9 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         amount: Math.round(totalAed * 100), // fils
         currency_code: 'AED',
-        message: `Anqor Studios rental — ${itemSummary}`.slice(0, 250),
+        // Ziina rejects any message over 64 chars with MESSAGE_LENGTH_INVALID
+        // (found by bisecting against the live API -- not documented at 250).
+        message: `Anqor Studios rental — ${itemSummary}`.slice(0, 64),
         success_url: `${origin}/rental?success=1&order=${order.id}`,
         cancel_url: `${origin}/rental?cancelled=1&order=${order.id}`,
         failure_url: `${origin}/rental?failed=1&order=${order.id}`,
