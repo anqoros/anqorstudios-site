@@ -206,11 +206,17 @@
   </url>
   <url>
     <loc>https://anqorstudios.com/blog</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-                                              <url>
+                                                <url>
+    <loc>https://anqorstudios.com/blog/tenant-isolation-in-multi-tenant-saas-architecture-what-uae-b2b-builders-need-to</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://anqorstudios.com/blog/saas-platform-development-for-uae-startups-what-founders-with-five-shipped-produ</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
